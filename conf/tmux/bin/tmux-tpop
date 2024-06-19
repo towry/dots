@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# tmux toggle popup
+
+current_session="$(tmux display-message -p '#S')"
+if [[ $current_session == $1 ]]; then
+    # echo "$current_session : $1"
+    tmux detach
+    exit 0
+fi
+
+tmux has-session -t $1 2>/dev/null
+if [[ $? != 0 ]]; then
+  tmux new-session -ds $1 $1
+fi
+
+
+tmux display-popup -w 80% -h 75% -E tmux attach -t $1

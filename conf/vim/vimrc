@@ -1,0 +1,295 @@
+" towry's nvimrc
+" https://github.com/towry/dotfiles
+
+
+function! NVimrcAutoSettings()
+  augroup GroupAll
+    au!
+    au BufWinEnter quickfix nnoremap <silent> <buffer>
+          \ q :cclose<cr>:lclose<cr>
+
+    " ======================
+    " HTML
+    au FileType html
+      \   setl foldmethod=marker
+      \ | setl foldenable
+
+    " Ruby
+    au FileType ruby
+      \   setl tabstop=2
+      \ | setl shiftwidth=2
+      \ | setl shiftround
+      \ | set expandtab
+      \ | set backspace=2
+
+    " Python
+    au FileType python
+      \   setl softtabstop=4
+      \ | setl shiftwidth=4
+      \ | setl textwidth=80
+      \ | set expandtab
+    command! DocTest !python -m doctest %
+
+    " Vim
+    au FileType vim
+     \    setl softtabstop=2
+     \  | setl shiftwidth=2
+     \  | setl expandtab
+
+    " au BufNewFile,BufRead *.es set filetype=javascript
+
+    " Vue
+    au FileType vue syntax sync fromstart
+
+    " ======================
+    " terminal
+    if has('nvim')
+      au TermOpen * let g:last_terminal_job_id = b:terminal_job_id
+      au WinEnter term://* startinsert
+      " let g:terminal_color_0  = '#2e3436'
+      " let g:terminal_color_1  = '#cc0000'
+      " let g:terminal_color_2  = '#4e9a06'
+      " let g:terminal_color_3  = '#c4a000'
+      " let g:terminal_color_4  = '#3465a4'
+      " let g:terminal_color_5  = '#75507b'
+      " let g:terminal_color_6  = '#0b939b'
+      " let g:terminal_color_7  = '#d3d7cf'
+      " let g:terminal_color_8  = '#555753'
+      " let g:terminal_color_9  = '#ef2929'
+      " let g:terminal_color_10 = '#8ae234'
+      " let g:terminal_color_11 = '#fce94f'
+      " let g:terminal_color_12 = '#729fcf'
+      " let g:terminal_color_13 = '#ad7fa8'
+      " let g:terminal_color_14 = '#00f5e9'
+      " let g:terminal_color_15 = '#eeeeec'
+    endif
+  augroup END
+endfunction
+
+" NVim mapping
+function! NVimrcLoadMappings()
+  let g:mapleader = " "
+  let g:maplocalleader = ","
+
+  " nmap <script> <silent> <leader>tq :call ToggleQuickfixList()<CR>
+  inoremap jj <esc>
+  nnoremap <leader>bk :bnext<CR>
+  nnoremap <c-\;> :<C-u>bbb
+  inoremap <c-\;> <esc>:<C-u>
+  nnoremap <leader>bj :bprevious<CR>
+  nnoremap <TAB> :<C-u>buffers<CR>
+  nnoremap <leader>bx :BD<CR>
+  nnoremap <F3> :update<cr><esc>
+  inoremap <F3> <c-o>:update<cr><esc>
+  " inoremap <F10><F10> <c-o>:update<cr><esc>:q<cr>
+  " nnoremap <F10><F10> :update<cr>:q<cr>
+  nnoremap <localleader>w <C-w>
+  " visual search
+  vnoremap // y/<C-R>"<CR>
+  " fzf search
+  nnoremap <localleader>p :FZF<cr>
+
+  " move text up/down
+  " nnoremap <silent> <c-j> :m .+1<cr>==
+  " nnoremap <silent> <c-k> :m .-2<cr>==
+  " vnoremap <silent> <c-k> :m '<-2<cr>gv=gv
+  " vnoremap <silent> <c-j> :m '>+1<cr>gv=gv
+
+  " bagrat/vim-buffet
+  " next buffer in normal mode
+  " noremap <Tab> :bn<CR> 
+  " previous buffer
+  " noremap <S-Tab> :bp<CR> "
+  " - vim-buffet
+
+  " help
+  inoremap <f1> <esc>:help
+  nnoremap <f1> <esc>:help
+  vnoremap <f1> <esc>:help
+
+  " clear search highlight with ,c
+  " nnoremap <silent> <leader>ch :noh<cr>
+
+  nnoremap <silent> <leader>tq :botright copen 10<cr>
+  nnoremap <silent> <leader>tl :botright lopen 10<cr>
+
+  " Neovim
+  if has('nvim')
+    " see https://github.com/neovim/neovim/issues/7648
+    tnoremap <Esc> <C-\><C-n>
+  endif
+
+endfunction
+
+function! s:statusline_expr()
+  let mod = "%{&modified ? '[+] ' : !&modifiable ? '[x] ' : ''}"
+  let ro  = "%{&readonly ? '[RO] ' : ''}"
+  let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
+  let fug = "%{exists('g:loaded_fugitive') ? fugitive#statusline() : ''}"
+  let sep = ' %= '
+  let pos = ' %-12(%l : %c%V%) '
+  let pct = ' %P'
+
+  return '[%n] %f %<'.mod.ro.ft.fug.sep.pos.'%*'.pct
+endfunction
+
+
+" NVim settings
+function! NVimrcLoadSettings()
+  let &statusline = s:statusline_expr()
+  set backspace=indent,eol,start " backspace over everything in insert mode
+  set nobackup " no need for backup files(use undo files instead)
+  " set undofile " create '.<FILENAME>.un~' for persiting undo history
+  set dir=/tmp,. " swap files storage, first try in the cwd then in /tmp
+  " set undodir=. " undo files storage, only allow the same directory
+  set history=500 " 500 lines of command-line history
+  " set mouse=a " enable mouse
+  set noerrorbells visualbell t_vb= " disable annoying terminal sounds
+  set encoding=utf-8 " universal text encoding, compatible with ascii
+  set noequalalways
+  set list
+  set listchars=tab:\ \ ,space:\ ,trail:\ ,extends:❯,eol:\ 
+
+  set showbreak=↪\
+  set fillchars=diff:⣿,vert:│
+  set showcmd " display incomplete commands
+  set completeopt=menu,menuone,longest " disable preview scratch window
+  set complete=.,w,b,u,t " h: 'complete'
+  set pumheight=15 " limit completion menu height
+  set number " don't display line numbers on the left
+  set relativenumber " shows relative line numbers for easy motions
+  set colorcolumn=80
+
+  set softtabstop=2
+  set tabstop=2
+  set shiftwidth=2
+  " set noexpandtab " expand tabs into spaces
+  set expandtab
+
+  set ignorecase " ignore case when searching
+  set smartcase " disable 'ignorecase' if search pattern has uppercase characters
+  set incsearch " highlight matches while typing search pattern
+  set hlsearch " highlight previous search matches
+  set showmatch " briefly jump to the matching bracket on insert
+  set matchtime=2 " time in decisecons to jump back from matching bracket
+  " set textwidth=80 " number of character allowed in a line
+  set nowrap " automatically wrap text when 'textwidth' is reached
+  set foldmethod=marker " by default, fold using indentation
+  set nofoldenable " don't fold by default
+  set foldlevel=0 " if fold everything if 'foldenable' is set
+  set foldnestmax=10 " maximum fold depth
+  set synmaxcol=500 " maximum length to apply syntax highlighting
+  set timeout " enable timeout of key codes and mappings(the default)
+  set timeoutlen=360 " big timeout for key sequences
+  set ttimeoutlen=6 " small timeout for key sequences since these will be normally scripted
+  set formatoptions-=ro
+
+  " set noantialias
+  set display+=lastline
+  set splitright
+  set splitbelow
+  set shortmess=at
+  set laststatus=2
+  set noshowmode " because we use lightline plugin.
+    " set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P"
+    " set cursorline
+  if exists('g:gui_oni')
+    set laststatus=0
+  end
+  " set cursorcolumn
+  " set cmdheight=2
+
+  set hidden " switch buffer without saving?
+
+  set wildmenu
+  set wildignore=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif
+  set wildmode=list:full
+  set scrolloff=2
+  " set autochdir
+  set t_ut=
+
+  if $DISABLE_UNNAMED_CLIP != '1'
+    set clipboard+=unnamedplus
+  endif
+  set backupskip=/tmp/*,/private/tmp/* " make it possible to use vim to edit crontab
+
+  " fileformat
+  set fileformat=unix
+  if g:is_windows
+    set fileformats=dos,unix,mac
+  else
+    set fileformats=unix,dos,mac
+  endif
+
+  if g:is_windows
+    set shellslash
+  endif
+
+  if !has('nvim')
+    set ttyfast
+    set ruler
+  endif
+
+  if has('gui_macvim')
+    set guioptions -=m
+    set guioptions -=T
+  endif
+endfunction
+
+" Theme and colors
+function! NVimrcLoadColors()
+  set background=dark
+  colorscheme slate
+  set termguicolors
+  if has('gui_macvim')
+    set macligatures
+    set guifont=Monaco:h15
+    set lines=39 columns=88
+  endif
+  if !has('gui_running')
+    " set t_Co=256
+  endif
+
+  if has('gui_vimr')
+  endif
+endfunction
+
+function! NVimrcStart()
+  let g:vimsyn_embed='0'
+
+  call NVimrcLoadMappings()
+  if !exists('g:nvimrc_initialized')
+    let g:is_windows = has('win32') || has('win64')
+    let g:rc_dir = expand('~/.config/nvim')
+    let $RCDIR = g:rc_dir
+    let g:plugins_dir = g:rc_dir.'/plugged'
+    let g:nvim_plug_dir = g:plugins_dir.'/vim-plug'
+    let &runtimepath = g:rc_dir.','.g:nvim_plug_dir.','.$VIMRUNTIME
+    if !exists('g:disable_plugins')
+      let g:has_python = has('python')
+    else
+      " plugin is disabled
+      " call plug#begin()
+      " call plug#end()
+    endif
+    let g:nvimrc_initialized = 1
+  endif
+
+  call NVimrcLoadSettings()
+  call NVimrcLoadColors()
+  call NVimrcAutoSettings()
+endfunction
+
+" =========== S T A R T ===========
+call NVimrcStart()
+" =================================
+
+
+" ========== O T H E R . F U N C T I O N ===========
+function! g:WorkaroundNERDTreeToggle()
+	try
+		NERDTreeToggle
+	catch
+		silent! NERDTree
+	endtry
+endfunction

@@ -1,0 +1,94 @@
+# How to know the hex code for a key:
+#  1. in the terminal: `xxd -psg`
+#  2. press <key> (if you want to check <prefix> for tmux, better exit tmux first)
+#  3. press <enter> key to view the hex code
+# NOTE: the last 0a should be omitted.
+
+# -------------
+# to map `super.` to `alt.` in tmux, first the unicode of `alt` key is `\u001b` or `\x1b`
+# so the hex of `.` is `2e` or `0x2e`, so we need use `chars = "\u001b\u002e"`
+# https://www.rapidtables.com/convert/number/ascii-to-hex.html
+
+[env]
+MIMIC_SUPER = "0xAE"
+
+[[keyboard.bindings]]
+key = "S"
+mods = "Super"
+chars = "\u00aes"
+
+[[keyboard.bindings]]
+key = "Semicolon"
+mods = "Control"
+chars = "\u00ae;"
+[[keyboard.bindings]]
+key = "'"
+mods = "Control"
+chars = "\u00ae'"
+
+[[keyboard.bindings]]
+key = "L"
+mods = "Super"
+chars = "\u00ael"
+[[keyboard.bindings]]
+key = "I"
+mods = "Super"
+chars = "\u00aei"
+[[keyboard.bindings]]
+key = "O"
+mods = "Super"
+chars = "\u00aeo"
+[[keyboard.bindings]]
+key = "/"
+mods = "Super"
+chars = "\u001b\u0060"
+# map to `M-.`, `M-,`
+[[keyboard.bindings]]
+key = "Period"
+mods = "Super"
+chars = "\u001b\u002e"
+[[keyboard.bindings]]
+key = ","
+mods = "Super"
+chars = "\u001b\u002c"
+# super+1,2,3,4,5... to alt+1,2,3,4,5...
+[[keyboard.bindings]]
+key = "Key1"
+mods = "Super"
+chars = "\u001b\u0031"
+[[keyboard.bindings]]
+key = "Key2"
+mods = "Super"
+chars = "\u001b\u0032"
+[[keyboard.bindings]]
+key = "Key3"
+mods = "Super"
+chars = "\u001b\u0033"
+[[keyboard.bindings]]
+key = "Key4"
+mods = "Super"
+chars = "\u001b\u0034"
+[[keyboard.bindings]]
+key = "Key5"
+mods = "Super"
+chars = "\u001b\u0035"
+[[keyboard.bindings]]
+key = "Key6"
+mods = "Super"
+chars = "\u001b\u0036"
+[[keyboard.bindings]]
+key = "Key7"
+mods = "Super"
+chars = "\u001b\u0037"
+[[keyboard.bindings]]
+key = "Key8"
+mods = "Super"
+chars = "\u001b\u0038"
+[[keyboard.bindings]]
+key = "Key9"
+mods = "Super"
+chars = "\u001b\u0039"
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Super"
+chars = "\u001b\u0030"

@@ -1,0 +1,5 @@
+# https://taplo.tamasfe.dev/configuration/formatter-options.html
+[formatting]
+array_auto_collapse = true
+# keep arrow in oneline
+array_auto_expand = false

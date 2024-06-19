@@ -1,0 +1,13 @@
+.hammerspoon
+.bash_profile
+.bashrc
+.zshenv
+.zshrc
+.config/mpv
+.qutebrowser
+.config/wezterm
+.config/helix
+.config/watchman.json
+.config/borders
+.config/neovide/config.toml
+.config/gitu/config.toml

@@ -1,0 +1,28 @@
+# https://raw.githubusercontent.com/jonas/tig/master/tigrc
+set vertical-split = auto
+set split-view-width = 80%
+set tab-size = 2
+set git-colors = "branch.current=main-head grep.filename=grep.file"
+set main-view	= line-number:no,interval=2 id:yes date:default,format="%Y-%m-%d" author:abbreviated commit-title:yes,graph,refs,overflow=no
+
+set git-colors = no
+
+# Override the default terminal colors to white on black.
+# color default         white   black
+color   cursor          black   green
+color   search-result   black   yellow
+# color author          green   black
+# color status          green   black
+color   line-number     red     black
+color   title-focus     black   yellow
+color   title-blur      black   magenta
+# Diff colors
+color diff-header       yellow  default
+color diff-index        blue    default
+color diff-chunk        magenta default
+color "Reported-by:"    green   default
+# View-specific color
+color tree.date         black   cyan    bold
+
+# -------
+source ~/.config/tig/vim.tigrc

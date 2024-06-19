@@ -1,0 +1,26 @@
+# https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FantasqueSansMono.zip
+
+[font]
+size = 15
+
+# [font.offset]
+# y = 0
+
+# [font.glyph_offset]
+# x = 1
+
+[font.normal]
+family = "Berkeley Mono"
+style = "Regular"
+
+[font.bold]
+family = "Berkeley Mono"
+style = "Bold"
+
+[font.italic]
+family = "Berkeley Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "Berkeley Mono"
+style = "Bold Italic"

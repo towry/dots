@@ -1,0 +1,30 @@
+# name: 'Kanagawa Dragon'
+# url: 'https://github.com/rebelot/kanagawa.nvim'
+# preferred_background: 181616
+
+fish_color_autosuggestion 737C73
+fish_color_cancel C4746E --reverse
+fish_color_command 8BA4B0
+fish_color_comment 737C73
+fish_color_cwd C4B28A
+fish_color_cwd_root C4746E
+fish_color_end 9E9B93
+fish_color_error E82424
+fish_color_escape 8A9A7B
+fish_color_history_current --bold
+fish_color_host 87A987
+fish_color_keyword 8992A7
+fish_color_normal C5C9C5
+fish_color_operator C4746E
+fish_color_param C5C9C5
+fish_color_quote 8A9A7B
+fish_color_redirection 8EA4A2 --bold
+fish_color_search_match C5C9C5 --background=2D4F67
+fish_color_selection --background=223249
+fish_color_user C5C9C5
+fish_color_valid_path --underline
+
+fish_pager_color_completion C5C9C5
+fish_pager_color_description 737C73
+fish_pager_color_prefix C8C093 --bold --underline
+fish_pager_color_progress 737C73

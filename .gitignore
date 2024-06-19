@@ -1,0 +1,54 @@
+.DS_Store
+cache/
+backup/*
+!backup/.gitkeep
+ac-comphist.dat
+.netrwhist
+workspaceStorage
+conf/VSCode/projects.json
+.watchman-*
+# ---
+link/.config/*
+
+link/.config/gitu/*
+!link/.config/gitu/
+!link/.config/gitu/config.toml
+
+link/.config/karabiner/*
+!link/.config/karabiner/
+!link/.config/karabiner/karabiner.json
+
+!link/.config/neovide/
+!link/.config/neovide/config.toml
+
+!link/.config/mpv
+!link/.config/watchman.json
+
+link/.config/zed/*
+!link/.config/zed/
+!link/.config/zed/settings.json
+!link/.config/zed/keymap.json
+link/.config/borders/*
+!link/.config/borders/
+!link/.config/borders/bordersrc
+
+link/.config/helix/*
+!link/.config/helix/
+!link/.config/helix/config.toml
+# --
+# --
+link/.qutebrowser/*
+!link/.qutebrowser/config.py
+!link/.qutebrowser/autoconfig.yml
+# --
+
+node_modules/
+.atom/packages/
+source/private.sh
+conf/VSCode/*.backup
+syncLocalSettings.json
+sync.lock
+repo/
+
+!link/.config/wezterm
+nix/foo.nix

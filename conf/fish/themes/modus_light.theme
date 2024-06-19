@@ -1,0 +1,25 @@
+# Modus Themes for Fish
+# Auto generated with https://github.com/miikanissi/modus-themes.nvim/blob/master/lua/modus-themes/extras/fish.lua
+
+# Syntax Highlighting Colors
+fish_color_normal 000000
+fish_color_command 005e8b
+fish_color_keyword 721045
+fish_color_quote 6f5500
+fish_color_redirection 000000
+fish_color_end 884900
+fish_color_error a60000
+fish_color_param 531ab6
+fish_color_comment 595959
+fish_color_selection --background=dfa0f0
+fish_color_search_match --background=dfa0f0
+fish_color_operator 006800
+fish_color_escape 721045
+fish_color_autosuggestion 595959
+
+# Completion Pager Colors
+fish_pager_color_progress 595959
+fish_pager_color_prefix 005e8b
+fish_pager_color_completion 000000
+fish_pager_color_description 595959
+fish_pager_color_selected_background --background=dfa0f0

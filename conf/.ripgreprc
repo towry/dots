@@ -1,0 +1,6 @@
+# ripgreprc
+
+--type-add=vue:*.vue
+--type-add=web:*.{vue,ts,js,tsx,scss}
+
+--glob=!.git/*

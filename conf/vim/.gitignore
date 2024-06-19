@@ -1,0 +1,8 @@
+tmp/
+bundle/*
+!bundle/_runtime
+*.swp
+*.~
+.netrwhist
+plugged/
+sessions/
