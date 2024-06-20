@@ -248,19 +248,19 @@ in {
             y = 0;
           };
           normal = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Regular";
           };
           bold = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Bold";
           };
           italic = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Italic";
           };
           bold_italic = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Bold Italic";
           };
         };

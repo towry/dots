@@ -20,7 +20,6 @@ in {
     defaultOptions = [
       "--ansi"
       "--color=bg+:#2d4f67"
-      "--height=60%"
       "--no-border"
       "--reverse"
       "--preview-window=border-left"

@@ -21,6 +21,7 @@
       path-git-format
       uclanr
       nix-prefetch-github
+      nerd-font-patcher
       (nerdfonts.override {
         fonts = [
           "Iosevka"
