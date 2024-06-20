@@ -55,7 +55,7 @@ in {
           "script": "${tmuxdot}/bin/bat-tmux-config.sh"
         },
         {
-          "label": "Kill session",
+          "label": "Kill Current Session",
           "script": "${tmuxdot}/bin/_kill-session.sh"
         }
       ]

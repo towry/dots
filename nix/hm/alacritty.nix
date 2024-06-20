@@ -53,6 +53,11 @@
     # Named keys: https://docs.rs/winit/latest/winit/keyboard/enum.NamedKey.html
     keyboard.bindings = [
       {
+        key = "N";
+        mods = "Command|Shift";
+        action = "CreateNewWindow";
+      }
+      {
         key = "n";
         mods = "Command";
         command = {

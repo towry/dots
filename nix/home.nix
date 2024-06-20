@@ -3,9 +3,6 @@
   # config,
   pkgs,
   lib,
-  isDarwin,
-  isLinux,
-  system,
   ...
 }: let
   locals.packages = with pkgs;
@@ -31,14 +28,14 @@
         ];
       })
     ]
-    ++ lib.lists.optionals isDarwin [
+    ++ lib.lists.optionals pkgs.stdenv.isDarwin [
       # macOs packages
       # raycast
       # libiconv
       # darwin.apple_sdk.frameworks.Security
       # darwin.apple_sdk.frameworks.Foundation
     ]
-    ++ lib.lists.optionals isLinux [
+    ++ lib.lists.optionals pkgs.stdenv.isLinux [
       # linux packages
       xclip
     ];
@@ -57,7 +54,7 @@ in {
     # manage.
     username = "towry";
     homeDirectory =
-      if isLinux
+      if pkgs.stdenv.isLinux
       then "/home/towry"
       else "/Users/towry";
     # This value determines the Home Manager release that your configuration is

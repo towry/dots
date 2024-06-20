@@ -5,8 +5,6 @@
     TMUX_AUTO_ATTACH = 0;
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
-    DOTFILES = "$HOME/.dotfiles";
-    # PYENV_ROOT = "$HOME/.pyenv";
   };
   programs = {
     fish = {
