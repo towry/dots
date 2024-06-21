@@ -27,7 +27,7 @@ printf "> Begin to patch fonts\n> Make sure nerd-font-patcher is installed.\n\t>
 for variant in $font_variants; do
   font_name="${font_name_prefix}-${variant}.${font_ext}"
   echo "patching $font_name"
-  nerd-font-patcher --debug --careful --fontlogos --fontawesome --fontawesomeext --octicons --codicons  --powersymbols --powerline --powerlineextra --name "${font_name_prefix}NerdFont-${variant}" -out ./dist $font_name
+  nerd-font-patcher --debug --careful -c --name "${font_name_prefix}NerdFont-${variant}" -out ./dist $font_name
 done
 
 ls -al ./dist

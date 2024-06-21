@@ -53,6 +53,11 @@
     # Named keys: https://docs.rs/winit/latest/winit/keyboard/enum.NamedKey.html
     keyboard.bindings = [
       {
+        key = "w";
+        mods = "Command";
+        action = "None";
+      }
+      {
         key = "N";
         mods = "Command|Shift";
         action = "CreateNewWindow";
@@ -241,10 +246,11 @@ in {
           "${config.xdg.configHome}/alacritty/tmux.toml"
         ];
         font = {
-          size = 16;
+          size = 15;
           offset.y = 0;
+          offset.x = 0;
           glyph_offset = {
-            x = 1;
+            x = 0;
             y = 0;
           };
           normal = {
