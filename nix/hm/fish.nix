@@ -7,6 +7,7 @@
     LANG = "en_US.UTF-8";
   };
   programs = {
+    carapace.enableFishIntegration = true;
     fish = {
       enable = true;
       plugins = [

@@ -46,6 +46,10 @@
     ".ripgreprc".source = ../../conf/.ripgreprc;
   };
   programs = {
+    carapace = {
+      enable = false;
+      enableBashIntegration = true;
+    };
     bash = {
       enable = true;
       initExtra = ''
