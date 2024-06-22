@@ -103,10 +103,8 @@
     if [ -e "${../../conf/nix-daemon.sh}" ]
       fenv source "${../../conf/nix-daemon.sh}"
     end
+
     #########
-    fish_add_path -ma /usr/local/bin
-    fish_add_path -ma /bin
-    fish_add_path -ma $PYENV_ROOT/bin
     if test -e $HOME/.private.fish
         source $HOME/.private.fish
     end
