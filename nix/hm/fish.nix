@@ -22,12 +22,6 @@
         {
           name = "fifc";
           inherit (pkgs.fishPlugins.fifc) src;
-          # src = pkgs.fetchFromGitHub {
-          #   owner = "gazorby";
-          #   repo = "fifc";
-          #   rev = "1bc301453f674ed21fac4979c65a9a4cb7f2af61";
-          #   sha256 = "sha256-14ORfbl18UOB6UszBHx7NKxnLdiJxUG7gzrtt0ZriCg=";
-          # };
         }
         {
           name = "puffer-fish";
@@ -103,6 +97,7 @@
     if [ -e "${../../conf/nix-daemon.sh}" ]
       fenv source "${../../conf/nix-daemon.sh}"
     end
+    fish_add_path -amP /usr/local/bin
 
     #########
     if test -e $HOME/.private.fish
@@ -176,6 +171,12 @@
         git branch | sed -n -e 's/^\* \(.*\)/\1/p'
       '';
       description = "Get git branch";
+    };
+    batail = {
+      body = ''
+        tail -f $argv | ${pkgs.bat}/bin/bat --paging=never -l log
+      '';
+      description = "Tail with bat";
     };
     __fish_git_prune_branch_complete = ''
       set -l branches (git branch --format='%(refname:short)' 2>/dev/null)

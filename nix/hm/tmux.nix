@@ -19,12 +19,10 @@ in {
         exit 0
       fi
 
-      selected=$(echo $selected | awk -F '[' '{print $1}')
+      selected=$(echo $selected | awk -F '[' '{print $1}' | awk '{$1=$1;print}')
+      selected_name="''${selected##*/}"
 
-      selected_name=$(echo "$selected" | awk -F/ '{ print $NF }' | tr -s '[:blank:]' '_' | tr -C '[:alnum:]-' _ |  sed 's/_$//')
-      tmux_running=$(pgrep tmux)
-
-      if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+      if [[ -z $TMUX ]]; then
         tmux new-session -s $selected_name -c $selected
         exit 0
       fi

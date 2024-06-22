@@ -53,6 +53,10 @@
     bash = {
       enable = true;
       initExtra = ''
+        # tail with bat
+        batail() {
+          tail -f $@ | ${pkgs.bat}/bin/bat --paging=never -l log
+        }
       '';
       bashrcExtra = ''
         # if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
