@@ -28,6 +28,12 @@
           "JetBrainsMono"
         ];
       })
+      # utils
+      ## man page tldr
+      tlrc
+      ## image view support
+      imagemagick
+      luajitPackages.magick
     ]
     ++ lib.lists.optionals pkgs.stdenv.isDarwin [
       # macOs packages

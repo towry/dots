@@ -96,6 +96,25 @@ in {
         set-option -g allow-passthrough on
       %endif
 
+      set -g update-environment \
+          "DISPLAY\
+          SSH_ASKPASS\
+          TERM\
+          TERM_PROGRAM\
+          EDITOR\
+          TMUX_IS_POPUP\
+          fish_pid\
+          FZF_DEFAULT_OPTS\
+          SSH_TTY\
+          SSH_CONNECTION\
+          SSH_AGENT_PID\
+          SSH_AUTH_SOCK\
+          MIMIC_SUPER\
+          XDG_CONFIG_HOME\
+          XDG_CACHE_HOME\
+          XDG_DATA_HOME\
+          "
+
       #====== Settings
       ## must be on, otherwise float won't close
       set -g detach-on-destroy on
