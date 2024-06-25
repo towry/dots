@@ -47,7 +47,7 @@
   };
   programs = {
     carapace = {
-      enable = true;
+      enable = false;
       enableBashIntegration = true;
       enableFishIntegration = true;
     };
