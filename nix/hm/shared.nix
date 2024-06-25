@@ -47,8 +47,9 @@
   };
   programs = {
     carapace = {
-      enable = false;
+      enable = true;
       enableBashIntegration = true;
+      enableFishIntegration = true;
     };
     bash = {
       enable = true;
@@ -59,9 +60,9 @@
         }
       '';
       bashrcExtra = ''
-        # if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
-        #   . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-        # fi
+        if [ -e "${../../conf/nix-daemon.sh}" ]; then
+          . "${../../conf/nix-daemon.sh}"
+        fi
       '';
     };
     atuin = {

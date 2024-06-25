@@ -72,6 +72,6 @@ fi
 if [[ "${SHELL##*/}" == "fish" ]]; then
     export fish_user_paths="$NIX_LINK/bin /nix/var/nix/profiles/default/bin $fish_user_paths"
 fi
-export PATH="$PATH:$NIX_LINK/bin:/nix/var/nix/profiles/default/bin"
+export PATH="$NIX_LINK/bin:/nix/var/nix/profiles/default/bin:$PATH"
 
 unset NIX_LINK NIX_LINK_NEW

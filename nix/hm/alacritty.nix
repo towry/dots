@@ -246,7 +246,7 @@ in {
           "${config.xdg.configHome}/alacritty/tmux.toml"
         ];
         font = {
-          size = 15;
+          size = 16;
           offset.y = 0;
           offset.x = 0;
           glyph_offset = {
