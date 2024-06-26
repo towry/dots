@@ -54,7 +54,8 @@
       runtime__node_host_prog = "${config.home.homeDirectory}/.nix-profile/bin/neovim-node-host",
       lsp__vue_typescript_plugin = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/@vue/typescript-plugin",
       lsp__vue_language_server = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/.bin/vue-language-server",
-      lsp__vtsls = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/.bin/vtsls"
+      lsp__vtsls = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/.bin/vtsls",
+      alacritty_bin = "${pkgs.alacritty}/bin/alacritty"
     }
   '';
 }

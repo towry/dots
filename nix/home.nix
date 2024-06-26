@@ -7,6 +7,8 @@
 }: let
   locals.packages = with pkgs;
     [
+      # compile to bash
+      amber-lang
       # obsidian
       ## Nix
       cachix
