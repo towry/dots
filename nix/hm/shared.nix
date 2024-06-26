@@ -46,13 +46,22 @@
     ".ripgreprc".source = ../../conf/.ripgreprc;
   };
   programs = {
+    carapace = {
+      enable = false;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+    };
     bash = {
       enable = true;
       initExtra = ''
+        # tail with bat
+        batail() {
+          tail -f $@ | ${pkgs.bat}/bin/bat --paging=never -l log
+        }
       '';
       bashrcExtra = ''
-        if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
-          . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+        if [ -e "${../../conf/nix-daemon.sh}" ]; then
+          . "${../../conf/nix-daemon.sh}"
         fi
       '';
     };

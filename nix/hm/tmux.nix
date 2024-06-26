@@ -19,12 +19,10 @@ in {
         exit 0
       fi
 
-      selected=$(echo $selected | awk -F '[' '{print $1}')
+      selected=$(echo $selected | awk -F '[' '{print $1}' | awk '{$1=$1;print}')
+      selected_name="''${selected##*/}"
 
-      selected_name=$(echo "$selected" | awk -F/ '{ print $NF }' | tr -s '[:blank:]' '_' | tr -C '[:alnum:]-' _ |  sed 's/_$//')
-      tmux_running=$(pgrep tmux)
-
-      if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+      if [[ -z $TMUX ]]; then
         tmux new-session -s $selected_name -c $selected
         exit 0
       fi
@@ -55,7 +53,7 @@ in {
           "script": "${tmuxdot}/bin/bat-tmux-config.sh"
         },
         {
-          "label": "Kill session",
+          "label": "Kill Current Session",
           "script": "${tmuxdot}/bin/_kill-session.sh"
         }
       ]
@@ -97,6 +95,25 @@ in {
       %if #{>=:#{version},3.3}
         set-option -g allow-passthrough on
       %endif
+
+      set -g update-environment \
+          "DISPLAY\
+          SSH_ASKPASS\
+          TERM\
+          TERM_PROGRAM\
+          EDITOR\
+          TMUX_IS_POPUP\
+          fish_pid\
+          FZF_DEFAULT_OPTS\
+          SSH_TTY\
+          SSH_CONNECTION\
+          SSH_AGENT_PID\
+          SSH_AUTH_SOCK\
+          MIMIC_SUPER\
+          XDG_CONFIG_HOME\
+          XDG_CACHE_HOME\
+          XDG_DATA_HOME\
+          "
 
       #====== Settings
       ## must be on, otherwise float won't close

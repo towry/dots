@@ -172,7 +172,30 @@ keybinds clear-defaults=true {
         bind "Super 9" { GoToTab 9; }
         bind "Super -" { NewPane "Down"; }
         bind "Super /" { NewPane "Right"; }
-
+        bind "Ctrl j" {
+            MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
+                name "move_focus";
+                payload "down";
+            };
+        }
+        bind "Ctrl k" {
+          MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
+            name "move_focus";
+            payload "up";
+          };
+        }
+        bind "Ctrl l" {
+          MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
+            name "move_focus";
+            payload "right";
+          };
+        }
+        bind "Ctrl h" {
+          MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
+            name "move_focus";
+            payload "left";
+          };
+        }
     }
     shared_except "locked" "normal" {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }

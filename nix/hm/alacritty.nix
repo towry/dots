@@ -53,6 +53,16 @@
     # Named keys: https://docs.rs/winit/latest/winit/keyboard/enum.NamedKey.html
     keyboard.bindings = [
       {
+        key = "w";
+        mods = "Command";
+        action = "None";
+      }
+      {
+        key = "N";
+        mods = "Command|Shift";
+        action = "CreateNewWindow";
+      }
+      {
         key = "n";
         mods = "Command";
         command = {
@@ -238,24 +248,25 @@ in {
         font = {
           size = 16;
           offset.y = 0;
+          offset.x = 0;
           glyph_offset = {
-            x = 1;
+            x = 0;
             y = 0;
           };
           normal = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Regular";
           };
           bold = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Bold";
           };
           italic = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Italic";
           };
           bold_italic = {
-            family = "JetBrainsMono Nerd Font";
+            family = "Berkeley Mono Nerd Font";
             style = "Bold Italic";
           };
         };

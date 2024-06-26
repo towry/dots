@@ -68,5 +68,10 @@ else
   unset -f check_nix_profiles
 fi
 
-export PATH="$PATH:$NIX_LINK/bin:/nix/var/nix/profiles/default/bin"
+# check if variable is set __fish_bin_dir
+if [[ "${SHELL##*/}" == "fish" ]]; then
+    export fish_user_paths="$NIX_LINK/bin /nix/var/nix/profiles/default/bin $fish_user_paths"
+fi
+export PATH="$NIX_LINK/bin:/nix/var/nix/profiles/default/bin:$PATH"
+
 unset NIX_LINK NIX_LINK_NEW

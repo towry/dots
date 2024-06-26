@@ -11,6 +11,7 @@
   "dependencies": {
     "vscode-html-languageservice": "5.2.0",
     "@vue/language-service": "2.0.19",
-    "@vue/language-server": "2.0.19"
+    "@vue/language-server": "2.0.19",
+    "@vtsls/language-server": "0.2.3"
   }
 }

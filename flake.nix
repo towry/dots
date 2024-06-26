@@ -57,9 +57,6 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
-            isServer = false;
-            isDarwin = true;
-            isLinux = false;
           };
           pkgs = pkgs;
           modules = [./nix/home.nix];

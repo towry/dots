@@ -4,13 +4,13 @@
 
 let
   sources = {
-    "@babel/parser-7.24.6" = {
+    "@babel/parser-7.24.7" = {
       name = "_at_babel_slash_parser";
       packageName = "@babel/parser";
-      version = "7.24.6";
+      version = "7.24.7";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@babel/parser/-/parser-7.24.6.tgz";
-        sha512 = "eNZXdfU35nJC2h24RznROuOpO94h6x8sg9ju0tT9biNtLZ2vuP8SduLqqV+/8+cebSLV9SJEAN5Z3zQbJG/M+Q==";
+        url = "https://registry.npmjs.org/@babel/parser/-/parser-7.24.7.tgz";
+        sha512 = "9uUYRm6OqQrCqQdG1iCBwBPZgN8ciDBro2nIOFaiRz1/BCxaI7CNvQbDHvsArAC7Tw9Hda/B3U+6ui9u4HWXPw==";
       };
     };
     "@emmetio/abbreviation-2.3.3" = {
@@ -166,22 +166,49 @@ let
         sha512 = "KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==";
       };
     };
-    "@vue/compiler-core-3.4.27" = {
-      name = "_at_vue_slash_compiler-core";
-      packageName = "@vue/compiler-core";
-      version = "3.4.27";
+    "@vtsls/language-server-0.2.3" = {
+      name = "_at_vtsls_slash_language-server";
+      packageName = "@vtsls/language-server";
+      version = "0.2.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@vue/compiler-core/-/compiler-core-3.4.27.tgz";
-        sha512 = "E+RyqY24KnyDXsCuQrI+mlcdW3ALND6U7Gqa/+bVwbcpcR3BRRIckFoz7Qyd4TTlnugtwuI7YgjbvsLmxb+yvg==";
+        url = "https://registry.npmjs.org/@vtsls/language-server/-/language-server-0.2.3.tgz";
+        sha512 = "EJjve69v5dify2O/sP3NTpqgHaZzegO5mY3W8CelvV2kyxtUmhOKXterqsszON4TT8C2FqDFI1eVyeWuf3RVpw==";
       };
     };
-    "@vue/compiler-dom-3.4.27" = {
+    "@vtsls/language-service-0.2.3" = {
+      name = "_at_vtsls_slash_language-service";
+      packageName = "@vtsls/language-service";
+      version = "0.2.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@vtsls/language-service/-/language-service-0.2.3.tgz";
+        sha512 = "VqjmaSGbW0LHiJNdhBrKnxKXFrpBUUDc/FxakrRh6z26d4kg55mRpm9IM1khR0tkl3MYtejn0lLNQYcfCVHgYg==";
+      };
+    };
+    "@vtsls/vscode-fuzzy-0.0.1" = {
+      name = "_at_vtsls_slash_vscode-fuzzy";
+      packageName = "@vtsls/vscode-fuzzy";
+      version = "0.0.1";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@vtsls/vscode-fuzzy/-/vscode-fuzzy-0.0.1.tgz";
+        sha512 = "2KCtA+/OmPVttsdVggO0WQFXZwM0zbG7G8KRGExe4YeoaHB0fDWyfsNrWnutnFVRlpmu8quVTjTI15YK6KGCFw==";
+      };
+    };
+    "@vue/compiler-core-3.4.29" = {
+      name = "_at_vue_slash_compiler-core";
+      packageName = "@vue/compiler-core";
+      version = "3.4.29";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@vue/compiler-core/-/compiler-core-3.4.29.tgz";
+        sha512 = "TFKiRkKKsRCKvg/jTSSKK7mYLJEQdUiUfykbG49rubC9SfDyvT2JrzTReopWlz2MxqeLyxh9UZhvxEIBgAhtrg==";
+      };
+    };
+    "@vue/compiler-dom-3.4.29" = {
       name = "_at_vue_slash_compiler-dom";
       packageName = "@vue/compiler-dom";
-      version = "3.4.27";
+      version = "3.4.29";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.4.27.tgz";
-        sha512 = "kUTvochG/oVgE1w5ViSr3KUBh9X7CWirebA3bezTbB5ZKBQZwR2Mwj9uoSKRMFcz4gSMzzLXBPD6KpCLb9nvWw==";
+        url = "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.4.29.tgz";
+        sha512 = "A6+iZ2fKIEGnfPJejdB7b1FlJzgiD+Y/sxxKwJWg1EbJu6ZPgzaPQQ51ESGNv0CP6jm6Z7/pO6Ia8Ze6IKrX7w==";
       };
     };
     "@vue/language-core-2.0.19" = {
@@ -211,13 +238,13 @@ let
         sha512 = "/dYmd8B7OutCSpz01mUbmTm6emYyDilPYDhhCsY+EEEww1noHgGW/kJ8421ngsKlbXbDga/P3YVVGsLhN+p+2w==";
       };
     };
-    "@vue/shared-3.4.27" = {
+    "@vue/shared-3.4.29" = {
       name = "_at_vue_slash_shared";
       packageName = "@vue/shared";
-      version = "3.4.27";
+      version = "3.4.29";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@vue/shared/-/shared-3.4.27.tgz";
-        sha512 = "DL3NmY2OFlqmYYrzp39yi3LDkKxa5vZVwxWdQ3rG0ekuWscHraeIbnI8t+aZK7qhYqEqWKTUdijadunb9pnrgA==";
+        url = "https://registry.npmjs.org/@vue/shared/-/shared-3.4.29.tgz";
+        sha512 = "hQ2gAQcBO/CDpC82DCrinJNgOHI2v+FA7BDW4lMSPeBpQ7sRe2OLHWe5cph1s7D8DUQAwRt18dBDfJJ220APEA==";
       };
     };
     "@vue/typescript-plugin-2.0.19" = {
@@ -463,6 +490,15 @@ let
         sha512 = "AilxAyFOAcK5wA1+LeaySVBrHsGQvUFCDWXKpZjzaL0PqW+xfBOttn8GNtWKFWqneyMZj41MWF9Kl6iPWLwgOA==";
       };
     };
+    "lru-cache-6.0.0" = {
+      name = "lru-cache";
+      packageName = "lru-cache";
+      version = "6.0.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/lru-cache/-/lru-cache-6.0.0.tgz";
+        sha512 = "Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==";
+      };
+    };
     "minimatch-9.0.4" = {
       name = "minimatch";
       packageName = "minimatch";
@@ -533,6 +569,15 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/request-light/-/request-light-0.7.0.tgz";
         sha512 = "lMbBMrDoxgsyO+yB3sDcrDuX85yYt7sS8BfQd11jtbW/z5ZWgLZRcEGLsLoYw7I0WSUGQBs8CC8ScIxkTX1+6Q==";
+      };
+    };
+    "semver-7.5.2" = {
+      name = "semver";
+      packageName = "semver";
+      version = "7.5.2";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/semver/-/semver-7.5.2.tgz";
+        sha512 = "SoftuTROv/cRjCze/scjGyiDtcUyxw1rgYQSZY7XTmtR5hX+dm76iDbTH8TkLPHCQmlbQVSSbNZCPM2hb0knnQ==";
       };
     };
     "semver-7.6.2" = {
@@ -778,6 +823,15 @@ let
         sha512 = "AYbUWAJHLGGQM7+cNTELw+KsOG9nl2CnSv467WobS5Cv9uk3wFcnr1Etsz2sEIHEZvw1U+o9mRlEO6QbZvUPGQ==";
       };
     };
+    "yallist-4.0.0" = {
+      name = "yallist";
+      packageName = "yallist";
+      version = "4.0.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/yallist/-/yallist-4.0.0.tgz";
+        sha512 = "3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==";
+      };
+    };
   };
   args = {
     name = "dotfiles";
@@ -785,7 +839,7 @@ let
     version = "1.0.0";
     src = ./.;
     dependencies = [
-      sources."@babel/parser-7.24.6"
+      sources."@babel/parser-7.24.7"
       sources."@emmetio/abbreviation-2.3.3"
       sources."@emmetio/css-abbreviation-2.1.8"
       sources."@emmetio/css-parser-0.4.0"
@@ -806,12 +860,20 @@ let
       sources."@volar/typescript-2.2.5"
       (sources."@vscode/emmet-helper-2.9.3" // {
         dependencies = [
+          sources."jsonc-parser-2.3.1"
           sources."vscode-uri-2.1.2"
         ];
       })
       sources."@vscode/l10n-0.0.18"
-      sources."@vue/compiler-core-3.4.27"
-      sources."@vue/compiler-dom-3.4.27"
+      sources."@vtsls/language-server-0.2.3"
+      (sources."@vtsls/language-service-0.2.3" // {
+        dependencies = [
+          sources."semver-7.5.2"
+        ];
+      })
+      sources."@vtsls/vscode-fuzzy-0.0.1"
+      sources."@vue/compiler-core-3.4.29"
+      sources."@vue/compiler-dom-3.4.29"
       sources."@vue/language-core-2.0.19"
       sources."@vue/language-server-2.0.19"
       (sources."@vue/language-service-2.0.19" // {
@@ -819,7 +881,7 @@ let
           sources."vscode-html-languageservice-5.2.0-34a5462"
         ];
       })
-      sources."@vue/shared-3.4.27"
+      sources."@vue/shared-3.4.29"
       sources."@vue/typescript-plugin-2.0.19"
       sources."acorn-7.4.1"
       sources."balanced-match-1.0.2"
@@ -845,7 +907,8 @@ let
       sources."he-1.2.0"
       sources."is-expression-4.0.0"
       sources."is-regex-1.1.4"
-      sources."jsonc-parser-2.3.1"
+      sources."jsonc-parser-3.2.1"
+      sources."lru-cache-6.0.0"
       sources."minimatch-9.0.4"
       sources."muggle-string-0.4.1"
       sources."object-assign-4.1.1"
@@ -878,11 +941,7 @@ let
       sources."volar-service-typescript-twoslash-queries-0.0.45"
       sources."vscode-css-languageservice-6.2.14"
       sources."vscode-html-languageservice-5.2.0"
-      (sources."vscode-json-languageservice-5.3.11" // {
-        dependencies = [
-          sources."jsonc-parser-3.2.1"
-        ];
-      })
+      sources."vscode-json-languageservice-5.3.11"
       sources."vscode-jsonrpc-8.2.0"
       sources."vscode-languageserver-9.0.1"
       sources."vscode-languageserver-protocol-3.17.5"
@@ -891,6 +950,7 @@ let
       sources."vscode-nls-5.2.0"
       sources."vscode-uri-3.0.8"
       sources."vue-template-compiler-2.7.16"
+      sources."yallist-4.0.0"
     ];
     buildInputs = globalBuildInputs;
     meta = {
