@@ -50,7 +50,12 @@
           };
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [defaultOverlay overlay inputs.fenix.overlays.default];
+          overlays = [
+            defaultOverlay
+            overlay
+            # see https://github.com/nix-community/fenix/issues/79
+            (_: super: let pkgs = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs pkgs)
+          ];
         };
       in
         home-manager.lib.homeManagerConfiguration {

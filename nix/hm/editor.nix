@@ -55,7 +55,8 @@
       lsp__vue_typescript_plugin = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/@vue/typescript-plugin",
       lsp__vue_language_server = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/.bin/vue-language-server",
       lsp__vtsls = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/.bin/vtsls",
-      alacritty_bin = "${pkgs.alacritty}/bin/alacritty"
+      alacritty_bin = "${pkgs.alacritty}/bin/alacritty",
+      dap_firefox_debug_adapter_path = "${pkgs.vscode-extensions.firefox-devtools.vscode-firefox-debug}/share/vscode/extensions/firefox-devtools.vscode-firefox-debug/dist/adapter.bundle.js"
     }
   '';
 }

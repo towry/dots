@@ -33,6 +33,7 @@
       # utils
       ## man page tldr
       tlrc
+      sd
       ## image view support
       imagemagick
       luajitPackages.magick

@@ -46,6 +46,10 @@
 
   # aliases
   programs.fish.shellAliases = {
+    run-firefox-debugger =
+      if pkgs.stdenv.isDarwin
+      then "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
+      else "/user/bin/firefox --start-debugger-server";
     wz = "wezterm";
     wz-rename = "wezterm cli rename-workspace";
     split-pane = "wezterm cli split-pane";

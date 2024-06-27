@@ -22,6 +22,7 @@ in {
       pkgs.sccache
       # background check
       pkgs.bacon
+      pkgs.taplo
     ];
     file.".cargo/config.toml".text = ''
       [build]
