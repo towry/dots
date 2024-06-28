@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     fenix = {
-      url = "github:nix-community/fenix";
+      url = "github:nix-community/fenix/monthly";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
@@ -54,7 +54,7 @@
             defaultOverlay
             overlay
             # see https://github.com/nix-community/fenix/issues/79
-            (_: super: let pkgs = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs pkgs)
+            (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
           ];
         };
       in

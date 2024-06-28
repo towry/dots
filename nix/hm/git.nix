@@ -40,7 +40,7 @@ in {
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
       pf = ''!git pull --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
       fa = "fetch --all";
-      fz = "fuzzy";
+      # fz = "fuzzy";
       ff = "fetch";
       mg = "merge --no-ff";
       kill-merge = "merge --abort";

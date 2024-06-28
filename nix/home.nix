@@ -16,7 +16,7 @@
       alejandra
       nix-health
       gitu
-      git-fuzzy
+      # git-fuzzy
       zig
       zls
       # vim-zellij-navigator
