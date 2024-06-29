@@ -69,7 +69,7 @@
     gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git cz'';
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
-    tig = "TERM=xterm ${pkgs.tig}/bin/tig";
+    tig = "TERM=xterm-256color ${pkgs.tig}/bin/tig";
     flog = "glog";
     xmerge = "git merge --ff";
     xmerged = "git branch --merged master";
@@ -509,7 +509,7 @@
         __git_search_command $keyword | fzf \
             --preview "__git_search_preview_command {} {q}" \
             --preview-window "$preview_pos" \
-            --bind "enter:execute:$view_diff | TERM=xterm-256 ${pkgs.tig}/bin/tig show --stdin" \
+            --bind "enter:execute:$view_diff | TERM=xterm-256color ${pkgs.tig}/bin/tig show --stdin" \
             --bind "ctrl-u:preview-page-up,ctrl-d:preview-page-down" \
             --bind "change:reload:sleep 0.8; __git_search_command {q} || true" \
             --ansi --phony --query "$keyword" | awk '{ print $1 }'

@@ -1,4 +1,5 @@
-#!/bin/bash
+export PATH="$HOME/.nix-profile/bin:$PATH"
+#!/usr/bin/env bash
 
 # Query windows info in current space
 windows_info=$(yabai -m query --windows --space)
