@@ -309,6 +309,14 @@ in {
       mods = "Super"
       chars = "\u00aes"
       [[keyboard.bindings]]
+      key = "J"
+      mods = "Super"
+      chars = "\u00aej"
+      [[keyboard.bindings]]
+      key = "K"
+      mods = "Super"
+      chars = "\u00aek"
+      [[keyboard.bindings]]
       key = "Semicolon"
       mods = "Control"
       chars = "\u00ae;"
