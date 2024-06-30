@@ -46,6 +46,10 @@
 
   # aliases
   programs.fish.shellAliases = {
+    run-firefox-debugger =
+      if pkgs.stdenv.isDarwin
+      then "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
+      else "/user/bin/firefox --start-debugger-server";
     wz = "wezterm";
     wz-rename = "wezterm cli rename-workspace";
     split-pane = "wezterm cli split-pane";
@@ -94,26 +98,30 @@
   };
 
   programs.fish.shellInit = ''
-    if [ -e "${../../conf/nix-daemon.sh}" ]
-      fenv source "${../../conf/nix-daemon.sh}"
+    set -g fish_prompt_pwd_dir_length 20
+    set -x GPG_TTY (tty)
+    set -g __fish_ls_command ${pkgs.eza}/bin/eza
+    if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]
+      fenv source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
     end
-    fish_add_path -amP /usr/local/bin
 
     #########
     if test -e $HOME/.private.fish
         source $HOME/.private.fish
     end
   '';
+  ## do not foget to run fish --login to generate new fish_variables file.
+  # https://github.com/LnL7/nix-darwin/issues/122
+  programs.fish.loginShellInit = ''
+    set -U fish_greeting ""
+    set -Ux fifc_editor nvim
+    # set -U fifc_keybinding \cf
+    set -U fifc_fd_opts --hidden
+  '';
 
   programs.fish.interactiveShellInit = ''
     set fish_cursor_default block blink
     set fish_cursor_insert underscore blink
-    set -u fish_greeting ""
-    set -g fish_prompt_pwd_dir_length 20
-    set -x GPG_TTY (tty)
-    set -Ux fifc_editor nvim
-    # set -U fifc_keybinding \cf
-    set -U fifc_fd_opts --hidden
 
     if test "$DARKMODE" = "dark"
         fish_config theme choose "kanagawa_dragon"
@@ -121,11 +129,6 @@
         fish_config theme choose "kanagawa_light"
     end
     # fish_config theme choose "kanagawa_dragon"
-
-    ## directory listing
-    if type -q eza
-        set -g __fish_ls_command eza
-    end
   '';
 
   programs.fish.functions = {

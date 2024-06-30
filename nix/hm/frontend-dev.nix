@@ -17,6 +17,7 @@ in {
     nodePackages.typescript-language-server
     nodeDeps.package
     tailwindcss-language-server
+    vscode-extensions.firefox-devtools.vscode-firefox-debug
   ];
 
   home.sessionVariables = {

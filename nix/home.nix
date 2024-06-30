@@ -7,6 +7,8 @@
 }: let
   locals.packages = with pkgs;
     [
+      # compile to bash
+      amber-lang
       # obsidian
       ## Nix
       cachix
@@ -14,7 +16,7 @@
       alejandra
       nix-health
       gitu
-      git-fuzzy
+      # git-fuzzy
       zig
       zls
       # vim-zellij-navigator
@@ -31,6 +33,7 @@
       # utils
       ## man page tldr
       tlrc
+      sd
       ## image view support
       imagemagick
       luajitPackages.magick
