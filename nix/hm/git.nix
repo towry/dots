@@ -40,14 +40,14 @@ in {
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
       pf = ''!git pull --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
       fa = "fetch --all";
+      fp = "fetch --all -p";
       # fz = "fuzzy";
       ff = "fetch";
       mg = "merge --no-ff";
       kill-merge = "merge --abort";
       br = "branch";
       br-gone = "!git branch -vv | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*'";
-      br-prune = "!git branch -vv --merged | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*' | xargs git branch -d";
-      br-prune-all = "!git branch -vv | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*' | xargs git branch -d";
+      br-prune-gone = "!git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D";
       df = "diff";
       dt = "difftool";
       dfc = "diff --cached";
@@ -65,6 +65,9 @@ in {
       lg = "log --graph --pretty=format:'%Cred%h%Creset %s %C(white)%ad%Creset %C(yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short";
       lg1 = "log --oneline --date=relative --pretty=format:'%Cred%h%Creset %s %C(white)%ad%Creset %C(yellow)%d%Creset %C(bold blue)<%an>%Creset'";
       lt = "log --oneline --date=relative -n3 --pretty=format:'%Cred%h%Creset %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset - %C(white)%ad%Creset'";
+      yesterday = "log --since yesterday --until=midnight --color --graph \
+            --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
+            --abbrev-commit";
       clone1 = "clone --depth=1";
       des = "describe";
       wt = "worktree";
