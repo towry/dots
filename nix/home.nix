@@ -154,6 +154,8 @@ in {
 
   imports = [
     ./hm/shared.nix
+    ./hm/skhd.nix
+    ./hm/yabai.nix
     ./hm/buildeps.nix
     ./hm/fish.nix
     ./hm/git.nix

@@ -31,10 +31,6 @@
       source = ../../conf/yazi;
       recursive = true;
     };
-    skhd = {
-      enable = true;
-      source = ../../conf/skhd;
-    };
     yabai = {
       enable = true;
       source = ../../conf/yabai;

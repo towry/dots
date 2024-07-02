@@ -1,10 +1,20 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = [
     pkgs.skhd
+    pkgs.jq
+    # pkgs.bash
   ];
+  home.file."${config.home.homeDirectory}/Applications/skhd".source = "${pkgs.skhd}/bin/skhd";
   xdg.configFile = let
     jqbin = "${pkgs.jq}/bin/jq";
     bashbin = "${pkgs.bash}/bin/bash";
+    skhdDir = "${config.xdg.configHome}/skhd";
+    skhd = "${pkgs.skhd}/bin/skhd";
+    bash = "${pkgs.bash}/bin/bash";
   in {
     "skhd/skhdrc".text = ''
       # https://github.com/nikhgupta/dotfiles/blob/c545755f782cd1cee90c7a7307ff17f730c18e09/config/skhd/skhdrc
@@ -55,8 +65,8 @@
       ctrl+shift+alt - d ; mode_display
 
       ## ==== some applications
-      cmd - return : sh ~/.config/skhd/yabai-focus-or-launch.sh "Firefox" "/Applications/Firefox.app/Contents/MacOS/Firefox"
-      cmd + shift - return : sh ~/.config/skhd/yabai-focus-or-launch.sh "Alacritty" "$HOME/.nix-profile/bin/alacritty --hold"
+      cmd - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "Firefox" "/Applications/Firefox.app/Contents/MacOS/Firefox"
+      cmd + shift - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "Alacritty" "$HOME/.nix-profile/bin/alacritty --hold"
 
       ## ==============  manage windows
       mode_window < x : yabai -m window --close; skhd -k "escape"
@@ -66,10 +76,10 @@
       # make current window stick to current space layout.
       mode_window_toggle < a : yabai -m window --toggle sticky; skhd -k "escape"
 
-      mode_window < h : yabai -m window --focus west; skhd -k "escape"
-      mode_window < j : yabai -m window --focus south; skhd -k "escape"
-      mode_window < k : yabai -m window --focus north; skhd -k "escape"
-      mode_window < l : yabai -m window --focus east; skhd -k "escape"
+      mode_window < h : yabai -m window --focus west; ${skhd} -k "escape"
+      mode_window < j : yabai -m window --focus south; ${skhd} -k "escape"
+      mode_window < k : yabai -m window --focus north; ${skhd} -k "escape"
+      mode_window < l : yabai -m window --focus east; ${skhd} -k "escape"
 
       # not working?
       mode_window < 0x2F : yabai -m window --focus recent; skhd -k "escape" # 0x2F is the next macos virtual key code
@@ -79,16 +89,8 @@
 
       # focus next|prev window.
       # https://github.com/koekeishiya/yabai/issues/203#issuecomment-1289940339
-      ctrl+shift+alt - h : yabai -m query --spaces --space \
-      | ${jqbin} -re ".index" \
-      | xargs -I{} yabai -m query --windows --space {} \
-      | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $has_index > 0 then nth($has_index - 1).id else nth($array_length - 1).id end' \
-      | xargs -I{} yabai -m window --focus {}
-      ctrl+shift+alt - l : yabai -m query --spaces --space \
-      | ${jqbin} -re ".index" \
-      | xargs -I{} yabai -m query --windows --space {} \
-      | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $array_length - 1 > $has_index then nth($has_index + 1).id else nth(0).id end' \
-      | xargs -I{} yabai -m window --focus {}
+      ctrl+shift+alt - h : yabai -m query --spaces --space ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $has_index > 0 then nth($has_index - 1).id else nth($array_length - 1).id end' | xargs -I{} yabai -m window --focus {}
+      ctrl+shift+alt - l : yabai -m query --spaces --space | ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $array_length - 1 > $has_index then nth($has_index + 1).id else nth(0).id end' | xargs -I{} yabai -m window --focus {}
 
       # toggle mission control in current space
       ## show mission control preview of other spaces.
@@ -158,10 +160,10 @@
       # next prev space.
       # mode_space < l: yabai -m space --focus next; skhd -k "escape"
       # mode_space < h : yabai -m space --focus prev; skhd -k "escape"
-      mode_space < n : ~/.config/skhd/space_cycle_next.sh;
-      mode_space < p : ~/.config/skhd/space_cycle_prev.sh;
-      ctrl+shift+alt - n : ~/.config/skhd/space_cycle_next.sh;
-      ctrl+shift+alt - p : ~/.config/skhd/space_cycle_prev.sh;
+      mode_space < n : ${bash} ${skhdDir}/space_cycle_next.sh;
+      mode_space < p : ${bash} ${skhdDir}/space_cycle_prev.sh;
+      ctrl+shift+alt - n : ${bash} ${skhdDir}/space_cycle_next.sh;
+      ctrl+shift+alt - p : ${bash} ${skhdDir}/space_cycle_prev.sh;
 
       # goto space by index
       mode_space < 1 : yabai -m space --focus 1; skhd -k "escape"
@@ -175,9 +177,9 @@
       mode_space < 9 : yabai -m space --focus 9; skhd -k "escape"
 
       # change space layout
-      mode_space_arrange < s : yabai -m space --layout stack; skhd -k "escape"; ~/.config/skhd/notify.sh "Space layout" "Stack"
-      mode_space_arrange < f : yabai -m space --layout float; skhd -k "escape"; ~/.config/skhd/notify.sh "Space layout" "Float"
-      mode_space_arrange < t : yabai -m space --layout bsp; skhd -k "escape"; ~/.config/skhd/notify.sh "Space layout" "BSP"
+      mode_space_arrange < s : yabai -m space --layout stack; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "Stack"
+      mode_space_arrange < f : yabai -m space --layout float; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "Float"
+      mode_space_arrange < t : yabai -m space --layout bsp; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "BSP"
 
       ## ========== manage display
       mode_display < r : yabai --restart-service; skhd -k "escape"
@@ -185,10 +187,10 @@
       mode_display < tab : yabai -m display --focus recent; skhd -k "escape"
       # mode_display < n : yabai -m display --focus recent; skhd -k "escape"
       # next prev display
-      mode_display < n : ~/.config/skhd/display_cycle_next.sh; skhd -k "escape"
-      mode_display < p : ~/.config/skhd/display_cycle_prev.sh; skhd -k "escape"
-      ctrl+shift+alt - j : ~/.config/skhd/display_cycle_next.sh
-      ctrl+shift+alt - k : ~/.config/skhd/display_cycle_prev.sh
+      mode_display < n : ${bash} ${skhdDir}/display_cycle_next.sh; skhd -k "escape"
+      mode_display < p : ${bash} ${skhdDir}/display_cycle_prev.sh; skhd -k "escape"
+      ctrl+shift+alt - j : ${bash} ${skhdDir}/display_cycle_next.sh
+      ctrl+shift+alt - k : ${bash} ${skhdDir}/display_cycle_prev.sh
       # go to display from 1 to 4
       mode_display < 1 : yabai -m display --focus 1; skhd -k "escape"
       mode_display < 2 : yabai -m display --focus 2; skhd -k "escape"
