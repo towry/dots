@@ -64,6 +64,7 @@
           program = tmuxprg;
           args = [
             "new-window"
+            "-a"
             "-c"
             "#{pane_current_path}"
           ];

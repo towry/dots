@@ -179,10 +179,10 @@ trap 'cleanup' EXIT
 
 envs="export TERM=$TERM "
 if [[ "$opt" =~ "-E" ]]; then
-  FZF_DEFAULT_OPTS="--margin 0,1 $FZF_DEFAULT_OPTS"
+  FZF_DEFAULT_OPTS="--margin 0,1 $FZF_DEFAULT_OPTS --no-hscroll"
   tmux_verson=$(tmux -V)
   if [[ ! $tmux_verson =~ 3\.2 ]]; then
-    FZF_DEFAULT_OPTS="--border $FZF_DEFAULT_OPTS"
+    FZF_DEFAULT_OPTS="--border $FZF_DEFAULT_OPTS --no-hscroll"
     opt="-B $opt"
   fi
 fi

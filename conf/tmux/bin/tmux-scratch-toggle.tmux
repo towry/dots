@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-current_session="$(tmux display-message -p '#S')"
-scratch_session_name="floats_$current_session"
+scratch_session_name="FLOAT"
 
-# if current starts with floats_, it means the popup is already open, so detach
-if [[ $current_session == floats_* ]]; then
+if [[ $current_session == "FLOAT" ]]; then
     if [[ "$TMUX_IS_POPUP" == "1" ]]; then
         tmux detach
         exit 0

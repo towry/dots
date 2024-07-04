@@ -4,6 +4,7 @@
   ...
 }: let
   tmuxdot = "${config.home.homeDirectory}/.tmux";
+  bash = "${pkgs.bash}/bin/bash";
 in {
   home.file = {
     ".tmux/bin".source = ../../conf/tmux/bin;
@@ -133,7 +134,7 @@ in {
       # Start index of window/pane with 1, because we're humans, not computers
       # ====================================
       # ============ key bindings
-      bind c new-window -c "#{pane_current_path}"
+      bind c new-window -ca "#{pane_current_path}"
       bind r command-prompt -I "#{window_name}" "rename-window '%%'"
       bind R command-prompt -I "#{session_name}" "rename-session '%%'"
       bind C-n command-prompt -p "Enter session:" "new-session -A -s '%%'"
@@ -151,9 +152,12 @@ in {
       ## Split panes
       bind / split-window -h -l 50% -c "#{pane_current_path}"
       bind - split-window -v -l 50% -c "#{pane_current_path}"
-      bind -r enter next-layout
       bind + select-layout even-vertical
       bind = select-layout even-horizontal
+      # space is next-layout
+      bind -r enter previous-layout
+      bind C-h select-layout main-horizontal
+      bind C-v select-layout main-vertical
 
       # cycle thru MRU tabs
       bind -r Tab last-window
@@ -230,11 +234,8 @@ in {
       bind C-p run "${config.home.homeDirectory}/.tmux/bin/pane.sh switch"
       ## start new session from folder.
       bind y popup -E -w 80% -h 60% "${pkgs.bash}/bin/bash ${config.home.homeDirectory}/.tmux/nix-bin/zoxide-projects.sh"
-      bind G new-window -aS -c "#{pane_current_path}" -n "-TIG: #{b:pane_current_path}" 'TERM=xterm-256 ${pkgs.tig}/bin/tig'
-      bind T run "${config.home.homeDirectory}/.tmux/bin/tmux-tpop ${pkgs.bottom}/bin/btm -e"
-      bind f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle"
-      bind C-f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle toggle"
-      bind -n M-` run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle toggle"
+      bind f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux"
+      bind C-f run "${bash} ${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux toggle"
       bind : run "${config.home.homeDirectory}/.tmux/bin/command.sh"
       bind & run "${config.home.homeDirectory}/.tmux/bin/process.sh"
 
