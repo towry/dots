@@ -18,6 +18,7 @@ in {
       ada = "add -A";
       sw = "switch";
       ca = "commit --amend --no-edit";
+      ci = "!f() { echo 'please use it-<type> aliases' }; f";
       wip = ''
         !sh -c 'if [[ "$(git log -1 --pretty=%B)" != "[WIP]:"* ]]; then \
                        git commit -m "wip: $(date)"; \
