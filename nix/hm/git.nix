@@ -17,14 +17,12 @@ in {
       ad = "add";
       ada = "add -A";
       sw = "switch";
-      # ci = "commit";
-      ci = "!f() { \\\n    previous_message=$(git log -1 --pretty=%B); \\\n    if [[ $previous_message == \\[WIP\\]:* ]]; then \\\n        git commit --amend --no-edit \"$@\"; \\\n    else \\\n        git commit \"$@\"; \\\n    fi \\\n}; f";
       ca = "commit --amend --no-edit";
       wip = ''
         !sh -c 'if [[ "$(git log -1 --pretty=%B)" != "[WIP]:"* ]]; then \
-                       git commit -m "[WIP]: $(date)"; \
+                       git commit -m "wip: $(date)"; \
                    else \
-                       git commit --amend -m "[WIP]: $(date)"; \
+                       git commit --amend -m "wip: $(date)"; \
                    fi'
       '';
       st = "status";
@@ -86,6 +84,22 @@ in {
       ignore = "!gi() { curl -sL https://www.gitignore.io/api/$@ ;}; gi";
       config-fetch-origin = ''config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'';
       ahead = "rev-list --left-right --count";
+      # commit convention
+      it-wip = ''!f() { git commit -m \"wip: <😎> $([[ -z $@ ]] && date || echo $@ )\"; }; f'';
+      it-fix = ''!f() { git commit -m "fixup: <🐞> $(echo $@)"; }; f'';
+      it-fmt = ''!f() { git commit -m "style: <🎨> $(echo $@)"; }; f'';
+      it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
+      it-ref = ''!f() { git commit -m "refactor: <🐭> $(echo $@)"; }; f'';
+      it-doc = ''!f() { git commit -m "doc: <📚> $(echo $@)"; }; f'';
+      "it-feat" = ''!f() { git commit -m "feat: <🐸> $(echo $@)"; }; f'';
+      "it-perf" = ''!f() { git commit -m "perf: <⚡️> $(echo $@)"; }; f'';
+      "it-chore" = ''!f() { git commit -m "chore: <🔨> $(echo $@)"; }; f'';
+      "it-revert" = ''!f() { git commit -m "revert: <🔙> $(echo $@)"; }; f'';
+      "it-build" = ''!f() { git commit -m "build: <🏗️> $(echo $@)"; }; f'';
+      "it-ci" = ''!f() { git commit -m "ci: <👷> $(echo $@)"; }; f'';
+      "it-deps" = ''!f() { git commit -m "deps: <📦> $(echo $@)"; }; f'';
+      "it-typo" = ''!f() { git commit -m "typo: <🐛> $(echo $@)"; }; f'';
+      "it-rm" = ''!f() { git commit -m "cleanup: <🗑️> $(echo $@)"; }; f'';
     };
 
     extraConfig = {
