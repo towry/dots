@@ -80,7 +80,7 @@ in {
       );
     extraConfig = ''
       globinclude kitty.d/**/*.conf
-      # include theme/current-theme.conf
+      include theme/current-theme.conf
 
       modify_font underline_thickness 50%
       symbol_map U+4E00–U+9FFF LXGW Bright

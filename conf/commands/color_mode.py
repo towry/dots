@@ -209,10 +209,10 @@ def app_neovim_nvr(mode):
         try:
             nvim = attach("socket", path=server)
             nvim.command("call v:lua.Ty.ToggleTheme('" + mode + "')")
-            print("finish nvr call")
         except Exception as e:
             print(e)
             continue
+    print("finish nvr call")
     return
 
 
