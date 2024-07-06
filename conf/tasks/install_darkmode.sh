@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-Repo_Dark_Mode_Notify="https://ghproxy.com/https://github.com/pze/dark-mode-notify"
+Repo_Dark_Mode_Notify="https://github.com/pze/dark-mode-notify"
 
 function build_dark_mode_bin() {
   if [ -f "/usr/local/bin/dark-mode-notify" ]; then
@@ -24,20 +24,6 @@ function install_dark_mode_notify() {
   echo "~> Copy daemon file"
   cp ~/.dotfiles/conf/tasks/ke.bou.dark-mode-notify.plist ~/Library/LaunchAgents/
   cp ~/.dotfiles/conf/commands/dark_mode_changed.sh /usr/local/bin/
-
-  echo "~> Install other deps"
-  export PYENV_ROOT="$HOME/.pyenv"
-  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
-  pyenv shell 3.11.1
-  if ! [ $? -eq 0 ]; then
-    echo "missing python 3.11.1"
-    exit 0
-  fi
-
-  # make sure the python deps is installed by correct pip3(not system).
-  pyenv exec pip --version
-  pyenv exec pip install pynvim neovim-remote
 
   echo "~> Launch the daemon"
   # may have errors at first install, but just ignore it.

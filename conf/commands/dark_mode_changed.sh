@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 export PATH="$HOME/.nix-profile/bin:$PATH"
 
 if ! [ -x "$(command -v nvr)" ]; then

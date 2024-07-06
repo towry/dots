@@ -16,6 +16,8 @@
   };
   home.packages = with pkgs; [
     tig
+    python311Packages.pynvim
+    neovim-remote
     wget
     just
     watchexec

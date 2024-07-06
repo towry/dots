@@ -197,6 +197,7 @@ def app_neovim(mode):
             print(e)
 
 def app_neovim_nvr(mode):
+    from pynvim import attach
     # Get the neovim servers using neovim-remote
     print("start nvr call")
     servers = subprocess.run(["nvr", "--serverlist"], stdout=subprocess.PIPE)
