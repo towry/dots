@@ -86,7 +86,7 @@ in {
       config-fetch-origin = ''config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'';
       ahead = "rev-list --left-right --count";
       # commit convention
-      it-wip = ''!f() { git commit -m \"wip: <😎> $([[ -z $@ ]] && date || echo $@ )\"; }; f'';
+      it-wip = ''!f() { git commit -m "wip: <😎> $([[ -z $@ ]] && date || echo $@ )"; }; f'';
       it-fix = ''!f() { git commit -m "fixup: <🐞> $(echo $@)"; }; f'';
       it-fmt = ''!f() { git commit -m "style: <🎨> $(echo $@)"; }; f'';
       it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
