@@ -162,8 +162,8 @@ in {
     ./hm/editor.nix
     ./hm/frontend-dev.nix
     ./hm/tmux.nix
-    ./hm/alacritty.nix
-    ./hm/wezterm.nix
+    # ./hm/alacritty.nix
+    # ./hm/wezterm.nix
     ./hm/kitty.nix
     ./hm/zellij.nix
     ./hm/rust.nix
