@@ -92,16 +92,16 @@ in {
       it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
       it-ref = ''!f() { git commit -m "refactor: <🐭> $(echo $@)"; }; f'';
       it-doc = ''!f() { git commit -m "doc: <📚> $(echo $@)"; }; f'';
-      "it-feat" = ''!f() { git commit -m "feat: <🐸> $(echo $@)"; }; f'';
-      "it-perf" = ''!f() { git commit -m "perf: <⚡️> $(echo $@)"; }; f'';
-      "it-chore" = ''!f() { git commit -m "chore: <🔨> $(echo $@)"; }; f'';
+      it-feat = ''!f() { git commit -m "feat: <🐸> $(echo $@)"; }; f'';
+      it-perf = ''!f() { git commit -m "perf: <⚡️> $(echo $@)"; }; f'';
+      it-chore = ''!f() { git commit -m "chore: <🔨> $(echo $@)"; }; f'';
       it-revert = ''!f() { git commit -m "revert: <🔙> $(echo $@)"; }; f'';
       it-build = ''!f() { git commit -m "build: <🏗️> $(echo $@)"; }; f'';
       it-ci = ''!f() { git commit -m "ci: <👷> $(echo $@)"; }; f'';
       it-deps = ''!f() { git commit -m "deps: <📦> $(echo $@)"; }; f'';
       it-typo = ''!f() { git commit -m "typo: <🐛> $(echo $@)"; }; f'';
       it-rm = ''!f() { git commit -m "cleanup: <🗑️> $(echo $@)"; }; f'';
-      it-omg = ''!f() { git commit -m "omg: <🤩> $(echo $@)"; }; f'';
+      it-min = ''!f() { git commit -m "minor: <🫰> $(echo $@)"; }; f'';
     };
 
     extraConfig = {
