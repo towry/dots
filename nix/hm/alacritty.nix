@@ -53,11 +53,6 @@
     # Named keys: https://docs.rs/winit/latest/winit/keyboard/enum.NamedKey.html
     keyboard.bindings = [
       {
-        key = "w";
-        mods = "Command";
-        action = "None";
-      }
-      {
         key = "N";
         mods = "Command|Shift";
         action = "CreateNewWindow";
@@ -69,6 +64,7 @@
           program = tmuxprg;
           args = [
             "new-window"
+            "-a"
             "-c"
             "#{pane_current_path}"
           ];
@@ -109,6 +105,16 @@
           args = [
             "select-window"
             "-l"
+          ];
+        };
+      }
+      {
+        key = "w";
+        mods = "Command";
+        command = {
+          program = tmuxprg;
+          args = [
+            "last-pane"
           ];
         };
       }
@@ -272,7 +278,7 @@ in {
         };
         shell.program = "${pkgs.fish}/bin/fish";
         colors.draw_bold_text_with_bright_colors = true;
-        mouse.hide_when_typing = true;
+        mouse.hide_when_typing = false;
         selection = {
           save_to_clipboard = true;
         };
@@ -303,6 +309,14 @@ in {
       key = "S"
       mods = "Super"
       chars = "\u00aes"
+      [[keyboard.bindings]]
+      key = "J"
+      mods = "Super"
+      chars = "\u00aej"
+      [[keyboard.bindings]]
+      key = "K"
+      mods = "Super"
+      chars = "\u00aek"
       [[keyboard.bindings]]
       key = "Semicolon"
       mods = "Control"

@@ -46,6 +46,10 @@
 
   # aliases
   programs.fish.shellAliases = {
+    run-firefox-debugger =
+      if pkgs.stdenv.isDarwin
+      then "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
+      else "/user/bin/firefox --start-debugger-server";
     wz = "wezterm";
     wz-rename = "wezterm cli rename-workspace";
     split-pane = "wezterm cli split-pane";
@@ -65,7 +69,7 @@
     gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git cz'';
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
-    tig = "TERM=xterm ${pkgs.tig}/bin/tig";
+    tig = "TERM=xterm-256color ${pkgs.tig}/bin/tig";
     flog = "glog";
     xmerge = "git merge --ff";
     xmerged = "git branch --merged master";
@@ -94,26 +98,30 @@
   };
 
   programs.fish.shellInit = ''
-    if [ -e "${../../conf/nix-daemon.sh}" ]
-      fenv source "${../../conf/nix-daemon.sh}"
+    set -g fish_prompt_pwd_dir_length 20
+    set -x GPG_TTY (tty)
+    set -g __fish_ls_command ${pkgs.eza}/bin/eza
+    if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]
+      fenv source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
     end
-    fish_add_path -amP /usr/local/bin
 
     #########
     if test -e $HOME/.private.fish
         source $HOME/.private.fish
     end
   '';
+  ## do not foget to run fish --login to generate new fish_variables file.
+  # https://github.com/LnL7/nix-darwin/issues/122
+  programs.fish.loginShellInit = ''
+    set -U fish_greeting ""
+    set -Ux fifc_editor nvim
+    # set -U fifc_keybinding \cf
+    set -U fifc_fd_opts --hidden
+  '';
 
   programs.fish.interactiveShellInit = ''
     set fish_cursor_default block blink
     set fish_cursor_insert underscore blink
-    set -u fish_greeting ""
-    set -g fish_prompt_pwd_dir_length 20
-    set -x GPG_TTY (tty)
-    set -Ux fifc_editor nvim
-    # set -U fifc_keybinding \cf
-    set -U fifc_fd_opts --hidden
 
     if test "$DARKMODE" = "dark"
         fish_config theme choose "kanagawa_dragon"
@@ -121,11 +129,6 @@
         fish_config theme choose "kanagawa_light"
     end
     # fish_config theme choose "kanagawa_dragon"
-
-    ## directory listing
-    if type -q eza
-        set -g __fish_ls_command eza
-    end
   '';
 
   programs.fish.functions = {
@@ -506,7 +509,7 @@
         __git_search_command $keyword | fzf \
             --preview "__git_search_preview_command {} {q}" \
             --preview-window "$preview_pos" \
-            --bind "enter:execute:$view_diff | TERM=xterm-256 ${pkgs.tig}/bin/tig show --stdin" \
+            --bind "enter:execute:$view_diff | TERM=xterm-256color ${pkgs.tig}/bin/tig show --stdin" \
             --bind "ctrl-u:preview-page-up,ctrl-d:preview-page-down" \
             --bind "change:reload:sleep 0.8; __git_search_command {q} || true" \
             --ansi --phony --query "$keyword" | awk '{ print $1 }'

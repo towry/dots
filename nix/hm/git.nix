@@ -5,6 +5,8 @@
 }: let
   enable_delta = true;
 in {
+  home.packages = with pkgs; [
+  ];
   programs.git = {
     enable = true;
 
@@ -17,14 +19,13 @@ in {
       ad = "add";
       ada = "add -A";
       sw = "switch";
-      # ci = "commit";
-      ci = "!f() { \\\n    previous_message=$(git log -1 --pretty=%B); \\\n    if [[ $previous_message == \\[WIP\\]:* ]]; then \\\n        git commit --amend --no-edit \"$@\"; \\\n    else \\\n        git commit \"$@\"; \\\n    fi \\\n}; f";
       ca = "commit --amend --no-edit";
+      ci = "!f() { echo 'please use it-<type> aliases' }; f";
       wip = ''
         !sh -c 'if [[ "$(git log -1 --pretty=%B)" != "[WIP]:"* ]]; then \
-                       git commit -m "[WIP]: $(date)"; \
+                       git commit -m "wip: $(date)"; \
                    else \
-                       git commit --amend -m "[WIP]: $(date)"; \
+                       git commit --amend -m "wip: $(date)"; \
                    fi'
       '';
       st = "status";
@@ -40,14 +41,14 @@ in {
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
       pf = ''!git pull --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
       fa = "fetch --all";
-      fz = "fuzzy";
+      fp = "fetch --all -p";
+      # fz = "fuzzy";
       ff = "fetch";
       mg = "merge --no-ff";
       kill-merge = "merge --abort";
       br = "branch";
       br-gone = "!git branch -vv | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*'";
-      br-prune = "!git branch -vv --merged | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*' | xargs git branch -d";
-      br-prune-all = "!git branch -vv | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*' | xargs git branch -d";
+      br-prune-gone = "!git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D";
       df = "diff";
       dt = "difftool";
       dfc = "diff --cached";
@@ -65,6 +66,9 @@ in {
       lg = "log --graph --pretty=format:'%Cred%h%Creset %s %C(white)%ad%Creset %C(yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short";
       lg1 = "log --oneline --date=relative --pretty=format:'%Cred%h%Creset %s %C(white)%ad%Creset %C(yellow)%d%Creset %C(bold blue)<%an>%Creset'";
       lt = "log --oneline --date=relative -n3 --pretty=format:'%Cred%h%Creset %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset - %C(white)%ad%Creset'";
+      yesterday = "log --since yesterday --until=midnight --color --graph \
+            --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
+            --abbrev-commit";
       clone1 = "clone --depth=1";
       des = "describe";
       wt = "worktree";
@@ -83,6 +87,21 @@ in {
       ignore = "!gi() { curl -sL https://www.gitignore.io/api/$@ ;}; gi";
       config-fetch-origin = ''config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'';
       ahead = "rev-list --left-right --count";
+      # commit convention
+      it-wip = ''!f() { git commit -m "wip: <😎> $([[ -z $@ ]] && date || echo $@ )"; }; f'';
+      it-fix = ''!f() { git commit -m "fix: <🐞> $(echo $@)"; }; f'';
+      it-fmt = ''!f() { git commit -m "style: <🎨> $(echo $@)"; }; f'';
+      it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
+      it-ref = ''!f() { git commit -m "refactor: <🍔> $(echo $@)"; }; f'';
+      it-doc = ''!f() { git commit -m "doc: <📚> $(echo $@)"; }; f'';
+      it-feat = ''!f() { git commit -m "feat: <🐸> $(echo $@)"; }; f'';
+      it-perf = ''!f() { git commit -m "perf: <⚡️> $(echo $@)"; }; f'';
+      it-chore = ''!f() { git commit -m "chore: <🔨> $(echo $@)"; }; f'';
+      it-revert = ''!f() { git commit -m "revert: <🔙> $(echo $@)"; }; f'';
+      it-build = ''!f() { git commit -m "build: <🏗️> $(echo $@)"; }; f'';
+      it-ci = ''!f() { git commit -m "ci: <👷> $(echo $@)"; }; f'';
+      it-deps = ''!f() { git commit -m "deps: <📦> $(echo $@)"; }; f'';
+      it-rm = ''!f() { git commit -m "cleanup: <🗑️> $(echo $@)"; }; f'';
     };
 
     extraConfig = {

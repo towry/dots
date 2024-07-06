@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import re
 import os.path
@@ -11,7 +9,7 @@ import signal
 
 kitty_path = os.path.expandvars("$HOME/.config/kitty")
 # starship_path = "~/.config/starship"
-tmux_path = "~"
+tmux_path = "~/.config/tmux"
 nvim_path = "~/.config/nvim"
 
 # If we toggle dark mode via Alfred, we end up in a infinite loop. The dark-mode
@@ -101,7 +99,7 @@ def app_kitty(mode):
     """
     Change the Kitty terminal
     """
-    kitty_file = kitty_path + "/theme_env.conf"
+    kitty_file = kitty_path + "/theme/current-theme.conf"
     kitty_theme_json = kitty_path + "/theme.json"
 
     dark_theme = ""
@@ -119,10 +117,10 @@ def app_kitty(mode):
 
     # Begin changing the modes
     if mode == "dark":
-        contents = "include ./colors/{}".format(dark_theme)
+        contents = "include ./{}".format(dark_theme)
 
     if mode == "light":
-        contents = "include ./colors/{}".format(light_theme)
+        contents = "include ./{}".format(light_theme)
 
     with open(os.path.expanduser(kitty_file), "w") as config_file:
         config_file.write(contents)
@@ -167,9 +165,9 @@ def app_starship(mode):
 def app_tmux(mode):
     subprocess.run(
         [
-            "/usr/local/bin/tmux",
+            "tmux",
             "source-file",
-            os.path.expanduser(tmux_path + "/.tmux.conf"),
+            os.path.expanduser(tmux_path + "/tmux.conf"),
         ]
     )
     # return os.system("exec zsh")
@@ -179,8 +177,6 @@ def app_neovim(mode):
     """
     Change the Neovim color scheme
     """
-    print("start process nvim: {}", mode)
-
     try:
         nvim_config = nvim_path + "/lua/settings_env.lua"
         if not os.path.isfile(os.path.expanduser(nvim_config)):
@@ -193,8 +189,30 @@ def app_neovim(mode):
             config_file.seek(0)
             config_file.write(updated_contents)
             config_file.truncate()
+
+        app_neovim_nvr(mode)
     except Exception as e:
             print(e)
+
+def app_neovim_nvr(mode):
+    from pynvim import attach
+    # Get the neovim servers using neovim-remote
+    print("start nvr call")
+    servers = subprocess.run(["nvr", "--serverlist"], stdout=subprocess.PIPE)
+    servers = servers.stdout.splitlines()
+
+    # Loop through them and change the theme by calling our custom Lua code
+    print("start loop nvim servers")
+    for server in servers:
+        try:
+            nvim = attach("socket", path=server)
+            nvim.command("call v:lua.Ty.ToggleTheme('" + mode + "')")
+        except Exception as e:
+            print(e)
+            continue
+    print("finish nvr call")
+    return
+
 
 def app_fish(mode):
     file_path = "~/.private.fish"
@@ -219,6 +237,8 @@ def run_apps(mode=None):
     """
     if mode == None:
         mode = get_mode()
+
+    print(f"mode is: {mode}")
 
         # sucks https://github.com/neovim/pynvim/issues/231
     def handler(signum, frame):
@@ -249,13 +269,12 @@ def get_mode():
 if __name__ == "__main__":
     # If we've passed a specific mode then activate it
     try:
-        print("start py1")
         if sys.argv[1]:
             ran_from_cmd_line = True
         run_apps(sys.argv[1])
     except IndexError:
-        print("start py2")
         try:
             run_apps()
         except Exception as e:
             print(e)
+

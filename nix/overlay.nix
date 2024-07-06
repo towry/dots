@@ -5,7 +5,7 @@
     pkgs = final;
     system = final.system;
   };
-  git-fuzzy = final.callPackage ./pkgs/git-fuzzy.nix {};
+  # git-fuzzy = final.callPackage ./pkgs/git-fuzzy.nix {};
   uclanr = final.callPackage ./pkgs/uclanr.nix {
     pkgs = final;
     system = final.system;
@@ -19,4 +19,12 @@
         sha256 = "sha256-3s0vcRiNA/pQrViYMwU2nnkLUNUcqXja/jTWO49x3BU=";
       };
     });
+
+  #-------
+  switch-theme = final.callPackage ./pkgs/switch-theme/default.nix {
+    pkgs = final;
+  };
+  dark-notify = final.callPackage ./pkgs/dark-mode-notify.nix {
+    pkgs = final;
+  };
 })

@@ -68,10 +68,12 @@ else
   unset -f check_nix_profiles
 fi
 
-# check if variable is set __fish_bin_dir
 if [[ "${SHELL##*/}" == "fish" ]]; then
-    export fish_user_paths="$NIX_LINK/bin /nix/var/nix/profiles/default/bin $fish_user_paths"
+    fish -c "set -U __ETC_PROFILE_NIX_SOURCED 1"
+    fish -c "set -U fish_user_paths $NIX_LINK/bin /nix/var/nix/profiles/default/bin /usr/local/bin /usr/bin /bin /sbin /usr/sbin"
+    fish -c "set -U PATH $NIX_LINK/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin"
+else
+    export PATH="$PATH:$NIX_LINK/bin:/nix/var/nix/profiles/default/bin"
 fi
-export PATH="$NIX_LINK/bin:/nix/var/nix/profiles/default/bin:$PATH"
 
 unset NIX_LINK NIX_LINK_NEW

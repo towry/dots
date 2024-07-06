@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+export PATH="$HOME/.nix-profile/bin:$PATH"
+#!/usr/bin/env bash
 
 # exclude hammerspoon stackline icons from count; they count as windows
 windows=$(yabai -m query --windows --space | jq 'map(select(."app" != "Hammerspoon"))')

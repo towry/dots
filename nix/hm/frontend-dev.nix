@@ -10,6 +10,7 @@ in {
   home.packages = with pkgs; [
     node2nix
     fnm
+    biome
     corepack_22
     nodePackages.prettier
     nodePackages.eslint
@@ -17,6 +18,7 @@ in {
     nodePackages.typescript-language-server
     nodeDeps.package
     tailwindcss-language-server
+    vscode-extensions.firefox-devtools.vscode-firefox-debug
   ];
 
   home.sessionVariables = {

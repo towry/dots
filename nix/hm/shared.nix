@@ -16,6 +16,8 @@
   };
   home.packages = with pkgs; [
     tig
+    python311Packages.pynvim
+    neovim-remote
     wget
     just
     watchexec
@@ -30,10 +32,6 @@
       enable = true;
       source = ../../conf/yazi;
       recursive = true;
-    };
-    skhd = {
-      enable = true;
-      source = ../../conf/skhd;
     };
     yabai = {
       enable = true;
@@ -60,8 +58,8 @@
         }
       '';
       bashrcExtra = ''
-        if [ -e "${../../conf/nix-daemon.sh}" ]; then
-          . "${../../conf/nix-daemon.sh}"
+        if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
+          . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
         fi
       '';
     };
