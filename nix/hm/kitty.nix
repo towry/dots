@@ -21,11 +21,9 @@
     "super+7" = "launch_silent ${tmux} select-window -t:7";
     "super+8" = "launch_silent ${tmux} select-window -t:8";
     "super+9" = "launch_silent ${tmux} select-window -t:9";
-    "super+s" = "send_text \xAEs";
-    "super+j" = "send_text \xAEj";
-    "super+k" = "send_text \xAEk";
-    "ctrl+;" = "send_text \xAE;";
-    "ctrl+'" = "send_text \xAE'";
+    "super+s" = "send_text all \\xAEs";
+    "ctrl+;" = "send_text all \\xAE;";
+    # "ctrl+'" = "send_text \xAE'";
   };
 in {
   programs.kitty = {
