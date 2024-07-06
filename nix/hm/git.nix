@@ -5,6 +5,9 @@
 }: let
   enable_delta = true;
 in {
+  home.packages = with pkgs; [
+    git-absorb
+  ];
   programs.git = {
     enable = true;
 
@@ -87,10 +90,10 @@ in {
       ahead = "rev-list --left-right --count";
       # commit convention
       it-wip = ''!f() { git commit -m "wip: <😎> $([[ -z $@ ]] && date || echo $@ )"; }; f'';
-      it-fix = ''!f() { git commit -m "fixup: <🐞> $(echo $@)"; }; f'';
+      it-fix = ''!f() { git commit -m "fix: <🐞> $(echo $@)"; }; f'';
       it-fmt = ''!f() { git commit -m "style: <🎨> $(echo $@)"; }; f'';
       it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
-      it-ref = ''!f() { git commit -m "refactor: <🐭> $(echo $@)"; }; f'';
+      it-ref = ''!f() { git commit -m "refactor: <🍔> $(echo $@)"; }; f'';
       it-doc = ''!f() { git commit -m "doc: <📚> $(echo $@)"; }; f'';
       it-feat = ''!f() { git commit -m "feat: <🐸> $(echo $@)"; }; f'';
       it-perf = ''!f() { git commit -m "perf: <⚡️> $(echo $@)"; }; f'';
@@ -99,9 +102,7 @@ in {
       it-build = ''!f() { git commit -m "build: <🏗️> $(echo $@)"; }; f'';
       it-ci = ''!f() { git commit -m "ci: <👷> $(echo $@)"; }; f'';
       it-deps = ''!f() { git commit -m "deps: <📦> $(echo $@)"; }; f'';
-      it-typo = ''!f() { git commit -m "typo: <🐛> $(echo $@)"; }; f'';
       it-rm = ''!f() { git commit -m "cleanup: <🗑️> $(echo $@)"; }; f'';
-      it-min = ''!f() { git commit -m "minor: <🫰> $(echo $@)"; }; f'';
     };
 
     extraConfig = {
