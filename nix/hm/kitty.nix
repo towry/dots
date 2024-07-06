@@ -61,6 +61,7 @@ in {
       macos_option_as_alt = "both";
       hide_window_decorations = "yes";
     };
+      notify_on_cmd_finish = "unfocused";
     keybindings =
       {
         "ctrl+c" = "copy_or_interrupt";
