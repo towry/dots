@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import re
 import os.path
@@ -11,7 +9,7 @@ import signal
 
 kitty_path = os.path.expandvars("$HOME/.config/kitty")
 # starship_path = "~/.config/starship"
-tmux_path = "~"
+tmux_path = "~/.config/tmux"
 nvim_path = "~/.config/nvim"
 
 # If we toggle dark mode via Alfred, we end up in a infinite loop. The dark-mode
@@ -167,9 +165,9 @@ def app_starship(mode):
 def app_tmux(mode):
     subprocess.run(
         [
-            "/usr/local/bin/tmux",
+            "tmux",
             "source-file",
-            os.path.expanduser(tmux_path + "/.tmux.conf"),
+            os.path.expanduser(tmux_path + "/tmux.conf"),
         ]
     )
     # return os.system("exec zsh")
@@ -279,3 +277,4 @@ if __name__ == "__main__":
             run_apps()
         except Exception as e:
             print(e)
+

@@ -154,8 +154,6 @@ in {
 
   imports = [
     ./hm/shared.nix
-    ./hm/skhd.nix
-    ./hm/yabai.nix
     ./hm/buildeps.nix
     ./hm/fish.nix
     ./hm/git.nix
@@ -169,6 +167,9 @@ in {
     ./hm/kitty.nix
     ./hm/zellij.nix
     ./hm/rust.nix
+    ./hm/skhd.nix
+    ./hm/yabai.nix
+    ./hm/dark-mode-notify.nix
   ];
 
   # Let Home Manager install and manage itself.
