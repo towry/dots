@@ -40,6 +40,7 @@ in {
       name = "Berkeley Mono";
       size = 16;
     };
+    shellIntegration.mode = "no-cursor";
     settings = {
       kitty_mod = "ctrl+shift+option";
       allow_hyperlinks = "yes";
