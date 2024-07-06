@@ -166,6 +166,7 @@ in {
     ./hm/tmux.nix
     ./hm/alacritty.nix
     ./hm/wezterm.nix
+    ./hm/kitty.nix
     ./hm/zellij.nix
     ./hm/rust.nix
   ];
