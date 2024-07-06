@@ -6,7 +6,6 @@
   enable_delta = true;
 in {
   home.packages = with pkgs; [
-    git-absorb
   ];
   programs.git = {
     enable = true;
