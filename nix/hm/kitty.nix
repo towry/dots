@@ -49,7 +49,7 @@ in {
       dim_opacity = "0.8";
       tab_title_template = "\"{layout_name[:4].upper()}{fmt.fg.green}#{index}{sup.num_windows if num_windows > 1 else ''} {fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{title[title.rfind('/')+1:]}\"";
       tab_powerline_style = "slanted";
-      tab_separator = "";
+      tab_separator = "\"\"";
       # tab_bar_style = "slant";
       tab_bar_style = "hidden";
       tab_bar_edge = "top";

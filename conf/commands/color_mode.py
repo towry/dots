@@ -101,7 +101,7 @@ def app_kitty(mode):
     """
     Change the Kitty terminal
     """
-    kitty_file = kitty_path + "/theme_env.conf"
+    kitty_file = kitty_path + "/theme/current-theme.conf"
     kitty_theme_json = kitty_path + "/theme.json"
 
     dark_theme = ""
@@ -119,10 +119,10 @@ def app_kitty(mode):
 
     # Begin changing the modes
     if mode == "dark":
-        contents = "include ./colors/{}".format(dark_theme)
+        contents = "include ./{}".format(dark_theme)
 
     if mode == "light":
-        contents = "include ./colors/{}".format(light_theme)
+        contents = "include ./{}".format(light_theme)
 
     with open(os.path.expanduser(kitty_file), "w") as config_file:
         config_file.write(contents)
