@@ -11,8 +11,6 @@ in
       #!${pkgs.bash}/bin/bash
 
       export PATH="$PATH:${pkgs.neovim-remote}/bin:$HOME/.nix-profile/bin"
-      echo "$PATH"
-      which nvr
 
       ${pkgs.dark-notify}/bin/dark-notify -c "PATH=$PATH:${pkgs.neovim-remote}/bin ${python}/bin/python3 ${./switch-theme.py}" 2>&1
     '';
