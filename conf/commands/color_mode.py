@@ -179,8 +179,6 @@ def app_neovim(mode):
     """
     Change the Neovim color scheme
     """
-    print("start process nvim: {}", mode)
-
     try:
         nvim_config = nvim_path + "/lua/settings_env.lua"
         if not os.path.isfile(os.path.expanduser(nvim_config)):
@@ -193,8 +191,29 @@ def app_neovim(mode):
             config_file.seek(0)
             config_file.write(updated_contents)
             config_file.truncate()
+
+        app_neovim_nvr(mode)
     except Exception as e:
             print(e)
+
+def app_neovim_nvr(mode):
+    # Get the neovim servers using neovim-remote
+    print("start nvr call")
+    servers = subprocess.run(["nvr", "--serverlist"], stdout=subprocess.PIPE)
+    servers = servers.stdout.splitlines()
+
+    # Loop through them and change the theme by calling our custom Lua code
+    print("start loop nvim servers")
+    for server in servers:
+        try:
+            nvim = attach("socket", path=server)
+            nvim.command("call v:lua.Ty.ToggleTheme('" + mode + "')")
+            print("finish nvr call")
+        except Exception as e:
+            print(e)
+            continue
+    return
+
 
 def app_fish(mode):
     file_path = "~/.private.fish"
@@ -219,6 +238,8 @@ def run_apps(mode=None):
     """
     if mode == None:
         mode = get_mode()
+
+    print(f"mode is: {mode}")
 
         # sucks https://github.com/neovim/pynvim/issues/231
     def handler(signum, frame):
@@ -249,12 +270,10 @@ def get_mode():
 if __name__ == "__main__":
     # If we've passed a specific mode then activate it
     try:
-        print("start py1")
         if sys.argv[1]:
             ran_from_cmd_line = True
         run_apps(sys.argv[1])
     except IndexError:
-        print("start py2")
         try:
             run_apps()
         except Exception as e:
