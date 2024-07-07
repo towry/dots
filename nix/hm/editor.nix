@@ -36,6 +36,8 @@
     nodePackages.neovim
     # jsonls
     vscode-langservers-extracted
+    pyright
+    ruff
     (python3.buildEnv.override {
       extraLibs = [
         python3Packages.pynvim
