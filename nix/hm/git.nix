@@ -94,7 +94,7 @@ in {
       it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
       it-ref = ''!f() { git commit -m "refactor: <🍔> $(echo $@)"; }; f'';
       it-doc = ''!f() { git commit -m "doc: <📚> $(echo $@)"; }; f'';
-      it-feat = ''!f() { git commit -m "feat: <🐸> $(echo $@)"; }; f'';
+      it-feat = ''!f() { git commit -m "feat: <🍋> $(echo $@)"; }; f'';
       it-perf = ''!f() { git commit -m "perf: <⚡️> $(echo $@)"; }; f'';
       it-chore = ''!f() { git commit -m "chore: <🔨> $(echo $@)"; }; f'';
       it-revert = ''!f() { git commit -m "revert: <🔙> $(echo $@)"; }; f'';
