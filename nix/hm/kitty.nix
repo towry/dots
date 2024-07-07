@@ -38,7 +38,7 @@ in {
     };
     font = {
       name = "Berkeley Mono";
-      size = 15;
+      size = 16;
     };
     shellIntegration.mode = "no-cursor";
     settings = {
@@ -96,8 +96,8 @@ in {
     };
     "kitty/theme.json".text = ''
       {
-        "dark": "modus_dark.conf",
-        "light": "modus_light.conf"
+        "dark": "kanagawa_dragon.conf",
+        "light": "kanagawa_light.conf"
       }
     '';
   };
