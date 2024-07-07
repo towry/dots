@@ -91,7 +91,7 @@
     bottom.enable = true;
     bat = {
       enable = true;
-      config.theme = "kanagawa-dragon";
+      config.theme = "Dracula";
     };
     jq.enable = true;
     ripgrep.enable = true;

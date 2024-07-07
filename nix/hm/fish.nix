@@ -124,9 +124,9 @@
     set fish_cursor_insert underscore blink
 
     if test "$DARKMODE" = "dark"
-        fish_config theme choose "kanagawa_dragon"
+        fish_config theme choose "dracula"
     else
-        fish_config theme choose "kanagawa_light"
+        fish_config theme choose "dracula"
     end
   '';
 

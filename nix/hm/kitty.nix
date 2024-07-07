@@ -96,8 +96,8 @@ in {
     };
     "kitty/theme.json".text = ''
       {
-        "dark": "kanagawa_dragon.conf",
-        "light": "kanagawa_light.conf"
+        "dark": "dracula.conf",
+        "light": "dracula.conf"
       }
     '';
   };
