@@ -6,8 +6,8 @@
   tmux = "${pkgs.tmux}/bin/tmux";
   tmux_keymaps = {
     "super+n" = "launch_silent ${tmux} new-window -a -c #{pane_current_path}";
-    "super+-" = "launch_silent ${tmux} split-window -v -c #{pane_current_path}";
-    "super+/" = "launch_silent ${tmux} split-window -h -c #{pane_current_path}";
+    "super+-" = "launch_silent ${tmux} split-window -l 25% -v -c #{pane_current_path}";
+    "super+/" = "launch_silent ${tmux} split-window -l 25% -h -c #{pane_current_path}";
     "super+z" = "launch_silent ${tmux} select-window -l";
     "super+w" = "launch_silent ${tmux} last-pane";
     "super+[" = "launch_silent ${tmux} select-window -p";

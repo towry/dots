@@ -178,21 +178,16 @@ in {
       bind -r C-l select-pane -RZ
       bind -n M-0 select-pane -lZ
 
-      bind-key -n M-h if-shell "$is_vim" 'send-keys M-h' 'resize-pane -L 3'
-      bind-key -n M-j if-shell "$is_vim" 'send-keys M-j' 'resize-pane -D 3'
-      bind-key -n M-k if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 3'
-      bind-key -n M-l if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 4'
-
-      bind -r K resize-pane -U 5
-      bind -r L resize-pane -R 5
-      bind -r H resize-pane -L 5
-      bind -r J resize-pane -D 5
+      bind-key -n M-h if-shell "$is_vim" 'send-keys M-h' 'resize-pane -L 15'
+      bind-key -n M-j if-shell "$is_vim" 'send-keys M-j' 'resize-pane -D 15'
+      bind-key -n M-k if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 15'
+      bind-key -n M-l if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 15'
 
       bind C-g popup -E -w 80% -h 60% "${pkgs.bash}/bin/bash ${tmuxdot}/nix-bin/commands.sh"
 
+      bind z resize-pane -x 50% -y 50%
       ## Zoom pane
-      bind z resize-pane -Z
-      # strange <C-b><C-z> causing blank window, so we map it to resize-pane
+      # strange <prefix><C-z> causing blank window, so we map it to resize-pane
       bind C-z resize-pane -Z
       # bind F2 to root table
       bind -T root F2 resize-pane -Z

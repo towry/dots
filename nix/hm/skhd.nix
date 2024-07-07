@@ -66,7 +66,7 @@
 
       ## ==== some applications
       cmd - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "Firefox" "/Applications/Firefox.app/Contents/MacOS/Firefox"
-      cmd + shift - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "Alacritty" "$HOME/.nix-profile/bin/alacritty"
+      cmd + shift - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "kitty" "${pkgs.kitty}/bin/kitty"
 
       ## ==============  manage windows
       mode_window < x : yabai -m window --close; skhd -k "escape"
