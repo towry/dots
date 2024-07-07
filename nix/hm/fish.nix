@@ -124,11 +124,10 @@
     set fish_cursor_insert underscore blink
 
     if test "$DARKMODE" = "dark"
-        fish_config theme choose "kanagawa_dragon"
+        fish_config theme choose "modus_dark"
     else
-        fish_config theme choose "kanagawa_light"
+        fish_config theme choose "modus_light"
     end
-    # fish_config theme choose "kanagawa_dragon"
   '';
 
   programs.fish.functions = {
