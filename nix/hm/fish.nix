@@ -8,6 +8,7 @@
   };
   programs = {
     carapace.enableFishIntegration = true;
+    kitty.shellIntegration.enableFishIntegration = true;
     fish = {
       enable = true;
       plugins = [

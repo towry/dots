@@ -41,7 +41,7 @@ in {
       name = "Iosevka";
       size = 16;
     };
-    shellIntegration.mode = "no-cursor";
+    shellIntegration.mode = "no-rc";
     settings = {
       kitty_mod = "ctrl+shift+option";
       allow_hyperlinks = "yes";
