@@ -73,6 +73,9 @@ in {
         "super+v" = "paste_from_clipboard";
         "kitty_mod+u" = "input_unicode_character";
         "kitty_mod+`" = "load_config_file";
+        "kitty_mod+equal" = "change_font_size all +2.0";
+        "kitty_mod+minus" = "change_font_size all -2.0";
+        "kitty_mod+0" = "change_font_size all 0";
         "kitty_mod+f10" = "toggle_maximized";
         "kitty_mod+f11" = "toggle_fullscreen";
       }

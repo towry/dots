@@ -134,7 +134,7 @@ in {
       # Start index of window/pane with 1, because we're humans, not computers
       # ====================================
       # ============ key bindings
-      bind c new-window -ca "#{pane_current_path}"
+      bind c new-window -c "#{pane_current_path}"
       bind r command-prompt -I "#{window_name}" "rename-window '%%'"
       bind R command-prompt -I "#{session_name}" "rename-session '%%'"
       bind C-n command-prompt -p "Enter session:" "new-session -A -s '%%'"
