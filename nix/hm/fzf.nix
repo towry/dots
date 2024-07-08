@@ -21,7 +21,9 @@ in {
       "--ansi"
       "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
       # "--no-border"
+      "--border=sharp"
       "--reverse"
+      "--preview-window=sharp"
       # "--preview-window=border-left"
       # this keybind should match the telescope ones in nvim config
       ''--bind="ctrl-u:unix-line-discard+top,tab:down,shift-tab:up,ctrl-d:preview-down,ctrl-f:preview-up"''

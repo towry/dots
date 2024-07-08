@@ -39,7 +39,7 @@ in {
     font = {
       # name = "Berkeley Mono";
       name = "Iosevka";
-      size = 16;
+      size = 17;
     };
     shellIntegration.mode = "no-rc";
     settings = {
