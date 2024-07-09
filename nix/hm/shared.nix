@@ -93,7 +93,7 @@
     bottom.enable = true;
     bat = {
       enable = true;
-      config.theme = "Dracula";
+      config.theme = "Nord";
     };
     jq.enable = true;
     ripgrep.enable = true;
