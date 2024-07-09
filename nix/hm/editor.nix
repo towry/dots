@@ -45,9 +45,9 @@
     })
     # vimPlugins.none-ls-nvim
     # nim
-    nim
-    nimlangserver
-    nimble
+    # nim
+    # nimlangserver
+    # nimble
   ];
 
   home.file.".config/nvim/lua/nix-env.lua".text = ''
