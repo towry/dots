@@ -8,7 +8,7 @@
   locals.packages = with pkgs;
     [
       # compile to bash
-      amber-lang
+      # amber-lang
       # obsidian
       ## Nix
       cachix
@@ -59,6 +59,7 @@ in {
     };
   };
   home = {
+    enableNixpkgsReleaseCheck = false;
     # https://github.com/nix-community/home-manager/blob/e3ad5108f54177e6520535768ddbf1e6af54b59d/modules/home-environment.nix#L184
     # Home Manager needs a bit of information about you and the paths it should
     # manage.
@@ -165,7 +166,7 @@ in {
     # ./hm/alacritty.nix
     # ./hm/wezterm.nix
     ./hm/kitty.nix
-    ./hm/zellij.nix
+    # ./hm/zellij.nix
     ./hm/rust.nix
     ./hm/skhd.nix
     ./hm/yabai.nix

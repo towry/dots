@@ -58,11 +58,7 @@
       env__npm_root = "${config.home.homeDirectory}/.nix-profile",
       runtime__python3_host_prog = "${config.home.homeDirectory}/.nix-profile/bin/python3",
       runtime__node_host_prog = "${config.home.homeDirectory}/.nix-profile/bin/neovim-node-host",
-      lsp__vue_typescript_plugin = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/@vue/typescript-plugin",
-      lsp__vue_language_server = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/.bin/vue-language-server",
-      lsp__vtsls = "${config.home.homeDirectory}/.nix-profile/lib/node_modules/dotfiles/node_modules/.bin/vtsls",
       lsp_biome = "${pkgs.biome}/bin/biome",
-      alacritty_bin = "${pkgs.alacritty}/bin/alacritty",
       dap_firefox_debug_adapter_path = "${pkgs.vscode-extensions.firefox-devtools.vscode-firefox-debug}/share/vscode/extensions/firefox-devtools.vscode-firefox-debug/dist/adapter.bundle.js"
     }
   '';

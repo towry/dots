@@ -129,6 +129,8 @@
     else
         fish_config theme choose "dracula"
     end
+
+    fish_add_path $HOME/.nimble/bin
   '';
 
   programs.fish.functions = {

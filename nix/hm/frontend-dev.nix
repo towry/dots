@@ -2,21 +2,17 @@
   pkgs,
   config,
   ...
-}: let
-  nodeDeps = pkgs.callPackage ../pkgs/node/default.nix {
-    pkgs = pkgs;
-  };
-in {
+}: {
   home.packages = with pkgs; [
-    node2nix
+    # node2nix
     fnm
-    biome
+    bun
+    # biome
     corepack_22
     nodePackages.prettier
     nodePackages.eslint
     nodePackages.typescript
     nodePackages.typescript-language-server
-    nodeDeps.package
     tailwindcss-language-server
     vscode-extensions.firefox-devtools.vscode-firefox-debug
   ];
