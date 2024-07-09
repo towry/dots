@@ -37,9 +37,9 @@ in {
       MIMIC_SUPER = "1";
     };
     font = {
-      # name = "Berkeley Mono";
-      name = "Iosevka";
-      size = 17;
+      name = "Berkeley Mono";
+      # name = "Iosevka";
+      size = 15;
     };
     shellIntegration.mode = "no-rc";
     settings = {
@@ -47,7 +47,7 @@ in {
       allow_hyperlinks = "yes";
       listen_on = "unix:/tmp/towry-kitty-sock";
       allow_remote_control = "socket-only";
-      text_composition_strategy = "1 0";
+      text_composition_strategy = "1.5 0";
       dim_opacity = "1";
       tab_title_template = "\"{layout_name[:4].upper()}{fmt.fg.green}#{index}{sup.num_windows if num_windows > 1 else ''} {fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{title[title.rfind('/')+1:]}\"";
       tab_powerline_style = "slanted";
