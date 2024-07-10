@@ -41,7 +41,7 @@ in {
     font = {
       name = "Berkeley Mono";
       # name = "Iosevka";
-      size = 16;
+      size = 15;
     };
     shellIntegration.mode = "no-rc";
     settings = {
@@ -59,6 +59,7 @@ in {
       tab_bar_edge = "top";
       confirm_os_window_close = 1;
       remember_window_size = "yes";
+      placement_strategy = "top";
       url_style = "curly";
       undercurl_style = "thin-sparse";
       cursor_shape = "block";
