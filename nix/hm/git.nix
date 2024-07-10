@@ -19,6 +19,8 @@ in {
       ad = "add";
       ada = "add -A";
       sw = "switch";
+      # apply patch with commit text only (no commitee info)
+      apply-diff-patch = "apply --allow-empty";
       ca = "commit --amend --no-edit";
       ci = "!f() { echo 'please use it-<type> aliases' }; f";
       wip = ''
