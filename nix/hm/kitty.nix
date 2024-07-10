@@ -56,7 +56,7 @@ in {
       tab_separator = "\"\"";
       # tab_bar_style = "slant";
       tab_bar_style = "hidden";
-      tab_bar_edge = "top";
+      tab_bar_edge = "top-left";
       confirm_os_window_close = 1;
       remember_window_size = "yes";
       placement_strategy = "top";
