@@ -23,13 +23,6 @@ in {
       apply-diff-patch = "apply --allow-empty";
       ca = "commit --amend --no-edit";
       ci = "!f() { echo 'please use it-<type> aliases' }; f";
-      wip = ''
-        !sh -c 'if [[ "$(git log -1 --pretty=%B)" != "[WIP]:"* ]]; then \
-                       git commit -m "wip: $(date)"; \
-                   else \
-                       git commit --amend -m "wip: $(date)"; \
-                   fi'
-      '';
       st = "status";
       add-note = ''branch --edit-description'';
       note = ''!git config --get branch.$(git rev-parse --abbrev-ref HEAD).description'';
@@ -90,7 +83,7 @@ in {
       config-fetch-origin = ''config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'';
       ahead = "rev-list --left-right --count";
       # commit convention
-      it-wip = ''!f() { git commit -m "wip: <😎> $([[ -z $@ ]] && date || echo $@ )"; }; f'';
+      it-wip = ''!f() { git commit -m "wip: <😎>[skip ci] $([[ -z $@ ]] && date || echo $@ )"; }; f'';
       it-fix = ''!f() { git commit -m "fix: <🐞> $(echo $@)"; }; f'';
       it-fmt = ''!f() { git commit -m "style: <🎨> $(echo $@)"; }; f'';
       it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
