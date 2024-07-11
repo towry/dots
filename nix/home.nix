@@ -15,7 +15,6 @@
       # nix formatter
       alejandra
       nix-health
-      gitu
       # git-fuzzy
       zig
       zls
