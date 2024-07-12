@@ -108,8 +108,8 @@ in {
     };
     "kitty/theme.json".text = ''
       {
-        "dark": "nordfox.conf",
-        "light": "nordfox.conf"
+        "dark": "kanagawa_dragon.conf",
+        "light": "kanagawa_light.conf"
       }
     '';
   };
