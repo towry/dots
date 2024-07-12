@@ -8,11 +8,6 @@ in {
   home.packages = with pkgs; [
     # gitu
   ];
-  programs.lazygit = {
-    enable = true;
-    settings = {
-    };
-  };
   programs.git = {
     enable = true;
 
