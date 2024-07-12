@@ -57,7 +57,7 @@
     cls = "clear";
     vi = "nvim";
     # temporary for lazy branch dev
-    lazy = "NVIM_APPNAME=lazy nvim";
+    astro = "NVIM_APPNAME=astro nvim";
     q = "exit";
     qq = "exit && exit && exit";
     gcd = "cd-gitroot";
