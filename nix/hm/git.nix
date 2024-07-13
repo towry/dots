@@ -177,7 +177,7 @@ in {
         };
         # allow easy copy
         keep-plus-minus-markers = false;
-        syntax-theme = "kanagawa-dragon";
+        syntax-theme = "nightfox";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
         line-numbers = true;

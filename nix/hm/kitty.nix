@@ -59,7 +59,7 @@ in {
       tab_bar_edge = "top-left";
       confirm_os_window_close = 1;
       remember_window_size = "yes";
-      placement_strategy = "top";
+      placement_strategy = "top-left";
       url_style = "curly";
       undercurl_style = "thin-sparse";
       cursor_shape = "block";
@@ -108,8 +108,8 @@ in {
     };
     "kitty/theme.json".text = ''
       {
-        "dark": "kanagawa_dragon.conf",
-        "light": "kanagawa_light.conf"
+        "dark": "nightfox.conf",
+        "light": "nightfox.conf"
       }
     '';
   };
