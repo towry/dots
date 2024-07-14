@@ -108,8 +108,8 @@ in {
     };
     "kitty/theme.json".text = ''
       {
-        "dark": "nightfox.conf",
-        "light": "nightfox.conf"
+        "dark": "nord.conf",
+        "light": "nord.conf"
       }
     '';
   };

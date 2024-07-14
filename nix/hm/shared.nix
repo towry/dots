@@ -40,7 +40,7 @@
   };
   home.file = {
     ".config/bat/themes/kanagawa-dragon.tmTheme".source = ../../conf/kanagawa-dragon.tmTheme;
-    ".config/bat/themes/nightfox.tmTheme".source = ../../conf/nightfox.tmTheme;
+    # ".config/bat/themes/nightfox.tmTheme".source = ../../conf/nightfox.tmTheme;
     ".ignore".source = ../../conf/.ignore;
     ".ripgreprc".source = ../../conf/.ripgreprc;
   };
@@ -94,7 +94,7 @@
     bottom.enable = true;
     bat = {
       enable = true;
-      config.theme = "nightfox";
+      config.theme = "Nord";
     };
     jq.enable = true;
     ripgrep.enable = true;
