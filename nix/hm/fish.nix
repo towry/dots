@@ -127,9 +127,9 @@
     set fish_cursor_insert underscore blink
 
     if test "$DARKMODE" = "dark"
-        fish_config theme choose "nord"
+        fish_config theme choose "nightfox"
     else
-        fish_config theme choose "nord"
+        fish_config theme choose "nightfox"
     end
 
     fish_add_path $HOME/.nimble/bin
