@@ -57,9 +57,10 @@ in {
       # tab_bar_style = "slant";
       tab_bar_style = "hidden";
       tab_bar_edge = "top-left";
+      window_padding_width = "0 6";
       confirm_os_window_close = 1;
       remember_window_size = "yes";
-      placement_strategy = "top-left";
+      placement_strategy = "center";
       url_style = "curly";
       undercurl_style = "thin-sparse";
       cursor_shape = "block";
