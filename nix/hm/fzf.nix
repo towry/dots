@@ -22,7 +22,7 @@ in {
       # nightfox
       # "--color=fg:#cdcecf,bg:#131a24,hl:#5f87af --color=fg+:#d60d7b,bg+:#3a5275,hl+:#5fd7ff --color=info:#afaf87,prompt:#c74462,pointer:#bf1537 --color=marker:#ffff00,spinner:#af5fff,header:#db3e1f"
       # nord
-      "--color=fg:#e5e9f0,hl:#81a1c1 --color=fg+:#e5e9f0,hl+:#81a1c1 --color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac --color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b"
+      "--color=fg:#d0d0d0,fg+:#d0d0d0,bg:#2e3440,bg+:#3b4252 --color=hl:#5f87af,hl+:#5fd7ff,info:#afaf87,marker:#87ff00 --color=prompt:#d7005f,spinner:#af5fff,pointer:#af5fff,header:#87afaf --color=border:#5c6781,label:#aeaeae,query:#d9d9d9"
       # "--no-border"
       "--border=sharp"
       "--reverse"
