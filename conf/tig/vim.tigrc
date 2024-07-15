@@ -27,6 +27,9 @@ bind main gff ?+git fetch origin %(branch)
 bind main gpp ?git pull origin %(branch)
 bind main gfa ?+git fetch --all
 bind main gca +git commit --amend --no-edit
+bind main rh ?git reset --hard %(commit)
+bind main rs ?git reset --soft %(commit)
+
 
 bind main    G move-last-line
 bind generic G move-last-line
