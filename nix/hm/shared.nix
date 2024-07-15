@@ -94,7 +94,7 @@
     bottom.enable = true;
     bat = {
       enable = true;
-      config.theme = "nightfox";
+      config.theme = "Nord";
     };
     jq.enable = true;
     ripgrep.enable = true;

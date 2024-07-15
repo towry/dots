@@ -20,9 +20,9 @@ in {
     defaultOptions = [
       "--ansi"
       # nightfox
-      "--color=fg:#cdcecf,bg:#131a24,hl:#5f87af --color=fg+:#d60d7b,bg+:#3a5275,hl+:#5fd7ff --color=info:#afaf87,prompt:#c74462,pointer:#bf1537 --color=marker:#ffff00,spinner:#af5fff,header:#db3e1f"
+      # "--color=fg:#cdcecf,bg:#131a24,hl:#5f87af --color=fg+:#d60d7b,bg+:#3a5275,hl+:#5fd7ff --color=info:#afaf87,prompt:#c74462,pointer:#bf1537 --color=marker:#ffff00,spinner:#af5fff,header:#db3e1f"
       # nord
-      # "--color=fg:#cdcecf,fg+:#d0d0d0,bg:#232831,bg+:#3b4252 --color=hl:#8aa872,hl+:#a3be8c,info:#afaf87,marker:#8aa872 --color=prompt:#a54e56,spinner:#a96ca5,pointer:#d092ce,header:#93ccdc --color=border:#5c6781,label:#bbc3d4,query:#d9d9d9"
+      "--color=fg:#cdcecf,fg+:#d0d0d0,bg:#232831,bg+:#3b4252 --color=hl:#8aa872,hl+:#a3be8c,info:#afaf87,marker:#8aa872 --color=prompt:#a54e56,spinner:#a96ca5,pointer:#d092ce,header:#93ccdc --color=border:#5c6781,label:#bbc3d4,query:#d9d9d9"
       # "--no-border"
       "--border=sharp"
       "--reverse"

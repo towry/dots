@@ -109,8 +109,8 @@ in {
     };
     "kitty/theme.json".text = ''
       {
-        "dark": "nightfox.conf",
-        "light": "nightfox.conf"
+        "dark": "nordfox.conf",
+        "light": "nordfox.conf"
       }
     '';
   };
