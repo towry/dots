@@ -6,6 +6,7 @@
   enable_delta = true;
 in {
   home.packages = with pkgs; [
+    git-absorb
     # gitu
   ];
   programs.git = {
@@ -77,6 +78,9 @@ in {
       rbk = "rebase --skip";
       rbc = "rebase --continue";
       rba = "rebase --abort";
+      rbi = "rebase -i";
+      # autosquash previous fixup! commits
+      rbs = "rebase -i --autosquash";
       "re3" = "rerere";
       latest-tag = "describe --tags";
       alias = "! git config --get-regexp '^alias\\.' | sed 's/^alias\\.//' | fzf";
