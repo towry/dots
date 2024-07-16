@@ -524,7 +524,7 @@
       body = ''
         set -l log_line_to_hash "echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
         set -l view_commit "$log_line_to_hash | xargs -I % sh -c 'git show --color=always % | less -R'"
-        set -l copy_commit_hash "$log_line_to_hash | xclip"
+        set -l copy_commit_hash "$log_line_to_hash | pbcopy"
         set -l git_checkout "$log_line_to_hash | xargs -I % sh -c 'git checkout %'"
         set -l view_commit_files "$log_line_to_hash | xargs -I % sh -c 'git diff-tree --no-commit-id --name-only % -r' | fzf | xargs -I % sh -c 'cd \"$(git rev-parse --show-toplevel)\" ; $EDITOR %' sh"
         set -l open_cmd "open"

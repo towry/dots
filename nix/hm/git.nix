@@ -6,7 +6,6 @@
   enable_delta = true;
 in {
   home.packages = with pkgs; [
-    git-absorb
     # gitu
   ];
   programs.git = {
@@ -56,6 +55,8 @@ in {
       wcl = "whatchanged -3";
       cat = "cat-file -p";
       undo = "reset --soft";
+      fixup = "commit --fixup";
+      autofixup = "!git commit --fixup $1 && git rebase -i --autosquash --rebase-merges $1~1";
       reset-remote = "!git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)";
       unstage = "restore --staged";
       changed-files = "!sh -c 'default_branch=master; if git rev-parse --verify master >/dev/null 2>/dev/null; then default_branch=master; elif git rev-parse --verify main >/dev/null 2>/dev/null; then default_branch=main; else echo \"Neither master nor main branches found.\"; exit 1; fi; git fetch origin $default_branch >/dev/null 2>&1; git diff --name-only origin/$default_branch...'";
