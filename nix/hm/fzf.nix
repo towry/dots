@@ -26,6 +26,7 @@ in {
       # "--no-border"
       "--border=sharp"
       "--reverse"
+      "--no-hscroll"
       "--preview-window=sharp"
       # "--preview-window=border-left"
       # this keybind should match the telescope ones in nvim config
