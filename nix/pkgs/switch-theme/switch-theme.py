@@ -206,7 +206,7 @@ def app_neovim_nvr(mode):
     for server in servers:
         try:
             nvim = attach("socket", path=server)
-            nvim.command("call v:lua.Ty.ToggleTheme('" + mode + "')")
+            nvim.command("call v:lua.V.util_toggle_dark('" + mode + "')")
         except Exception as e:
             print(e)
             continue
