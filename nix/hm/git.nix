@@ -6,6 +6,8 @@
   enable_delta = true;
 in {
   home.packages = with pkgs; [
+    # github cli, manage repo, gists etc.
+    gh
     # gitu
   ];
   programs.git = {
