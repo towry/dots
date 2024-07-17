@@ -133,6 +133,7 @@
     end
 
     fish_add_path $HOME/.nimble/bin
+    fish_add_path $HOME/.local/usrbin
   '';
 
   programs.fish.functions = {
