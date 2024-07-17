@@ -134,6 +134,7 @@
 
     fish_add_path $HOME/.nimble/bin
     fish_add_path $HOME/.local/usrbin
+    fish_add_path $HOME/.cargo/bin
   '';
 
   programs.fish.functions = {
