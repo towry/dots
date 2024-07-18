@@ -27,6 +27,7 @@
     luarocks
     # for nix language lsp support.
     nil
+    deadnix
     # markdown
     marksman
     # yaml
