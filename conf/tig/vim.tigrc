@@ -5,8 +5,8 @@ bind generic h scroll-left
 bind generic j move-down
 bind generic k move-up
 bind generic l scroll-right
-bind generic E edit
-bind generic e >nvim -c "Gedit %(commit)"
+bind generic ge edit
+bind generic gE >nvim -c "Gedit %(commit)"
 bind generic <C-R> refresh
 
 # search
