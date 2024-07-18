@@ -27,6 +27,27 @@
     "ctrl+;" = "send_text all \\xAE;";
     # "ctrl+'" = "send_text \xAE'";
   };
+  zj = "${pkgs.zellij}/bin/zellij";
+  zellij_keymaps = {
+    "super+n" = "launch_silent ${zj} action new-tab";
+    "super+-" = "launch_silent ${zj} action new-pane -d down";
+    "super+\\" = "launch_silent ${zj} action new-pane -d right";
+    # don't know why, but the slash not working in some keyboard or old kitty version?
+    "super+/" = "launch_silent ${zj} action new-pane -d right";
+    "super+z" = "launch_silent ${zj} action go-to-previous-tab";
+    "super+w" = "launch_silent ${zj} action focus-previous-pane";
+    "super+[" = "launch_silent ${zj} action go-to-previous-tab";
+    "super+]" = "launch_silent ${zj} action go-to-next-tab";
+    "super+1" = "launch_silent ${zj} action go-to-tab 1";
+    "super+2" = "launch_silent ${zj} action go-to-tab 2";
+    "super+3" = "launch_silent ${zj} action go-to-tab 3";
+    "super+4" = "launch_silent ${zj} action go-to-tab 4";
+    "super+5" = "launch_silent ${zj} action go-to-tab 5";
+    "super+6" = "launch_silent ${zj} action go-to-tab 6";
+    "super+7" = "launch_silent ${zj} action go-to-tab 7";
+    "super+8" = "launch_silent ${zj} action go-to-tab 8";
+    "super+9" = "launch_silent ${zj} action go-to-tab 9";
+  };
 in {
   programs.kitty = {
     enable = true;
