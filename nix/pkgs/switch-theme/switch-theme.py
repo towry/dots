@@ -185,7 +185,10 @@ def app_neovim(mode):
 
         with open(os.path.expanduser(nvim_config), "r+") as config_file:
             contents = config_file.read()
-            updated_contents = re.sub(r'vim\.opt\.background\s*=\s*["\'].*?["\']', 'vim.opt.background = "{mode}"'.format(mode=mode), contents)
+            if contents.find("background") == -1:
+                updated_contents = contents + 'vim.opt.background = "{mode}"'.format(mode=mode)
+            else:
+                updated_contents = re.sub(r'vim\.opt\.background\s*=\s*["\'].*?["\']', 'vim.opt.background = "{mode}"'.format(mode=mode), contents)
             config_file.seek(0)
             config_file.write(updated_contents)
             config_file.truncate()
