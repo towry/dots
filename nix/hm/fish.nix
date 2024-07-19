@@ -98,6 +98,7 @@
     tmuxin = "tmux new-session -A -s 0";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
     random-name = "uclanr";
+    tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
   };
 
   programs.fish.shellInit = ''
