@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  theme,
   ...
 }: let
   tmux = "${pkgs.tmux}/bin/tmux";
@@ -130,8 +131,8 @@ in {
     };
     "kitty/theme.json".text = ''
       {
-        "dark": "nordfox.conf",
-        "light": "nordfox.conf"
+        "dark": "${theme.kitty.dark}",
+        "light": "${theme.kitty.light}"
       }
     '';
   };

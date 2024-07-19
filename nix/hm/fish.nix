@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  theme,
+  ...
+}: {
   home.sessionVariables = {
     _ZO_ECHO = 1;
     _ZO_EXCLUDE_DIRS = "$HOME:$HOME/private/*:/usr/*:$HOME/Library/*:$HOME/.local/*";
@@ -104,6 +108,7 @@
   programs.fish.shellInit = ''
     set -g fish_prompt_pwd_dir_length 20
     set -x GPG_TTY (tty)
+    set -x DARKMODE dark
     set -g __fish_ls_command ${pkgs.eza}/bin/eza
     if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]
       fenv source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
@@ -128,9 +133,9 @@
     set fish_cursor_insert underscore blink
 
     if test "$DARKMODE" = "dark"
-        fish_config theme choose "nord"
+        fish_config theme choose "${theme.fish.dark}"
     else
-        fish_config theme choose "nord"
+        fish_config theme choose "${theme.fish.light}"
     end
 
     fish_add_path $HOME/.nimble/bin

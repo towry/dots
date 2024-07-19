@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  theme,
   ...
 }: let
   enable_delta = true;
@@ -184,7 +185,7 @@ in {
         };
         # allow easy copy
         keep-plus-minus-markers = false;
-        syntax-theme = "Nord";
+        syntax-theme = "${theme.delta.dark}";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
         line-numbers = true;

@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  theme,
   ...
 }: {
   home.sessionVariables = {
@@ -93,8 +94,19 @@
     yazi.enable = true;
     bottom.enable = true;
     bat = {
+      package = pkgs.writeShellScriptBin "bat" ''
+        if [[ "$1" == "cache" ]]; then
+          command ${pkgs.bat}/bin/bat "$@"
+          exit 0
+        fi
+        if [[ "$DARKMODE" == "dark" ]]; then
+          command ${pkgs.bat}/bin/bat --theme ${theme.bat.dark} "$@"
+        else
+          command ${pkgs.bat}/bin/bat --theme ${theme.bat.light} "$@"
+        fi
+      '';
       enable = true;
-      config.theme = "Nord";
+      config.theme = "${theme.bat.dark}";
     };
     jq.enable = true;
     ripgrep.enable = true;

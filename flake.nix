@@ -28,7 +28,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
     home-manager,
     ...
   } @ inputs: let
@@ -36,7 +35,7 @@
     forAllSystems = nixpkgs.lib.genAttrs [
       "x86_64-darwin"
     ];
-    defaultOverlay = final: prev: {
+    defaultOverlay = _: prev: {
       zig = inputs.zig.packages.${prev.system}."0.13.0";
       zls = inputs.zls.packages.${prev.system}.zls;
       zellij = inputs.zellij.packages.${prev.system}.default;
@@ -63,6 +62,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
+            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
           };
           pkgs = pkgs;
           modules = [./nix/home.nix];
