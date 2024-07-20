@@ -10,12 +10,12 @@
       dark = "kanagawa_dragon";
     };
     bat = {
+      light = "kanagawa-light";
       dark = "kanagawa-dragon";
-      light = "kanagawa-dragon";
     };
     delta = {
+      light = "kanagawa-light";
       dark = "kanagawa-dragon";
-      light = "kanagawa-dragon";
     };
   };
 }
