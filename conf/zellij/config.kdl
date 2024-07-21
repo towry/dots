@@ -155,7 +155,7 @@ keybinds clear-defaults=true {
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
     }
     shared_except "tmux" "locked" {
-        bind "Ctrl ;" { SwitchToMode "Tmux"; }
+        bind "Ctrl z" { SwitchToMode "Tmux"; }
         // super key mapping
         bind "Super [" { GoToPreviousTab; }
         bind "Super ]" { GoToNextTab; }

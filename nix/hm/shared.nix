@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  theme,
   ...
 }: {
   home.sessionVariables = {
@@ -40,6 +41,8 @@
   };
   home.file = {
     ".config/bat/themes/kanagawa-dragon.tmTheme".source = ../../conf/kanagawa-dragon.tmTheme;
+    ".config/bat/themes/kanagawa-light.tmTheme".source = ../../conf/kanagawa-light.tmTheme;
+    ".config/bat/themes/nightfox.tmTheme".source = ../../conf/nightfox.tmTheme;
     ".ignore".source = ../../conf/.ignore;
     ".ripgreprc".source = ../../conf/.ripgreprc;
   };
@@ -61,6 +64,8 @@
         if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
           . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
         fi
+
+        export PATH="$HOME/.nimble/bin:$PATH"
       '';
     };
     atuin = {
@@ -90,8 +95,19 @@
     yazi.enable = true;
     bottom.enable = true;
     bat = {
+      package = pkgs.writeShellScriptBin "bat" ''
+        if [[ "$1" == "cache" ]]; then
+          command ${pkgs.bat}/bin/bat "$@"
+          exit 0
+        fi
+        if [[ "$DARKMODE" == "dark" ]]; then
+          command ${pkgs.bat}/bin/bat --theme ${theme.bat.dark} "$@"
+        else
+          command ${pkgs.bat}/bin/bat --theme ${theme.bat.light} "$@"
+        fi
+      '';
       enable = true;
-      config.theme = "kanagawa-dragon";
+      config.theme = "${theme.bat.dark}";
     };
     jq.enable = true;
     ripgrep.enable = true;

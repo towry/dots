@@ -2,14 +2,14 @@
   description = "Towry de dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs?ref=24.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=24.05";
     zellij = {
       url = "github:towry/nix-flakes?dir=zellij";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.05";
       # sets the home-manager's inputs of nixpkgs to be same as top-level(this one).
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -17,11 +17,11 @@
     zls.url = "github:zigtools/zls?ref=refs/tags/0.13.0";
     gitu = {
       url = "github:pze/gitu?ref=master";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     fenix = {
       url = "github:nix-community/fenix/monthly";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -35,7 +35,7 @@
     forAllSystems = nixpkgs.lib.genAttrs [
       "x86_64-darwin"
     ];
-    defaultOverlay = final: prev: {
+    defaultOverlay = _: prev: {
       zig = inputs.zig.packages.${prev.system}."0.13.0";
       zls = inputs.zls.packages.${prev.system}.zls;
       zellij = inputs.zellij.packages.${prev.system}.default;
@@ -62,6 +62,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
+            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
           };
           pkgs = pkgs;
           modules = [./nix/home.nix];

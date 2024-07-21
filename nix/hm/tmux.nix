@@ -134,7 +134,7 @@ in {
       # Start index of window/pane with 1, because we're humans, not computers
       # ====================================
       # ============ key bindings
-      bind c new-window -ca "#{pane_current_path}"
+      bind c new-window -c "#{pane_current_path}"
       bind r command-prompt -I "#{window_name}" "rename-window '%%'"
       bind R command-prompt -I "#{session_name}" "rename-session '%%'"
       bind C-n command-prompt -p "Enter session:" "new-session -A -s '%%'"
@@ -178,21 +178,16 @@ in {
       bind -r C-l select-pane -RZ
       bind -n M-0 select-pane -lZ
 
-      bind-key -n M-h if-shell "$is_vim" 'send-keys M-h' 'resize-pane -L 3'
-      bind-key -n M-j if-shell "$is_vim" 'send-keys M-j' 'resize-pane -D 3'
-      bind-key -n M-k if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 3'
-      bind-key -n M-l if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 4'
-
-      bind -r K resize-pane -U 5
-      bind -r L resize-pane -R 5
-      bind -r H resize-pane -L 5
-      bind -r J resize-pane -D 5
+      bind-key -n M-h if-shell "$is_vim" 'send-keys M-h' 'resize-pane -L 15'
+      bind-key -n M-j if-shell "$is_vim" 'send-keys M-j' 'resize-pane -D 15'
+      bind-key -n M-k if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 15'
+      bind-key -n M-l if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 15'
 
       bind C-g popup -E -w 80% -h 60% "${pkgs.bash}/bin/bash ${tmuxdot}/nix-bin/commands.sh"
 
+      bind z resize-pane -x 50% -y 50%
       ## Zoom pane
-      bind z resize-pane -Z
-      # strange <C-b><C-z> causing blank window, so we map it to resize-pane
+      # strange <prefix><C-z> causing blank window, so we map it to resize-pane
       bind C-z resize-pane -Z
       # bind F2 to root table
       bind -T root F2 resize-pane -Z
@@ -294,8 +289,8 @@ in {
       set -g status-left "#[fg=black,bg=blue,bold] #S #[fg=blue,bg=black,nobold,noitalics,nounderscore]"
       set -g status-right "#{prefix_highlight}#[fg=brightblack,bg=black,nobold,noitalics,nounderscore]#[fg=white,bg=brightblack]#[fg=white,bg=brightblack] %H:%M #[fg=cyan,bg=brightblack,nobold,noitalics,nounderscore]#[fg=black,bg=cyan,bold] #h "
       #+--- Windows ---+
-      set -g window-status-format "#[fg=black,bg=brightblack,nobold,noitalics,nounderscore] #[fg=white,bg=brightblack]#I #[fg=white,bg=brightblack,nobold,noitalics,nounderscore] #[fg=white,bg=brightblack]#W #F #[fg=brightblack,bg=black,nobold,noitalics,nounderscore]"
-      set -g window-status-current-format "#[fg=black,bg=cyan,nobold,noitalics,nounderscore] #[fg=black,bg=cyan]#I #[fg=black,bg=cyan,nobold,noitalics,nounderscore] #[fg=black,bg=cyan]#W #F #[fg=cyan,bg=black,nobold,noitalics,nounderscore]"
+      set -g window-status-format "#[fg=black,bg=brightblack,nobold,noitalics,nounderscore] #[fg=white,bg=brightblack]#I #[fg=white,bg=brightblack,nobold,noitalics,nounderscore] #[fg=white,bg=brightblack]#W#{?window_flags, #{window_flags},}#{?pane_current_command, #{pane_current_command},} #[fg=brightblack,bg=black,nobold,noitalics,nounderscore]"
+      set -g window-status-current-format "#[fg=black,bg=cyan,nobold,noitalics,nounderscore] #[fg=black,bg=cyan]#I #[fg=black,bg=cyan,nobold,noitalics,nounderscore] #[fg=black,bg=cyan]#W#{?window_flags, #{window_flags},}#{?pane_current_command, #{pane_current_command},} #[fg=cyan,bg=black,nobold,noitalics,nounderscore]"
       set -g window-status-separator ""
 
       set -g @prefix_highlight_fg black

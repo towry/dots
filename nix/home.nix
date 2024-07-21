@@ -8,14 +8,13 @@
   locals.packages = with pkgs;
     [
       # compile to bash
-      amber-lang
+      # amber-lang
       # obsidian
       ## Nix
       cachix
       # nix formatter
       alejandra
       nix-health
-      gitu
       # git-fuzzy
       zig
       zls
@@ -59,6 +58,7 @@ in {
     };
   };
   home = {
+    enableNixpkgsReleaseCheck = false;
     # https://github.com/nix-community/home-manager/blob/e3ad5108f54177e6520535768ddbf1e6af54b59d/modules/home-environment.nix#L184
     # Home Manager needs a bit of information about you and the paths it should
     # manage.

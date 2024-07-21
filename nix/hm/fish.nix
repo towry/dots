@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  theme,
+  ...
+}: {
   home.sessionVariables = {
     _ZO_ECHO = 1;
     _ZO_EXCLUDE_DIRS = "$HOME:$HOME/private/*:/usr/*:$HOME/Library/*:$HOME/.local/*";
@@ -8,6 +12,7 @@
   };
   programs = {
     carapace.enableFishIntegration = true;
+    kitty.shellIntegration.enableFishIntegration = true;
     fish = {
       enable = true;
       plugins = [
@@ -55,6 +60,8 @@
     split-pane = "wezterm cli split-pane";
     cls = "clear";
     vi = "nvim";
+    # temporary for lazy branch dev
+    astro = "NVIM_APPNAME=astro nvim";
     q = "exit";
     qq = "exit && exit && exit";
     gcd = "cd-gitroot";
@@ -95,11 +102,13 @@
     tmuxin = "tmux new-session -A -s 0";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
     random-name = "uclanr";
+    tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
   };
 
   programs.fish.shellInit = ''
     set -g fish_prompt_pwd_dir_length 20
     set -x GPG_TTY (tty)
+    set -x DARKMODE dark
     set -g __fish_ls_command ${pkgs.eza}/bin/eza
     if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]
       fenv source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
@@ -124,11 +133,14 @@
     set fish_cursor_insert underscore blink
 
     if test "$DARKMODE" = "dark"
-        fish_config theme choose "kanagawa_dragon"
+        fish_config theme choose "${theme.fish.dark}"
     else
-        fish_config theme choose "kanagawa_light"
+        fish_config theme choose "${theme.fish.light}"
     end
-    # fish_config theme choose "kanagawa_dragon"
+
+    fish_add_path $HOME/.nimble/bin
+    fish_add_path $HOME/.local/usrbin
+    fish_add_path $HOME/.cargo/bin
   '';
 
   programs.fish.functions = {
@@ -520,7 +532,7 @@
       body = ''
         set -l log_line_to_hash "echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
         set -l view_commit "$log_line_to_hash | xargs -I % sh -c 'git show --color=always % | less -R'"
-        set -l copy_commit_hash "$log_line_to_hash | xclip"
+        set -l copy_commit_hash "$log_line_to_hash | pbcopy"
         set -l git_checkout "$log_line_to_hash | xargs -I % sh -c 'git checkout %'"
         set -l view_commit_files "$log_line_to_hash | xargs -I % sh -c 'git diff-tree --no-commit-id --name-only % -r' | fzf | xargs -I % sh -c 'cd \"$(git rev-parse --show-toplevel)\" ; $EDITOR %' sh"
         set -l open_cmd "open"

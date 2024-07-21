@@ -1,11 +1,15 @@
 {
   pkgs,
   lib,
+  theme,
   ...
 }: let
   enable_delta = true;
 in {
   home.packages = with pkgs; [
+    # github cli, manage repo, gists etc.
+    gh
+    # gitu
   ];
   programs.git = {
     enable = true;
@@ -19,15 +23,10 @@ in {
       ad = "add";
       ada = "add -A";
       sw = "switch";
+      # apply patch with commit text only (no commitee info)
+      apply-diff-patch = "apply --allow-empty";
       ca = "commit --amend --no-edit";
       ci = "!f() { echo 'please use it-<type> aliases' }; f";
-      wip = ''
-        !sh -c 'if [[ "$(git log -1 --pretty=%B)" != "[WIP]:"* ]]; then \
-                       git commit -m "wip: $(date)"; \
-                   else \
-                       git commit --amend -m "wip: $(date)"; \
-                   fi'
-      '';
       st = "status";
       add-note = ''branch --edit-description'';
       note = ''!git config --get branch.$(git rev-parse --abbrev-ref HEAD).description'';
@@ -59,6 +58,8 @@ in {
       wcl = "whatchanged -3";
       cat = "cat-file -p";
       undo = "reset --soft";
+      fixup = "commit --fixup";
+      autofixup = "!git commit --fixup $1 && git rebase -i --autosquash --rebase-merges $1~1";
       reset-remote = "!git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)";
       unstage = "restore --staged";
       changed-files = "!sh -c 'default_branch=master; if git rev-parse --verify master >/dev/null 2>/dev/null; then default_branch=master; elif git rev-parse --verify main >/dev/null 2>/dev/null; then default_branch=main; else echo \"Neither master nor main branches found.\"; exit 1; fi; git fetch origin $default_branch >/dev/null 2>&1; git diff --name-only origin/$default_branch...'";
@@ -81,6 +82,9 @@ in {
       rbk = "rebase --skip";
       rbc = "rebase --continue";
       rba = "rebase --abort";
+      rbi = "rebase -i";
+      # autosquash previous fixup! commits
+      rbs = "rebase -i --autosquash";
       "re3" = "rerere";
       latest-tag = "describe --tags";
       alias = "! git config --get-regexp '^alias\\.' | sed 's/^alias\\.//' | fzf";
@@ -88,7 +92,7 @@ in {
       config-fetch-origin = ''config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'';
       ahead = "rev-list --left-right --count";
       # commit convention
-      it-wip = ''!f() { git commit -m "wip: <😎> $([[ -z $@ ]] && date || echo $@ )"; }; f'';
+      it-wip = ''!f() { git commit -m "wip: <😎>[skip ci] $([[ -z $@ ]] && date || echo $@ )"; }; f'';
       it-fix = ''!f() { git commit -m "fix: <🐞> $(echo $@)"; }; f'';
       it-fmt = ''!f() { git commit -m "style: <🎨> $(echo $@)"; }; f'';
       it-test = ''!f() { git commit -m "test: <🐛> $(echo $@)"; }; f'';
@@ -181,7 +185,7 @@ in {
         };
         # allow easy copy
         keep-plus-minus-markers = false;
-        syntax-theme = "kanagawa-dragon";
+        syntax-theme = "${theme.delta.dark}";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
         line-numbers = true;
