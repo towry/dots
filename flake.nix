@@ -62,7 +62,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
-            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
+            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "nord";};
           };
           pkgs = pkgs;
           modules = [./nix/home.nix];

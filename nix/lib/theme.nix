@@ -18,5 +18,23 @@
       dark = "kanagawa-dragon";
     };
   };
+  nord = {
+    kitty = {
+      light = "kanagawa_light.conf";
+      dark = "nord.conf";
+    };
+    fish = {
+      light = "kanagawa_light";
+      dark = "nord";
+    };
+    bat = {
+      light = "kanagawa-light";
+      dark = "Nord";
+    };
+    delta = {
+      light = "kanagawa-light";
+      dark = "Nord";
+    };
+  };
 }
 .${theme}
