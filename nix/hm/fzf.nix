@@ -28,7 +28,7 @@ in {
       "--reverse"
       "--no-hscroll"
       "--preview-window=sharp"
-      # "--preview-window=border-left"
+      # "--preview-window=right,border-left,<60(bottom,30%,border-top)"
       # this keybind should match the telescope ones in nvim config
       ''--bind="ctrl-u:unix-line-discard+top,tab:down,shift-tab:up,ctrl-d:preview-down,ctrl-f:preview-up"''
     ];

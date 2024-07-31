@@ -9,6 +9,7 @@ in {
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
+    git-smash
     # gitu
   ];
   programs.git = {
@@ -58,6 +59,8 @@ in {
       wcl = "whatchanged -3";
       cat = "cat-file -p";
       undo = "reset --soft";
+      sm = "!git-smash";
+      sn = "!git-smash --no-rebase";
       fixup = "commit --fixup";
       autofixup = "!git commit --fixup $1 && git rebase -i --autosquash --rebase-merges $1~1";
       reset-remote = "!git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)";
@@ -84,7 +87,8 @@ in {
       rba = "rebase --abort";
       rbi = "rebase -i";
       # autosquash previous fixup! commits
-      rbs = "rebase -i --autosquash";
+      rbs = "rebase -i --autosquash --autostash";
+      close-fixup = "rebase -i --autosquash --autostash";
       "re3" = "rerere";
       latest-tag = "describe --tags";
       alias = "! git config --get-regexp '^alias\\.' | sed 's/^alias\\.//' | fzf";
