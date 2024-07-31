@@ -28,6 +28,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     ...
   } @ inputs: let
@@ -48,6 +49,9 @@
         overlay =
           import ./nix/overlay.nix {
           };
+        pkgs-unstable = import nixpkgs-unstable {
+          inherit system;
+        };
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
@@ -62,6 +66,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
+            pkgs-unstable = pkgs-unstable;
             theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "nord";};
           };
           pkgs = pkgs;

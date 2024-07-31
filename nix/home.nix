@@ -2,13 +2,14 @@
 {
   # config,
   pkgs,
+  pkgs-unstable,
   lib,
   ...
 }: let
   locals.packages = with pkgs;
     [
       # compile to bash
-      # amber-lang
+      # pkgs-unstable.amber-lang
       # obsidian
       ## Nix
       cachix

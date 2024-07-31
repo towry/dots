@@ -1,6 +1,7 @@
 {
   pkgs,
   system,
+  lib,
   ...
 }: let
   rustlib = pkgs.callPackage ../lib/rust.nix {inherit system;};
@@ -9,6 +10,7 @@
     combine [
       stable.cargo
       stable.rustc
+      stable.rust-src
       stable.rustfmt
       stable.clippy
       targets.${rustTarget}.stable.rust-std
@@ -23,6 +25,8 @@ in {
       # background check
       pkgs.bacon
       pkgs.taplo
+      # rust build deps
+      pkgs.libiconv
     ];
     file.".cargo/config.toml".text = ''
       [build]
@@ -31,5 +35,9 @@ in {
       git-fetch-with-cli = true
       retry = 4
     '';
+    sessionVariables = {
+      LIBRARY_PATH = ''${lib.makeLibraryPath [pkgs.libiconv]}''${LIBRARY_PATH:+:$LIBRARY_PATH}'';
+      RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
+    };
   };
 }
