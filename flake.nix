@@ -8,6 +8,10 @@
       url = "github:towry/nix-flakes?dir=zellij";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    git-smash = {
+      url = "github:towry/nix-flakes?dir=git-smash";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       # sets the home-manager's inputs of nixpkgs to be same as top-level(this one).
@@ -28,6 +32,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     ...
   } @ inputs: let
@@ -39,6 +44,7 @@
       zig = inputs.zig.packages.${prev.system}."0.13.0";
       zls = inputs.zls.packages.${prev.system}.zls;
       zellij = inputs.zellij.packages.${prev.system}.default;
+      git-smash = inputs.git-smash.packages.${prev.system}.default;
       gitu = inputs.gitu.packages.${prev.system}.default;
     };
   in {
@@ -48,6 +54,9 @@
         overlay =
           import ./nix/overlay.nix {
           };
+        pkgs-unstable = import nixpkgs-unstable {
+          inherit system;
+        };
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
@@ -62,6 +71,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
+            pkgs-unstable = pkgs-unstable;
             theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
           };
           pkgs = pkgs;

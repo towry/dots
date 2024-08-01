@@ -51,6 +51,7 @@
 
   # aliases
   programs.fish.shellAliases = {
+    cd-home = "cd $HOME/workspace";
     run-firefox-debugger =
       if pkgs.stdenv.isDarwin
       then "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
