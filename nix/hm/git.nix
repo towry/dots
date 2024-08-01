@@ -87,8 +87,7 @@ in {
       rba = "rebase --abort";
       rbi = "rebase -i";
       # autosquash previous fixup! commits
-      rbs = "rebase -i --autosquash --autostash";
-      close-fixup = "rebase -i --autosquash --autostash";
+      close-fixup = "!git rebase -i --autosquash --autostash";
       "re3" = "rerere";
       latest-tag = "describe --tags";
       alias = "! git config --get-regexp '^alias\\.' | sed 's/^alias\\.//' | fzf";
