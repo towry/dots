@@ -137,6 +137,10 @@ in {
         autosquash = true;
         autoStash = true;
       };
+      fetch = {
+        prune = true;
+        pruneTags = true;
+      };
       pull = {
         rebase = true;
         ff = ''only'';
