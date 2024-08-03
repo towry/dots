@@ -42,6 +42,7 @@
   home.file = {
     ".config/bat/themes/kanagawa-dragon.tmTheme".source = ../../conf/kanagawa-dragon.tmTheme;
     ".config/bat/themes/kanagawa-light.tmTheme".source = ../../conf/kanagawa-light.tmTheme;
+    ".config/bat/themes/kanagawa.tmTheme".source = ../../conf/kanagawa.tmTheme;
     ".config/bat/themes/nightfox.tmTheme".source = ../../conf/nightfox.tmTheme;
     ".ignore".source = ../../conf/.ignore;
     ".ripgreprc".source = ../../conf/.ripgreprc;
