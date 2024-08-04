@@ -275,7 +275,7 @@ in {
       ## UI
       set -g pane-border-status top
       set -g status-interval 1
-      set -g status on
+      set -g status off
       set -g status-left-length 100
       set-window-option -g status-position top
       set -g message-style fg=red,bg=default,underscore

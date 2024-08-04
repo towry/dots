@@ -23,6 +23,9 @@
     just
     watchexec
     ocaml
+    dune_3
+    opam
+    ocamlPackages.ocaml-lsp
   ];
   xdg.configFile = {
     tig = {
