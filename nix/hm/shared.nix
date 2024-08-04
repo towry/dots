@@ -22,6 +22,7 @@
     wget
     just
     watchexec
+    ocaml
   ];
   xdg.configFile = {
     tig = {
