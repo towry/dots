@@ -100,7 +100,7 @@
     kittyconf = "nvim ~/.config/kitty/kitty.conf";
     # yabaiconf="nvim ~/.config/yabai/yabairc";
     skhdconf = "nvim ~/.config/skhd/skhdrc";
-    tmuxin = "tmux new-session -A -s 0";
+    tmuxin = "tmux new-session -A -s Main";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
     random-name = "uclanr";
     tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
