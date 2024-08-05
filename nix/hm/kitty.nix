@@ -13,7 +13,7 @@
     "super+/" = "launch_silent ${tmux} split-window -l 25% -h -c #{pane_current_path}";
     "super+z" = "launch_silent ${tmux} select-window -l";
     # "super+w" = "launch_silent ${tmux} last-pane";
-    "super+w" = "launch_silent ${tmux} choose-tree -Zw -O time";
+    "super+w" = "launch_silent ${tmux} choose-tree -Zw -O index";
     "super+[" = "launch_silent ${tmux} select-window -p";
     "super+]" = "launch_silent ${tmux} select-window -n";
     "super+1" = "launch_silent ${tmux} select-window -t:1";

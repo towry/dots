@@ -275,9 +275,9 @@ in {
       ## UI
       set -g pane-border-status off
       set -g status-interval 1
-      set -g status off
+      set -g status on
       set -g status-left-length 100
-      set-window-option -g status-position top
+      set-window-option -g status-position bottom
       set -g message-style fg=red,bg=default,underscore
       set -g message-command-style fg=red,bg=default
       set -g status-style bg=black,fg=white
@@ -286,15 +286,12 @@ in {
       set -g display-panes-colour black
       set -g display-panes-active-colour cyan
       #+--- Bars ---+
-      set -g status-left "#[fg=black,bg=blue,bold] #S #[fg=blue,bg=black,nobold,noitalics,nounderscore]"
-      set -g status-right "#{prefix_highlight}#[fg=brightblack,bg=black,nobold,noitalics,nounderscore]#[fg=white,bg=brightblack]#[fg=white,bg=brightblack] %H:%M #[fg=cyan,bg=brightblack,nobold,noitalics,nounderscore]#[fg=black,bg=cyan,bold] #h "
+      set -g status-left "#[fg=black,bg=colour8,bold] #S 🮕"
+      set -g status-right "#[bold] %H:%M #h "
       #+--- Windows ---+
-      set -g window-status-format "#[fg=black,bg=brightblack,nobold,noitalics,nounderscore] #[fg=white,bg=brightblack]#I #[fg=white,bg=brightblack,nobold,noitalics,nounderscore] #[fg=white,bg=brightblack]#W#{?window_flags, #{window_flags},}#{?pane_current_command, #{pane_current_command},} #[fg=brightblack,bg=black,nobold,noitalics,nounderscore]"
-      set -g window-status-current-format "#[fg=black,bg=cyan,nobold,noitalics,nounderscore] #[fg=black,bg=cyan]#I #[fg=black,bg=cyan,nobold,noitalics,nounderscore] #[fg=black,bg=cyan]#W#{?window_flags, #{window_flags},}#{?pane_current_command, #{pane_current_command},} #[fg=cyan,bg=black,nobold,noitalics,nounderscore]"
-      set -g window-status-separator ""
-
-      set -g @prefix_highlight_fg black
-      set -g @prefix_highlight_bg brightcyan
+      set -g window-status-format "#[fg=white,bg=colour8,bold] #I#{?pane_current_command,:#{pane_current_command},} "
+      set -g window-status-current-format "#[fg=black,bg=blue,bold] #I#{?pane_current_command,:#{pane_current_command},} "
+      set -g window-status-separator "🮘"
       # ========== End UI
     '';
   };
