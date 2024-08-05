@@ -25,6 +25,8 @@
     ocaml
     dune_3
     opam
+    ocamlPackages.ocamlformat
+    ocamlPackages.utop
     ocamlPackages.ocaml-lsp
   ];
   xdg.configFile = {
