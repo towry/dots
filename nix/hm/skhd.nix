@@ -65,7 +65,7 @@
       ctrl+shift+alt - d ; mode_display
 
       ## ==== some applications
-      cmd - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "Firefox" "/Applications/Firefox.app/Contents/MacOS/Firefox"
+      cmd - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "Brave Browser"
       cmd + shift - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "kitty" "${pkgs.kitty}/bin/kitty"
 
       ## ==============  manage windows
@@ -208,7 +208,7 @@
        let wid=$(yabai -m query --windows | jq "[.[] | select(.app == \"$1\") | .id][0]")
        echo "$wid"
 
-       if [[ "$wid" -eq "0" ]]; then
+       if [[ "$wid" -eq "0" ]] && [[ "$2" != ""]]; then
       $2
        else
       yabai -m window --focus "$wid"
