@@ -42,20 +42,20 @@
   };
   modus = {
     kitty = {
-      light = "modus_dark.conf";
-      dark = "modus_light.conf";
+      dark = "modus_dark.conf";
+      light = "modus_light.conf";
     };
     fish = {
-      light = "modus_dark";
-      dark = "modus_light";
+      dark = "modus_dark";
+      light = "modus_light";
     };
     bat = {
-      light = "modus_dark";
-      dark = "modus_light";
+      dark = "modus_dark";
+      light = "modus_light";
     };
     delta = {
-      light = "modus_dark";
-      dark = "modus_light";
+      dark = "modus_dark";
+      light = "modus_light";
     };
   };
 }
