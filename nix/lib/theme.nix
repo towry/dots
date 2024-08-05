@@ -40,5 +40,23 @@
       dark = "Nord";
     };
   };
+  modus = {
+    kitty = {
+      light = "modus_dark.conf";
+      dark = "modus_light.conf";
+    };
+    fish = {
+      light = "modus_dark";
+      dark = "modus_light";
+    };
+    bat = {
+      light = "modus_dark";
+      dark = "modus_light";
+    };
+    delta = {
+      light = "modus_dark";
+      dark = "modus_light";
+    };
+  };
 }
 .${theme}
