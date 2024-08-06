@@ -40,6 +40,24 @@
       dark = "Nord";
     };
   };
+  nightfox = {
+    kitty = {
+      light = "kanagawa_light.conf";
+      dark = "nightfox.conf";
+    };
+    fish = {
+      light = "kanagawa_light";
+      dark = "nightfox";
+    };
+    bat = {
+      light = "kanagawa-light";
+      dark = "nightfox";
+    };
+    delta = {
+      light = "kanagawa-light";
+      dark = "nightfox";
+    };
+  };
   modus = {
     kitty = {
       dark = "modus_dark.conf";

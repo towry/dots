@@ -281,7 +281,7 @@ in {
       set-window-option -g status-position bottom
       set -g message-style fg=black,bg=blue
       set -g message-command-style fg=black,bg=blue
-      set -g status-style bg=blue,fg=black
+      set -g status-style bg=default,fg=yellow
       set -g pane-border-style bg=default,fg=yellow
       set -g pane-active-border-style bg=default,fg=blue
       set -g display-panes-colour black
@@ -290,9 +290,9 @@ in {
       set -g status-left "#[bold] #{server_sessions}-#S "
       set -g status-right "#[bold] %H:%M #h "
       #+--- Windows ---+
-      set -g window-status-format "#[bold]#I#{?window_end_flag, ,}"
-      set -g window-status-current-format "#[fg=orange,bold]#I#{?window_zoomed_flag,##z,}#{?window_end_flag, ,}"
-      set -g window-status-separator "#[fg=black]│"
+      set -g window-status-format "#I#{?window_end_flag, ,}"
+      set -g window-status-current-format "#[fg=blue,bold]#I#{?window_zoomed_flag,##z,}#{?window_end_flag, ,}"
+      set -g window-status-separator "#[fg=colour8]│"
       # ========== End UI
     '';
   };
