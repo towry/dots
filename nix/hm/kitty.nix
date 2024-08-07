@@ -92,7 +92,7 @@ in {
       disable_ligatures = "cursor";
       clear_all_shortcuts = "yes";
       macos_option_as_alt = "both";
-      hide_window_decorations = "titlebar-and-corners";
+      hide_window_decorations = "titlebar-only";
       notify_on_cmd_finish = "unfocused";
     };
     keybindings =
