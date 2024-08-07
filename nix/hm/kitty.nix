@@ -82,7 +82,7 @@ in {
       # tab_bar_style = "slant";
       tab_bar_style = "hidden";
       tab_bar_edge = "top-left";
-      window_padding_width = "0 6";
+      window_padding_width = "4 8 0 8";
       confirm_os_window_close = 1;
       remember_window_size = "yes";
       placement_strategy = "center";

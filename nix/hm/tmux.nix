@@ -288,7 +288,7 @@ in {
       set -g display-panes-active-colour cyan
       #+--- Bars ---+
       set -g status-left "#[bold] #{server_sessions}-#S "
-      set -g status-right "#[bold] %H:%M #h "
+      set -g status-right "#[bold] #h "
       #+--- Windows ---+
       set -g window-status-format "#I#{?window_end_flag, ,}"
       set -g window-status-current-format "#[fg=blue,bold]#I#{?window_zoomed_flag,##z,}#{?window_end_flag, ,}"
