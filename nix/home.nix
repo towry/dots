@@ -2,7 +2,7 @@
 {
   # config,
   pkgs,
-  pkgs-unstable,
+  # pkgs-unstable,
   lib,
   ...
 }: let
@@ -15,6 +15,7 @@
       cachix
       # nix formatter
       alejandra
+      nixd
       nix-health
       # git-fuzzy
       zig

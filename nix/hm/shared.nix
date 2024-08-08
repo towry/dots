@@ -22,6 +22,12 @@
     wget
     just
     watchexec
+    ocaml
+    dune_3
+    opam
+    ocamlPackages.ocamlformat
+    ocamlPackages.utop
+    ocamlPackages.ocaml-lsp
   ];
   xdg.configFile = {
     tig = {
@@ -40,9 +46,10 @@
     };
   };
   home.file = {
-    ".config/bat/themes/kanagawa-dragon.tmTheme".source = ../../conf/kanagawa-dragon.tmTheme;
-    ".config/bat/themes/kanagawa-light.tmTheme".source = ../../conf/kanagawa-light.tmTheme;
-    ".config/bat/themes/nightfox.tmTheme".source = ../../conf/nightfox.tmTheme;
+    ".config/bat/themes/" = {
+      source = ../../conf/bat/themes;
+      recursive = true;
+    };
     ".ignore".source = ../../conf/.ignore;
     ".ripgreprc".source = ../../conf/.ripgreprc;
   };

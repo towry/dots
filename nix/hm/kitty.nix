@@ -12,7 +12,8 @@
     # don't know why, but the slash not working in some keyboard or old kitty version?
     "super+/" = "launch_silent ${tmux} split-window -l 25% -h -c #{pane_current_path}";
     "super+z" = "launch_silent ${tmux} select-window -l";
-    "super+w" = "launch_silent ${tmux} last-pane";
+    # "super+w" = "launch_silent ${tmux} last-pane";
+    "super+w" = "launch_silent ${tmux} choose-tree -Zw -O index";
     "super+[" = "launch_silent ${tmux} select-window -p";
     "super+]" = "launch_silent ${tmux} select-window -n";
     "super+1" = "launch_silent ${tmux} select-window -t:1";
@@ -62,9 +63,9 @@ in {
     };
     font = {
       name = "Berkeley Mono";
+      size = 15;
       # name = "Iosevka";
       # size = 16;
-      size = 15;
     };
     shellIntegration.mode = "no-rc";
     settings = {
@@ -81,7 +82,7 @@ in {
       # tab_bar_style = "slant";
       tab_bar_style = "hidden";
       tab_bar_edge = "top-left";
-      window_padding_width = "0 6";
+      window_padding_width = "4 8 0 8";
       confirm_os_window_close = 1;
       remember_window_size = "yes";
       placement_strategy = "center";
@@ -91,7 +92,7 @@ in {
       disable_ligatures = "cursor";
       clear_all_shortcuts = "yes";
       macos_option_as_alt = "both";
-      hide_window_decorations = "yes";
+      hide_window_decorations = "titlebar-only";
       notify_on_cmd_finish = "unfocused";
     };
     keybindings =
@@ -118,7 +119,7 @@ in {
 
       modify_font underline_thickness 40%
       modify_font underline_position 120%
-      modify_font cell_height +1px
+      modify_font cell_height +0px
       ## ===
       symbol_map U+4E00–U+9FFF LXGW Bright
       symbol_map U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+E00A,U+E0A0-U+E0A2,U+E0A3,U+E0B0-U+E0B3,U+E0B4-U+E0C8,U+E0CA,U+E0CC-U+E0D4,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E6A6,U+E700-U+E7C5,U+EA60-U+EBEB,U+F000-U+F2E0,U+F300-U+F32F,U+F400-U+F532,U+F500-U+FD46,U+F0001-U+F1AF0 JetBrainsMono Nerd Font
