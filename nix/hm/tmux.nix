@@ -273,10 +273,11 @@ in {
 
       # ===============================================
       ## UI
-      set -g pane-border-status off
+      set -g pane-border-status bottom
       set -g status-interval 1
       set -g status on
       set -g status-left-length 100
+      set -g status-right-length 300
       set -g status-justify left
       set-window-option -g status-position bottom
       set -g message-style fg=black,bg=blue
@@ -287,7 +288,7 @@ in {
       set -g display-panes-colour black
       set -g display-panes-active-colour cyan
       #+--- Bars ---+
-      set -g status-left "#[bold] #{server_sessions}-#S "
+      set -g status-left "#[bold] #S "
       set -g status-right "#[bold] #h "
       #+--- Windows ---+
       set -g window-status-format "#I#{?window_end_flag, ,}"
