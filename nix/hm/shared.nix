@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   config,
   lib,
   theme,
@@ -28,6 +29,9 @@
     ocamlPackages.ocamlformat
     ocamlPackages.utop
     ocamlPackages.ocaml-lsp
+    ## elixir
+    pkgs-unstable.elixir-ls
+    pkgs-unstable.elixir
   ];
   xdg.configFile = {
     tig = {
