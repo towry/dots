@@ -16,6 +16,12 @@
       run mkdir -p ${config.home.homeDirectory}/workspace/goenv
     '';
   };
+  # TODO: move to module.
+  programs.fish.shellInit = ''
+    if ! set -q ASDF_DIR
+      set -x ASDF_DIR ${pkgs-unstable.asdf-vm}/share/asdf-vm
+    end
+  '';
   home.packages = with pkgs; [
     pkgs-unstable.asdf-vm
     tig
