@@ -17,6 +17,7 @@
     '';
   };
   home.packages = with pkgs; [
+    pkgs-unstable.asdf-vm
     tig
     python311Packages.pynvim
     neovim-remote
