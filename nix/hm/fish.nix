@@ -230,9 +230,9 @@
         if test -z "$a"
             set a 'origin'
         end
-        echo "git push $a $br"
+        echo "git push -u $a $br"
         sleep 1
-        git push $a $br
+        git push -u $a $br
       '';
       description = "git push util";
     };
