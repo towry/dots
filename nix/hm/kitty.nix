@@ -89,7 +89,7 @@ in {
       url_style = "curly";
       undercurl_style = "thin-sparse";
       cursor_shape = "block";
-      disable_ligatures = "cursor";
+      disable_ligatures = "always";
       clear_all_shortcuts = "yes";
       macos_option_as_alt = "both";
       hide_window_decorations = "titlebar-only";
