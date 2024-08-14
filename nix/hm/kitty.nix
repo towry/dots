@@ -14,6 +14,7 @@
     "super+z" = "launch_silent ${tmux} select-window -l";
     # "super+w" = "launch_silent ${tmux} last-pane";
     "super+w" = "launch_silent ${tmux} choose-tree -Zw -O index";
+    "super+p" = "launch_silent ${tmux} display-panes -d 0";
     "super+[" = "launch_silent ${tmux} select-window -p";
     "super+]" = "launch_silent ${tmux} select-window -n";
     "super+1" = "launch_silent ${tmux} select-window -t:1";
