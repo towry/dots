@@ -36,10 +36,10 @@
     ocamlPackages.ocamlformat
     ocamlPackages.utop
     ocamlPackages.ocaml-lsp
-    ## elixir
-    pkgs-unstable.elixir-ls
-    pkgs-unstable.elixir
   ];
+  home.file = {
+    ".tool-versions".source = ../../conf/asdf/tool-versions;
+  };
   xdg.configFile = {
     tig = {
       enable = true;
