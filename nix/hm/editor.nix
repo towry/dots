@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  pkgs-unstable,
   ...
 }: {
   nixpkgs.overlays = [
@@ -38,7 +39,7 @@
     # jsonls
     vscode-langservers-extracted
     pyright
-    ruff
+    pkgs-unstable.ruff
     (python3.buildEnv.override {
       extraLibs = [
         python3Packages.pynvim
