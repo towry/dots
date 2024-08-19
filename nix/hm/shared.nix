@@ -23,6 +23,7 @@
     end
   '';
   home.packages = with pkgs; [
+    concurrently
     pkgs-unstable.asdf-vm
     tig
     python311Packages.pynvim
