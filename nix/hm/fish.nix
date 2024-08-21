@@ -1,6 +1,7 @@
 {
   pkgs,
   theme,
+  config,
   ...
 }: {
   home.sessionVariables = {
@@ -142,7 +143,9 @@
     fish_add_path $HOME/.nimble/bin
     fish_add_path $HOME/.local/usrbin
     fish_add_path $HOME/.cargo/bin
-  '';
+  '' + (if config.programs.pyenv.enable then ''
+      pyenv virtualenv-init - | source
+    '' else "");
 
   programs.fish.functions = {
     # _prompt_move_to_bottom = {

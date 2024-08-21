@@ -4,9 +4,11 @@
   config,
   lib,
   theme,
+  inputs,
   ...
 }: let
   python3 = import ../lib/python3.nix {inherit pkgs;};
+  pyenv_root = "${config.xdg.dataHome}/pyenv";
 in {
   home.sessionVariables = {
     GOPATH = "$HOME/workspace/goenv";
@@ -43,9 +45,6 @@ in {
       pkgs-unstable.asdf-vm
       python3
     ];
-  home.file = {
-    ".tool-versions".source = ../../conf/asdf/tool-versions;
-  };
   xdg.configFile = {
     tig = {
       enable = true;
@@ -62,14 +61,26 @@ in {
       source = ../../conf/yabai;
     };
   };
-  home.file = {
-    ".config/bat/themes/" = {
-      source = ../../conf/bat/themes;
-      recursive = true;
-    };
-    ".ignore".source = ../../conf/.ignore;
-    ".ripgreprc".source = ../../conf/.ripgreprc;
-  };
+  home.file =
+    {
+      ".tool-versions".source = ../../conf/asdf/tool-versions;
+      ".config/bat/themes/" = {
+        source = ../../conf/bat/themes;
+        recursive = true;
+      };
+      ".ignore".source = ../../conf/.ignore;
+      ".ripgreprc".source = ../../conf/.ripgreprc;
+    }
+    // (
+      if config.programs.pyenv.enable
+      then {
+        "${pyenv_root}/plugins/virtualenv" = {
+          source = inputs.pyenv-virtualenv;
+          recursive = false;
+        };
+      }
+      else {}
+    ); 
   programs = {
     carapace = {
       enable = false;
@@ -83,7 +94,9 @@ in {
         batail() {
           tail -f $@ | ${pkgs.bat}/bin/bat --paging=never -l log
         }
-      '';
+      '' + (if config.programs.pyenv.enable then ''
+          eval "$(pyenv virtualenv-init -)"
+        '' else "");
       bashrcExtra = ''
         if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
           . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
@@ -147,15 +160,17 @@ in {
       };
     };
     pyenv = {
-      enable = false;
-      rootDirectory = "${config.home.homeDirectory}/.pyenv";
+      enable = true;
+      rootDirectory = pyenv_root;
     };
     poetry = {
       # https://python-poetry.org/docs/configuration/
       enable = true;
       settings = {
-        virtualenvs.create = true;
-        virtualenvs.in-project = false;
+        # virtualenvs managed by pyenv
+        # need make sure no local .venv or {cache-dir}/virtualenvs exists
+        virtualenvs.create = false;
+        virtualenvs.in-project = true;
       };
     };
   };

@@ -416,6 +416,22 @@
         "type": "github"
       }
     },
+    "pyenv-virtualenv": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1721597822,
+        "narHash": "sha256-NgtowwE1T5NoiYiL18vdpYumVuPSWoDCOyP2//d+uHk=",
+        "owner": "pyenv",
+        "repo": "pyenv-virtualenv",
+        "rev": "e9b88cc3660ab6719d700544d720a770702c46e9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pyenv",
+        "repo": "pyenv-virtualenv",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "fenix": "fenix",
@@ -424,6 +440,7 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "pyenv-virtualenv": "pyenv-virtualenv",
         "zellij": "zellij",
         "zig": "zig",
         "zls": "zls"
