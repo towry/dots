@@ -163,6 +163,7 @@ in {
     pyenv = {
       enable = true;
       rootDirectory = pyenv_root;
+      package = pkgs-unstable.pyenv;
     };
     poetry = {
       # https://python-poetry.org/docs/configuration/
