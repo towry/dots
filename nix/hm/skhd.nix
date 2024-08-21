@@ -64,10 +64,6 @@
 
       ctrl+shift+alt - d ; mode_display
 
-      ## ==== some applications
-      cmd - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "Brave Browser"
-      cmd + shift - return : ${bash} ${skhdDir}/yabai-focus-or-launch.sh "kitty" "${pkgs.kitty}/bin/kitty"
-
       ## ==============  manage windows
       mode_window < x : yabai -m window --close; skhd -k "escape"
       mode_window < return : yabai -m window --toggle zoom-fullscreen; skhd -k "escape"
