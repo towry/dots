@@ -5,7 +5,9 @@
   lib,
   theme,
   ...
-}: {
+}: let
+  python3 = import ../lib/python3.nix {inherit pkgs;};
+in {
   home.sessionVariables = {
     GOPATH = "$HOME/workspace/goenv";
     HOMEBREW_NO_ANALYTICS = "1";
@@ -22,22 +24,25 @@
       set -x ASDF_DIR ${pkgs-unstable.asdf-vm}/share/asdf-vm
     end
   '';
-  home.packages = with pkgs; [
-    concurrently
-    pkgs-unstable.asdf-vm
-    tig
-    python311Packages.pynvim
-    neovim-remote
-    wget
-    just
-    watchexec
-    ocaml
-    dune_3
-    opam
-    ocamlPackages.ocamlformat
-    ocamlPackages.utop
-    ocamlPackages.ocaml-lsp
-  ];
+  home.packages =
+    (with pkgs; [
+      concurrently
+      tig
+      neovim-remote
+      wget
+      just
+      watchexec
+      ocaml
+      dune_3
+      opam
+      ocamlPackages.ocamlformat
+      ocamlPackages.utop
+      ocamlPackages.ocaml-lsp
+    ])
+    ++ [
+      pkgs-unstable.asdf-vm
+      python3
+    ];
   home.file = {
     ".tool-versions".source = ../../conf/asdf/tool-versions;
   };
@@ -142,7 +147,7 @@
       };
     };
     pyenv = {
-      enable = true;
+      enable = false;
       rootDirectory = "${config.home.homeDirectory}/.pyenv";
     };
     poetry = {
@@ -150,7 +155,7 @@
       enable = true;
       settings = {
         virtualenvs.create = true;
-        virtualenvs.in-project = true;
+        virtualenvs.in-project = false;
       };
     };
   };

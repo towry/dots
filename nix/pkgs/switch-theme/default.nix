@@ -1,9 +1,6 @@
 {pkgs, ...}: let
-  python = pkgs.python3.withPackages (pp:
-    with pp; [
-      pynvim
-    ]);
-in
+  python = import ../../lib/python3.nix { inherit pkgs; };
+  in
   pkgs.writeShellApplication {
     name = "switch-theme";
     runtimeInputs = with pkgs; [coreutils neovim-remote python];
