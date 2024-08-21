@@ -46,11 +46,10 @@ in {
         disabled = true;
       };
       package = {
-        disabled = true;
+        disabled = false;
       };
       python = {
-        disabled = true;
-        format = "[$symbol$version]($style) ";
+        disabled = false;
         style = "bold green";
       };
       rust = {
