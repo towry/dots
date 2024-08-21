@@ -13,6 +13,7 @@ in {
   home.sessionVariables = {
     GOPATH = "$HOME/workspace/goenv";
     HOMEBREW_NO_ANALYTICS = "1";
+    PYENV_ROOT = pyenv_root;
   };
   home.activation = {
     ensureWorkspaceDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
