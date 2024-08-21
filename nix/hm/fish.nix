@@ -83,6 +83,7 @@
     xmerge = "git merge --ff";
     xmerged = "git branch --merged master";
     dot-proxy = "export CURL_NIX_FLAGS='-x http://127.0.0.1:1080' https_proxy=http://127.0.0.1:1080 http_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080";
+    up-karabiner = "jq . ~/.config/karabiner/karabiner.json | sponge ~/.config/karabiner/karabiner.json && gh gist edit 072fd7c32c1fc0b33044d0915885b3b4 -f karabiner.json ~/.config/karabiner/karabiner.json";
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";

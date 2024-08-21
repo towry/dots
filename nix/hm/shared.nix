@@ -29,6 +29,7 @@ in {
   '';
   home.packages =
     (with pkgs; [
+      moreutils
       concurrently
       tig
       neovim-remote
