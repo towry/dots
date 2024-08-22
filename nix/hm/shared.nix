@@ -97,6 +97,8 @@ in {
           tail -f $@ | ${pkgs.bat}/bin/bat --paging=never -l log
         }
       '' + (if config.programs.pyenv.enable then ''
+          export PYENV_ROOT="${pyenv_root}"
+          eval "$(pyenv init -)"
           eval "$(pyenv virtualenv-init -)"
         '' else "");
       bashrcExtra = ''

@@ -145,6 +145,8 @@
     fish_add_path $HOME/.local/usrbin
     fish_add_path $HOME/.cargo/bin
   '' + (if config.programs.pyenv.enable then ''
+      set -Ux PYENV_ROOT "${config.xdg.dataHome}/pyenv"
+      pyenv init - | source
       pyenv virtualenv-init - | source
     '' else "");
 
