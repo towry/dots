@@ -29,8 +29,12 @@ in {
   '';
   home.packages =
     (with pkgs; [
+      # bore-cli
+      # termshark
+      # inetutils
       moreutils
       concurrently
+      overmind
       tig
       neovim-remote
       wget
