@@ -33,6 +33,7 @@ in {
       # termshark
       # inetutils
       moreutils
+      wireguard-tools
       concurrently
       overmind
       tig
@@ -86,7 +87,7 @@ in {
         };
       }
       else {}
-    ); 
+    );
   programs = {
     carapace = {
       enable = false;
