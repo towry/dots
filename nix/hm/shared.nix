@@ -50,6 +50,7 @@ in {
     ])
     ++ [
       pkgs-unstable.asdf-vm
+      pkgs-unstable.docker-credential-helpers
       python3
     ];
   xdg.configFile = {
