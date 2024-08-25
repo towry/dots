@@ -168,6 +168,9 @@ in {
           port = 443;
         };
       };
+      includes = [
+        "config.d/*"
+      ];
     };
     pyenv = {
       enable = true;
