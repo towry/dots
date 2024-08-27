@@ -45,7 +45,7 @@ in {
       fp = "fetch --all -p";
       # fz = "fuzzy";
       ff = "fetch";
-      mg = "merge --no-edit";
+      mg = "merge --no-edit --ff";
       kill-merge = "merge --abort";
       br = "branch";
       br-gone = "!git branch -vv | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*'";
@@ -108,6 +108,7 @@ in {
       it-revert = ''!f() { git commit -m "revert: $(echo $@)"; }; f'';
       it-build = ''!f() { git commit -m "build: $(echo $@)"; }; f'';
       it-ci = ''!f() { git commit -m "ci: $(echo $@)"; }; f'';
+      it-skip = ''!f() { git commit -m "[skip ci]: $(echo $@)"; }; f'';
       it-deps = ''!f() { git commit -m "deps: $(echo $@)"; }; f'';
       it-rm = ''!f() { git commit -m "cleanup: $(echo $@)"; }; f'';
     };
@@ -151,7 +152,6 @@ in {
         autoSetupRemote = true;
       };
       merge = {
-        ff = ''only'';
         tool = "nvimtwoway";
         conflictstyle = "diff3";
         prompt = true;
