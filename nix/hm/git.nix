@@ -45,7 +45,7 @@ in {
       fp = "fetch --all -p";
       # fz = "fuzzy";
       ff = "fetch";
-      mg = "merge --no-ff";
+      mg = "merge --no-edit";
       kill-merge = "merge --abort";
       br = "branch";
       br-gone = "!git branch -vv | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*'";
@@ -147,7 +147,7 @@ in {
         ff = ''only'';
       };
       push = {
-        default = "simple";
+        default = "upstream";
         autoSetupRemote = true;
       };
       merge = {
