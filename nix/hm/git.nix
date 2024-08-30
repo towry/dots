@@ -68,6 +68,7 @@ in {
       unstage = "restore --staged";
       changed-files = "!sh -c 'default_branch=master; if git rev-parse --verify master >/dev/null 2>/dev/null; then default_branch=master; elif git rev-parse --verify main >/dev/null 2>/dev/null; then default_branch=main; else echo \"Neither master nor main branches found.\"; exit 1; fi; git fetch origin $default_branch >/dev/null 2>&1; git diff --name-only origin/$default_branch...'";
       add-remote-branches = "remote set-branches --add";
+      ls-remote-heads = "!git ls-remote -h -q |  awk '{print $2}' | sed 's/refs\\/heads\\///'";
       lg = "log --graph --pretty=format:'%Cred%h%Creset %s %C(white)%ad%Creset %C(yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short";
       lg1 = "log --oneline --date=relative --pretty=format:'%Cred%h%Creset %s %C(white)%ad%Creset %C(yellow)%d%Creset %C(bold blue)<%an>%Creset'";
       lt = "log --oneline --date=relative -n3 --pretty=format:'%Cred%h%Creset %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset - %C(white)%ad%Creset'";
