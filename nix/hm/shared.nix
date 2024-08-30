@@ -13,6 +13,7 @@ in {
   home.sessionVariables = {
     GOPATH = "$HOME/workspace/goenv";
     HOMEBREW_NO_ANALYTICS = "1";
+    HOMEBREW_NO_AUTO_UPDATE = "1";
     PYENV_ROOT = pyenv_root;
   };
   home.activation = {

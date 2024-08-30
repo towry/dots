@@ -148,7 +148,7 @@ in {
         ff = ''only'';
       };
       push = {
-        default = "upstream";
+        default = "current";
         autoSetupRemote = true;
       };
       merge = {
