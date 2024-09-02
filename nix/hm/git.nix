@@ -46,8 +46,9 @@ in {
       # fz = "fuzzy";
       ff = "fetch --no-tags";
       mg = "merge --no-edit --ff";
+      mg-theirs = "merge --no-edit --ff -X theirs";
       kill-merge = "merge --abort";
-      br = "branch";
+      br = "branch --sort=-committerdate";
       br-gone = "!git branch -vv | grep -F ': gone]' | awk '{ print $1 }' | grep -vF '*'";
       br-prune-gone = "!git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D";
       df = "diff";
