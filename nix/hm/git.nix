@@ -162,6 +162,12 @@ in {
         colorMoved = "dimmed-zebra";
         algorithm = "histogram";
         compactionHeuristic = true;
+        guitool = "vscode";
+      };
+      difftool = {
+        vscode = {
+          cmd = ''code --wait --diff $LOCAL $REMOTE'';
+        };
       };
       mergetool = {
         keepBackup = false;
