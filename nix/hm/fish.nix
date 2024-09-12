@@ -22,10 +22,10 @@
           name = "foreign-env";
           inherit (pkgs.fishPlugins.foreign-env) src;
         }
-        {
-          name = "sponge";
-          inherit (pkgs.fishPlugins.sponge) src;
-        }
+        # {
+        #   name = "sponge";
+        #   inherit (pkgs.fishPlugins.sponge) src;
+        # }
         {
           name = "fifc";
           inherit (pkgs.fishPlugins.fifc) src;
