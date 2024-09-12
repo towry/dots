@@ -206,7 +206,7 @@ in {
     direnv.nix-direnv.enable = true;
     # nix-index: query local packages.
     nix-index = {
-      enable = true;
+      enable = false;
       enableZshIntegration = false;
     };
   };
