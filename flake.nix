@@ -27,7 +27,6 @@
       url = "github:nix-community/fenix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pyenv-virtualenv = { url = "github:pyenv/pyenv-virtualenv?ref=e9b88cc"; flake = false; };
   };
 
   outputs = {

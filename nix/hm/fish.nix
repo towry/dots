@@ -1,7 +1,7 @@
 {
   pkgs,
   theme,
-  config,
+  # config,
   ...
 }: {
   home.sessionVariables = {
@@ -10,6 +10,7 @@
     TMUX_AUTO_ATTACH = 0;
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
+    STARSHIP_LOG = "error";
   };
   programs = {
     carapace.enableFishIntegration = true;
@@ -144,11 +145,7 @@
     fish_add_path $HOME/.nimble/bin
     fish_add_path $HOME/.local/usrbin
     fish_add_path $HOME/.cargo/bin
-  '' + (if config.programs.pyenv.enable then ''
-      set -Ux PYENV_ROOT "${config.xdg.dataHome}/pyenv"
-      pyenv init - | source
-      pyenv virtualenv-init - | source
-    '' else "");
+  '';
 
   programs.fish.functions = {
     # _prompt_move_to_bottom = {
@@ -185,9 +182,6 @@
         printf "%s" $folder_name
       '';
     };
-    load-pyenv = ''
-      pyenv init - | source
-    '';
     xbn = {
       body = ''
         git branch | sed -n -e 's/^\* \(.*\)/\1/p'

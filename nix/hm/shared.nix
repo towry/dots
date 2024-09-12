@@ -4,17 +4,15 @@
   config,
   lib,
   theme,
-  inputs,
+  # inputs,
   ...
 }: let
   python3 = import ../lib/python3.nix {inherit pkgs;};
-  pyenv_root = "${config.xdg.dataHome}/pyenv";
 in {
   home.sessionVariables = {
     GOPATH = "$HOME/workspace/goenv";
     HOMEBREW_NO_ANALYTICS = "1";
     HOMEBREW_NO_AUTO_UPDATE = "1";
-    PYENV_ROOT = pyenv_root;
   };
   home.activation = {
     ensureWorkspaceDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -52,6 +50,8 @@ in {
     ++ [
       pkgs-unstable.asdf-vm
       pkgs-unstable.docker-credential-helpers
+      # python
+      pkgs-unstable.uv
       python3
     ];
   xdg.configFile = {
@@ -79,17 +79,7 @@ in {
       };
       ".ignore".source = ../../conf/.ignore;
       ".ripgreprc".source = ../../conf/.ripgreprc;
-    }
-    // (
-      if config.programs.pyenv.enable
-      then {
-        "${pyenv_root}/plugins/virtualenv" = {
-          source = inputs.pyenv-virtualenv;
-          recursive = false;
-        };
-      }
-      else {}
-    );
+    };
   programs = {
     carapace = {
       enable = false;
@@ -103,11 +93,7 @@ in {
         batail() {
           tail -f $@ | ${pkgs.bat}/bin/bat --paging=never -l log
         }
-      '' + (if config.programs.pyenv.enable then ''
-          export PYENV_ROOT="${pyenv_root}"
-          eval "$(pyenv init -)"
-          eval "$(pyenv virtualenv-init -)"
-        '' else "");
+      '';
       bashrcExtra = ''
         if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
           . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
@@ -173,16 +159,10 @@ in {
         "config.d/*"
       ];
     };
-    pyenv = {
-      enable = true;
-      rootDirectory = pyenv_root;
-      package = pkgs-unstable.pyenv;
-    };
     poetry = {
       # https://python-poetry.org/docs/configuration/
       enable = true;
       settings = {
-        # virtualenvs managed by pyenv
         # need make sure no local .venv or {cache-dir}/virtualenvs exists
         virtualenvs.create = false;
         virtualenvs.in-project = true;
