@@ -100,6 +100,8 @@ in {
       # create feat branch in format of feat/YYYYMMDD-short-description, also accept other git arguments
       create-br-feat = "!f() { git checkout -b feat/$(date +%Y%m%d)-$1 $2; }; f";
       create-br-fix = "!f() { git checkout -b fix/$(date +%Y%m%d)-$1 $2; }; f";
+      # sync and rebase, for example: git sync-rebase origin master do: git fetch origin master && git rebase origin/master
+      sync-rebase = "!f() { git fetch $1 $2 && git rebase $1/$2; }; f";
       # commit convention
       it-wip = ''!f() { git commit -m "wip: [skip ci] $([[ -z $@ ]] && date || echo $@ )"; }; f'';
       it-fix = ''!f() { git commit -m "fix: $(echo $@)"; }; f'';
