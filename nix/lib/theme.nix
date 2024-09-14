@@ -22,6 +22,25 @@
       # dark = "kanagawa";
     };
   };
+  monokai = {
+    kitty = {
+      light = "quiet-light.conf";
+      dark = "monokai.conf";
+    };
+    fish = {
+      light = "modus_light";
+      dark = "kanagawa_dragon";
+      # dark = "kanagawa";
+    };
+    bat = {
+      light = "Monokai Extended Light";
+      dark = "Monokai Extended";
+    };
+    delta = {
+      light = "Monokai Extended Light";
+      dark = "Monokai Extended";
+    };
+  };
   nord = {
     kitty = {
       light = "kanagawa_light.conf";

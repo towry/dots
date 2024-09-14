@@ -644,14 +644,17 @@
         if not set -q VIRTUAL_ENV_DISABLE_PROMPT
         set -g VIRTUAL_ENV_DISABLE_PROMPT true
         end
-        set_color yellow
-        printf '%s' $USER
-        set_color normal
         printf ' in '
 
         set_color $fish_color_cwd
         printf '%s' (prompt_pwd)
         set_color normal
+        # git branch
+        if [ (fish_git_prompt) ]
+            set_color yellow
+            printf '[%s]' (fish_git_prompt)
+            set_color normal
+        end
 
         # Line 2
         echo
