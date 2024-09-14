@@ -38,13 +38,12 @@ in {
       up = ''!git push -u origin HEAD:$(git rev-parse --abbrev-ref HEAD)'';
       fu = ''!git status --short && git push -u --force-with-lease'';
       pr = "pull --rebase";
-      pp = ''!git pull --ff origin $(git rev-parse --abbrev-ref HEAD)'';
+      pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
-      pf = ''!git pull --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
+      pf = ''!git pull --no-tags --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
       fa = "fetch --all --no-tags";
-      fp = "fetch --all --no-tags -p";
       # fz = "fuzzy";
-      ff = "fetch --no-tags";
+      ff = "fetch --no-tags -p";
       mg = "merge --no-edit --ff";
       mg-theirs = "merge --no-edit --ff -X theirs";
       kill-merge = "merge --abort";
