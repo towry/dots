@@ -642,19 +642,16 @@
       description = "Fish simple prompt";
       body = ''
         if not set -q VIRTUAL_ENV_DISABLE_PROMPT
-        set -g VIRTUAL_ENV_DISABLE_PROMPT true
+          set -g VIRTUAL_ENV_DISABLE_PROMPT true
         end
-        printf ' in '
-
+        ## START
         set_color $fish_color_cwd
         printf '%s' (prompt_pwd)
         set_color normal
-        # git branch
-        if [ (fish_git_prompt) ]
-            set_color yellow
-            printf '[%s]' (fish_git_prompt)
-            set_color normal
-        end
+        ## git branch
+        set_color yellow
+        printf '%s' (fish_git_prompt)
+        set_color normal
 
         # Line 2
         echo
