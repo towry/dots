@@ -64,7 +64,7 @@ in {
     };
     font = {
       name = "Berkeley Mono";
-      size = 14;
+      size = 13;
       # name = "Iosevka";
       # size = 16;
     };

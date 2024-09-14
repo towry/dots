@@ -17,8 +17,8 @@
       # sets the home-manager's inputs of nixpkgs to be same as top-level(this one).
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # zig.url = "github:mitchellh/zig-overlay";
-    # zls.url = "github:zigtools/zls?ref=refs/tags/0.13.0";
+    zig.url = "github:mitchellh/zig-overlay";
+    zls.url = "github:zigtools/zls?ref=refs/tags/0.13.0";
     gitu = {
       url = "github:pze/gitu?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
