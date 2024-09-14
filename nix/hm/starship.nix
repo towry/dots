@@ -1,5 +1,5 @@
 {lib, ...}: let
-  enable_starship = true;
+  enable_starship = false;
 in {
   programs.starship = {
     enable = enable_starship;
