@@ -25,7 +25,7 @@
   monokai = {
     kitty = {
       light = "quiet-light.conf";
-      dark = "monokai.conf";
+      dark = "MonokaiPro.conf";
     };
     fish = {
       light = "modus_light";
