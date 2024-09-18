@@ -228,12 +228,18 @@
     WINDOW_QUERY=$(yabai -m query --windows --window "$WINDOW_ID")
     IS_MINIMIZED=$(echo "$WINDOW_QUERY" | jq '."is-minimized"')
     IS_HIDDEN=$(echo "$WINDOW_QUERY" | jq '."is-hidden"')
+    # if current window is not WINDOW_ID, then set IS_HIDDEN to true
+    CURR_WINID=$(yabai -m query --windows --window | jq '.id')
+    if [[ "$CURR_WINID" != "$WINDOW_ID" ]]; then
+      IS_HIDDEN="true"
+    fi
     IS_FLOATING=$(echo "$WINDOW_QUERY" | jq '."is-floating"')
     CURRENT_SPACE=$(yabai -m query --spaces --space | jq '.index')
 
 
     if [[ "''${IS_HIDDEN}" == "false" ]]; then
-        skhd -k  "cmd - h"
+        # minimize window
+        skhd -k "cmd - h"
     else
         yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE"
         yabai -m window --focus "$WINDOW_ID"
@@ -242,8 +248,8 @@
 	        yabai -m window "$WINDOW_ID" --toggle float
         fi
 
-        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --move abs:0:0 --grid "10:1:0:0:1:5"
-    fi 
+        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
+    fi
     '';
 
     "skhd/space_focus_prev.sh".text = ''
