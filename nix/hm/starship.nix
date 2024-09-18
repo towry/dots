@@ -1,5 +1,5 @@
 {lib, ...}: let
-  enable_starship = true;
+  enable_starship = false;
 in {
   programs.starship = {
     enable = enable_starship;
@@ -7,7 +7,9 @@ in {
     settings = {
       format = lib.concatStrings ["$all"];
       right_format = lib.concatStrings ["$time"];
-      command_timeout = 2000;
+      command_timeout = 300;
+      scan_timeout = 10;
+      follow_symlinks = false;
       directory = {
         truncate_to_repo = false;
         truncation_length = 3;
@@ -49,8 +51,7 @@ in {
         disabled = true;
       };
       python = {
-        disabled = true;
-        format = "[$symbol$version]($style) ";
+        disabled = false;
         style = "bold green";
       };
       rust = {

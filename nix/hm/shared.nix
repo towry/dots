@@ -1,13 +1,18 @@
 {
   pkgs,
+  pkgs-unstable,
   config,
   lib,
   theme,
+  # inputs,
   ...
-}: {
+}: let
+  python3 = import ../lib/python3.nix {inherit pkgs;};
+in {
   home.sessionVariables = {
     GOPATH = "$HOME/workspace/goenv";
     HOMEBREW_NO_ANALYTICS = "1";
+    HOMEBREW_NO_AUTO_UPDATE = "1";
   };
   home.activation = {
     ensureWorkspaceDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -15,14 +20,40 @@
       run mkdir -p ${config.home.homeDirectory}/workspace/goenv
     '';
   };
-  home.packages = with pkgs; [
-    tig
-    python311Packages.pynvim
-    neovim-remote
-    wget
-    just
-    watchexec
-  ];
+  # TODO: move to module.
+  programs.fish.shellInit = ''
+    if ! set -q ASDF_DIR
+      set -x ASDF_DIR ${pkgs-unstable.asdf-vm}/share/asdf-vm
+    end
+  '';
+  home.packages =
+    (with pkgs; [
+      # bore-cli
+      # termshark
+      # inetutils
+      moreutils
+      wireguard-tools
+      concurrently
+      overmind
+      tig
+      neovim-remote
+      wget
+      just
+      watchexec
+      ocaml
+      dune_3
+      opam
+      ocamlPackages.ocamlformat
+      ocamlPackages.utop
+      ocamlPackages.ocaml-lsp
+    ])
+    ++ [
+      pkgs-unstable.asdf-vm
+      pkgs-unstable.docker-credential-helpers
+      # python
+      pkgs-unstable.uv
+      python3
+    ];
   xdg.configFile = {
     tig = {
       enable = true;
@@ -39,13 +70,16 @@
       source = ../../conf/yabai;
     };
   };
-  home.file = {
-    ".config/bat/themes/kanagawa-dragon.tmTheme".source = ../../conf/kanagawa-dragon.tmTheme;
-    ".config/bat/themes/kanagawa-light.tmTheme".source = ../../conf/kanagawa-light.tmTheme;
-    ".config/bat/themes/nightfox.tmTheme".source = ../../conf/nightfox.tmTheme;
-    ".ignore".source = ../../conf/.ignore;
-    ".ripgreprc".source = ../../conf/.ripgreprc;
-  };
+  home.file =
+    {
+      ".tool-versions".source = ../../conf/asdf/tool-versions;
+      ".config/bat/themes/" = {
+        source = ../../conf/bat/themes;
+        recursive = true;
+      };
+      ".ignore".source = ../../conf/.ignore;
+      ".ripgreprc".source = ../../conf/.ripgreprc;
+    };
   programs = {
     carapace = {
       enable = false;
@@ -121,16 +155,16 @@
           port = 443;
         };
       };
-    };
-    pyenv = {
-      enable = true;
-      rootDirectory = "${config.home.homeDirectory}/.pyenv";
+      includes = [
+        "config.d/*"
+      ];
     };
     poetry = {
       # https://python-poetry.org/docs/configuration/
       enable = true;
       settings = {
-        virtualenvs.create = true;
+        # need make sure no local .venv or {cache-dir}/virtualenvs exists
+        virtualenvs.create = false;
         virtualenvs.in-project = true;
       };
     };

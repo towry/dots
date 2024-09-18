@@ -1,6 +1,7 @@
 {
   pkgs,
   theme,
+  # config,
   ...
 }: {
   home.sessionVariables = {
@@ -9,6 +10,7 @@
     TMUX_AUTO_ATTACH = 0;
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
+    STARSHIP_LOG = "error";
   };
   programs = {
     carapace.enableFishIntegration = true;
@@ -20,10 +22,10 @@
           name = "foreign-env";
           inherit (pkgs.fishPlugins.foreign-env) src;
         }
-        {
-          name = "sponge";
-          inherit (pkgs.fishPlugins.sponge) src;
-        }
+        # {
+        #   name = "sponge";
+        #   inherit (pkgs.fishPlugins.sponge) src;
+        # }
         {
           name = "fifc";
           inherit (pkgs.fishPlugins.fifc) src;
@@ -82,6 +84,7 @@
     xmerge = "git merge --ff";
     xmerged = "git branch --merged master";
     dot-proxy = "export CURL_NIX_FLAGS='-x http://127.0.0.1:1080' https_proxy=http://127.0.0.1:1080 http_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080";
+    up-karabiner = "jq . ~/.config/karabiner/karabiner.json | sponge ~/.config/karabiner/karabiner.json && gh gist edit 072fd7c32c1fc0b33044d0915885b3b4 -f karabiner.json ~/.config/karabiner/karabiner.json";
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";
@@ -100,7 +103,7 @@
     kittyconf = "nvim ~/.config/kitty/kitty.conf";
     # yabaiconf="nvim ~/.config/yabai/yabairc";
     skhdconf = "nvim ~/.config/skhd/skhdrc";
-    tmuxin = "tmux new-session -A -s 0";
+    tmuxin = "tmux new-session -A -s Main";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
     random-name = "uclanr";
     tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
@@ -179,9 +182,6 @@
         printf "%s" $folder_name
       '';
     };
-    load-pyenv = ''
-      pyenv init - | source
-    '';
     xbn = {
       body = ''
         git branch | sed -n -e 's/^\* \(.*\)/\1/p'
@@ -230,9 +230,9 @@
         if test -z "$a"
             set a 'origin'
         end
-        echo "git push $a $br"
+        echo "git push -u $a $br"
         sleep 1
-        git push $a $br
+        git push -u $a $br
       '';
       description = "git push util";
     };
@@ -642,20 +642,15 @@
       description = "Fish simple prompt";
       body = ''
         if not set -q VIRTUAL_ENV_DISABLE_PROMPT
-        set -g VIRTUAL_ENV_DISABLE_PROMPT true
+          set -g VIRTUAL_ENV_DISABLE_PROMPT true
         end
-        set_color yellow
-        printf '%s' $USER
-        set_color normal
-        printf ' at '
-
-        set_color magenta
-        echo -n (prompt_hostname)
-        set_color normal
-        printf ' in '
-
+        ## START
         set_color $fish_color_cwd
         printf '%s' (prompt_pwd)
+        set_color normal
+        ## git branch
+        set_color yellow
+        printf '%s' (fish_git_prompt)
         set_color normal
 
         # Line 2
