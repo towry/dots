@@ -76,11 +76,12 @@ in {
       listen_on = "unix:/tmp/towry-kitty-sock";
       allow_remote_control = "socket-only";
       # second increase the dark in night theme
-      text_composition_strategy = "1.3 15";
+      text_composition_strategy = "1.6 15";
       dim_opacity = "1";
       tab_title_template = "\"{layout_name[:4].upper()}{fmt.fg.green}#{index}{sup.num_windows if num_windows > 1 else ''} {fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{title[title.rfind('/')+1:]}\"";
       tab_powerline_style = "slanted";
       tab_separator = "\"\"";
+      # background_opacity = "0.98";
       # tab_bar_style = "slant";
       tab_bar_style = "hidden";
       tab_bar_edge = "top-left";
