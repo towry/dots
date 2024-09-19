@@ -24,21 +24,20 @@
   };
   monokai = {
     kitty = {
-      light = "quiet-light.conf";
+      light = "neovim_light.conf";
       dark = "jet_brains_dracula.conf";
     };
     fish = {
-      light = "modus_light";
-      dark = "kanagawa_dragon";
-      # dark = "kanagawa";
+      light = "neovim_light";
+      dark = "neovim_dark";
     };
     bat = {
-      light = "Monokai Extended Light";
-      dark = "Monokai Extended";
+      light = "modus_light";
+      dark = "modus_dark";
     };
     delta = {
-      light = "Monokai Extended Light";
-      dark = "Monokai Extended";
+      light = "modus_light";
+      dark = "modus_dark";
     };
   };
   nord = {
