@@ -28,7 +28,6 @@
     "super+9" = "launch_silent ${tmux} select-window -t:9";
     "super+s" = "send_text all \\xAEs";
     "ctrl+;" = "send_text all \\xAE;";
-    "super+h" = "hide_macos_app";
     # "ctrl+'" = "send_text \xAE'";
   };
   zj = "${pkgs.zellij}/bin/zellij";
@@ -110,7 +109,7 @@ in {
         "kitty_mod+0" = "change_font_size all 0";
         "kitty_mod+f10" = "toggle_maximized";
         "kitty_mod+f11" = "toggle_fullscreen";
-        "super+h" = "hide_macos_app";
+        "super+o" = "hide_macos_app";
       }
       // (
         if config.programs.tmux.enable
