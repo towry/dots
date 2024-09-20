@@ -28,6 +28,8 @@ in {
   '';
   home.packages =
     (with pkgs; [
+      ## code counter
+      scc
       # bore-cli
       # termshark
       # inetutils
