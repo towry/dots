@@ -236,7 +236,7 @@
         # minimize window
         skhd -k "cmd - o"
     else
-        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE"
+        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
         yabai -m window --focus "$WINDOW_ID"
 
         if [[ "''${IS_FLOATING}" != "true" ]]; then
@@ -244,7 +244,7 @@
           sleep 1.5
         fi
 
-        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
+        # yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
     fi
     '';
 
