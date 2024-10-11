@@ -151,6 +151,7 @@ in {
     eza.enable = true;
     ssh = {
       enable = true;
+      serverAliveInterval = 240;
       matchBlocks = {
         "github.com" = {
           hostname = "ssh.github.com";
