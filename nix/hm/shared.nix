@@ -72,17 +72,28 @@ in {
       source = ../../conf/yabai;
     };
   };
-  home.file =
-    {
-      ".tool-versions".source = ../../conf/asdf/tool-versions;
-      ".config/bat/themes/" = {
-        source = ../../conf/bat/themes;
-        recursive = true;
-      };
-      ".ignore".source = ../../conf/.ignore;
-      ".ripgreprc".source = ../../conf/.ripgreprc;
+  home.file = {
+    ".tool-versions".source = ../../conf/asdf/tool-versions;
+    ".config/bat/themes/" = {
+      source = ../../conf/bat/themes;
+      recursive = true;
     };
+    ".ignore".source = ../../conf/.ignore;
+    ".ripgreprc".source = ../../conf/.ripgreprc;
+  };
   programs = {
+    jujutsu = {
+      enable = true;
+      settings = {
+        ui = {
+          default-command = "log";
+        };
+        user = {
+          email = "towry@users.noreply.github.com";
+          name = "Towry Wang";
+        };
+      };
+    };
     carapace = {
       enable = false;
       enableBashIntegration = true;
