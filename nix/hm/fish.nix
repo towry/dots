@@ -31,6 +31,7 @@
           inherit (pkgs.fishPlugins.fifc) src;
         }
         {
+          # type .... will expand to ../..
           name = "puffer-fish";
           src = pkgs.fetchFromGitHub {
             owner = "nickeb96";

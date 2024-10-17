@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   config,
   ...
 }: let
@@ -61,6 +62,7 @@ in {
     '';
   };
   programs.tmux = {
+    package = pkgs-unstable.tmux;
     enable = true;
     historyLimit = 20000;
     keyMode = "vi";
