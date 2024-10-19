@@ -548,11 +548,11 @@
       },
       "locked": {
         "dir": "zellij",
-        "lastModified": 1722475665,
-        "narHash": "sha256-qvV0lcRMlLkd3vNuzzIT4kuXr5X2wuVcw7HdZNmhA2U=",
+        "lastModified": 1729345586,
+        "narHash": "sha256-ADG1l2vfGm0gCj8QQFXuDpbArZboqrNXtiXfLWyVsp8=",
         "owner": "towry",
         "repo": "nix-flakes",
-        "rev": "f3125e531ee7729b0053484a1698682d36a05029",
+        "rev": "ba15e5b2b0b9c3cce125fc8eb8d7158b32e002c5",
         "type": "github"
       },
       "original": {

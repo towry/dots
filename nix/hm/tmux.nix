@@ -63,7 +63,7 @@ in {
   };
   programs.tmux = {
     package = pkgs-unstable.tmux;
-    enable = true;
+    enable = false;
     historyLimit = 20000;
     keyMode = "vi";
     baseIndex = 1;

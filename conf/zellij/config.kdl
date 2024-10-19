@@ -19,8 +19,7 @@ keybinds clear-defaults=true {
         bind "Alt p" { GoToPreviousTab; SwitchToMode "Normal"; }
         bind "Alt n" { GoToNextTab; SwitchToMode "Normal"; }
         // uncomment this and adjust key if using copy_on_select=false
-        bind "Super c" { Copy; }
-        // bind "Super p" { Paste; }
+        // bind "Super c" { Copy; }
     }
     locked {
         bind "Alt z" { SwitchToMode "Normal"; }
@@ -66,8 +65,6 @@ keybinds clear-defaults=true {
         bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
         bind "Ctrl d" { HalfPageScrollDown; }
         bind "Ctrl u" { HalfPageScrollUp; }
-        // uncomment this and adjust key if using copy_on_select=false
-        // bind "Alt c" { Copy; }
     }
     search {
         bind "Backspace" { SwitchToMode "Tmux"; }
@@ -144,10 +141,10 @@ keybinds clear-defaults=true {
         bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
         bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
         bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Ctrl j"  { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        bind "j"  { MoveFocus "Down"; SwitchToMode "Normal"; }
+        bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
         bind "m" { SwitchToMode "Move"; }
         bind "Ctrl o" { FocusNextPane; }
         bind "Ctrl s" { SwitchToMode "Session"; }
@@ -172,30 +169,6 @@ keybinds clear-defaults=true {
         bind "Super 9" { GoToTab 9; }
         bind "Super -" { NewPane "Down"; }
         bind "Super /" { NewPane "Right"; }
-        bind "Ctrl j" {
-            MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "down";
-            };
-        }
-        bind "Ctrl k" {
-          MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
-            name "move_focus";
-            payload "up";
-          };
-        }
-        bind "Ctrl l" {
-          MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
-            name "move_focus";
-            payload "right";
-          };
-        }
-        bind "Ctrl h" {
-          MessagePlugin "file:/Users/towry/workspace/git-repos/vim-zellij-navigator/target/wasm32-wasi/debug/vim-zellij-navigator.wasm" {
-            name "move_focus";
-            payload "left";
-          };
-        }
     }
     shared_except "locked" "normal" {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
@@ -234,7 +207,7 @@ default_shell "fish"
 //   - true (default)
 //   - false
 //
-pane_frames true
+pane_frames false
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
@@ -371,7 +344,7 @@ copy_clipboard "system"
 // Enable or disable automatic copy (and clear) of selection when releasing mouse
 // Default: true
 //
-copy_on_select false
+copy_on_select true
 
 // Path to the default editor to use to edit pane scrollbuffer
 // Default: $EDITOR or $VISUAL
