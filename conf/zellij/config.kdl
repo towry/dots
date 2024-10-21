@@ -46,7 +46,6 @@ keybinds clear-defaults=true {
     }
     move {
         bind "Backspace" { SwitchToMode "Tmux"; }
-        bind "Ctrl h" { SwitchToMode "Normal"; }
         bind "n" "Tab" { MovePane; }
         bind "p" { MovePaneBackwards; }
         bind "h" "Left" { MovePane "Left"; }
@@ -109,7 +108,7 @@ keybinds clear-defaults=true {
         bind "/" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "Ctrl n" { NewPane; SwitchToMode "Normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-        bind "Ctrl z" { TogglePaneFrames; SwitchToMode "Normal"; }
+        bind "Ctrl b" { TogglePaneFrames; SwitchToMode "Normal"; }
         bind "P" { SwitchToMode "RenamePane"; PaneNameInput 0; }
         bind "T" { SwitchToMode "RenameTab"; TabNameInput 0; }
         bind "r" { SwitchToMode "Resize"; }
