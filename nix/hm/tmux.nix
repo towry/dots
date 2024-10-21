@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   config,
   ...
 }: let
@@ -61,7 +62,8 @@ in {
     '';
   };
   programs.tmux = {
-    enable = true;
+    package = pkgs-unstable.tmux;
+    enable = false;
     historyLimit = 20000;
     keyMode = "vi";
     baseIndex = 1;
@@ -273,13 +275,13 @@ in {
 
       # ===============================================
       ## UI
-      set -g pane-border-status bottom
+      set -g pane-border-status top
       set -g status-interval 1
       set -g status on
       set -g status-left-length 100
       set -g status-right-length 300
       set -g status-justify left
-      set-window-option -g status-position bottom
+      set-window-option -g status-position top
       set -g message-style fg=black,bg=blue
       set -g message-command-style fg=black,bg=blue
       set -g status-style bg=default,fg=yellow

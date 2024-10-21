@@ -72,7 +72,7 @@
             inherit inputs outputs;
             system = system;
             pkgs-unstable = pkgs-unstable;
-            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "monokai";};
+            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
           };
           pkgs = pkgs;
           modules = [./nix/home.nix];

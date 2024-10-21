@@ -28,9 +28,16 @@
         # }
         {
           name = "fifc";
+          # src = pkgs.fetchFromGitHub {
+          #   owner = "ollehu";
+          #   repo = "fifc";
+          #   rev = "26c5863f7f44a5f7e375cbda6806839acd121c8e";
+          #   sha256 = "sha256-EO2QO5TgZB/Fhu+75MAvTwIthUiRtHrUMhOntyF+vBo=";
+          # };
           inherit (pkgs.fishPlugins.fifc) src;
         }
         {
+          # type .... will expand to ../..
           name = "puffer-fish";
           src = pkgs.fetchFromGitHub {
             owner = "nickeb96";
@@ -135,6 +142,7 @@
   programs.fish.interactiveShellInit = ''
     set fish_cursor_default block blink
     set fish_cursor_insert underscore blink
+    set -U fifc_custom_fzf_opts +e
 
     if test "$DARKMODE" = "dark"
         fish_config theme choose "${theme.fish.dark}"

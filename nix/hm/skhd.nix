@@ -77,15 +77,11 @@
       mode_window < k : yabai -m window --focus north; ${skhd} -k "escape"
       mode_window < l : yabai -m window --focus east; ${skhd} -k "escape"
 
-      # not working?
-      mode_window < 0x2F : yabai -m window --focus recent; skhd -k "escape" # 0x2F is the next macos virtual key code
-      mode_window < tab : yabai -m window --focus next || yabai -m window --focus first; skhd -k "escape" #0x30: tab
-      # see: https://github.com/koekeishiya/yabai/issues/203
-      # mode_window < tab : if [ "$(yabai -m query --spaces --space | ${jqbin} -r '.type')" = "stack" ]; then (yabai -m window --focus stack.next || yabai -m window --focus stack.first); else yabai -m window --focus next || yabai -m window --focus first; fi; skhd -k "escape"
+      mode_window < tab : yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape" #0x30: tab
 
       # focus next|prev window.
       # https://github.com/koekeishiya/yabai/issues/203#issuecomment-1289940339
-      ctrl+shift+alt - h : yabai -m query --spaces --space ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $has_index > 0 then nth($has_index - 1).id else nth($array_length - 1).id end' | xargs -I{} yabai -m window --focus {}
+      ctrl+shift+alt - h : yabai -m query --spaces --space | ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $has_index > 0 then nth($has_index - 1).id else nth($array_length - 1).id end' | xargs -I{} yabai -m window --focus {}
       ctrl+shift+alt - l : yabai -m query --spaces --space | ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $array_length - 1 > $has_index then nth($has_index + 1).id else nth(0).id end' | xargs -I{} yabai -m window --focus {}
 
       # toggle mission control in current space
@@ -236,19 +232,19 @@
     IS_FLOATING=$(echo "$WINDOW_QUERY" | jq '."is-floating"')
     CURRENT_SPACE=$(yabai -m query --spaces --space | jq '.index')
 
-
     if [[ "''${IS_HIDDEN}" == "false" ]]; then
         # minimize window
-        skhd -k "cmd - h"
+        skhd -k "cmd - o"
     else
-        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE"
+        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
         yabai -m window --focus "$WINDOW_ID"
 
         if [[ "''${IS_FLOATING}" != "true" ]]; then
 	        yabai -m window "$WINDOW_ID" --toggle float
+          sleep 1.5
         fi
 
-        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
+        # yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
     fi
     '';
 
