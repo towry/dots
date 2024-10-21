@@ -112,7 +112,7 @@ keybinds clear-defaults=true {
         bind "Ctrl z" { TogglePaneFrames; SwitchToMode "Normal"; }
         bind "P" { SwitchToMode "RenamePane"; PaneNameInput 0; }
         bind "T" { SwitchToMode "RenameTab"; TabNameInput 0; }
-        bind "Ctrl r" { SwitchToMode "Resize"; }
+        bind "r" { SwitchToMode "Resize"; }
         bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
         bind "w" {
           LaunchOrFocusPlugin "zellij:session-manager" {
@@ -167,6 +167,7 @@ keybinds clear-defaults=true {
         bind "Super 7" { GoToTab 7; }
         bind "Super 8" { GoToTab 8; }
         bind "Super 9" { GoToTab 9; }
+        bind "Super r" { SwitchToMode "Resize"; }
         bind "Super -" { NewPane "Down"; }
         bind "Super /" { NewPane "Right"; }
     }
