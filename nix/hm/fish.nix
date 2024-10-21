@@ -102,7 +102,7 @@
     ghcp = "gh copilot explain";
     zj = "zellij";
     zjr = "zellij run";
-    zjt = "zellij attach -c towry";
+    zj-in = "zellij attach -c towry";
     zj-run-tasks = ''
       zellij action start-or-reload-plugin file:$HOME/.config/zellij/plugins/multitask.wasm --configuration "shell=$SHELL,cwd=`pwd`"
     '';
