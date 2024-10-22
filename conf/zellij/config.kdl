@@ -132,8 +132,8 @@ keybinds clear-defaults=true {
         bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
         bind "w" {
           LaunchOrFocusPlugin "zellij:session-manager" {
-            floating false
-            move_to_focused_tab false
+            floating true
+            move_to_focused_tab true
           };
           SwitchToMode "Normal";
         }
@@ -189,8 +189,8 @@ keybinds clear-defaults=true {
         bind "Super /" { NewPane "Right"; }
         bind "Super w" {
           LaunchOrFocusPlugin "zellij:session-manager" {
-            floating false
-            move_to_focused_tab false
+            floating true
+            move_to_focused_tab true
           };
           SwitchToMode "Normal";
         }
