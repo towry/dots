@@ -4,6 +4,7 @@ plugins {
     strider location="zellij:strider"
     compact-bar location="zellij:compact-bar"
     session-manager location="zellij:session-manager"
+    plugin-manager location="zellij:plugin-manager"
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
@@ -16,8 +17,9 @@ plugins {
 keybinds clear-defaults=true {
     normal {
         bind "Alt z" { SwitchToMode "Locked"; }
-        bind "Alt p" { GoToPreviousTab; SwitchToMode "Normal"; }
-        bind "Alt n" { GoToNextTab; SwitchToMode "Normal"; }
+        bind "Alt [" { GoToPreviousTab; SwitchToMode "Normal"; }
+        bind "Alt ]" { GoToNextTab; SwitchToMode "Normal"; }
+        bind "Alt p" { SwitchFocus; }
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Super c" { Copy; }
     }
@@ -46,7 +48,6 @@ keybinds clear-defaults=true {
     }
     move {
         bind "Backspace" { SwitchToMode "Tmux"; }
-        bind "Ctrl h" { SwitchToMode "Normal"; }
         bind "n" "Tab" { MovePane; }
         bind "p" { MovePaneBackwards; }
         bind "h" "Left" { MovePane "Left"; }
@@ -99,6 +100,21 @@ keybinds clear-defaults=true {
     }
     session {
         bind "d" { Detach; }
+        bind "Ctrl c" { SwitchToMode "Normal"; }
+        bind "c" {
+            LaunchOrFocusPlugin "configuration" {
+                floating true
+                move_to_focused_tab true
+            };
+            SwitchToMode "Normal"
+        }
+        bind "p" {
+            LaunchOrFocusPlugin "plugin-manager" {
+                floating true
+                move_to_focused_tab true
+            };
+            SwitchToMode "Normal"
+        }
     }
     tmux {
         bind "Ctrl g" { SwitchToMode "Locked"; }
@@ -109,15 +125,15 @@ keybinds clear-defaults=true {
         bind "/" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "Ctrl n" { NewPane; SwitchToMode "Normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-        bind "Ctrl z" { TogglePaneFrames; SwitchToMode "Normal"; }
+        bind "Ctrl b" { TogglePaneFrames; SwitchToMode "Normal"; }
         bind "P" { SwitchToMode "RenamePane"; PaneNameInput 0; }
         bind "T" { SwitchToMode "RenameTab"; TabNameInput 0; }
         bind "r" { SwitchToMode "Resize"; }
         bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
         bind "w" {
           LaunchOrFocusPlugin "zellij:session-manager" {
-            floating true
-            move_to_focused_tab true
+            floating false
+            move_to_focused_tab false
           };
           SwitchToMode "Normal";
         }
@@ -156,6 +172,7 @@ keybinds clear-defaults=true {
         // super key mapping
         bind "Super [" { GoToPreviousTab; }
         bind "Super ]" { GoToNextTab; }
+        bind "Super p" { SwitchFocus; }
         bind "Super z" { ToggleTab; }
         bind "Super n" { NewTab; }
         bind "Super 1" { GoToTab 1; }
@@ -170,6 +187,13 @@ keybinds clear-defaults=true {
         bind "Super r" { SwitchToMode "Resize"; }
         bind "Super -" { NewPane "Down"; }
         bind "Super /" { NewPane "Right"; }
+        bind "Super w" {
+          LaunchOrFocusPlugin "zellij:session-manager" {
+            floating false
+            move_to_focused_tab false
+          };
+          SwitchToMode "Normal";
+        }
     }
     shared_except "locked" "normal" {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
