@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - next
+  paths:
+    - "flake.lock"
+    - "**/*.nix"
   workflow_dispatch:
 
 jobs:
@@ -31,6 +34,8 @@ jobs:
         with:
           name: dots
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: Add nix-community cache
+        run: cachix use nix-community
 
       - name: Build ${{ matrix.job-name }} on ${{ matrix.os-label }}
-        run: nix build --json --keep-going "${{ matrix.nix-flake-output }}"
+        run: nix build --show-trace --json --keep-going "${{ matrix.nix-flake-output }}"
