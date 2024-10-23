@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-unstable,
   config,
   theme,
   ...
@@ -54,7 +53,6 @@
   };
 in {
   programs.kitty = {
-    package = pkgs-unstable.kitty;
     enable = true;
     darwinLaunchOptions = [
       "--single-instance"

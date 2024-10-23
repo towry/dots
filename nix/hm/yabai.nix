@@ -1,11 +1,10 @@
 {
   pkgs,
-  pkgs-unstable,
   config,
   ...
 }: {
   home.packages = [
-    pkgs-unstable.yabai
+    pkgs.yabai
   ];
   home.file."${config.home.homeDirectory}/Applications/yabai".source = "${pkgs.yabai}/bin/yabai";
   xdg.configFile = let

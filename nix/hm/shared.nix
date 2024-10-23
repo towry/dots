@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-unstable,
   config,
   lib,
   theme,
@@ -23,7 +22,7 @@ in {
   # TODO: move to module.
   programs.fish.shellInit = ''
     if ! set -q ASDF_DIR
-      set -x ASDF_DIR ${pkgs-unstable.asdf-vm}/share/asdf-vm
+      set -x ASDF_DIR ${pkgs.asdf-vm}/share/asdf-vm
     end
   '';
   home.packages =
@@ -48,12 +47,11 @@ in {
       ocamlPackages.ocamlformat
       ocamlPackages.utop
       ocamlPackages.ocaml-lsp
+      asdf-vm
+      docker-credential-helpers
+      uv
     ])
     ++ [
-      pkgs-unstable.asdf-vm
-      pkgs-unstable.docker-credential-helpers
-      # python
-      pkgs-unstable.uv
       python3
     ];
   xdg.configFile = {

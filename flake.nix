@@ -2,8 +2,8 @@
   description = "Towry de dotfiles";
 
   inputs = {
-    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=24.05";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs?ref=24.05";
     zellij = {
       url = "github:towry/nix-flakes?dir=zellij";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +32,7 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
+    nixpkgs-stable,
     home-manager,
     ...
   } @ inputs: let
@@ -54,7 +54,7 @@
         overlay =
           import ./nix/overlay.nix {
           };
-        pkgs-unstable = import nixpkgs-unstable {
+        pkgs-stable = import nixpkgs-stable {
           inherit system;
         };
         pkgs = import nixpkgs {
@@ -71,7 +71,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
-            pkgs-unstable = pkgs-unstable;
+            pkgs-stable = pkgs-stable;
             theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
           };
           pkgs = pkgs;
