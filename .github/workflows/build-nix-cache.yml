@@ -5,10 +5,10 @@ on:
     branches:
       - main
       - next
-  paths:
-    - "flake.lock"
-    - "**/*.nix"
-    - ".github/workflows/build-nix-cache.yml"
+    paths:
+      - "flake.lock"
+      - "**/*.nix"
+      - ".github/workflows/build-nix-cache.yml"
   workflow_dispatch:
 
 jobs:
