@@ -1,4 +1,4 @@
-name: Build home and cache
+name: Build nix cache
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
         include:
           - job-name: macos-homemanager
             os-label: macos-latest-large
-            nix-flake-output: ".#mac-legacy"
+            nix-flake-output: ".#homeConfigurations.mac-legacy.activationPackage"
       fail-fast: false
 
     name: ${{ matrix.job-name }}
