@@ -1,3 +1,7 @@
+[![Build nix cache](https://github.com/towry/dots/actions/workflows/build-nix-cache.yml/badge.svg)](https://github.com/towry/dots/actions/workflows/build-nix-cache.yml)
+[![Check Nix flake](https://github.com/towry/dots/actions/workflows/check-flake.yml/badge.svg)](https://github.com/towry/dots/actions/workflows/check-flake.yml)
+[![Update flake dependencies](https://github.com/towry/dots/actions/workflows/update-flake.yml/badge.svg)](https://github.com/towry/dots/actions/workflows/update-flake.yml)
+
 # dotfiles
 
 Towry's dotfiles managed in The Nix Way with home-manager.
