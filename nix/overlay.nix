@@ -15,6 +15,8 @@
   in
     prev.nerd-font-patcher.overrideAttrs (finalAttrs: prevAttrs: {
       src = prev.fetchzip {
+        # without this, fail in unstable
+        stripRoot = false;
         url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v${nerdFontPatcherVersion}/FontPatcher.zip";
         sha256 = "sha256-3s0vcRiNA/pQrViYMwU2nnkLUNUcqXja/jTWO49x3BU=";
       };
