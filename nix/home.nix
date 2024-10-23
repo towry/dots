@@ -1,16 +1,11 @@
 # https://nixos.org/manual/nixpkgs/stable/
 {
-  # config,
   pkgs,
-  # pkgs-unstable,
   lib,
   ...
 }: let
   locals.packages = with pkgs;
     [
-      # compile to bash
-      # pkgs-unstable.amber-lang
-      # obsidian
       ## Nix
       cachix
       # nix formatter
