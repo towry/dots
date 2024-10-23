@@ -33,7 +33,6 @@ in {
       # termshark
       # inetutils
       moreutils
-      wireguard-tools
       concurrently
       overmind
       tig
