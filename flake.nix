@@ -25,7 +25,7 @@
     };
     fenix = {
       url = "github:nix-community/fenix/monthly";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
 
