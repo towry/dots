@@ -1,0 +1,36 @@
+name: Build home and cache
+
+on:
+  push:
+    branches:
+      - main
+      - next
+  workflow_dispatch:
+
+jobs:
+  build-and-cache:
+    strategy:
+      matrix:
+        include:
+          - job-name: macos-homemanager
+            os-label: macos-latest-large
+            nix-flake-output: ".#mac-legacy"
+      fail-fast: false
+
+    name: ${{ matrix.job-name }}
+    runs-on: ${{ matrix.os-label }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v14
+        with:
+          name: dots
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+
+      - name: Build ${{ matrix.job-name }} on ${{ matrix.os-label }}
+        run: nix build --json --keep-going "${{ matrix.nix-flake-output }}"

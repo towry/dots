@@ -2,35 +2,35 @@ name: Update flake dependencies
 
 on:
   schedule:
-    - cron: '0 16 * * 5'
+    - cron: "0 16 * * 5"
   workflow_dispatch: # for allowing manual triggers of the workflow
 
 jobs:
   update-dependencies:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: DeterminateSystems/nix-installer-action@main
-    - uses: DeterminateSystems/magic-nix-cache-action@main
-    - uses: cachix/cachix-action@v15
-      with:
-        name: towry
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - name: Add nix-community cache
-      run: cachix use nix-community
-    - name: update flake.lock
-      run: nix flake update
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v7
-      id: create-pr
-      with:
-        commit-message: "flake: update dependencies"
-        title: "[automation] update flake dependencies"
-        branch: "automation/update-flake-dependencies"
-    - name: Ping me in a comment on the PR
-      run: |
-        PR_NUMBER=${{ steps.create-pr.outputs.pull-request-number }}
-        COMMENT="Ping @towry"
-        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-        COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
-        curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@v15
+        with:
+          name: dots
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: Add nix-community cache
+        run: cachix use nix-community
+      - name: update flake.lock
+        run: nix flake update
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        id: create-pr
+        with:
+          commit-message: "flake: update dependencies"
+          title: "[automation] update flake dependencies"
+          branch: "automation/update-flake-dependencies"
+      - name: Ping me in a comment on the PR
+        run: |
+          PR_NUMBER=${{ steps.create-pr.outputs.pull-request-number }}
+          COMMENT="Ping @towry"
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
+          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
