@@ -15,7 +15,7 @@ install-nix: $(NIX_PROFILE)
 b:
 	home-manager switch --flake .#mac-legacy --experimental-features 'nix-command flakes'
 build:
-	cachix watch-exec towry -- home-manager switch --flake .#mac-legacy --experimental-features 'nix-command flakes'
+	cachix watch-exec dots -- home-manager switch --flake .#mac-legacy --experimental-features 'nix-command flakes'
 build-no-cache:
 	home-manager switch --flake .#mac-legacy --experimental-features 'nix-command flakes' --option eval-cache false
 
