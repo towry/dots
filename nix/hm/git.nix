@@ -39,11 +39,14 @@ in {
       fu = ''!git status --short && git push -u --force-with-lease'';
       pr = "pull --rebase";
       pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
+      pp-theirs = ''!git pull -X theirs --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
+      pp-ours = ''!git pull -X ours --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
       pf = ''!git pull --no-tags --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
       fa = "fetch --all --no-tags";
       # fz = "fuzzy";
-      ff = "fetch --no-tags -p";
+      ff = "fetch --no-tags";
+      fp = "fetch --prune --prune-tags";
       mg = "merge --no-edit --ff";
       mg-theirs = "merge --no-edit --ff -X theirs";
       kill-merge = "merge --abort";
@@ -146,8 +149,8 @@ in {
         autoStash = true;
       };
       fetch = {
-        prune = true;
-        pruneTags = true;
+        prune = false;
+        pruneTags = false;
       };
       pull = {
         rebase = true;
