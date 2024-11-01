@@ -33,7 +33,7 @@ in {
       # termshark
       # inetutils
       moreutils
-      concurrently
+      # concurrently
       overmind
       tig
       neovim-remote
@@ -42,10 +42,10 @@ in {
       watchexec
       ocaml
       dune_3
-      opam
-      ocamlPackages.ocamlformat
-      ocamlPackages.utop
-      ocamlPackages.ocaml-lsp
+      # opam
+      # ocamlPackages.ocamlformat
+      # ocamlPackages.utop
+      # ocamlPackages.ocaml-lsp
       asdf-vm
       docker-credential-helpers
       uv
@@ -80,7 +80,7 @@ in {
   };
   programs = {
     jujutsu = {
-      enable = true;
+      enable = false;
       settings = {
         ui = {
           default-command = "log";
@@ -172,7 +172,7 @@ in {
     };
     poetry = {
       # https://python-poetry.org/docs/configuration/
-      enable = true;
+      enable = false;
       settings = {
         # need make sure no local .venv or {cache-dir}/virtualenvs exists
         virtualenvs.create = false;
