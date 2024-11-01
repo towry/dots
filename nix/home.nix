@@ -140,7 +140,7 @@ in {
       "nix/nix.conf".text = ''
         # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-trusted-users
         # sh: id
-        trusted-users = root @staff towry
+        trusted-users = root @staff ${username}
         # sudo launchctl stop org.nixos.nix-daemon
         # sudo launchctl start org.nixos.nix-daemon
         substituters = https://dots.cachix.org https://nix-community.cachix.org https://towry.cachix.org https://mirrors.ustc.edu.cn/nix-channels/store https://cache.nixos.org/

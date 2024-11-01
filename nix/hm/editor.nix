@@ -18,6 +18,8 @@
     })
   ];
   home.packages = with pkgs; [
+    # neovim build requires
+    iconv
     # latest is required
     tree-sitter
     sqlite

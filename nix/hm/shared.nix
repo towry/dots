@@ -27,6 +27,8 @@ in {
   '';
   home.packages =
     (with pkgs; [
+      pkg-config
+      openssl_3
       ## code counter
       scc
       # bore-cli

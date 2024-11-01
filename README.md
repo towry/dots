@@ -30,3 +30,4 @@ $HOME/.nix-profile/bin/
 ## TODO
 
 - [x] deprecate the niv, flake is the future.
+- [ ] add script to modify `/etc/nix/nix.conf` to add substituter.
