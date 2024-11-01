@@ -40,8 +40,8 @@ in {
       wget
       just
       watchexec
-      ocaml
-      dune_3
+      # ocaml
+      # dune_3
       # opam
       # ocamlPackages.ocamlformat
       # ocamlPackages.utop
