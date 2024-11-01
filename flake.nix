@@ -47,66 +47,44 @@
       git-smash = inputs.git-smash.packages.${prev.system}.default;
       gitu = inputs.gitu.packages.${prev.system}.default;
     };
+
+    generateHomeConfig = {
+      username,
+      system,
+    }: let
+      overlay = import ./nix/overlay.nix {};
+      pkgs-stable = import nixpkgs-stable {inherit system;};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          defaultOverlay
+          overlay
+          # see https://github.com/nix-community/fenix/issues/79
+          (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
+        ];
+      };
+    in
+      home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {
+          inherit inputs outputs;
+          system = system;
+          username = username;
+          pkgs-stable = pkgs-stable;
+          theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
+        };
+        pkgs = pkgs;
+        modules = [./nix/home.nix];
+      };
   in {
     homeConfigurations = {
-      "mac-legacy" = let
+      "mac-legacy" = generateHomeConfig {
+        username = "towry";
         system = "x86_64-darwin";
-        overlay =
-          import ./nix/overlay.nix {
-          };
-        pkgs-stable = import nixpkgs-stable {
-          inherit system;
-        };
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            defaultOverlay
-            overlay
-            # see https://github.com/nix-community/fenix/issues/79
-            (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
-          ];
-        };
-      in
-        home-manager.lib.homeManagerConfiguration {
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            system = system;
-            username = "towry";
-            pkgs-stable = pkgs-stable;
-            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
-          };
-          pkgs = pkgs;
-          modules = [./nix/home.nix];
-        };
-      "momo" = let
+      };
+      "momo" = generateHomeConfig {
+        username = "momo";
         system = "x86_64-darwin";
-        overlay =
-          import ./nix/overlay.nix {
-          };
-        pkgs-stable = import nixpkgs-stable {
-          inherit system;
-        };
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            defaultOverlay
-            overlay
-            # see https://github.com/nix-community/fenix/issues/79
-            (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
-          ];
-        };
-      in
-        home-manager.lib.homeManagerConfiguration {
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            system = system;
-            username = "momo";
-            pkgs-stable = pkgs-stable;
-            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
-          };
-          pkgs = pkgs;
-          modules = [./nix/home.nix];
-        };
+      };
     };
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
   };

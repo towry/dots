@@ -2,8 +2,7 @@
   version ? "latest",
   system,
   pkgs ? (import <nixpkgs> {}),
-}:
-let
+}: let
   tarballUrl =
     if version == "latest"
     then "https://github.com/towry/path-git-format/releases/latest/download/path-git-format.tar.gz"
@@ -16,24 +15,27 @@ let
     url = tarballUrl;
     sha256 = sha256-map.${system};
   };
+  libs = [
+    pkgs.openssl_3
+  ];
 in
   with pkgs;
-  stdenv.mkDerivation {
-    pname = "path-git-format";
-    version = version;
-    nativeBuildInputs = [makeWrapper];
-    src = ./.;
-    unpackPhase = ''
-      tar -xvzf ${tarbar}
-    '';
-    installPhase = ''
-      mkdir -p $out/bin
-      mv ./path-git-format $out/bin/
-      wrapProgram $out/bin/path-git-format
-    '';
-    meta = {
-      homepage = "https://github.com/towry/path-git-format";
-      description = "Utils to format path with git repo info from stdin";
-      license = lib.licenses.mit;
-    };
-  }
+    stdenv.mkDerivation {
+      pname = "path-git-format";
+      version = version;
+      nativeBuildInputs = [makeWrapper];
+      src = ./.;
+      unpackPhase = ''
+        tar -xvzf ${tarbar}
+      '';
+      installPhase = ''
+        mkdir -p $out/bin
+        mv ./path-git-format $out/bin/
+        wrapProgram $out/bin/path-git-format --set DYLD_FALLBACK_LIBRARY_PATH ${lib.makeLibraryPath libs}
+      '';
+      meta = {
+        homepage = "https://github.com/towry/path-git-format";
+        description = "Utils to format path with git repo info from stdin";
+        license = lib.licenses.mit;
+      };
+    }

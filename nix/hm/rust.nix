@@ -36,7 +36,7 @@ in {
       retry = 4
     '';
     sessionVariables = {
-      LIBRARY_PATH = ''${lib.makeLibraryPath [pkgs.libiconv]}''${LIBRARY_PATH:+:$LIBRARY_PATH}'';
+      DYLD_FALLBACK_LIBRARY_PATH = ''${lib.makeLibraryPath [pkgs.libiconv]}'';
       RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
     };
   };
