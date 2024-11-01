@@ -71,6 +71,36 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             system = system;
+            username = "towry";
+            pkgs-stable = pkgs-stable;
+            theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
+          };
+          pkgs = pkgs;
+          modules = [./nix/home.nix];
+        };
+      "momo" = let
+        system = "x86_64-darwin";
+        overlay =
+          import ./nix/overlay.nix {
+          };
+        pkgs-stable = import nixpkgs-stable {
+          inherit system;
+        };
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            defaultOverlay
+            overlay
+            # see https://github.com/nix-community/fenix/issues/79
+            (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
+          ];
+        };
+      in
+        home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            system = system;
+            username = "momo";
             pkgs-stable = pkgs-stable;
             theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
           };

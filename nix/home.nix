@@ -2,6 +2,7 @@
 {
   pkgs,
   lib,
+  username,
   ...
 }: let
   locals.packages = with pkgs;
@@ -59,11 +60,11 @@ in {
     # https://github.com/nix-community/home-manager/blob/e3ad5108f54177e6520535768ddbf1e6af54b59d/modules/home-environment.nix#L184
     # Home Manager needs a bit of information about you and the paths it should
     # manage.
-    username = "towry";
+    username = "${username}";
     homeDirectory =
       if pkgs.stdenv.isLinux
-      then "/home/towry"
-      else "/Users/towry";
+      then "/home/${username}"
+      else "/Users/${username}";
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release
     # introduces backwards incompatible changes.
