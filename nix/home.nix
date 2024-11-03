@@ -134,22 +134,6 @@ in {
     ];
   };
 
-  xdg = {
-    enable = true;
-    configFile = {
-      "nix/nix.conf".text = ''
-        # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-trusted-users
-        # sh: id
-        trusted-users = root @staff ${username}
-        # sudo launchctl stop org.nixos.nix-daemon
-        # sudo launchctl start org.nixos.nix-daemon
-        substituters = https://dots.cachix.org https://nix-community.cachix.org https://towry.cachix.org https://mirrors.ustc.edu.cn/nix-channels/store https://cache.nixos.org/
-        trusted-public-keys = dots.cachix.org-1:H/gV3a5Ossrd/R+qrqrAk9tr3j51NHEB+pCTOk0OjYA= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= towry.cachix.org-1:7wS4ROZkLQMG6TZPt4K6kSwzbRJZf6OiyR9tWgUg3hY=
-        experimental-features = nix-command flakes
-      '';
-    };
-  };
-
   imports = [
     ./hm/shared.nix
     ./hm/buildeps.nix
