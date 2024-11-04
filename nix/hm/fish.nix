@@ -95,7 +95,7 @@
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";
-    make-neovim = "make CMAKE_BUILD_TYPE=Release";
+    make-neovim = "CMAKE_INSTALL_PREFIX=/usr/local/bin CMAKE_LIBRARY_PATH=$HOME/.nix-profile/lib CMAKE_INCLUDE_PATH=$HOME/.nix-profile/include make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=/usr/local";
     nvim-lazy-install = "nvim --headless \"+Lazy! install\" +qa && echo 'done'";
     kitty-list-fonts = "kitty +list-fonts --psnames";
     ghc = "gh copilot";
