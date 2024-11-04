@@ -38,7 +38,7 @@
     ++ lib.lists.optionals pkgs.stdenv.isDarwin [
       # macOs packages
       # raycast
-      libiconv # neovim build need this.
+      # libiconv # neovim build need this.
       # darwin.apple_sdk.frameworks.Security
       # darwin.apple_sdk.frameworks.Foundation
     ]

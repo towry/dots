@@ -25,8 +25,6 @@ in {
       # background check
       pkgs.bacon
       pkgs.taplo
-      # rust build deps
-      pkgs.libiconv
     ];
     file.".cargo/config.toml".text = ''
       [build]
@@ -36,7 +34,6 @@ in {
       retry = 4
     '';
     sessionVariables = {
-      DYLD_FALLBACK_LIBRARY_PATH = ''${lib.makeLibraryPath [pkgs.libiconv]}'';
       RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
     };
   };
