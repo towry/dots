@@ -1,10 +1,10 @@
 {
   config,
-  pkgs,
+  # pkgs,
   ...
 }: {
   home.packages = [
-    pkgs.zellij
+    # pkgs.zellij
   ];
   xdg.configFile = {
     "zellij" = {

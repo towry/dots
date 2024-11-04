@@ -4,10 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=24.05";
-    zellij = {
-      url = "github:towry/nix-flakes?dir=zellij";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # zellij = {
+    #   url = "github:towry/nix-flakes?dir=zellij";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     git-smash = {
       url = "github:towry/nix-flakes?dir=git-smash";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +43,7 @@
     defaultOverlay = _: prev: {
       zig = inputs.zig.packages.${prev.system}."0.13.0";
       zls = inputs.zls.packages.${prev.system}.zls;
-      zellij = inputs.zellij.packages.${prev.system}.default;
+      # zellij = inputs.zellij.packages.${prev.system}.default;
       git-smash = inputs.git-smash.packages.${prev.system}.default;
       gitu = inputs.gitu.packages.${prev.system}.default;
     };
