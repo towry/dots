@@ -77,7 +77,7 @@
       };
   in {
     homeConfigurations = {
-      "mac-legacy" = generateHomeConfig {
+      "towry" = generateHomeConfig {
         username = "towry";
         system = "x86_64-darwin";
       };

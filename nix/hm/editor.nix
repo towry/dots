@@ -18,6 +18,10 @@
     })
   ];
   home.packages = with pkgs; [
+    ## build neovim
+    ninja
+    gettext
+    curl
     # latest is required
     tree-sitter
     sqlite

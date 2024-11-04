@@ -27,8 +27,8 @@ in {
   '';
   home.packages =
     (with pkgs; [
-      pkg-config
-      openssl_3
+      # system info tool.
+      neofetch
       ## code counter
       scc
       # bore-cli
@@ -51,6 +51,7 @@ in {
       asdf-vm
       docker-credential-helpers
       uv
+      neofetch
     ])
     ++ [
       python3

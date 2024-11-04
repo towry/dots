@@ -36,9 +36,9 @@ line_exists() {
     if grep -q "^$key" "$NIX_CONF"; then
         # Remove the old line
         sudo sed -i '' "/^$key/d" "$NIX_CONF"
-        return 1
+        return true
     fi
-    return 0
+    return false
 }
 
 # Add each configuration line if it doesn't exist

@@ -2,24 +2,21 @@
 
 UNAME := $(shell uname)
 NIX_PROFILE := /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+WHOAMI := $(shell whoami)
 
 
 all:
-	echo "OK"
+	echo "$(WHOAMI) - ${UNAME}"
 
 $(NIX_PROFILE):
 	curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 
 install-nix: $(NIX_PROFILE)
 
-b:
-	home-manager switch --flake .#mac-legacy --experimental-features 'nix-command flakes'
-build-momo:
-	home-manager switch --flake .#momo --experimental-features 'nix-command flakes'
 build:
-	cachix watch-exec dots -- home-manager switch --flake .#mac-legacy --experimental-features 'nix-command flakes'
-build-no-cache:
-	home-manager switch --flake .#mac-legacy --experimental-features 'nix-command flakes' --option eval-cache false
+	home-manager switch --flake .#${WHOAMI} --experimental-features 'nix-command flakes'
+buildc:
+	cachix watch-exec dots -- make build
 
 update-input:
 	nix flake update --
