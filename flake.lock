@@ -424,7 +424,6 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
-        "zellij": "zellij",
         "zig": "zig",
         "zls": "zls"
       }
@@ -537,28 +536,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "zellij": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "zellij",
-        "lastModified": 1730024393,
-        "narHash": "sha256-rchfBpsHTD7cVNZ0TJPi0ZnnyUcXtdH3V41CWRwmhpY=",
-        "owner": "towry",
-        "repo": "nix-flakes",
-        "rev": "00ef6655afbb382b5293b06198b7da3bb0378a1c",
-        "type": "github"
-      },
-      "original": {
-        "dir": "zellij",
-        "owner": "towry",
-        "repo": "nix-flakes",
         "type": "github"
       }
     },

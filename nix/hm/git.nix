@@ -98,6 +98,7 @@ in {
       alias = "! git config --get-regexp '^alias\\.' | sed 's/^alias\\.//' | fzf";
       ignore = "!gi() { curl -sL https://www.gitignore.io/api/$@ ;}; gi";
       config-fetch-origin = ''config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'';
+      clone-bare = ''!f() { git clone --bare $@ && cd $@ && git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; }; f'';
       ahead = "rev-list --left-right --count";
       # create feat branch in format of feat/YYYYMMDD-short-description, also accept other git arguments
       create-br-feat = "!f() { git checkout -b feat/$(date +%Y%m)-$1 $2; }; f";
