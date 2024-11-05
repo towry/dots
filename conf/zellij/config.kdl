@@ -1,15 +1,13 @@
 plugins {
     tab-bar location="zellij:tab-bar"
     status-bar location="zellij:status-bar"
-    strider location="zellij:strider"
     compact-bar location="zellij:compact-bar"
-    session-manager location="zellij:session-manager"
     plugin-manager location="zellij:plugin-manager"
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
     filepicker location="zellij:strider" {
-        cwd "/"
+        cwd "$HOME/"
     }
 }
 
@@ -132,8 +130,8 @@ keybinds clear-defaults=true {
         bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
         bind "w" {
           LaunchOrFocusPlugin "zellij:session-manager" {
-            floating false
-            move_to_focused_tab true
+            floating true
+            move_to_focused_tab false
           };
           SwitchToMode "Normal";
         }
@@ -194,8 +192,8 @@ keybinds clear-defaults=true {
         bind "Super /" { NewPane "Right"; }
         bind "Super w" {
           LaunchOrFocusPlugin "zellij:session-manager" {
-            floating false
-            move_to_focused_tab true
+            floating true
+            move_to_focused_tab false
           };
           SwitchToMode "Normal";
         }

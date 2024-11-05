@@ -34,7 +34,9 @@ bind main fu !git commit --fixup=%(commit)
 
 bind main    G move-last-line
 bind generic G move-last-line
-bind main S !git format-patch -1 %(commit)
+# format patch
+bind diff f. !git format-patch -1 %(commit)
+bind diff f1 !git format-patch -1 %(commit) -- %(file)
 
 bind generic <C-b> move-page-down
 bind generic <C-f> move-page-up
@@ -84,12 +86,20 @@ bind status  u  none
 bind stage   u  none
 bind status ua !?@git add -A
 bind stage ua !?@git add -A
+# Stage/unstage chunk or file changes
 bind generic uu status-update
+# Revert chunk or file changes
 bind generic ur status-revert
+# Merge file using external tool
 bind generic um status-merge
+# Stage/unstage single line
 bind stage - stage-update-line
 bind status - stage-update-line
+# Split current diff chunk
 bind generic us stage-split-chunk
+# discard changes that staged
+bind stage rf @git restore --staged %(file)
+bind stage rw @git restore --worktree --staged .
 
 bind generic c  none
 bind generic co ?git checkout %(commit)
@@ -115,7 +125,9 @@ bind reflog rs ?git reset --soft %(commit)
 bind generic <C-w><C-w> view-next
 
 # copy current commit hash to clipboard on macos
+bind diff y none
 bind generic Y !+@sh -c "git rev-parse --short %(commit) | tr -d '\\n' | pbcopy && echo copied hash: %(commit)"
+bind diff Y +bash -c "( [ -n '%(file)' ] && echo '%(file)' || echo '%(commit)' ) | tee >(pbcopy)"
 # rebase onto
 bind generic rt ?<git rebase -i --autosquash %(commit)
 # rebase to
