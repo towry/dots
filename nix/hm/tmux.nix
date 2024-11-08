@@ -61,31 +61,20 @@ in {
     '';
   };
   programs.tmux = {
-    enable = false;
+    enable = true;
     historyLimit = 20000;
     keyMode = "vi";
     baseIndex = 1;
     mouse = true;
     prefix = "C-z";
+    sensibleOnTop = false;
     terminal = "tmux-256color";
     shell = "${pkgs.fish}/bin/fish";
     # https://github.com/tmuxinator/tmuxinator
     tmuxinator.enable = false;
     # https://github.com/tmux-python/tmuxp
-    tmuxp.enable = true;
-    plugins = with pkgs; [
-      {
-        plugin = tmuxPlugins.resurrect;
-        extraConfig = "set -g @resurrect-strategy-nvim 'session'";
-      }
-      {
-        plugin = tmuxPlugins.continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'on'
-          set -g @continuum-save-interval '60' # minutes
-        '';
-      }
-    ];
+    tmuxp.enable = false;
+    plugins = with pkgs; [];
     extraConfig = ''
       #== env
       if-shell "echo $TERM | grep alacritty" "set-option -sa terminal-overrides ',alacritty:Tc'"
@@ -273,7 +262,7 @@ in {
 
       # ===============================================
       ## UI
-      set -g pane-border-status top
+      set -g pane-border-status bottom
       set -g status-interval 1
       set -g status on
       set -g status-left-length 100
@@ -291,8 +280,8 @@ in {
       set -g status-left "#[bold] #S "
       set -g status-right "#[bold] #h "
       #+--- Windows ---+
-      set -g window-status-format "#I#{?window_end_flag, ,}"
-      set -g window-status-current-format "#[fg=blue,bold]#I#{?window_zoomed_flag,##z,}#{?window_end_flag, ,}"
+      set -g window-status-format " #I·#W#{?window_end_flag, , }"
+      set -g window-status-current-format " #[fg=blue,bold]#I·#W#{?window_zoomed_flag,##z,}#{?window_end_flag, , }"
       set -g window-status-separator "#[fg=colour8]│"
       # ========== End UI
     '';
