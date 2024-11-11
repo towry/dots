@@ -280,8 +280,8 @@ in {
       set -g status-left "#[bold] #S "
       set -g status-right "#[bold] #h "
       #+--- Windows ---+
-      set -g window-status-format " #I·#W#{?window_end_flag, , }"
-      set -g window-status-current-format "#[bg=blue,fg=black,bold] #I·#W#{?window_zoomed_flag,##z,}#{?window_end_flag, , }"
+      set -g window-status-format " #I·#W#{?window_zoomed_flag,##Z,}#{?window_end_flag, , }"
+      set -g window-status-current-format "#[bg=blue,fg=black,bold] #I·#W#{?window_zoomed_flag,##Z,}#{?window_end_flag, , }"
       set -g window-status-separator "#[fg=colour8]│"
       # ========== End UI
     '';
