@@ -3,6 +3,7 @@
   pkgs,
   lib,
   username,
+  useGlobalPkgs ? false,
   ...
 }: let
   locals.packages = with pkgs;
@@ -47,7 +48,7 @@
       xclip
     ];
 in {
-  nixpkgs = {
+  nixpkgs = lib.mkIf (!useGlobalPkgs) {
     config = {
       # obsidian for example have unfree license.
       allowUnfree = true;

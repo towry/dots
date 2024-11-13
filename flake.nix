@@ -1,9 +1,29 @@
 {
   description = "Towry de dotfiles";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://dots.cachix.org"
+      "https://nix-community.cachix.org"
+      "https://towry.cachix.org"
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://cache.nixos.org"
+    ];
+    extra-trusted-public-keys = [
+      "dots.cachix.org-1:H/gV3a5Ossrd/R+qrqrAk9tr3j51NHEB+pCTOk0OjYA="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "towry.cachix.org-1:7wS4ROZkLQMG6TZPt4K6kSwzbRJZf6OiyR9tWgUg3hY="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=24.05";
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # zellij = {
     #   url = "github:towry/nix-flakes?dir=zellij";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -33,6 +53,7 @@
     self,
     nixpkgs,
     nixpkgs-stable,
+    darwin,
     home-manager,
     ...
   } @ inputs: let
@@ -48,14 +69,17 @@
       gitu = inputs.gitu.packages.${prev.system}.default;
     };
 
-    generateHomeConfig = {
-      username,
-      system,
-    }: let
-      overlay = import ./nix/overlay.nix {};
-      pkgs-stable = import nixpkgs-stable {inherit system;};
+    overlay = import ./nix/overlay.nix {};
+    mkSystemConfig = system: {
+      pkgs-stable = import nixpkgs-stable {
+        inherit system;
+        config.allowUnfree = true;
+        config.allowUnfreePredicate = true;
+      };
       pkgs = import nixpkgs {
         inherit system;
+        config.allowUnfree = true;
+        config.allowUnfreePredicate = true;
         overlays = [
           defaultOverlay
           overlay
@@ -63,6 +87,13 @@
           (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
         ];
       };
+    };
+
+    generateHomeConfig = {
+      username,
+      system,
+    }: let
+      inherit (mkSystemConfig system) pkgs pkgs-stable;
     in
       home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {
@@ -75,6 +106,9 @@
         pkgs = pkgs;
         modules = [./nix/home.nix];
       };
+    vars = {
+      editor = "nvim";
+    };
   in {
     homeConfigurations = {
       "towry" = generateHomeConfig {
@@ -86,6 +120,12 @@
         system = "x86_64-darwin";
       };
     };
+    darwinConfigurations = (
+      import ./nix/hosts/darwin {
+        inherit (nixpkgs) lib;
+        inherit mkSystemConfig inputs nixpkgs nixpkgs-stable home-manager darwin vars;
+      }
+    );
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
 }

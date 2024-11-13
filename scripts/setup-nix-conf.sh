@@ -3,6 +3,7 @@
 ## https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-trusted-users
 
 NIX_CONF="/etc/nix/nix.conf"
+USER_NIX_CONF="$HOME/.config/nix/nix.conf"
 
 # Check if a username is provided as an argument
 if [ -z "$1" ]; then
@@ -17,7 +18,9 @@ sudo -v
 
 # Create config if it doesn't exist
 mkdir -p /etc/nix
+mkdir -p "$HOME/.config/nix"
 touch "$NIX_CONF"
+touch "$USER_NIX_CONF"
 
 # Configuration lines to add
 CONFIG_LINES=(
@@ -30,10 +33,11 @@ CONFIG_LINES=(
 # Function to check if line exists in file
 line_exists() {
     local line="$1"
+    local conf="$2"
     local key=$(echo "$line" | awk '{print $1}')
 
     # If the line exists with the same key, remove the old line
-    if grep -q "^$key" "$NIX_CONF"; then
+    if grep -q "^$key" $conf; then
         # Remove the old line
         sudo sed -i '' "/^$key/d" "$NIX_CONF"
         return true
@@ -43,8 +47,15 @@ line_exists() {
 
 # Add each configuration line if it doesn't exist
 for line in "${CONFIG_LINES[@]}"; do
-    if ! line_exists "$line"; then
+    if ! line_exists "$line" "$NIX_CONF"; then
         echo "$line" >> "$NIX_CONF"
+        echo "> Added: $line"
+    else
+        echo "> Already exists: $line"
+    fi
+
+    if ! line_exists "$line" "$USER_NIX_CONF"; then
+        echo "$line" >> "$USER_NIX_CONF"
         echo "> Added: $line"
     else
         echo "> Already exists: $line"

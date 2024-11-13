@@ -21,6 +21,26 @@
         "type": "github"
       }
     },
+    "darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1731642829,
+        "narHash": "sha256-vG+O2RZRzYZ8BUMNNJ+BLSj6PUoGW7taDQbp6QNJ3Xo=",
+        "owner": "lnl7",
+        "repo": "nix-darwin",
+        "rev": "f86f158efd4bab8dce3e207e4621f1df3a760b7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lnl7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -418,6 +438,7 @@
     },
     "root": {
       "inputs": {
+        "darwin": "darwin",
         "fenix": "fenix",
         "git-smash": "git-smash",
         "gitu": "gitu",
