@@ -111,6 +111,8 @@
     # yabaiconf="nvim ~/.config/yabai/yabairc";
     skhdconf = "nvim ~/.config/skhd/skhdrc";
     tmuxin = "tmux new-session -A -s Main";
+    tm-rw = "tmux rename-window";
+    tm-rs = "tmux rename-session";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
     random-name = "uclanr";
     tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
