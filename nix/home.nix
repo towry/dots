@@ -3,6 +3,7 @@
   pkgs,
   lib,
   username,
+  useGlobalPkgs ? false,
   ...
 }: let
   locals.packages = with pkgs;
@@ -12,13 +13,13 @@
       # nix formatter
       alejandra
       nixd
-      nix-health
+      # nix-health
       # git-fuzzy
       zig
       zls
       # vim-zellij-navigator
       path-git-format
-      uclanr
+      # uclanr
       nix-prefetch-github
       nerd-font-patcher
       (nerdfonts.override {
@@ -47,7 +48,7 @@
       xclip
     ];
 in {
-  nixpkgs = {
+  nixpkgs = lib.mkIf (!useGlobalPkgs) {
     config = {
       # obsidian for example have unfree license.
       allowUnfree = true;
