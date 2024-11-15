@@ -24,6 +24,7 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mac-app-util.url = "github:hraban/mac-app-util";
     # zellij = {
     #   url = "github:towry/nix-flakes?dir=zellij";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -55,6 +56,7 @@
     nixpkgs-stable,
     darwin,
     home-manager,
+    mac-app-util,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -83,10 +85,6 @@
         overlays = [
           defaultOverlay
           overlay
-          (_: prev: {
-            # https://github.com/LnL7/nix-darwin/issues/1041
-            inherit (inputs.nixpkgs-stable.legacyPackages.${prev.system}) karabiner-elements;
-          })
           # see https://github.com/nix-community/fenix/issues/79
           (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
         ];
@@ -108,11 +106,12 @@
           theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
         };
         pkgs = pkgs;
-        modules = [./nix/home.nix];
+        modules = [
+          ./nix/modules
+          ./nix/hm/vars.nix
+          ./nix/home.nix
+        ];
       };
-    vars = {
-      editor = "nvim";
-    };
   in {
     homeConfigurations = {
       "towry" = generateHomeConfig {
@@ -127,7 +126,7 @@
     darwinConfigurations = (
       import ./nix/hosts/darwin {
         inherit (nixpkgs) lib;
-        inherit mkSystemConfig inputs nixpkgs nixpkgs-stable home-manager darwin vars;
+        inherit mkSystemConfig inputs nixpkgs nixpkgs-stable home-manager mac-app-util darwin;
       }
     );
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);

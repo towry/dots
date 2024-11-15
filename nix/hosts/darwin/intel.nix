@@ -1,15 +1,7 @@
-#
-#  Specific system configuration settings for MacBook 8,1
-#
-#  flake.nix
-#   └─ ./darwin
-#       ├─ default.nix
-#       └─ ./intel.nix *
-#
 {pkgs, ...}: {
   networking = {
-    computerName = "towryDeMacbook";
-    hostName = "towryDeMacbook";
+    computerName = "towryDeMpb";
+    hostName = "towryDeMpb";
   };
 
   homebrew = {
@@ -28,7 +20,7 @@
       };
       dock = {
         autohide = false;
-        largesize = 36;
+        largesize = 26;
         tilesize = 24;
         magnification = true;
         showhidden = true;
@@ -40,10 +32,8 @@
         AppleShowAllFiles = false;
         ShowPathbar = true;
         QuitMenuItem = false;
+        ShowStatusBar = true;
       };
-      # keyboard = {
-      #   remapCapsLockToEscape = true;
-      # };
       trackpad = {
         Clicking = true;
         TrackpadRightClick = true;
@@ -51,17 +41,7 @@
       magicmouse = {
         MouseButtonMode = "TwoButton";
       };
-      # CustomUserPreferences = {
-      # # ~/Library/Preferences/
-      # }
-      # CustomSystemPreferences = {
-      # # ~/Library/Preferences/
-      # }
     };
     activationScripts.postActivation.text = ''sudo chsh -s ${pkgs.fish}/bin/fish'';
-    # # Reload all settings without relog/reboot
-    # activationScripts.postUserActivation.text = ''
-    #   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    # '';
   };
 }

@@ -1,6 +1,7 @@
 {
   pkgs,
   theme,
+  username,
   # config,
   ...
 }: {
@@ -95,7 +96,7 @@
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";
-    make-neovim = "CMAKE_INSTALL_PREFIX=/usr/local/bin CMAKE_LIBRARY_PATH=$HOME/.nix-profile/lib CMAKE_INCLUDE_PATH=$HOME/.nix-profile/include make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=/usr/local";
+    make-neovim = "CMAKE_INSTALL_PREFIX=/usr/local/bin make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=/usr/local";
     nvim-lazy-install = "nvim --headless \"+Lazy! install\" +qa && echo 'done'";
     kitty-list-fonts = "kitty +list-fonts --psnames";
     ghc = "gh copilot";
@@ -123,10 +124,6 @@
     set -x GPG_TTY (tty)
     set -x DARKMODE dark
     set -g __fish_ls_command ${pkgs.eza}/bin/eza
-    if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]
-      fenv source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-    end
-
     #########
     if test -e $HOME/.private.fish
         source $HOME/.private.fish
@@ -155,6 +152,7 @@
     fish_add_path $HOME/.nimble/bin
     fish_add_path $HOME/.local/usrbin
     fish_add_path $HOME/.cargo/bin
+    fish_add_path /etc/profiles/per-user/${username}/bin
   '';
 
   programs.fish.functions = {
