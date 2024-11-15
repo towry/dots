@@ -48,4 +48,11 @@ in {
       ./intel.nix
     ];
   };
+  towryDeApplebook = mkDarwinConfig {
+    system = "aarch64-darwin";
+    username = "towry";
+    modules = [
+      ./apple.nix
+    ];
+  };
 }
