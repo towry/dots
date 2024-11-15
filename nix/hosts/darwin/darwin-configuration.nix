@@ -1,10 +1,15 @@
 {
   pkgs,
   username,
-  vars,
+  config,
   ...
 }: {
-  imports = [];
+  imports =
+    (import ../../modules)
+    ++ [
+      ./vars.nix
+      ./darwin-apps.nix
+    ];
 
   users.users.${username} = {
     home = "/Users/${username}";
@@ -13,17 +18,31 @@
 
   environment = {
     variables = {
-      EDITOR = "${vars.editor}";
-      VISUAL = "${vars.editor}";
+      EDITOR = "${config.vars.editor}";
+      VISUAL = "${config.vars.editor}";
+      # build env
+      CPATH = "/etc/profiles/per-user/${username}/include";
+      CMAKE_INCLUDE_PATH = "/etc/profiles/per-user/${username}/include";
+      CMAKE_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
+      C_INCLUDE_PATH = "/etc/profiles/per-user/${username}/include";
+      CPLUS_INCLUDE_PATH = "/etc/profiles/per-user/${username}/include";
+      LDFLAGS = "-L/etc/profiles/per-user/${username}/lib";
+      CFLAGS = "-I/etc/profiles/per-user/${username}/include";
+      CPPFLAGS = "-I/etc/profiles/per-user/${username}/include";
+      LD_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
+      DYLD_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
+      LIBS = "-L/etc/profiles/per-user/${username}/lib -Wl,-rpath,/etc/profiles/per-user/${username}/lib";
+      PKG_CONFIG_PATH = "/etc/profiles/per-user/${username}/lib/pkgconfig";
+      DYLD_FALLBACK_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
     };
-    systemPackages = with pkgs; [
-      # eza # Ls
-      # git # Version Control
-      # tldr # Help
-      karabiner-elements
-      raycast
-      vscode
-      brave
+    shells = [
+      pkgs.bashInteractive
+      pkgs.fish
+    ];
+    pathsToLink = ["/include" "/lib"];
+    extraOutputsToInstall = ["out" "lib" "bin" "dev"];
+    systemPath = [
+      config.homebrew.brewPrefix
     ];
   };
 
@@ -34,12 +53,6 @@
     onActivation = {
       upgrade = false;
       cleanup = "zap";
-    };
-    casks = [
-      # "raycast"
-      "postico"
-    ];
-    masApps = {
     };
   };
 
@@ -86,5 +99,9 @@
 
   system = {
     stateVersion = 4;
+
+    defaults = {
+      screencapture.location = "~/Pictures/Screenshots";
+    };
   };
 }

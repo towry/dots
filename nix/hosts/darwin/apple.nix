@@ -14,9 +14,6 @@
 }: {
   #   imports = import ../../modules;
 
-  yabai.enable = true;
-  skhd.enable = true;
-
   environment = {
     systemPackages = with pkgs; [
     ];
@@ -24,7 +21,6 @@
 
   homebrew = {
     casks = [
-      "google-chrome"
     ];
     masApps = {
       # "Xcode" = 497799835;
@@ -48,7 +44,8 @@
         orientation = "left";
         showhidden = true;
         show-recents = true;
-        tilesize = 30;
+        tilesize = 40;
+        largesize = 16;
       };
       finder = {
         ShowPathbar = true;

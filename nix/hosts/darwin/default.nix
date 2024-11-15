@@ -1,10 +1,10 @@
 # https://github.dev/MatthiasBenaets/nix-config/blob/master/hosts/default.nix
 {
   home-manager,
+  mac-app-util,
   mkSystemConfig,
   inputs,
   darwin,
-  vars,
   ...
 }: let
   mkDarwinConfig = {
@@ -16,16 +16,23 @@
   in
     darwin.lib.darwinSystem {
       inherit system;
-      specialArgs = {inherit inputs system pkgs pkgs-stable vars username;};
+      specialArgs = {inherit inputs system pkgs pkgs-stable username;};
       modules =
         [
+          mac-app-util.darwinModules.default
           ./darwin-configuration.nix
           home-manager.darwinModules.home-manager
           {
+            home-manager.backupFileExtension = "bak";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.sharedModules = [
+              ../../modules/config.nix
+              ./vars.nix
+              mac-app-util.homeManagerModules.default
+            ];
             home-manager.extraSpecialArgs = {
-              inherit inputs system pkgs pkgs-stable vars username;
+              inherit inputs system pkgs pkgs-stable username;
               useGlobalPkgs = true;
               theme = pkgs.callPackage ../../lib/theme.nix {theme = "kanagawa";};
             };
@@ -34,7 +41,7 @@
         ++ modules;
     };
 in {
-  towryDeMacbook = mkDarwinConfig {
+  towryDeMpb = mkDarwinConfig {
     system = "x86_64-darwin";
     username = "towry";
     modules = [
@@ -42,15 +49,15 @@ in {
     ];
   };
   momodeMac-mini = mkDarwinConfig {
-    system = "x86_64-darwin";
+    system = "aarch64-darwin";
     username = "momo";
     modules = [
-      ./intel.nix
+      ./apple.nix
     ];
   };
-  towryDeApplebook = mkDarwinConfig {
+  towryDeMacM2 = mkDarwinConfig {
     system = "aarch64-darwin";
-    username = "towry";
+    username = "momo";
     modules = [
       ./apple.nix
     ];

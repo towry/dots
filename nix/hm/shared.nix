@@ -71,6 +71,11 @@ in {
       enable = true;
       source = ../../conf/yabai;
     };
+    karabiner = {
+      enable = true;
+      recursive = true;
+      source = ../../conf/karabiner;
+    };
   };
   home.file = {
     ".tool-versions".source = ../../conf/asdf/tool-versions;
@@ -108,11 +113,7 @@ in {
         }
       '';
       bashrcExtra = ''
-        if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
-          . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-        fi
-
-        export PATH="$HOME/.nimble/bin:$PATH"
+        # export PATH="$HOME/.nimble/bin:$PATH"
       '';
     };
     atuin = {

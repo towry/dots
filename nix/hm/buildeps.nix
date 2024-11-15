@@ -1,9 +1,11 @@
 {
   pkgs,
+  lib,
   config,
   ...
 }: let
   homeDir = config.home.homeDirectory;
+  path-prefix = config.vars.path-prefix.value;
 in {
   home.packages = [
     pkgs.gnumake
@@ -23,17 +25,17 @@ in {
     pkgs.readline.dev
     pkgs.readline.out
   ];
-  home.sessionVariables = {
-    CPATH = "${config.home.homeDirectory}/.nix-profile/include";
-    C_INCLUDE_PATH = "${config.home.homeDirectory}/.nix-profile/include";
-    CPLUS_INCLUDE_PATH = "${config.home.homeDirectory}/.nix-profile/include";
-    LDFLAGS = "-L${homeDir}/.nix-profile/lib";
-    CFLAGS = "-I${homeDir}/.nix-profile/include";
-    CPPFLAGS = "-I${homeDir}/.nix-profile/include";
-    LD_LIBRARY_PATH = "${homeDir}/.nix-profile/lib";
-    DYLD_LIBRARY_PATH = "${homeDir}/.nix-profile/lib";
-    LIBS = "-L${homeDir}/.nix-profile/lib -Wl,-rpath,${homeDir}/.nix-profile/lib";
-    PKG_CONFIG_PATH = "${homeDir}/.nix-profile/lib/pkgconfig";
-    DYLD_FALLBACK_LIBRARY_PATH = "${config.home.homeDirectory}/.nix-profile/lib";
+  home.sessionVariables = lib.mkIf config.vars.path-prefix.enable {
+    CPATH = "${path-prefix}/include";
+    C_INCLUDE_PATH = "${path-prefix}/include";
+    CPLUS_INCLUDE_PATH = "${path-prefix}/include";
+    LDFLAGS = "-L${path-prefix}/lib";
+    CFLAGS = "-I${path-prefix}/include";
+    CPPFLAGS = "-I${path-prefix}/include";
+    LD_LIBRARY_PATH = "${path-prefix}/lib";
+    DYLD_LIBRARY_PATH = "${path-prefix}/lib";
+    LIBS = "-L${path-prefix}/lib -Wl,-rpath,${path-prefix}/lib";
+    PKG_CONFIG_PATH = "${path-prefix}/lib/pkgconfig";
+    DYLD_FALLBACK_LIBRARY_PATH = "${path-prefix}/lib";
   };
 }

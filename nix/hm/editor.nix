@@ -2,7 +2,9 @@
   pkgs,
   config,
   ...
-}: {
+}: let
+  path-prefix = config.vars.path-prefix.value;
+in {
   nixpkgs.overlays = [
     (self: super: {
       lua-language-server = super.lua-language-server.overrideAttrs (o: rec {
@@ -60,9 +62,9 @@
     vim.g.user_cfg = {
       codelldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}//share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb",
       liblldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/lldb/lib/liblldb.dylib",
-      env__npm_root = "${config.home.homeDirectory}/.nix-profile",
-      runtime__python3_host_prog = "${config.home.homeDirectory}/.nix-profile/bin/python3",
-      runtime__node_host_prog = "${config.home.homeDirectory}/.nix-profile/bin/neovim-node-host",
+      env__npm_root = "${path-prefix}",
+      runtime__python3_host_prog = "${path-prefix}/bin/python3",
+      runtime__node_host_prog = "${path-prefix}/bin/neovim-node-host",
       lsp_biome = "${pkgs.biome}/bin/biome",
       dap_firefox_debug_adapter_path = "${pkgs.vscode-extensions.firefox-devtools.vscode-firefox-debug}/share/vscode/extensions/firefox-devtools.vscode-firefox-debug/dist/adapter.bundle.js"
     }

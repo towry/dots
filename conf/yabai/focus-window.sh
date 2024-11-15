@@ -1,4 +1,4 @@
-export PATH="$HOME/.nix-profile/bin:$PATH"
+export PATH="$HOME/.nix-profile/bin${PATH:+:}$PATH"
 #!/usr/bin/env bash
 
 # Query windows info in current space

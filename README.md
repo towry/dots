@@ -10,9 +10,7 @@ Towry's dotfiles managed in The Nix Way with home-manager.
 
 ### home-manager
 
-`home-manager switch --flake .#mac-legacy`
-
-Note, `#mac-legacy` is for old intel mac like x86_64-darwin.
+`make build`
 
 All nix bins is available at:
 
@@ -27,7 +25,12 @@ $HOME/.nix-profile/bin/
   (`$HOME/.nix-profile/bin/fish`) as an entry.
 - Run `chsh -s $(which fish)`.
 
-## TODO
+### nix-darwin
 
-- [x] deprecate the niv, flake is the future.
-- [ ] add script to modify `/etc/nix/nix.conf` to add substituter.
+First run:
+
+`make boot`
+
+Afterwards, run: `make rebuild`.
+
+## TODO

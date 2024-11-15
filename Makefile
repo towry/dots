@@ -22,7 +22,8 @@ update-input:
 	nix flake update --
 boot:
 	nix --extra-experimental-features nix-command --extra-experimental-features flakes run nix-darwin -- switch --flake .
-
+rebuild:
+	darwin-rebuild switch --flake .
 
 .PHONY:
-	build build-no-cache update-input b boot
+	build build-no-cache update-input b boot rebuild
