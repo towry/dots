@@ -1,4 +1,3 @@
-# https://github.dev/MatthiasBenaets/nix-config/blob/master/hosts/default.nix
 {
   home-manager,
   mac-app-util,

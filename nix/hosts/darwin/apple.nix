@@ -1,14 +1,5 @@
-#
-#  Specific system configuration settings for MacBook Air M1 10,1
-#
-#  flake.nix
-#   └─ ./darwin
-#       ├─ default.nix
-#       └─ ./m1.nix *
-#
 {
   pkgs,
-  vars,
   username,
   ...
 }: {
