@@ -1,7 +1,5 @@
 # https://github.dev/MatthiasBenaets/nix-config/blob/master/hosts/default.nix
 {
-  nixpkgs,
-  nixpkgs-stable,
   home-manager,
   mkSystemConfig,
   inputs,

@@ -31,11 +31,11 @@
         largesize = 36;
         tilesize = 24;
         magnification = true;
-        mineffect = "genie";
-        orientation = "bottom";
         showhidden = false;
         show-recents = false;
         minimize-to-application = true;
+        orientation = "left";
+        static-only = true;
       };
       finder = {
         AppleShowAllFiles = false;

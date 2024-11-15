@@ -20,6 +20,10 @@
       # eza # Ls
       # git # Version Control
       # tldr # Help
+      karabiner-elements
+      raycast
+      vscode
+      brave
     ];
   };
 
@@ -32,9 +36,7 @@
       cleanup = "zap";
     };
     casks = [
-      "aldente"
-      "appcleaner"
-      "raycast"
+      # "raycast"
       "postico"
     ];
     masApps = {

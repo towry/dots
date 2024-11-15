@@ -13,7 +13,7 @@
       # nix formatter
       alejandra
       nixd
-      nix-health
+      # nix-health
       # git-fuzzy
       zig
       zls

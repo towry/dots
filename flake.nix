@@ -44,8 +44,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     fenix = {
-      url = "github:nix-community/fenix/monthly";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -83,6 +83,10 @@
         overlays = [
           defaultOverlay
           overlay
+          (_: prev: {
+            # https://github.com/LnL7/nix-darwin/issues/1041
+            inherit (inputs.nixpkgs-stable.legacyPackages.${prev.system}) karabiner-elements;
+          })
           # see https://github.com/nix-community/fenix/issues/79
           (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
         ];
