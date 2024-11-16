@@ -96,7 +96,7 @@
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";
-    make-neovim = "CMAKE_INSTALL_PREFIX=/usr/local/bin make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=/usr/local";
+    make-neovim = "CMAKE_INSTALL_PREFIX=$HOME/.local/bin make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$HOME/local";
     nvim-lazy-install = "nvim --headless \"+Lazy! install\" +qa && echo 'done'";
     kitty-list-fonts = "kitty +list-fonts --psnames";
     ghc = "gh copilot";
@@ -149,10 +149,11 @@
         fish_config theme choose "${theme.fish.light}"
     end
 
+    fish_add_path $HOME/.local/bin
     fish_add_path $HOME/.nimble/bin
-    fish_add_path $HOME/.local/usrbin
     fish_add_path $HOME/.cargo/bin
     fish_add_path /etc/profiles/per-user/${username}/bin
+    fish_add_path /run/current-system/sw/bin
   '';
 
   programs.fish.functions = {
