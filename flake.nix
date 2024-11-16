@@ -124,7 +124,7 @@
       };
     };
     darwinConfigurations = (
-      import ./nix/hosts/darwin {
+      import ./nix/darwin {
         inherit (nixpkgs) lib;
         inherit mkSystemConfig inputs nixpkgs nixpkgs-stable home-manager mac-app-util darwin;
       }

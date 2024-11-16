@@ -78,7 +78,7 @@ in {
     };
   };
   home.file = {
-    ".tool-versions".source = ../../conf/asdf/tool-versions;
+    # ".tool-versions".source = ../../conf/asdf/tool-versions;
     ".config/bat/themes/" = {
       source = ../../conf/bat/themes;
       recursive = true;

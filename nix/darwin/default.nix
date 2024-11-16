@@ -19,21 +19,22 @@
       modules =
         [
           mac-app-util.darwinModules.default
-          ./darwin-configuration.nix
+          ./configuration.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.backupFileExtension = "bak";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.sharedModules = [
-              ../../modules/config.nix
+              ../modules/config.nix
+              # ../modules/elixir.nix
               ./vars.nix
               mac-app-util.homeManagerModules.default
             ];
             home-manager.extraSpecialArgs = {
               inherit inputs system pkgs pkgs-stable username;
               useGlobalPkgs = true;
-              theme = pkgs.callPackage ../../lib/theme.nix {theme = "kanagawa";};
+              theme = pkgs.callPackage ../lib/theme.nix {theme = "kanagawa";};
             };
           }
         ]

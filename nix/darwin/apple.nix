@@ -1,12 +1,10 @@
 {
-  pkgs,
+  # pkgs,
   username,
   ...
 }: {
-  #   imports = import ../../modules;
-
   environment = {
-    systemPackages = with pkgs; [
+    systemPackages =[
     ];
   };
 
