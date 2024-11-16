@@ -5,10 +5,10 @@
   ...
 }: {
   imports =
-    (import ../../modules)
-    ++ [
+    [
+      ../modules/config.nix
       ./vars.nix
-      ./darwin-apps.nix
+      ./apps.nix
     ];
 
   users.users.${username} = {
@@ -58,7 +58,7 @@
 
   home-manager.users.${username} = {
     imports = [
-      ../../home.nix
+      ../home.nix
     ];
   };
 

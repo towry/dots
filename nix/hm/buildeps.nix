@@ -4,7 +4,6 @@
   config,
   ...
 }: let
-  homeDir = config.home.homeDirectory;
   path-prefix = config.vars.path-prefix.value;
 in {
   home.packages = [

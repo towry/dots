@@ -6,8 +6,8 @@
   path-prefix = config.vars.path-prefix.value;
 in {
   nixpkgs.overlays = [
-    (self: super: {
-      lua-language-server = super.lua-language-server.overrideAttrs (o: rec {
+    (_self: super: {
+      lua-language-server = super.lua-language-server.overrideAttrs (_: rec {
         version = "3.9.1";
         src = super.fetchFromGitHub {
           owner = "luals";

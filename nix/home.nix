@@ -137,6 +137,7 @@ in {
 
   imports = [
     ./hm/shared.nix
+    ./hm/elixir.nix
     ./hm/buildeps.nix
     ./hm/fish.nix
     ./hm/git.nix

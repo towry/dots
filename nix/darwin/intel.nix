@@ -14,7 +14,7 @@
   system = {
     defaults = {
       NSGlobalDomain = {
-        KeyRepeat = 1;
+        KeyRepeat = 0;
         NSAutomaticCapitalizationEnabled = false;
         NSAutomaticSpellingCorrectionEnabled = false;
       };
