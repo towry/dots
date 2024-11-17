@@ -9,7 +9,12 @@
     pkgs.beam.packagesWith
     pkgs.beam.interpreters."erlang_${config.elixir.erlang_nix_version}";
   erlang = beamPackages.erlang;
-  elixir = beamPackages.${mk_elixir_nix_version config.elixir.elixir_nix_version};
+  elixir = beamPackages.${mk_elixir_nix_version config.elixir.elixir_nix_version}.override {
+    inherit erlang;
+    # version = "1.17.2";
+    # rev = "47abe2d107e654ccede845356773bcf6e11ef7cb";
+    # sha256 = "sha256-8rb2f4CvJzio3QgoxvCv1iz8HooXze0tWUJ4Sc13dxg=";
+  };
   elixir-ls = beamPackages.elixir-ls.overrideAttrs (_oldAttrs: {elixir = elixir;});
   hex = beamPackages.hex;
   # use rebar from nix instead of fetch externally
@@ -44,6 +49,7 @@ in {
       ELS_INSTALL_PREFIX = "${elixir-ls}/lib";
       MIX_PATH = "${hex}/lib/erlang/lib/hex/ebin";
       MIX_REBAR3 = "${rebar3}/bin/rebar3";
+      ERL_AFLAGS="-kernel shell_history enabled";
     };
   };
 }
