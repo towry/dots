@@ -27,7 +27,6 @@
             home-manager.useUserPackages = true;
             home-manager.sharedModules = [
               ../modules/config.nix
-              # ../modules/elixir.nix
               ./vars.nix
               mac-app-util.homeManagerModules.default
             ];

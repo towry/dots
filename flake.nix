@@ -1,25 +1,13 @@
 {
   description = "Towry de dotfiles";
 
-  nixConfig = {
-    extra-substituters = [
-      "https://dots.cachix.org"
-      "https://nix-community.cachix.org"
-      "https://towry.cachix.org"
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      "https://cache.nixos.org"
-    ];
-    extra-trusted-public-keys = [
-      "dots.cachix.org-1:H/gV3a5Ossrd/R+qrqrAk9tr3j51NHEB+pCTOk0OjYA="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "towry.cachix.org-1:7wS4ROZkLQMG6TZPt4K6kSwzbRJZf6OiyR9tWgUg3hY="
-    ];
-  };
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=24.05";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,11 +19,6 @@
     # };
     git-smash = {
       url = "github:towry/nix-flakes?dir=git-smash";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
-      # sets the home-manager's inputs of nixpkgs to be same as top-level(this one).
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zig.url = "github:mitchellh/zig-overlay";
@@ -63,15 +46,9 @@
     forAllSystems = nixpkgs.lib.genAttrs [
       "x86_64-darwin"
     ];
-    defaultOverlay = _: prev: {
-      zig = inputs.zig.packages.${prev.system}."0.13.0";
-      zls = inputs.zls.packages.${prev.system}.zls;
-      # zellij = inputs.zellij.packages.${prev.system}.default;
-      git-smash = inputs.git-smash.packages.${prev.system}.default;
-      gitu = inputs.gitu.packages.${prev.system}.default;
+    overlay = import ./nix/overlay.nix {
+      inherit inputs;
     };
-
-    overlay = import ./nix/overlay.nix {};
     mkSystemConfig = system: {
       pkgs-stable = import nixpkgs-stable {
         inherit system;
@@ -83,7 +60,6 @@
         config.allowUnfree = true;
         config.allowUnfreePredicate = true;
         overlays = [
-          defaultOverlay
           overlay
           # see https://github.com/nix-community/fenix/issues/79
           (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
@@ -107,7 +83,7 @@
         };
         pkgs = pkgs;
         modules = [
-          ./nix/modules
+          ./nix/modules/config.nix
           ./nix/hm/vars.nix
           ./nix/home.nix
         ];
@@ -130,5 +106,25 @@
       }
     );
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+  };
+
+  # =========================================================================
+  # 
+  # =========================================================================
+
+  nixConfig = {
+    extra-substituters = [
+      "https://dots.cachix.org"
+      "https://nix-community.cachix.org"
+      "https://towry.cachix.org"
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://cache.nixos.org"
+    ];
+    extra-trusted-public-keys = [
+      "dots.cachix.org-1:H/gV3a5Ossrd/R+qrqrAk9tr3j51NHEB+pCTOk0OjYA="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "towry.cachix.org-1:7wS4ROZkLQMG6TZPt4K6kSwzbRJZf6OiyR9tWgUg3hY="
+    ];
   };
 }

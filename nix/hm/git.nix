@@ -101,8 +101,9 @@ in {
       clone-bare = ''!f() { git clone --bare $@ && cd $@ && git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; }; f'';
       ahead = "rev-list --left-right --count";
       # create feat branch in format of feat/YYYYMMDD-short-description, also accept other git arguments
-      create-br-feat = "!f() { git checkout -b feat/$(date +%Y%m)-$1 $2; }; f";
-      create-br-fix = "!f() { git checkout -b fix/$(date +%Y%m)-$1 $2; }; f";
+      br-feat = "!f() { git checkout -b feat/$(date +%Y%m)-$1 $2; }; f";
+      br-fix = "!f() { git checkout -b fix/$(date +%Y%m)-$1 $2; }; f";
+      br-refactor = "!f() { git checkout -b refactor/$(date +%Y%m)-$1 $2; }; f";
       # sync and rebase, for example: git sync-rebase origin master do: git fetch origin master && git rebase origin/master
       sync-rebase = "!f() { git fetch $1 $2 && git rebase $1/$2; }; f";
       # commit convention
