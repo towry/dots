@@ -44,6 +44,9 @@ in {
       ELS_INSTALL_PREFIX = "${elixir-ls}/lib";
       MIX_PATH = "${hex}/lib/erlang/lib/hex/ebin";
       MIX_REBAR3 = "${rebar3}/bin/rebar3";
+      # temp fix for https://github.com/elixir-lsp/elixir-ls/blob/a0aa18356adce07ef96cbe8b67d1dca990ebfd48/scripts/language_server.sh#L22
+      # els suck!
+      ELS_MODE = "language_server";
     };
   };
 }
