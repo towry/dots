@@ -1,4 +1,4 @@
-{...}: (final: prev: {
+{inputs, ...}: (final: prev: {
   codelldb = final.vscode-extensions.vadimcn.vscode-lldb.adapter;
   path-git-format = final.callPackage ./pkgs/path-git-format.nix {
     version = "v0.0.3";
@@ -13,7 +13,7 @@
   nerd-font-patcher = let
     nerdFontPatcherVersion = "3.2.1";
   in
-    prev.nerd-font-patcher.overrideAttrs (finalAttrs: prevAttrs: {
+    prev.nerd-font-patcher.overrideAttrs (_finalAttrs: _prevAttrs: {
       src = prev.fetchzip {
         # without this, fail in unstable
         stripRoot = false;
@@ -29,4 +29,9 @@
   dark-notify = final.callPackage ./pkgs/dark-mode-notify.nix {
     pkgs = final;
   };
+  zig = inputs.zig.packages.${prev.system}."0.13.0";
+  zls = inputs.zls.packages.${prev.system}.zls;
+  # zellij = inputs.zellij.packages.${prev.system}.default;
+  git-smash = inputs.git-smash.packages.${prev.system}.default;
+  gitu = inputs.gitu.packages.${prev.system}.default;
 })
