@@ -6,10 +6,10 @@
     system = final.system;
   };
   # git-fuzzy = final.callPackage ./pkgs/git-fuzzy.nix {};
-  # uclanr = final.callPackage ./pkgs/uclanr.nix {
-  #   pkgs = final;
-  #   system = final.system;
-  # };
+  uclanr = final.callPackage ./pkgs/uclanr.nix {
+    pkgs = final;
+    system = final.system;
+  };
   nerd-font-patcher = let
     nerdFontPatcherVersion = "3.2.1";
   in

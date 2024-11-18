@@ -19,7 +19,7 @@
       zls
       # vim-zellij-navigator
       path-git-format
-      # uclanr
+      uclanr
       nix-prefetch-github
       nerd-font-patcher
       (nerdfonts.override {
