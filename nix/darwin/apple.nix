@@ -4,7 +4,7 @@
   ...
 }: {
   environment = {
-    systemPackages =[
+    systemPackages = [
     ];
   };
 
@@ -52,12 +52,15 @@
         # Settings of plist in ~/Library/Preferences/
         "com.apple.finder" = {
           # Set home directory as startup window
-          NewWindowTargetPath = "file:///Users/${username}/";
+          NewWindowTargetPath = "file:///Users/${username}/Downloads";
           NewWindowTarget = "PfHm";
           # Set search scope to directory
           FXDefaultSearchScope = "SCcf";
           # Multi-file tab view
           FinderSpawnTab = true;
+        };
+        "com.apple.dock" = {
+          mru-spaces = 0;
         };
         "com.apple.desktopservices" = {
           # Disable creating .DS_Store files in network an USB volumes
