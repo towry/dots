@@ -12,6 +12,7 @@
     nodePackages.prettier
     nodePackages.eslint
     nodePackages.typescript
+    vtsls
     nodePackages.typescript-language-server
     tailwindcss-language-server
     vscode-extensions.firefox-devtools.vscode-firefox-debug
