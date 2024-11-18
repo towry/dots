@@ -7,8 +7,8 @@
     # node2nix
     fnm
     bun
+    nodejs
     # biome
-    # nodejs_20
     nodePackages.prettier
     nodePackages.eslint
     nodePackages.typescript
