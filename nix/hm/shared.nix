@@ -18,6 +18,7 @@ in {
       run mkdir -p ${config.home.homeDirectory}/workspace
       run mkdir -p ${config.home.homeDirectory}/workspace/goenv
       run mkdir -p ${config.home.homeDirectory}/.local/bin
+      run mkdir -p ${config.home.homeDirectory}/Pictures/Screenshots
     '';
   };
   # TODO: move to module.
