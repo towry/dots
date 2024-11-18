@@ -22,6 +22,7 @@
       uclanr
       nix-prefetch-github
       nerd-font-patcher
+      lxgw-wenkai
       (nerdfonts.override {
         fonts = [
           "Iosevka"
