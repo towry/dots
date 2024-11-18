@@ -17,6 +17,7 @@ in {
     ensureWorkspaceDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
       run mkdir -p ${config.home.homeDirectory}/workspace
       run mkdir -p ${config.home.homeDirectory}/workspace/goenv
+      run mkdir -p ${config.home.homeDirectory}/.local/bin
     '';
   };
   # TODO: move to module.

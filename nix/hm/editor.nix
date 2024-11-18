@@ -31,6 +31,7 @@ in {
     stylua
     lua-language-server
     luarocks
+    shellcheck
     # for nix language lsp support.
     nil
     deadnix
@@ -43,7 +44,8 @@ in {
     nodePackages.neovim
     # jsonls
     vscode-langservers-extracted
-    pyright
+    # pyright
+    basedpyright
     ruff
     (python3.buildEnv.override {
       extraLibs = [

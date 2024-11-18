@@ -131,7 +131,8 @@ in {
       EDITOR = "nvim";
     };
     sessionPath = [
-      # "$HOME/.local/bin"
+      "$HOME/.local/bin"
+      "$HOME/.cargo/bin"
     ];
   };
 
