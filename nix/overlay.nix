@@ -34,4 +34,9 @@
   # zellij = inputs.zellij.packages.${prev.system}.default;
   git-smash = inputs.git-smash.packages.${prev.system}.default;
   gitu = inputs.gitu.packages.${prev.system}.default;
+  nodejs = prev.nodejs_20;
+  nodejs_22 = prev.nodejs_20;
+  nodePackages = prev.nodePackages.override {
+    nodejs = prev.nodejs_20;
+  };
 })
