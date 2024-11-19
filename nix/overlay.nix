@@ -26,9 +26,13 @@
   switch-theme = final.callPackage ./pkgs/switch-theme/default.nix {
     pkgs = final;
   };
-  dark-notify = final.callPackage ./pkgs/dark-mode-notify.nix {
-    pkgs = final;
-  };
+  dark-notify =
+    if final.system == "aarch64-darwin"
+    then final.dark-mode-notify
+    else
+      final.callPackage ./pkgs/dark-mode-notify.nix {
+        pkgs = final;
+      };
   zig = inputs.zig.packages.${prev.system}."0.13.0";
   zls = inputs.zls.packages.${prev.system}.zls;
   # zellij = inputs.zellij.packages.${prev.system}.default;
