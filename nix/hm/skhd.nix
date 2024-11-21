@@ -8,7 +8,7 @@
     pkgs.jq
     # pkgs.bash
   ];
-  home.file."${config.home.homeDirectory}/Applications/skhd".source = "${pkgs.skhd}/bin/skhd";
+  # home.file."${config.home.homeDirectory}/Applications/skhd".source = "${pkgs.skhd}/bin/skhd";
   xdg.configFile = let
     jqbin = "${pkgs.jq}/bin/jq";
     bashbin = "${pkgs.bash}/bin/bash";
@@ -208,44 +208,36 @@
        fi
     '';
     "skhd/yabai_toggle_kitty.sh".text = ''
-    #!/usr/bin/env bash
+      #!/usr/bin/env bash
 
-    WINDOW_TITLE="floating-kitty"
-    WINDOW_ID=$(yabai -m query --windows | jq -e ".[] | select(.title==\"$WINDOW_TITLE\") | .id") || true
+      APP="kitty"
+      WINDOW_TITLE="kitty"
+      WINDOW_ID=$(yabai -m query --windows | jq -e "map(select(.app==\"$APP\"))[0].id")
 
-    if [[ -z "$WINDOW_ID" ]]; then
-        pgrep -x kitty >/dev/null &&
-            kitty @ new-window --title "$WINDOW_TITLE" ||
-                open -na ${pkgs.kitty}/bin/kitty --args --title "$WINDOW_TITLE"
+      if [[ -z "$WINDOW_ID" ]]; then
+          pgrep -x kitty >/dev/null &&
+              kitty @ new-window --title "$WINDOW_TITLE" ||
+                  open -na ${pkgs.kitty}/bin/kitty --args --title "$WINDOW_TITLE"
+      fi
 
-    fi
+      WINDOW_ID=$(yabai -m query --windows | jq -e "map(select(.app==\"$APP\"))[0].id")
+      WINDOW_QUERY=$(yabai -m query --windows --window "$WINDOW_ID")
+      IS_MINIMIZED=$(echo "$WINDOW_QUERY" | jq '."is-minimized"')
+      IS_HIDDEN=$(echo "$WINDOW_QUERY" | jq '."is-hidden"')
+      # if current window is not WINDOW_ID, then set IS_HIDDEN to true
+      CURR_WINID=$(yabai -m query --windows --window | jq '.id')
+      if [[ "$CURR_WINID" != "$WINDOW_ID" ]]; then
+        IS_HIDDEN="true"
+      fi
+      CURRENT_SPACE=$(yabai -m query --spaces --space | jq '.index')
 
-    WINDOW_ID=$(yabai -m query --windows | jq -e ".[] | select(.title==\"$WINDOW_TITLE\") | .id")
-    WINDOW_QUERY=$(yabai -m query --windows --window "$WINDOW_ID")
-    IS_MINIMIZED=$(echo "$WINDOW_QUERY" | jq '."is-minimized"')
-    IS_HIDDEN=$(echo "$WINDOW_QUERY" | jq '."is-hidden"')
-    # if current window is not WINDOW_ID, then set IS_HIDDEN to true
-    CURR_WINID=$(yabai -m query --windows --window | jq '.id')
-    if [[ "$CURR_WINID" != "$WINDOW_ID" ]]; then
-      IS_HIDDEN="true"
-    fi
-    IS_FLOATING=$(echo "$WINDOW_QUERY" | jq '."is-floating"')
-    CURRENT_SPACE=$(yabai -m query --spaces --space | jq '.index')
-
-    if [[ "''${IS_HIDDEN}" == "false" ]]; then
-        # minimize window
-        skhd -k "cmd - o"
-    else
-        yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
-        yabai -m window --focus "$WINDOW_ID"
-
-        if [[ "''${IS_FLOATING}" != "true" ]]; then
-	        yabai -m window "$WINDOW_ID" --toggle float
-          sleep 1.5
-        fi
-
-        # yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
-    fi
+      if [[ "''${IS_HIDDEN}" == "false" ]]; then
+          # minimize window
+          skhd -k "cmd - o"
+      else
+          yabai -m window --focus "$WINDOW_ID"
+          yabai -m window "$WINDOW_ID" --space "$CURRENT_SPACE" --grid "20:20:1:1:18:18"
+      fi
     '';
 
     "skhd/space_focus_prev.sh".text = ''
