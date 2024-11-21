@@ -1,5 +1,5 @@
 {lib, ...}: let
-  enable_starship = false;
+  enable_starship = true;
 in {
   programs.starship = {
     enable = enable_starship;
@@ -38,7 +38,7 @@ in {
         disabled = false;
       };
       git_state = {
-        disabled = true;
+        disabled = false;
         format = "[\($state( $progress_current of $progress_total)\)]($style) ";
       };
       memory_usage = {
