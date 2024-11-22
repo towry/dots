@@ -6,7 +6,6 @@
   home.packages = [
     pkgs.yabai
   ];
-  home.file."${config.home.homeDirectory}/Applications/yabai".source = "${pkgs.yabai}/bin/yabai";
   xdg.configFile = let
     bash = "${pkgs.bash}/bin/bash";
     # jqbin = "${pkgs.jq}/bin/jq";

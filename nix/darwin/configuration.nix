@@ -8,6 +8,7 @@
     ../modules/config.nix
     ./vars.nix
     ./apps.nix
+    ./yabai.nix
   ];
 
   users.users.${username} = {
