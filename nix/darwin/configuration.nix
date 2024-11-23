@@ -9,6 +9,7 @@
     ./vars.nix
     ./apps.nix
     ./yabai.nix
+    ./jankyborders.nix
   ];
 
   users.users.${username} = {
