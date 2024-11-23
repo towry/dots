@@ -4,12 +4,12 @@
   config,
   ...
 }: {
-  imports =
-    [
-      ../modules/config.nix
-      ./vars.nix
-      ./apps.nix
-    ];
+  imports = [
+    ../modules/config.nix
+    ./vars.nix
+    ./apps.nix
+    ./yabai.nix
+  ];
 
   users.users.${username} = {
     home = "/Users/${username}";
@@ -102,6 +102,9 @@
 
     defaults = {
       screencapture.location = "~/Pictures/Screenshots";
+      NSGlobalDomain = {
+        ApplePressAndHoldEnabled = false;
+      };
     };
   };
 }
