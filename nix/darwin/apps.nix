@@ -3,6 +3,7 @@
     raycast
     vscode
     brave
+    ice-bar
   ];
 
   homebrew = {
