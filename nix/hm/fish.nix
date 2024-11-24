@@ -71,6 +71,7 @@
     split-pane = "wezterm cli split-pane";
     cls = "clear";
     vi = "nvim";
+    lazy = "NVIM_APPNAME=lazy nvim";
     # temporary for lazy branch dev
     astro = "NVIM_APPNAME=astro nvim";
     q = "exit";

@@ -19,14 +19,14 @@
         NSAutomaticSpellingCorrectionEnabled = false;
       };
       dock = {
-        autohide = false;
-        largesize = 26;
-        tilesize = 24;
+        autohide = true;
+        largesize = 42;
+        tilesize = 40;
         magnification = true;
         showhidden = true;
         show-recents = true;
         minimize-to-application = true;
-        orientation = "left";
+        orientation = "bottom";
       };
       finder = {
         AppleShowAllFiles = false;
