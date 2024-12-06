@@ -24,7 +24,7 @@ yabai -m signal --add event=space_changed action="~/.config/yabai/focus-window.s
 yabai -m signal --add event=display_changed action="~/.config/yabai/focus-window.sh"
 
 # Unload the macOS WindowManager process
-launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist > /dev/null 2>&1 &
+launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist >/dev/null 2>&1 &
 
 # -- mouse --
 
@@ -62,11 +62,10 @@ yabai -m config window_gap 6
 yabai -m space 1 --label web
 yabai -m space 2 --label code
 
-
 #-- rules --
 ## see: https://github.com/koekeishiya/yabai/issues/1929
 yabai -m rule --add app=".*" sub-layer=normal
-yabai -m rule --add app="^(Safari|Brave)$" space=web role=AXWindow subrole=AXStandardWindow
+yabai -m rule --add app="^(Safari|Firefox)$" space=web role=AXWindow subrole=AXStandardWindow
 yabai -m rule --add app="(System Preferences|系统偏好设置|系统设置|微信|wechat|\.dmg)$" manage=off sub-layer=normal
 yabai -m rule --add app="(微信|钉钉|Wechat|企业微信|Telegram|Numi|MenubarX|备忘录|Notes)" manage=off sub-layer=normal
 yabai -m rule --add app="(腾讯会议|快速会议|会议|Capacities|数码测色计|富途牛牛)" manage=off sub-layer=normal
@@ -86,4 +85,3 @@ yabai -m rule --apply
 # yabai -m signal --add label="flash_window_focus" event="window_focused" action="yabai -m window \$YABAI_WINDOW_ID --opacity 0.1 && sleep $(yabai -m config window_opacity_duration) && yabai -m window \$YABAI_WINDOW_ID --opacity 0.0"
 
 echo "yabai configuration loaded.."
-

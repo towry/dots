@@ -82,7 +82,7 @@
       #-- rules --
       ## see: https://github.com/koekeishiya/yabai/issues/1929
       ${yabai} -m rule --add app=".*" sub-layer=normal
-      ${yabai} -m rule --add app="^(Safari|Brave)$" space=web role=AXWindow subrole=AXStandardWindow
+      ${yabai} -m rule --add app="^(Safari|Firefox)$" space=web role=AXWindow subrole=AXStandardWindow
       ${yabai} -m rule --add app="(System Preferences|系统偏好设置|系统设置|微信|wechat|\.dmg)$" manage=off sub-layer=normal
       ${yabai} -m rule --add app="(微信|钉钉|Wechat|企业微信|Telegram|Numi|MenubarX)" manage=off sub-layer=normal
       ${yabai} -m rule --add app="(腾讯会议|快速会议|会议|Capacities|数码测色计|富途牛牛)" manage=off sub-layer=normal

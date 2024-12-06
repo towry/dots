@@ -2,7 +2,7 @@
   environment.systemPackages = with pkgs; [
     raycast
     vscode
-    brave
+    # brave
     ice-bar
   ];
 

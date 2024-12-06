@@ -13,10 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util.url = "github:hraban/mac-app-util";
-    # zellij = {
-    #   url = "github:towry/nix-flakes?dir=zellij";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     git-smash = {
       url = "github:towry/nix-flakes?dir=git-smash";
       inputs.nixpkgs.follows = "nixpkgs";
