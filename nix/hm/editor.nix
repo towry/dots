@@ -41,7 +41,7 @@ in {
     yaml-language-server
     yamllint
     # for neovim
-    nodePackages.neovim
+    # nodePackages.neovim
     # jsonls
     vscode-langservers-extracted
     # pyright

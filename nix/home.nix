@@ -23,12 +23,8 @@
       nix-prefetch-github
       nerd-font-patcher
       lxgw-wenkai
-      (nerdfonts.override {
-        fonts = [
-          "Iosevka"
-          "JetBrainsMono"
-        ];
-      })
+      nerd-fonts.iosevka
+      nerd-fonts.jetbrains-mono
       # utils
       ## man page tldr
       tlrc
