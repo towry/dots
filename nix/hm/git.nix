@@ -26,8 +26,10 @@ in {
       sw = "switch";
       # apply patch with commit text only (no commitee info)
       apply-diff-patch = "apply --allow-empty";
-      ca = "commit --amend --no-edit";
+      # amend without edit, not use ca because sometimes we should use git sm instead.
+      amend = "commit --amend --no-edit";
       ci = "commit";
+      cne = "commit --no-edit";
       cm = "commit -m";
       st = "status";
       add-note = ''branch --edit-description'';
