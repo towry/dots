@@ -2,7 +2,7 @@
   description = "Towry de dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=24.05";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
