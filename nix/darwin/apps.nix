@@ -11,7 +11,7 @@
     casks = [
       "postico"
       "spaceid"
-      "telegram"
+      "telegram-desktop"
     ];
     masApps = {
     };

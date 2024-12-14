@@ -63,7 +63,7 @@ in {
       MIMIC_SUPER = "1";
     };
     font = {
-      name = "Berkeley Mono";
+      name = "Berkeley Mono Nerd Font";
       size = 13;
       # name = "Iosevka";
       # size = 16;
