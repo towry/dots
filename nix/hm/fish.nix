@@ -153,6 +153,7 @@
     # fish_add_path $HOME/.nimble/bin
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path /run/current-system/sw/bin
+    fish_add_path $HOME/.local/bin
   '';
 
   programs.fish.functions = {
