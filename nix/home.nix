@@ -130,6 +130,7 @@ in {
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/.cargo/bin"
+      "/Applications/Ghostty.app/Contents/MacOS/"
     ];
   };
 

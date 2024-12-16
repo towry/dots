@@ -78,6 +78,11 @@ in {
       recursive = true;
       source = ../../conf/karabiner;
     };
+    ghostty = {
+      enable = true;
+      recursive = true;
+      source = ../../conf/ghostty;
+    };
   };
   home.file = {
     # ".tool-versions".source = ../../conf/asdf/tool-versions;

@@ -1,0 +1,18 @@
+# https://github.com/ghostty-org/ghostty/blob/main/src/config/Config.zig
+# https://github.com/Yukaii/dotfiles/blob/fadc796a03ecfb52a4a8cfd415124895ebca16c4/ghostty/.config/ghostty/config#L4
+
+
+theme = dark:Kanagawa Dragon,light:Builtin Solarized Light
+font-family  = Berkeley Mono Nerd Font
+font-size = 13 
+shell-integration-features = no-cursor
+macos-option-as-alt        = true
+macos-titlebar-style       = transparent
+macos-window-shadow  = false
+
+
+# Quick terminal
+
+quick-terminal-animation-duration = 0
+quick-terminal-position = bottom
+
