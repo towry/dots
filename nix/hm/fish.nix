@@ -129,6 +129,8 @@
     if test -e $HOME/.private.fish
         source $HOME/.private.fish
     end
+
+    fish_add_path --path --append $HOME/.local/bin
   '';
   ## do not foget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122
@@ -153,7 +155,6 @@
     # fish_add_path $HOME/.nimble/bin
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path /run/current-system/sw/bin
-    fish_add_path $HOME/.local/bin
   '';
 
   programs.fish.functions = {
