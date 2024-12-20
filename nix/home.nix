@@ -23,12 +23,8 @@
       nix-prefetch-github
       nerd-font-patcher
       lxgw-wenkai
-      (nerdfonts.override {
-        fonts = [
-          "Iosevka"
-          "JetBrainsMono"
-        ];
-      })
+      nerd-fonts.iosevka
+      nerd-fonts.jetbrains-mono
       # utils
       ## man page tldr
       tlrc
@@ -134,6 +130,7 @@ in {
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/.cargo/bin"
+      "/Applications/Ghostty.app/Contents/MacOS/"
     ];
   };
 

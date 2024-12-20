@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     raycast
     vscode
+    logseq
     # brave
     ice-bar
   ];
@@ -10,7 +11,7 @@
     casks = [
       "postico"
       "spaceid"
-      "telegram"
+      "telegram-desktop"
     ];
     masApps = {
     };

@@ -201,9 +201,7 @@
             "devices": [
                 {
                     "identifiers": {
-                        "is_game_pad": false,
                         "is_keyboard": true,
-                        "is_pointing_device": false,
                         "product_id": 635,
                         "vendor_id": 1452
                     },
@@ -386,6 +384,23 @@
                             "to": [
                                 {
                                     "key_code": "slash"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": {
+                                "key_code": "right_command"
+                            },
+                            "to": [
+                                {
+                                    "key_code": "right_control"
                                 }
                             ]
                         }

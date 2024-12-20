@@ -61,4 +61,11 @@ in {
       ./apple.nix
     ];
   };
+  towryDeM3 = mkDarwinConfig {
+    system = "aarch64-darwin";
+    username = "towry";
+    modules = [
+      ./apple.nix
+    ];
+  };
 }
