@@ -82,7 +82,8 @@
       #-- rules --
       ## see: https://github.com/koekeishiya/yabai/issues/1929
       ${yabai} -m rule --add app=".*" sub-layer=normal
-      ${yabai} -m rule --add app="^(Safari|Firefox)$" space=web role=AXWindow subrole=AXStandardWindow
+      ${yabai} -m rule --add app="^(Safari|Firefox|Google Chrome)$" space=web role=AXWindow subrole=AXStandardWindow
+      ${yabai} -m rule --add app="^(Ghostty|Cursor)$" space=code role=AXWindow subrole=AXStandardWindow
       ${yabai} -m rule --add app="(System Preferences|系统偏好设置|系统设置|微信|wechat|短信|\.dmg)$" manage=off sub-layer=normal
       ${yabai} -m rule --add app="(微信|钉钉|Wechat|企业微信|Telegram|Numi|MenubarX)" manage=off sub-layer=normal
       ${yabai} -m rule --add app="(腾讯会议|快速会议|会议|Capacities|数码测色计|富途牛牛)" manage=off sub-layer=normal
@@ -92,6 +93,8 @@
       ${yabai} -m rule --add app="(Finder|访达|DevTools|模拟器|Kap|Bartender|TradingView)" manage=off sub-layer=normal
       ${yabai} -m rule --apply
 
+      ${yabai} -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+      ${yabai} -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
 
       # stackline specific tweaks
       # yabai -m signal --add event=window_created action="~/.config/yabai/adjust-padding-for-stacked-windows.sh"
@@ -103,7 +106,6 @@
       # yabai -m signal --add label="flash_window_focus" event="window_focused" action="yabai -m window \$YABAI_WINDOW_ID --opacity 0.1 && sleep $(yabai -m config window_opacity_duration) && yabai -m window \$YABAI_WINDOW_ID --opacity 0.0"
 
       echo "yabai configuration loaded.."
-
     '';
   };
 }
