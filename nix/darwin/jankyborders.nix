@@ -7,10 +7,10 @@ let
     "style=round"
     "active_color=0xffbd93f9"
     "inactive_color=0xffabb2bf"
-    "width=7.0"
+    "width=4.0"
     "hidpi=on"
     "ax_focus=on"
-    "blacklist='Dropover,LaunchBar'"
+    "blacklist='LaunchBar'"
   ];
 in
 {
