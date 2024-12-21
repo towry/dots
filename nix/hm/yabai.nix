@@ -47,9 +47,6 @@
       # yabai -m config focus_follows_mouse autofocus
       # -- off autoraise autofocus
       ${yabai} -m config focus_follows_mouse off
-      # yabai -m config mouse_modifier fn
-      # yabai -m config mouse_action1 resize
-      # yabai -m config mouse_action2 move
 
       # -- window --
       ${yabai} -m config window_placement second_child

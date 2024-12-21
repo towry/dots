@@ -93,7 +93,7 @@
       # -r: restore initial position after move.
       # w:250 wait for 250ms after each event.
       # m:0,0, move to 0,0 coords.
-      ctrl+shift+alt - g : yabai -m space --toggle mission-control && cliclick -w 250 -r m:0,0 m:1,1 w:250
+      # ctrl+shift+alt - g : yabai -m space --toggle mission-control && cliclick -w 250 -r m:0,0 m:1,1 w:250
 
       # moving windows
       mode_window_move < h : yabai -m window --warp west; skhd -k "escape"
@@ -103,27 +103,27 @@
 
       # move window to space — follow focus to destination
       mode_window_move_space < 0x2F : yabai -m window --space recent; yabai -m space --focus recent; skhd -k "escape"
-      mode_window_move_space < p : yabai -m window --space prev; yabai -m space --focus prev; skhd -k "escape";
-      mode_window_move_space < n : yabai -m window --space next; yabai -m space --focus next; skhd -k "escape";
+      mode_window_move_space < p : yabai -m window --space prev; yabai -m space --focus prev; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape";
+      mode_window_move_space < n : yabai -m window --space next; yabai -m space --focus next; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape";
 
-      mode_window_move_space < 1 : yabai -m window --space 1; yabai -m space --focus 1; skhd -k "escape"
-      mode_window_move_space < 2 : yabai -m window --space 2; yabai -m space --focus 2; skhd -k "escape"
-      mode_window_move_space < 3 : yabai -m window --space 3; yabai -m space --focus 3; skhd -k "escape"
-      mode_window_move_space < 4 : yabai -m window --space 4; yabai -m space --focus 4; skhd -k "escape"
-      mode_window_move_space < 5 : yabai -m window --space 5; yabai -m space --focus 5; skhd -k "escape"
-      mode_window_move_space < 6 : yabai -m window --space 6; yabai -m space --focus 6; skhd -k "escape"
-      mode_window_move_space < 7 : yabai -m window --space 7; yabai -m space --focus 7; skhd -k "escape"
-      mode_window_move_space < 8 : yabai -m window --space 8; yabai -m space --focus 8; skhd -k "escape"
-      mode_window_move_space < 9 : yabai -m window --space 9; yabai -m space --focus 9; skhd -k "escape"
+      mode_window_move_space < 1 : yabai -m window --space 1; yabai -m space --focus 1; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 2 : yabai -m window --space 2; yabai -m space --focus 2; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 3 : yabai -m window --space 3; yabai -m space --focus 3; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 4 : yabai -m window --space 4; yabai -m space --focus 4; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 5 : yabai -m window --space 5; yabai -m space --focus 5; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 6 : yabai -m window --space 6; yabai -m space --focus 6; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 7 : yabai -m window --space 7; yabai -m space --focus 7; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 8 : yabai -m window --space 8; yabai -m space --focus 8; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_space < 9 : yabai -m window --space 9; yabai -m space --focus 9; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
 
       # move window to display
-      mode_window_move_display < 1 : yabai -m window --display 1; yabai -m window --focus recent; skhd -k "escape"
-      mode_window_move_display < 2 : yabai -m window --display 2; yabai -m window --focus recent; skhd -k "escape"
-      mode_window_move_display < 3 : yabai -m window --display 3; yabai -m window --focus recent; skhd -k "escape"
-      mode_window_move_display < 4 : yabai -m window --display 4; yabai -m window --focus recent; skhd -k "escape"
+      mode_window_move_display < 1 : yabai -m window --display 1; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_display < 2 : yabai -m window --display 2; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_display < 3 : yabai -m window --display 3; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_display < 4 : yabai -m window --display 4; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
       # move window to next display or prev display
-      mode_window_move_display < p : yabai -m window --display prev; skhd -k "escape"
-      mode_window_move_display < n : yabai -m window --display next; skhd -k "escape"
+      mode_window_move_display < p : yabai -m window --display prev; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      mode_window_move_display < n : yabai -m window --display next; yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
 
       # stack windows
       mode_window_stack < h : yabai -m window --stack west; skhd -k "escape"
