@@ -147,8 +147,9 @@
       mode_space < b : yabai -m space --balance; skhd -k "escape"
 
       # recent space.
-      mode_space < tab : yabai -m space --focus recent; skhd -k "escape"
-      # mode_space < n : yabai -m space --focus recent; skhd -k "escape"
+      ralt - tab : yabai -m space --focus recent
+      mode_space < tab : yabai -m space --focus recent
+      # mode_space < n : yabai -m space --focus recent
       # next prev space.
       # mode_space < l: yabai -m space --focus next; skhd -k "escape"
       # mode_space < h : yabai -m space --focus prev; skhd -k "escape"
@@ -168,6 +169,12 @@
       mode_space < 8 : yabai -m space --focus 8; skhd -k "escape"
       mode_space < 9 : yabai -m space --focus 9; skhd -k "escape"
 
+      # shortcuts to focus space by index
+      ralt - 1 : yabai -m space --focus 1 
+      ralt - 2 : yabai -m space --focus 2
+      ralt - 3 : yabai -m space --focus 3
+      ralt - 4 : yabai -m space --focus 4
+
       # change space layout
       mode_space_arrange < s : yabai -m space --layout stack; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "Stack"
       mode_space_arrange < f : yabai -m space --layout float; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "Float"
@@ -176,7 +183,7 @@
       ## ========== manage display
       mode_display < r : yabai --restart-service; skhd -k "escape"
       # recent display
-      mode_display < tab : yabai -m display --focus recent; skhd -k "escape"
+      mode_display < tab : yabai -m display --focus recent
       # mode_display < n : yabai -m display --focus recent; skhd -k "escape"
       # next prev display
       mode_display < n : ${bash} ${skhdDir}/display_cycle_next.sh; skhd -k "escape"
