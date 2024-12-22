@@ -27,14 +27,14 @@
         # "com.apple.keyboard.fnState" = true;
       };
       dock = {
-        autohide = true;
+        autohide = false;
         magnification = true;
         mineffect = "scale";
         # minimize-to-application = true;
         orientation = "bottom";
         showhidden = true;
         show-recents = true;
-        tilesize = 40;
+        tilesize = 36;
         largesize = 42;
       };
       finder = {
