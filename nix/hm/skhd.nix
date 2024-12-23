@@ -77,7 +77,8 @@
       mode_window < k : yabai -m window --focus north; ${skhd} -k "escape"
       mode_window < l : yabai -m window --focus east; ${skhd} -k "escape"
 
-      mode_window < tab : yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape" #0x30: tab
+      mode_window < tab : yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
+      ralt - w : ${bash} ${skhdDir}/cycle-app.sh
 
       # focus next|prev window.
       # https://github.com/koekeishiya/yabai/issues/203#issuecomment-1289940339
@@ -170,7 +171,7 @@
       mode_space < 9 : yabai -m space --focus 9; skhd -k "escape"
 
       # shortcuts to focus space by index
-      ralt - 1 : yabai -m space --focus 1 
+      ralt - 1 : yabai -m space --focus 1
       ralt - 2 : yabai -m space --focus 2
       ralt - 3 : yabai -m space --focus 3
       ralt - 4 : yabai -m space --focus 4
@@ -291,6 +292,34 @@
       fi
 
       yabai -m display --focus "''${prev_display_index}"
+    '';
+
+    # focus the next window with the same app on different spaces and displays
+    # the app is selected by the current window's .app
+    # if no current win, just return.
+    "skhd/cycle-app.sh".text = ''
+      #!${bashbin}
+
+      current_app=$(yabai -m query --windows --window | jq -r '.app')
+      current_app_id=$(yabai -m query --windows --window | jq -r '.id')
+
+      if [[ -z "$current_app_id" ]]; then
+        echo "No current window"
+        return
+      fi
+
+      # get all windows with the same app
+      windows=$(yabai -m query --windows | jq -r "[.[] | select(.app == \"$current_app\") | .id]")
+      # get the index of the current window
+      current_window_index=$(echo "$windows" | jq -r "index(\"$current_window_id\")")
+      # get the next window id
+      next_window_index=$((current_window_index + 1))
+      # if the next window index is greater than the number of windows, wrap around
+      if ((next_window_index >= $(echo "$windows" | jq length))); then
+        next_window_index=0
+      fi
+      # focus the next window by id
+      yabai -m window --focus $(echo "$windows" | jq -r ".[$next_window_index]")
     '';
   };
 }
