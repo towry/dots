@@ -7,10 +7,11 @@ on:
 
 jobs:
   sync:
+    if: false
     runs-on: ubuntu-latest
     steps:
-    - uses: keninkujovic/gitlab-sync@2.0.0
-      with:
-        gitlab_url: ${{ secrets.GITLAB_URL }}
-        username: ${{ secrets.USERNAME }}
-        gitlab_pat: ${{ secrets.GITLAB_PAT }}
+      - uses: keninkujovic/gitlab-sync@2.0.0
+        with:
+          gitlab_url: ${{ secrets.GITLAB_URL }}
+          username: ${{ secrets.USERNAME }}
+          gitlab_pat: ${{ secrets.GITLAB_PAT }}

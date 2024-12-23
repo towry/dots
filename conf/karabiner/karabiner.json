@@ -115,15 +115,15 @@
                         ]
                     },
                     {
-                        "description": "Change left_command+hjkl to arrow keys",
-                        "disable": true,
+                        "description": "Change right_option+hjkl to arrow keys",
+                        "disable": false,
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_command"
+                                            "right_option"
                                         ],
                                         "optional": [
                                             "any"
@@ -142,7 +142,7 @@
                                     "key_code": "j",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_command"
+                                            "right_option"
                                         ],
                                         "optional": [
                                             "any"
@@ -161,7 +161,7 @@
                                     "key_code": "k",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_command"
+                                            "right_option"
                                         ],
                                         "optional": [
                                             "any"
@@ -180,7 +180,7 @@
                                     "key_code": "l",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_command"
+                                            "right_option"
                                         ],
                                         "optional": [
                                             "any"
