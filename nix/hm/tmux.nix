@@ -262,7 +262,7 @@ in {
 
       # ===============================================
       ## UI
-      set -g pane-border-status bottom
+      set -g pane-border-status top
       set -g status-interval 1
       set -g status on
       set -g status-left-length 100
@@ -271,18 +271,18 @@ in {
       set-window-option -g status-position top
       set -g message-style fg=black,bg=blue
       set -g message-command-style fg=black,bg=blue
-      set -g status-style bg=default,fg=yellow
-      set -g pane-border-style bg=default,fg=yellow
-      set -g pane-active-border-style bg=default,fg=blue
-      set -g display-panes-colour black
-      set -g display-panes-active-colour cyan
+      # set -g status-style bg=default,fg=yellow
+      # set -g pane-border-style bg=default,fg=yellow
+      # set -g pane-active-border-style bg=default,fg=blue
+      # set -g display-panes-colour black
+      # set -g display-panes-active-colour cyan
       #+--- Bars ---+
       set -g status-left "#[bold] #S "
       set -g status-right "#[bold] #h "
       #+--- Windows ---+
-      set -g window-status-format " #I·#W#{?window_zoomed_flag,##Z,}#{?window_end_flag, , }"
-      set -g window-status-current-format "#[bg=blue,fg=black,bold] #I·#W#{?window_zoomed_flag,##Z,}#{?window_end_flag, , }"
-      set -g window-status-separator "#[fg=colour8]│"
+      set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
+      set -g window-status-current-format "#[bold]#I:[#W#F]#{?window_end_flag, , }"
+      # set -g window-status-separator "#[fg=colour8]│"
       # ========== End UI
     '';
   };

@@ -114,7 +114,7 @@
     start-yabai = "yabai --start-service";
     # yabaiconf="nvim ~/.config/yabai/yabairc";
     skhdconf = "nvim ~/.config/skhd/skhdrc";
-    tmuxin = "tmux new-session -A -s Main";
+    tmuxin = "tmux new-session -A -s tmux";
     quickterm = "tmux new-session -A -s quickterm -c $HOME/workspace";
     tm-rw = "tmux rename-window";
     tm-rs = "tmux rename-session";
