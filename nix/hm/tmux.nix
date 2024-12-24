@@ -225,7 +225,7 @@ in {
       bind y popup -E -w 80% -h 60% "${pkgs.bash}/bin/bash ${config.home.homeDirectory}/.tmux/nix-bin/zoxide-projects.sh"
       bind-key -n M-f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux"
       ## M-g to open popup to run tig on current directory
-      bind-key -n M-g popup -E -w 95% -h 98% -d "#{pane_current_path}" "tig status"
+      bind-key -n M-g popup -E -w 95% -h 98% -d "#{pane_current_path}" "lazygit"
       bind : run "${config.home.homeDirectory}/.tmux/bin/command.sh"
       bind & run "${config.home.homeDirectory}/.tmux/bin/process.sh"
 
@@ -287,7 +287,7 @@ in {
       set -g status-right "#[bold] #h "
       #+--- Windows ---+
       set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
-      set -g window-status-current-format "[#[bold]#I:#W#F#]{?window_end_flag, , }"
+      set -g window-status-current-format "#[bold][#I:#W]#F#{?window_end_flag, , }"
       # set -g window-status-separator "#[fg=colour8]│"
       # ========== End UI
     '';

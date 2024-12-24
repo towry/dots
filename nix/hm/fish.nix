@@ -89,6 +89,7 @@
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
     tig = "TERM=xterm-256color ${pkgs.tig}/bin/tig";
+    lg = "lazygit";
     flog = "glog";
     xmerge = "git merge --ff";
     xmerged = "git branch --merged master";
