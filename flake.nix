@@ -101,7 +101,7 @@
         inherit mkSystemConfig inputs nixpkgs nixpkgs-stable home-manager mac-app-util darwin;
       }
     );
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
   };
 
   # =========================================================================

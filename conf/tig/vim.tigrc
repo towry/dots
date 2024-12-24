@@ -23,9 +23,11 @@ bind generic g- parent
 bind generic gb back
 bind generic gn view-next
 # git push to remote
-bind main gup ?+git push --force-with-lease origin %(branch)
-bind main gff ?+git fetch origin %(branch)
-bind main gpp ?git pull origin %(branch)
+bind main guP ?+git push --force-with-lease origin %(branch)
+bind main gup !git push origin %(branch)
+bind main gff !git fetch origin %(branch)
+bind main gpp !git pull --ff --prune --no-tags origin %(branch)
+bind main gfp !git fetch --prune --prune-tags
 bind main gfa ?+git fetch --all
 bind main gca +git commit --amend --no-edit
 bind main rh ?git reset --hard %(commit)

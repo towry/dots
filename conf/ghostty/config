@@ -12,11 +12,12 @@ font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = cursor,sudo,title
 cursor-style = block
 cursor-invert-fg-bg = true
+selection-invert-fg-bg = true
 macos-option-as-alt = true
 macos-titlebar-style = tabs
 macos-window-shadow  = true
 adjust-underline-position = 45%
-adjust-underline-thickness = -65%
+adjust-underline-thickness =
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 1
