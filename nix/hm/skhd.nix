@@ -41,6 +41,17 @@
         :: mode_display @
 
         # define escape as exit from every mode
+        mode_window < ctrl - space ; default
+        mode_window_move < ctrl - space ; default
+        mode_window_move_space < ctrl - space ; default
+        mode_window_move_display < ctrl - space ; default
+        mode_window_toggle < ctrl - space ; default
+        mode_window_stack < ctrl - space ; default
+        mode_window_resize < ctrl - space ; default
+        mode_space < ctrl - space ; default
+        mode_space_arrange < ctrl - space ; default
+        mode_display < ctrl - space ; default
+        ## --- escape, easy exit
         mode_window < escape ; default
         mode_window_move < escape ; default
         mode_window_move_space < escape ; default
@@ -68,20 +79,23 @@
         ctrl+shift+alt - d ; mode_display
 
         ## ==============  manage windows
-        mode_window < x : yabai -m window --close; skhd -k "escape"
-        mode_window < return : yabai -m window --toggle zoom-fullscreen; skhd -k "escape"
+        mode_window < x : yabai -m window --close; skhd -k "ctrl - space"
+        mode_window < return : yabai -m window --toggle zoom-fullscreen; skhd -k "ctrl - space"
         # current window will be in float state, out control of current space layout.
-        mode_window_toggle < f : yabai -m window --toggle float; skhd -k "escape"
+        mode_window_toggle < f : yabai -m window --toggle float; skhd -k "ctrl - space"
         # make current window stick to current space layout.
-        mode_window_toggle < a : yabai -m window --toggle sticky; skhd -k "escape"
+        mode_window_toggle < a : yabai -m window --toggle sticky; skhd -k "ctrl - space"
 
-        mode_window < h : yabai -m window --focus west; ${skhd} -k "escape"
-        mode_window < j : yabai -m window --focus south; ${skhd} -k "escape"
-        mode_window < k : yabai -m window --focus north; ${skhd} -k "escape"
-        mode_window < l : yabai -m window --focus east; ${skhd} -k "escape"
+        mode_window < h : yabai -m window --focus west; ${skhd} -k "ctrl - space"
+        mode_window < j : yabai -m window --focus south; ${skhd} -k "ctrl - space"
+        mode_window < k : yabai -m window --focus north; ${skhd} -k "ctrl - space"
+        mode_window < l : yabai -m window --focus east; ${skhd} -k "ctrl - space"
 
-        mode_window < tab : yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "escape"
-        ralt - w : ${bash} ${skhdDir}/cycle-app.sh
+        # focus recent window
+        ralt - r : yabai -m window --focus recent
+        mode_window < tab : yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "ctrl - space"
+        ralt - e : ${bash} ${skhdDir}/cycle-app.sh --focus prev
+        ralt - w : ${bash} ${skhdDir}/cycle-app.sh --focus next
 
         # focus next|prev window.
         # https://github.com/koekeishiya/yabai/issues/203#issuecomment-1289940339
@@ -100,42 +114,42 @@
         # ctrl+shift+alt - g : yabai -m space --toggle mission-control && cliclick -w 250 -r m:0,0 m:1,1 w:250
 
         # moving windows
-        mode_window_move < h : yabai -m window --warp west; skhd -k "escape"
-        mode_window_move < j : yabai -m window --warp south; skhd -k "escape"
-        mode_window_move < k : yabai -m window --warp north; skhd -k "escape"
-        mode_window_move < l : yabai -m window --warp east; skhd -k "escape"
+        mode_window_move < h : yabai -m window --warp west; skhd -k "ctrl - space"
+        mode_window_move < j : yabai -m window --warp south; skhd -k "ctrl - space"
+        mode_window_move < k : yabai -m window --warp north; skhd -k "ctrl - space"
+        mode_window_move < l : yabai -m window --warp east; skhd -k "ctrl - space"
 
         # move window to space — follow focus to destination
-        # mode_window_move_space < 0x2F : yabai -m window --space recent; yabai -m space --focus recent; skhd -k "escape"
-        mode_window_move_space < p : yabai -m window --space prev; yabai -m space --focus prev; skhd -k "escape"
-        mode_window_move_space < n : yabai -m window --space next; yabai -m space --focus next; skhd -k "escape"
+        mode_window_move_space < r : yabai -m window --space recent; yabai -m space --focus recent; skhd -k "ctrl - space"
+        mode_window_move_space < p : yabai -m window --space prev; yabai -m space --focus prev; skhd -k "ctrl - space"
+        mode_window_move_space < n : yabai -m window --space next; yabai -m space --focus next; skhd -k "ctrl - space"
 
-        mode_window_move_space < 1 : yabai -m window --space 1; yabai -m space --focus 1; skhd -k "escape"
-        mode_window_move_space < 2 : yabai -m window --space 2; yabai -m space --focus 2; skhd -k "escape"
-        mode_window_move_space < 3 : yabai -m window --space 3; yabai -m space --focus 3; skhd -k "escape"
-        mode_window_move_space < 4 : yabai -m window --space 4; yabai -m space --focus 4; skhd -k "escape"
-        mode_window_move_space < 5 : yabai -m window --space 5; yabai -m space --focus 5; skhd -k "escape"
-        mode_window_move_space < 6 : yabai -m window --space 6; yabai -m space --focus 6; skhd -k "escape"
-        mode_window_move_space < 7 : yabai -m window --space 7; yabai -m space --focus 7; skhd -k "escape"
-        mode_window_move_space < 8 : yabai -m window --space 8; yabai -m space --focus 8; skhd -k "escape"
-        mode_window_move_space < 9 : yabai -m window --space 9; yabai -m space --focus 9; skhd -k "escape"
+        mode_window_move_space < 1 : yabai -m window --space 1; yabai -m space --focus 1; skhd -k "ctrl - space"
+        mode_window_move_space < 2 : yabai -m window --space 2; yabai -m space --focus 2; skhd -k "ctrl - space"
+        mode_window_move_space < 3 : yabai -m window --space 3; yabai -m space --focus 3; skhd -k "ctrl - space"
+        mode_window_move_space < 4 : yabai -m window --space 4; yabai -m space --focus 4; skhd -k "ctrl - space"
+        mode_window_move_space < 5 : yabai -m window --space 5; yabai -m space --focus 5; skhd -k "ctrl - space"
+        mode_window_move_space < 6 : yabai -m window --space 6; yabai -m space --focus 6; skhd -k "ctrl - space"
+        mode_window_move_space < 7 : yabai -m window --space 7; yabai -m space --focus 7; skhd -k "ctrl - space"
+        mode_window_move_space < 8 : yabai -m window --space 8; yabai -m space --focus 8; skhd -k "ctrl - space"
+        mode_window_move_space < 9 : yabai -m window --space 9; yabai -m space --focus 9; skhd -k "ctrl - space"
 
         # move window to display
-        mode_window_move_display < 1 : yabai -m window --display 1; skhd -k "escape"
-        mode_window_move_display < 2 : yabai -m window --display 2; skhd -k "escape"
-        mode_window_move_display < 3 : yabai -m window --display 3; skhd -k "escape"
-        mode_window_move_display < 4 : yabai -m window --display 4; skhd -k "escape"
+        mode_window_move_display < 1 : yabai -m window --display 1; skhd -k "ctrl - space"
+        mode_window_move_display < 2 : yabai -m window --display 2; skhd -k "ctrl - space"
+        mode_window_move_display < 3 : yabai -m window --display 3; skhd -k "ctrl - space"
+        mode_window_move_display < 4 : yabai -m window --display 4; skhd -k "ctrl - space"
         # move window to next display or prev display
-        mode_window_move_display < p : yabai -m window --display prev; skhd -k "escape"
-        mode_window_move_display < n : yabai -m window --display next; skhd -k "escape"
+        mode_window_move_display < p : yabai -m window --display prev; skhd -k "ctrl - space"
+        mode_window_move_display < n : yabai -m window --display next; skhd -k "ctrl - space"
 
         # stack windows
-        mode_window_stack < h : yabai -m window --stack west; skhd -k "escape"
-        mode_window_stack < j : yabai -m window --stack south; skhd -k "escape"
-        mode_window_stack < k : yabai -m window --stack north; skhd -k "escape"
-        mode_window_stack < l : yabai -m window --stack east; skhd -k "escape"
+        mode_window_stack < h : yabai -m window --stack west; skhd -k "ctrl - space"
+        mode_window_stack < j : yabai -m window --stack south; skhd -k "ctrl - space"
+        mode_window_stack < k : yabai -m window --stack north; skhd -k "ctrl - space"
+        mode_window_stack < l : yabai -m window --stack east; skhd -k "ctrl - space"
 
-        mode_window_stack < u : yabai -m window --insert stack; skhd -k "escape"
+        mode_window_stack < u : yabai -m window --insert stack; skhd -k "ctrl - space"
 
         # resize windows — use shift to shrink
         mode_window_resize < h : yabai -m window --resize left:-25:0 | yabai -m window --resize right:-25:0
@@ -144,34 +158,34 @@
         mode_window_resize < l : yabai -m window --resize right:25:0 | yabai -m window --resize left:25:0
 
         ## >>>>>>>>>>>>>>>>> manage spaces
-        mode_space < i : yabai -m space --create; skhd -k "escape"
-        mode_space < x : yabai -m space --destroy; skhd -k "escape"
+        mode_space < i : yabai -m space --create; skhd -k "ctrl - space"
+        mode_space < x : yabai -m space --destroy; skhd -k "ctrl - space"
 
-        mode_space < r : yabai -m space --rotate 270; skhd -k "escape"
-        mode_space < b : yabai -m space --balance; skhd -k "escape"
+        mode_space < r : yabai -m space --rotate 270; skhd -k "ctrl - space"
+        mode_space < b : yabai -m space --balance; skhd -k "ctrl - space"
 
         # recent space.
         ralt - tab : yabai -m space --focus recent
         mode_space < tab : yabai -m space --focus recent
         # mode_space < n : yabai -m space --focus recent
         # next prev space.
-        # mode_space < l: yabai -m space --focus next; skhd -k "escape"
-        # mode_space < h : yabai -m space --focus prev; skhd -k "escape"
+        # mode_space < l: yabai -m space --focus next; skhd -k "ctrl - space"
+        # mode_space < h : yabai -m space --focus prev; skhd -k "ctrl - space"
         mode_space < n : ${bash} ${skhdDir}/space_cycle_next.sh;
         mode_space < p : ${bash} ${skhdDir}/space_cycle_prev.sh;
         ctrl+shift+alt - n : ${bash} ${skhdDir}/space_cycle_next.sh;
         ctrl+shift+alt - p : ${bash} ${skhdDir}/space_cycle_prev.sh;
 
         # goto space by index
-        mode_space < 1 : yabai -m space --focus 1; skhd -k "escape"
-        mode_space < 2 : yabai -m space --focus 2; skhd -k "escape"
-        mode_space < 3 : yabai -m space --focus 3; skhd -k "escape"
-        mode_space < 4 : yabai -m space --focus 4; skhd -k "escape"
-        mode_space < 5 : yabai -m space --focus 5; skhd -k "escape"
-        mode_space < 6 : yabai -m space --focus 6; skhd -k "escape"
-        mode_space < 7 : yabai -m space --focus 7; skhd -k "escape"
-        mode_space < 8 : yabai -m space --focus 8; skhd -k "escape"
-        mode_space < 9 : yabai -m space --focus 9; skhd -k "escape"
+        mode_space < 1 : yabai -m space --focus 1; skhd -k "ctrl - space"
+        mode_space < 2 : yabai -m space --focus 2; skhd -k "ctrl - space"
+        mode_space < 3 : yabai -m space --focus 3; skhd -k "ctrl - space"
+        mode_space < 4 : yabai -m space --focus 4; skhd -k "ctrl - space"
+        mode_space < 5 : yabai -m space --focus 5; skhd -k "ctrl - space"
+        mode_space < 6 : yabai -m space --focus 6; skhd -k "ctrl - space"
+        mode_space < 7 : yabai -m space --focus 7; skhd -k "ctrl - space"
+        mode_space < 8 : yabai -m space --focus 8; skhd -k "ctrl - space"
+        mode_space < 9 : yabai -m space --focus 9; skhd -k "ctrl - space"
 
         # shortcuts to focus space by index
         ralt - 1 : yabai -m space --focus 1
@@ -180,25 +194,25 @@
         ralt - 4 : yabai -m space --focus 4
 
         # change space layout
-        mode_space_arrange < s : yabai -m space --layout stack; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "Stack"
-        mode_space_arrange < f : yabai -m space --layout float; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "Float"
-        mode_space_arrange < t : yabai -m space --layout bsp; skhd -k "escape"; ${bash} ${skhdDir}/notify.sh "Space layout" "BSP"
+        mode_space_arrange < s : yabai -m space --layout stack; skhd -k "ctrl - space"; ${bash} ${skhdDir}/notify.sh "Space layout" "Stack"
+        mode_space_arrange < f : yabai -m space --layout float; skhd -k "ctrl - space"; ${bash} ${skhdDir}/notify.sh "Space layout" "Float"
+        mode_space_arrange < t : yabai -m space --layout bsp; skhd -k "ctrl - space"; ${bash} ${skhdDir}/notify.sh "Space layout" "BSP"
 
         ## ========== manage display
-        mode_display < r : yabai --restart-service; skhd -k "escape"
+        mode_display < r : yabai --restart-service; skhd -k "ctrl - space"
         # recent display
         mode_display < tab : yabai -m display --focus recent
-        # mode_display < n : yabai -m display --focus recent; skhd -k "escape"
+        # mode_display < n : yabai -m display --focus recent; skhd -k "ctrl - space"
         # next prev display
-        mode_display < n : ${bash} ${skhdDir}/display_cycle_next.sh; skhd -k "escape"
-        mode_display < p : ${bash} ${skhdDir}/display_cycle_prev.sh; skhd -k "escape"
+        mode_display < n : ${bash} ${skhdDir}/display_cycle_next.sh; skhd -k "ctrl - space"
+        mode_display < p : ${bash} ${skhdDir}/display_cycle_prev.sh; skhd -k "ctrl - space"
         ctrl+shift+alt - j : ${bash} ${skhdDir}/display_cycle_next.sh
         ctrl+shift+alt - k : ${bash} ${skhdDir}/display_cycle_prev.sh
         # go to display from 1 to 4
-        mode_display < 1 : yabai -m display --focus 1; skhd -k "escape"
-        mode_display < 2 : yabai -m display --focus 2; skhd -k "escape"
-        mode_display < 3 : yabai -m display --focus 3; skhd -k "escape"
-        mode_display < 4 : yabai -m display --focus 4; skhd -k "escape"
+        mode_display < 1 : yabai -m display --focus 1; skhd -k "ctrl - space"
+        mode_display < 2 : yabai -m display --focus 2; skhd -k "ctrl - space"
+        mode_display < 3 : yabai -m display --focus 3; skhd -k "ctrl - space"
+        mode_display < 4 : yabai -m display --focus 4; skhd -k "ctrl - space"
         # >>>>>>> end display
 
         ### other utils
@@ -303,26 +317,32 @@
       "skhd/cycle-app.sh".text = ''
         #!${bashbin}
 
-        current_app=$(yabai -m query --windows --window | jq -r '.app')
-        current_app_id=$(yabai -m query --windows --window | jq -r '.id')
-
-        if [[ -z "$current_app_id" ]]; then
-          echo "No current window"
-          return
+while [[ "$#" -gt 0 ]]
+  do
+    case $1 in
+      -f|--focus)
+        if [ "$2" = "prev" ]
+        then
+          pos=-1
+        else
+          pos=1
         fi
+        ;;
+    esac
+    shift
+  done
 
-        # get all windows with the same app
-        windows=$(yabai -m query --windows | jq -r "[.[] | select(.app == \"$current_app\") | .id]")
-        # get the index of the current window
-        current_window_index=$(echo "$windows" | jq -r "index(\"$current_window_id\")")
-        # get the next window id
-        next_window_index=$((current_window_index + 1))
-        # if the next window index is greater than the number of windows, wrap around
-        if ((next_window_index >= $(echo "$windows" | jq length))); then
-          next_window_index=0
-        fi
-        # focus the next window by id
-        yabai -m window --focus $(echo "$windows" | jq -r ".[$next_window_index]")
+pos=''${pos:-1}
+
+focus="$(yabai -m query --windows | \
+    jq -e --argjson pos $pos '(.[] | select(."has-focus")) as {$id, $app}
+      | map( select( .app==$app and ((."is-hidden" or ."is-minimized") | not) ) )
+      | sort_by(.space, .frame.x, .frame.y)
+      | map(.id)
+      | .[(index($id)+($pos))%length]'
+  )"
+
+yabai -m window --focus "$focus"
       '';
     };
 }

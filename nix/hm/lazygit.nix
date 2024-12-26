@@ -6,12 +6,11 @@
     settings = {
       gui = {
         theme = {
-          selectedLineBgColor = [
-            "reverse"
-          ];
+          # selectedLineBgColor = [
+          # ];
         };
         mouseEvents = true;
-        showFileTree = false;
+        showFileTree = true;
         commitHashLength = 6;
         showDivergenceFromBaseBranch = "arrowAndNumber";
         enlargedSideViewLocation = "top";
