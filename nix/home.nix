@@ -5,13 +5,15 @@
   username,
   useGlobalPkgs ? false,
   ...
-}: let
-  locals.packages = with pkgs;
+}:
+let
+  locals.packages =
+    with pkgs;
     [
       ## Nix
       cachix
       # nix formatter
-      alejandra
+      nixfmt-rfc-style
       nixd
       # nix-health
       # git-fuzzy
@@ -29,6 +31,7 @@
       ## man page tldr
       tlrc
       sd
+      difftastic
       ## image view support
       imagemagick
       luajitPackages.magick
@@ -44,7 +47,8 @@
       # linux packages
       xclip
     ];
-in {
+in
+{
   nixpkgs = lib.mkIf (!useGlobalPkgs) {
     config = {
       # obsidian for example have unfree license.
@@ -59,10 +63,7 @@ in {
     # Home Manager needs a bit of information about you and the paths it should
     # manage.
     username = "${username}";
-    homeDirectory =
-      if pkgs.stdenv.isLinux
-      then "/home/${username}"
-      else "/Users/${username}";
+    homeDirectory = if pkgs.stdenv.isLinux then "/home/${username}" else "/Users/${username}";
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release
     # introduces backwards incompatible changes.
@@ -153,10 +154,12 @@ in {
     ./hm/skhd.nix
     ./hm/yabai.nix
     ./hm/dark-mode-notify.nix
+    ./hm/lazygit.nix
   ];
 
   # Let Home Manager install and manage itself.
   programs = {
+    man.generateCaches = false;
     home-manager.enable = true;
     # Direnv integration for flakes
     direnv = {

@@ -10,6 +10,11 @@ in {
     ".tmux/bin".source = ../../conf/tmux/bin;
 
     ".tmux/nix-bin/zoxide-projects.sh".text = ''
+      current_session=$(tmux display-message -p '#{session_name}')
+      if [[ $current_session == "FLOAT" ]]; then
+          exit
+      fi
+
       if [[ $# -eq 1 ]]; then
         selected=$1
       else
@@ -218,8 +223,9 @@ in {
       bind C-p run "${config.home.homeDirectory}/.tmux/bin/pane.sh switch"
       ## start new session from folder.
       bind y popup -E -w 80% -h 60% "${pkgs.bash}/bin/bash ${config.home.homeDirectory}/.tmux/nix-bin/zoxide-projects.sh"
-      bind f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux"
-      bind C-f run "${bash} ${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux toggle"
+      bind-key -n M-f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux"
+      ## M-g to open popup to run tig on current directory
+      bind-key -n M-g popup -E -w 95% -h 98% -d "#{pane_current_path}" "lazygit"
       bind : run "${config.home.homeDirectory}/.tmux/bin/command.sh"
       bind & run "${config.home.homeDirectory}/.tmux/bin/process.sh"
 
@@ -262,8 +268,8 @@ in {
 
       # ===============================================
       ## UI
-      set -g pane-border-status bottom
-      set -g status-interval 1
+      set -g pane-border-status top
+      set -g status-interval 10
       set -g status on
       set -g status-left-length 100
       set -g status-right-length 300
@@ -271,18 +277,18 @@ in {
       set-window-option -g status-position top
       set -g message-style fg=black,bg=blue
       set -g message-command-style fg=black,bg=blue
-      set -g status-style bg=default,fg=yellow
-      set -g pane-border-style bg=default,fg=yellow
-      set -g pane-active-border-style bg=default,fg=blue
-      set -g display-panes-colour black
-      set -g display-panes-active-colour cyan
+      # set -g status-style bg=default,fg=yellow
+      # set -g pane-border-style bg=default,fg=yellow
+      # set -g pane-active-border-style bg=default,fg=blue
+      # set -g display-panes-colour black
+      # set -g display-panes-active-colour cyan
       #+--- Bars ---+
       set -g status-left "#[bold] #S "
       set -g status-right "#[bold] #h "
       #+--- Windows ---+
-      set -g window-status-format " #I·#W#{?window_zoomed_flag,##Z,}#{?window_end_flag, , }"
-      set -g window-status-current-format "#[bg=blue,fg=black,bold] #I·#W#{?window_zoomed_flag,##Z,}#{?window_end_flag, , }"
-      set -g window-status-separator "#[fg=colour8]│"
+      set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
+      set -g window-status-current-format "#[bold][#I:#W]#F#{?window_end_flag, , }"
+      # set -g window-status-separator "#[fg=colour8]│"
       # ========== End UI
     '';
   };
