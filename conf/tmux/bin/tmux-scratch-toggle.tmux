@@ -2,7 +2,9 @@
 
 scratch_session_name="FLOAT"
 
-if [[ $current_session == "FLOAT" ]]; then
+current_session=$(tmux display-message -p '#{session_name}')
+
+if [[ $current_session == "$scratch_session_name" ]]; then
     if [[ "$TMUX_IS_POPUP" == "1" ]]; then
         tmux detach
         exit 0

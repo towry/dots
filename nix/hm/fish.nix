@@ -89,6 +89,7 @@
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
     tig = "TERM=xterm-256color ${pkgs.tig}/bin/tig";
+    lg = "lazygit";
     flog = "glog";
     xmerge = "git merge --ff";
     xmerged = "git branch --merged master";
@@ -110,9 +111,12 @@
     '';
     emptytrash = "sudo rm -rf ~/.Trash/*";
     kittyconf = "nvim ~/.config/kitty/kitty.conf";
+    stop-yabai = "yabai --stop-service";
+    start-yabai = "yabai --start-service";
     # yabaiconf="nvim ~/.config/yabai/yabairc";
     skhdconf = "nvim ~/.config/skhd/skhdrc";
-    tmuxin = "tmux new-session -A -s Main";
+    tmuxin = "tmux new-session -A -s tmux";
+    quickterm = "tmux new-session -A -s quickterm -c $HOME/workspace";
     tm-rw = "tmux rename-window";
     tm-rs = "tmux rename-session";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";

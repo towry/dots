@@ -19,7 +19,7 @@
         NSAutomaticSpellingCorrectionEnabled = false;
       };
       dock = {
-        autohide = true;
+        autohide = false;
         largesize = 42;
         tilesize = 40;
         magnification = true;

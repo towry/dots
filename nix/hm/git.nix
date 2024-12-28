@@ -3,9 +3,11 @@
   lib,
   theme,
   ...
-}: let
+}:
+let
   enable_delta = true;
-in {
+in
+{
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
@@ -17,6 +19,12 @@ in {
 
     package = pkgs.git.override {
       guiSupport = false;
+    };
+
+    difftastic = {
+      # enable this need to disable delta.
+      enable = false;
+      background = "dark";
     };
 
     aliases = {
@@ -139,11 +147,7 @@ in {
       core = {
         ignorecase = false;
         autocrlf = "input";
-        pager = lib.mkForce (
-          if enable_delta
-          then "${pkgs.delta}/bin/delta"
-          else "less"
-        );
+        pager = lib.mkForce (if enable_delta then "${pkgs.delta}/bin/delta" else "less");
       };
       rerere = {
         enabled = true;
@@ -174,10 +178,17 @@ in {
         algorithm = "histogram";
         compactionHeuristic = true;
         guitool = "vscode";
+        tool = "nvim";
       };
       difftool = {
         vscode = {
           cmd = ''code --wait --diff $LOCAL $REMOTE'';
+        };
+        nvim = {
+          cmd = ''nvim -d "$REMOTE" "$LOCAL"'';
+        };
+        difft = {
+          cmd = ''difft --color=always "$REMOTE" "$LOCAL"'';
         };
       };
       mergetool = {
@@ -198,7 +209,7 @@ in {
           remote = "green";
         };
       };
-      interactive = lib.mkIf enable_delta {diffFilter = "${pkgs.delta}/bin/delta --color-only";};
+      interactive = lib.mkIf enable_delta { diffFilter = "${pkgs.delta}/bin/delta --color-only"; };
       advice = {
         detachedHead = true;
       };

@@ -34,3 +34,7 @@ First run:
 Afterwards, run: `make rebuild`.
 
 ## TODO
+
+## Edit the prompt with $EDITOR.
+
+- `alt+e` to edit the prompt.

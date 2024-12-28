@@ -7,7 +7,7 @@ let
     "style=round"
     "active_color=0xffbd93f9"
     "inactive_color=0xffabb2bf"
-    "width=4.0"
+    "width=6.0"
     "hidpi=on"
     "ax_focus=on"
     "blacklist='LaunchBar'"
