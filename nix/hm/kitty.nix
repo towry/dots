@@ -7,6 +7,7 @@
   tmux = "${pkgs.tmux}/bin/tmux";
   tmux_keymaps = {
     "super+n" = "launch_silent ${tmux} new-window -a -c #{pane_current_path}";
+    "super+t" = "launch_silent ${tmux} new-window -c #{pane_current_path}";
     "super+-" = "launch_silent ${tmux} split-window -l 45% -v -c #{pane_current_path}";
     # "super+\\" = "launch_silent ${tmux} split-window -l 25% -h -c #{pane_current_path}";
     # don't know why, but the slash not working in some keyboard or old kitty version?
