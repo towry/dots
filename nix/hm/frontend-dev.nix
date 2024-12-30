@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     # node2nix
     fnm
-    bun
     nodejs
     pnpm
     # biome

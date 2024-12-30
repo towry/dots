@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-stable,
   config,
   theme,
   ...
@@ -55,6 +56,7 @@
 in {
   programs.kitty = {
     enable = true;
+    package = pkgs-stable.kitty;
     darwinLaunchOptions = [
       "--single-instance"
       "--directory=/tmp/towry-kitty-dir"

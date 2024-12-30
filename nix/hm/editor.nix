@@ -59,11 +59,12 @@ in {
     # nimble
   ];
 
+  # codelldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}//share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb",
+  # liblldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/lldb/lib/liblldb.dylib",
+
   home.file.".config/nvim/lua/nix-env.lua".text = ''
     vim.opt.shell = "${pkgs.fish}/bin/fish"
     vim.g.user_cfg = {
-      codelldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}//share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb",
-      liblldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/lldb/lib/liblldb.dylib",
       env__npm_root = "${path-prefix}",
       runtime__python3_host_prog = "${path-prefix}/bin/python3",
       runtime__node_host_prog = "${path-prefix}/bin/neovim-node-host",

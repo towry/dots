@@ -10,19 +10,15 @@ in {
     pkgs.gnumake
     pkgs.pkg-config
     pkgs.cmake
-    pkgs.codelldb
+    # pkgs.codelldb
     # build cache.
     pkgs.sccache
-    pkgs.iconv.out
-    pkgs.iconv.dev
+    pkgs.iconv
     pkgs.libiconv
     pkgs.gettext
-    pkgs.vscode-extensions.vadimcn.vscode-lldb
-    pkgs.openssl.bin
-    pkgs.openssl.dev
-    pkgs.openssl.out
-    pkgs.readline.dev
-    pkgs.readline.out
+    # pkgs.vscode-extensions.vadimcn.vscode-lldb
+    pkgs.openssl
+    pkgs.readline
   ];
   home.sessionVariables = lib.mkIf config.vars.path-prefix.enable {
     CPATH = "${path-prefix}/include";
