@@ -3,7 +3,8 @@
   username,
   config,
   ...
-}: {
+}:
+{
   imports = [
     ../modules/config.nix
     ./vars.nix
@@ -40,8 +41,16 @@
       pkgs.bashInteractive
       pkgs.fish
     ];
-    pathsToLink = ["/include" "/lib"];
-    extraOutputsToInstall = ["out" "lib" "bin" "dev"];
+    pathsToLink = [
+      "/include"
+      "/lib"
+    ];
+    extraOutputsToInstall = [
+      "out"
+      "lib"
+      "bin"
+      "dev"
+    ];
     systemPath = [
       config.homebrew.brewPrefix
     ];
@@ -67,6 +76,10 @@
 
   nix = {
     settings = {
+      # for nix-direnv
+      keep-outputs = true;
+      keep-derivations = true;
+      # --
       substituters = [
         "https://dots.cachix.org"
         "https://nix-community.cachix.org"
@@ -108,4 +121,8 @@
       };
     };
   };
+  documentation.enable = true;
+  programs.info.enable = true;
+  programs.man.enable = true;
+  security.pam.enableSudoTouchIdAuth = true;
 }
