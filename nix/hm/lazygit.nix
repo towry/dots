@@ -6,8 +6,12 @@
     settings = {
       gui = {
         theme = {
-          # selectedLineBgColor = [
-          # ];
+          selectedLineBgColor = [
+            "#343A51"
+          ];
+          selectedRangeBgColor = [
+            "#343A51"
+          ];
         };
         mouseEvents = true;
         showFileTree = true;
