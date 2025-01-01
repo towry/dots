@@ -93,9 +93,12 @@
 
         # focus recent window
         ralt - r : yabai -m window --focus recent
+        rshift - r : yabai -m window --focus recent
         mode_window < tab : yabai -m window --focus recent || yabai -m window --focus stack.recent; skhd -k "ctrl - space"
         ralt - e : ${bash} ${skhdDir}/cycle-app.sh --focus prev
+        rshift - e : ${bash} ${skhdDir}/cycle-app.sh --focus prev
         ralt - w : ${bash} ${skhdDir}/cycle-app.sh --focus next
+        rshift - w : ${bash} ${skhdDir}/cycle-app.sh --focus next
 
         # focus next|prev window.
         # https://github.com/koekeishiya/yabai/issues/203#issuecomment-1289940339
@@ -166,6 +169,7 @@
 
         # recent space.
         ralt - tab : yabai -m space --focus recent
+        rshift - tab : yabai -m space --focus recent
         mode_space < tab : yabai -m space --focus recent
         # mode_space < n : yabai -m space --focus recent
         # next prev space.
@@ -186,12 +190,6 @@
         mode_space < 7 : yabai -m space --focus 7; skhd -k "ctrl - space"
         mode_space < 8 : yabai -m space --focus 8; skhd -k "ctrl - space"
         mode_space < 9 : yabai -m space --focus 9; skhd -k "ctrl - space"
-
-        # shortcuts to focus space by index
-        ralt - 1 : yabai -m space --focus 1
-        ralt - 2 : yabai -m space --focus 2
-        ralt - 3 : yabai -m space --focus 3
-        ralt - 4 : yabai -m space --focus 4
 
         # change space layout
         mode_space_arrange < s : yabai -m space --layout stack; skhd -k "ctrl - space"; ${bash} ${skhdDir}/notify.sh "Space layout" "Stack"
@@ -216,10 +214,12 @@
         # >>>>>>> end display
 
         ### other utils
-
-        ralt - a : ${bash} ${skhdDir}/focus-app.sh "kitty";
-        ralt - s : ${bash} ${skhdDir}/focus-app.sh "Google Chrome";
-        ralt - d : ${bash} ${skhdDir}/focus-app.sh "Cursor";
+        ralt - 1 : ${bash} ${skhdDir}/focus-app.sh "kitty";
+        rshift - 1 : ${bash} ${skhdDir}/focus-app.sh "kitty";
+        ralt - 2 : ${bash} ${skhdDir}/focus-app.sh "Google Chrome";
+        rshift - 2 : ${bash} ${skhdDir}/focus-app.sh "Google Chrome";
+        ralt - 3 : ${bash} ${skhdDir}/focus-app.sh "Cursor";
+        rshift - 3 : ${bash} ${skhdDir}/focus-app.sh "Cursor";
       '';
 
       # ========== scripts
