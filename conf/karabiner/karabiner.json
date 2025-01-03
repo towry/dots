@@ -408,6 +408,7 @@
                 },
                 {
                     "disable_built_in_keyboard_if_exists": true,
+                    "description": "nuphy air60 keyboard",
                     "identifiers": {
                         "device_address": "f3-41-32-3e-d3-d1",
                         "is_keyboard": true,
@@ -415,6 +416,16 @@
                     },
                     "ignore": false,
                     "simple_modifications": [
+                        {
+                            "from": {
+                                "key_code": "escape"
+                            },
+                            "to": [
+                                {
+                                    "key_code": "grave_accent_and_tilde"
+                                }
+                            ]
+                        },
                         {
                             "from": {
                                 "key_code": "right_command"
