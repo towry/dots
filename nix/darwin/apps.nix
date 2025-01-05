@@ -15,6 +15,7 @@
       "postico"
       "spaceid"
       "telegram-desktop"
+      "gitbutler"
     ];
     masApps = {
     };

@@ -12,7 +12,7 @@ in
     # github cli, manage repo, gists etc.
     gh
     git-smash
-    gitbutler
+    gnupg
     # gitu
   ];
   programs.git = {
@@ -156,6 +156,9 @@ in
       rebase = {
         autosquash = true;
         autoStash = true;
+      };
+      commit = {
+        gpgsign = true;
       };
       fetch = {
         prune = false;
