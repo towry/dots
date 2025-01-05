@@ -160,6 +160,9 @@ in
       commit = {
         gpgsign = true;
       };
+      gpg = {
+        program = "${pkgs.gnupg}/bin/gpg";
+      };
       fetch = {
         prune = false;
         pruneTags = false;
