@@ -12,6 +12,7 @@ in
     # github cli, manage repo, gists etc.
     gh
     git-smash
+    gitbutler
     # gitu
   ];
   programs.git = {
