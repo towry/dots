@@ -410,7 +410,7 @@
                     "disable_built_in_keyboard_if_exists": true,
                     "description": "nuphy air60 keyboard",
                     "identifiers": {
-                        "device_address": "f3-41-32-3e-d3-d1",
+                        "device_address": "f3-41-32-3e-d3-d7",
                         "is_keyboard": true,
                         "is_pointing_device": true
                     },
