@@ -94,18 +94,6 @@ in {
     ".ripgreprc".source = ../../conf/.ripgreprc;
   };
   programs = {
-    jujutsu = {
-      enable = false;
-      settings = {
-        ui = {
-          default-command = "log";
-        };
-        user = {
-          email = "towry@users.noreply.github.com";
-          name = "Towry Wang";
-        };
-      };
-    };
     carapace = {
       enable = false;
       enableBashIntegration = true;

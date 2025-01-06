@@ -155,6 +155,7 @@ in
     ./hm/yabai.nix
     ./hm/dark-mode-notify.nix
     ./hm/lazygit.nix
+    ./hm/jj.nix
   ];
 
   # Let Home Manager install and manage itself.
