@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-stable,
   config,
   theme,
   ...
@@ -7,6 +8,7 @@
   tmux = "${pkgs.tmux}/bin/tmux";
   tmux_keymaps = {
     "super+n" = "launch_silent ${tmux} new-window -a -c #{pane_current_path}";
+    "super+t" = "launch_silent ${tmux} new-window -c #{pane_current_path}";
     "super+-" = "launch_silent ${tmux} split-window -l 45% -v -c #{pane_current_path}";
     # "super+\\" = "launch_silent ${tmux} split-window -l 25% -h -c #{pane_current_path}";
     # don't know why, but the slash not working in some keyboard or old kitty version?
@@ -54,6 +56,7 @@
 in {
   programs.kitty = {
     enable = true;
+    package = pkgs-stable.kitty;
     darwinLaunchOptions = [
       "--single-instance"
       "--directory=/tmp/towry-kitty-dir"
@@ -64,7 +67,7 @@ in {
     };
     font = {
       name = "Berkeley Mono Nerd Font";
-      size = 13;
+      size = 14;
       # name = "Iosevka";
       # size = 16;
     };

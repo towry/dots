@@ -83,7 +83,7 @@
       ${yabai} -m rule --add app="^(Ghostty|Cursor)$" space=code role=AXWindow subrole=AXStandardWindow
       ${yabai} -m rule --add app="(System Preferences|系统偏好设置|系统设置|微信|wechat|短信|\.dmg)$" manage=off sub-layer=normal
       ${yabai} -m rule --add app="(微信|钉钉|Wechat|企业微信|Telegram|Numi|MenubarX)" manage=off sub-layer=normal
-      ${yabai} -m rule --add app="(腾讯会议|快速会议|会议|Capacities|数码测色计|富途牛牛)" manage=off sub-layer=normal
+      ${yabai} -m rule --add app="(腾讯会议|快速会议|会议|Capacities|数码测色计|富途牛牛|豆包)" manage=off sub-layer=normal
       ${yabai} -m rule --add app="^\s*$" manage=off sub-layer=normal
       ${yabai} -m rule --add app="Things" manage=off sub-layer=normal
       ${yabai} -m rule --add app="QQ音乐" manage=off sub-layer=normal

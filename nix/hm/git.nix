@@ -12,6 +12,7 @@ in
     # github cli, manage repo, gists etc.
     gh
     git-smash
+    gnupg
     # gitu
   ];
   programs.git = {
@@ -155,6 +156,12 @@ in
       rebase = {
         autosquash = true;
         autoStash = true;
+      };
+      commit = {
+        gpgsign = true;
+      };
+      gpg = {
+        program = "${pkgs.gnupg}/bin/gpg";
       };
       fetch = {
         prune = false;

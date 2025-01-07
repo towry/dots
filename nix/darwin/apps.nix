@@ -5,6 +5,9 @@
     logseq
     # brave
     ice-bar
+    man-pages
+    man-pages-posix
+    groff
   ];
 
   homebrew = {
