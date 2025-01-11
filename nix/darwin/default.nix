@@ -33,7 +33,7 @@
             home-manager.extraSpecialArgs = {
               inherit inputs system pkgs pkgs-stable username;
               useGlobalPkgs = true;
-              theme = pkgs.callPackage ../lib/theme.nix {theme = "kanagawa";};
+              theme = pkgs.callPackage ../lib/theme.nix {theme = "monokai";};
             };
           }
         ]
