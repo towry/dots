@@ -67,7 +67,7 @@ in {
     };
     font = {
       name = "Berkeley Mono Nerd Font";
-      size = 14;
+      size = 15;
       # name = "Iosevka";
       # size = 16;
     };
@@ -126,7 +126,7 @@ in {
 
       modify_font underline_thickness 40%
       modify_font underline_position 120%
-      modify_font cell_height +1px
+      modify_font cell_height 115%
       ## ===
       ## 你好
       symbol_map U+4E00–U+9FFF LXGW WenKai Mono
