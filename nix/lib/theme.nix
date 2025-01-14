@@ -30,16 +30,16 @@
       dark = "anysphere-dark.conf";
     };
     fish = {
-      light = "neovim_dark";
-      dark = "neovim_dark";
+      light = "anysphere_dark";
+      dark = "anysphere_dark";
     };
     bat = {
-      light = "neovim_dark";
-      dark = "neovim_dark";
+      light = "anysphere-dark";
+      dark = "anysphere-dark";
     };
     delta = {
-      light = "modus_dark";
-      dark = "modus_dark";
+      light = "anysphere-dark";
+      dark = "anysphere-dark";
     };
   };
   nord = {
