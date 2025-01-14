@@ -2,9 +2,11 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   path-prefix = config.vars.path-prefix.value;
-in {
+in
+{
   nixpkgs.overlays = [
     (_self: super: {
       lua-language-server = super.lua-language-server.overrideAttrs (_: rec {

@@ -3,7 +3,8 @@
   # config,
   # pkgs,
   ...
-}: {
+}:
+{
   options.vars.path-prefix = {
     value = lib.mkOption {
       description = "The path prefix used for env path";

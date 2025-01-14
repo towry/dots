@@ -1,0 +1,24 @@
+# Anysphere Dark Theme for Fish
+# Based on the VSCode Anysphere Dark theme
+
+# Basic syntax highlighting
+fish_color_normal D6D6DD
+fish_color_command 83D6C5
+fish_color_keyword E394DC
+fish_color_quote EBC88D
+fish_color_redirection D6D6DD
+fish_color_end 94C1FA
+fish_color_error FF6767
+fish_color_param AAA0FA
+fish_color_comment 6D6D6D
+fish_color_selection --background=163761
+fish_color_search_match --background=163761
+fish_color_operator 82D2CE
+fish_color_escape E394DC
+fish_color_autosuggestion 737373
+
+# Completion Pager Colors
+fish_pager_color_progress 6D6D6D
+fish_pager_color_prefix 83D6C5
+fish_pager_color_completion D6D6DD
+fish_pager_color_description 737373

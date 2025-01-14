@@ -2,7 +2,8 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   tmuxprg = "${pkgs.tmux}/bin/tmux";
   kanagawa_dragon = {
     colors.primary = {
@@ -243,7 +244,8 @@
       }
     ];
   };
-in {
+in
+{
   programs.alacritty = {
     enable = true;
     settings =
@@ -292,11 +294,7 @@ in {
           startup_mode = "Maximized";
         };
       }
-      // (
-        if config.programs.tmux.enable
-        then tmuxKeyboard
-        else {}
-      )
+      // (if config.programs.tmux.enable then tmuxKeyboard else { })
       // kanagawa_dragon;
   };
 

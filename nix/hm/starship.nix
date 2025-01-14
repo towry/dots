@@ -1,12 +1,14 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   enable_starship = true;
-in {
+in
+{
   programs.starship = {
     enable = enable_starship;
     enableTransience = true;
     settings = {
-      format = lib.concatStrings ["$all"];
-      right_format = lib.concatStrings ["$time"];
+      format = lib.concatStrings [ "$all" ];
+      right_format = lib.concatStrings [ "$time" ];
       command_timeout = 300;
       scan_timeout = 10;
       follow_symlinks = false;
@@ -87,9 +89,15 @@ in {
         unknown_msg = "[unknown](bold yellow)";
         pure_msg = "[pure](bold green)";
       };
-      battery = {disabled = true;};
-      lua = {disabled = true;};
-      status = {disabled = true;};
+      battery = {
+        disabled = true;
+      };
+      lua = {
+        disabled = true;
+      };
+      status = {
+        disabled = true;
+      };
     };
   };
 }

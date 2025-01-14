@@ -29,83 +29,104 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-stable,
-    darwin,
-    home-manager,
-    mac-app-util,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    forAllSystems = nixpkgs.lib.genAttrs [
-      "x86_64-darwin"
-    ];
-    overlay = import ./nix/overlay.nix {
-      inherit inputs;
-    };
-    mkSystemConfig = system: {
-      pkgs-stable = import nixpkgs-stable {
-        inherit system;
-        config.allowUnfree = true;
-        config.allowUnfreePredicate = true;
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      darwin,
+      home-manager,
+      mac-app-util,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+      overlay = import ./nix/overlay.nix {
+        inherit inputs;
       };
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        config.allowUnfreePredicate = true;
-        overlays = [
-          overlay
-          # see https://github.com/nix-community/fenix/issues/79
-          (_: super: let pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system}; in inputs.fenix.overlays.default pkgs' pkgs')
-        ];
-      };
-    };
-
-    generateHomeConfig = {
-      username,
-      system,
-    }: let
-      inherit (mkSystemConfig system) pkgs pkgs-stable;
-    in
-      home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          system = system;
-          username = username;
-          pkgs-stable = pkgs-stable;
-          theme = pkgs.callPackage ./nix/lib/theme.nix {theme = "kanagawa";};
+      mkSystemConfig = system: {
+        pkgs-stable = import nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+          config.allowUnfreePredicate = true;
         };
-        pkgs = pkgs;
-        modules = [
-          ./nix/modules/config.nix
-          ./nix/hm/vars.nix
-          ./nix/home.nix
-        ];
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          config.allowUnfreePredicate = true;
+          overlays = [
+            overlay
+            # see https://github.com/nix-community/fenix/issues/79
+            (
+              _: super:
+              let
+                pkgs' = inputs.fenix.inputs.nixpkgs.legacyPackages.${super.system};
+              in
+              inputs.fenix.overlays.default pkgs' pkgs'
+            )
+          ];
+        };
       };
-  in {
-    homeConfigurations = {
-      "towry" = generateHomeConfig {
-        username = "towry";
-        system = "x86_64-darwin";
+
+      generateHomeConfig =
+        {
+          username,
+          system,
+        }:
+        let
+          inherit (mkSystemConfig system) pkgs pkgs-stable;
+        in
+        home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            system = system;
+            username = username;
+            pkgs-stable = pkgs-stable;
+
+            theme = pkgs.callPackage ./nix/lib/theme.nix { theme = "kanagawa"; };
+          };
+          pkgs = pkgs;
+          modules = [
+            ./nix/modules/config.nix
+            ./nix/hm/vars.nix
+            ./nix/home.nix
+          ];
+        };
+    in
+    {
+      homeConfigurations = {
+        "towry" = generateHomeConfig {
+          username = "towry";
+          system = "x86_64-darwin";
+        };
+        "momo" = generateHomeConfig {
+          username = "momo";
+          system = "x86_64-darwin";
+        };
       };
-      "momo" = generateHomeConfig {
-        username = "momo";
-        system = "x86_64-darwin";
-      };
+      darwinConfigurations = (
+        import ./nix/darwin {
+          inherit (nixpkgs) lib;
+          inherit
+            mkSystemConfig
+            inputs
+            nixpkgs
+            nixpkgs-stable
+            home-manager
+            mac-app-util
+            darwin
+            ;
+        }
+      );
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
     };
-    darwinConfigurations = (
-      import ./nix/darwin {
-        inherit (nixpkgs) lib;
-        inherit mkSystemConfig inputs nixpkgs nixpkgs-stable home-manager mac-app-util darwin;
-      }
-    );
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
-  };
 
   # =========================================================================
-  # 
+  #
   # =========================================================================
 
   nixConfig = {

@@ -1,10 +1,12 @@
-{theme}:
+{ theme }:
 {
   kanagawa = {
     kitty = {
       light = "kanagawa_light.conf";
       # dark = "kanagawa_dragon.conf";
       dark = "kanagawa.conf";
+      # dark = "anysphere-dark.conf";
+      # light = "anysphere-dark.conf";
     };
     fish = {
       light = "kanagawa_light";
@@ -24,20 +26,20 @@
   };
   monokai = {
     kitty = {
-      light = "neovim_light.conf";
-      dark = "jet_brains_dracula.conf";
+      light = "anysphere-dark.conf";
+      dark = "anysphere-dark.conf";
     };
     fish = {
-      light = "neovim_light";
-      dark = "neovim_dark";
+      light = "anysphere_dark";
+      dark = "anysphere_dark";
     };
     bat = {
-      light = "modus_light";
-      dark = "modus_dark";
+      light = "anysphere-dark";
+      dark = "anysphere-dark";
     };
     delta = {
-      light = "modus_light";
-      dark = "modus_dark";
+      light = "anysphere-dark";
+      dark = "anysphere-dark";
     };
   };
   nord = {

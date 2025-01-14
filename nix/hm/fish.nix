@@ -4,7 +4,8 @@
   username,
   # config,
   ...
-}: {
+}:
+{
   home.sessionVariables = {
     _ZO_ECHO = 1;
     _ZO_EXCLUDE_DIRS = "$HOME:$HOME/private/*:/usr/*:$HOME/Library/*:$HOME/.local/*";
@@ -63,9 +64,10 @@
   programs.fish.shellAliases = {
     cd-home = "cd $HOME/workspace";
     run-firefox-debugger =
-      if pkgs.stdenv.isDarwin
-      then "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
-      else "/user/bin/firefox --start-debugger-server";
+      if pkgs.stdenv.isDarwin then
+        "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
+      else
+        "/user/bin/firefox --start-debugger-server";
     wz = "wezterm";
     wz-rename = "wezterm cli rename-workspace";
     split-pane = "wezterm cli split-pane";
@@ -122,6 +124,7 @@
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
     random-name = "uclanr";
     tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
+    nix-shell-run-nix-info = "nix-shell -p nix-info --run \"nix-info -m\"";
   };
 
   programs.fish.shellInit = ''
@@ -513,7 +516,10 @@
         git show $commit_id | rg --colors 'match:fg:magenta' --colors 'line:bg:yellow' --color=always --passthru -- "$keyword"
       '';
       noScopeShadowing = true;
-      argumentNames = ["commit" "keyword"];
+      argumentNames = [
+        "commit"
+        "keyword"
+      ];
     };
     __git_search_command = {
       body = ''
@@ -525,7 +531,7 @@
         end
       '';
       noScopeShadowing = true;
-      argumentNames = ["keyword"];
+      argumentNames = [ "keyword" ];
     };
     git-search = {
       body = ''

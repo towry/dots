@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   key-bindings = [
     {
       # ctrl+o
@@ -10,7 +11,8 @@
       rhs = "fzf-file-widget-wrapped";
     }
   ];
-in {
+in
+{
   home.sessionVariables = {
     FZF_COMPLETION_OPTS = "--border --info=inline";
   };
@@ -54,9 +56,8 @@ in {
     interactiveShellInit = ''
       for mode in insert default normal
       ${lib.concatMapStrings (keybind: ''
-          bind -M $mode ${keybind.lhs} ${keybind.rhs}
-        '')
-        key-bindings}
+        bind -M $mode ${keybind.lhs} ${keybind.rhs}
+      '') key-bindings}
       end
 
       set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"

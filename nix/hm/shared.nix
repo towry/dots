@@ -5,16 +5,18 @@
   theme,
   # inputs,
   ...
-}: let
-  python3 = import ../lib/python3.nix {inherit pkgs;};
-in {
+}:
+let
+  python3 = import ../lib/python3.nix { inherit pkgs; };
+in
+{
   home.sessionVariables = {
     GOPATH = "$HOME/workspace/goenv";
     HOMEBREW_NO_ANALYTICS = "1";
     HOMEBREW_NO_AUTO_UPDATE = "1";
   };
   home.activation = {
-    ensureWorkspaceDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    ensureWorkspaceDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       run mkdir -p ${config.home.homeDirectory}/workspace
       run mkdir -p ${config.home.homeDirectory}/workspace/goenv
       run mkdir -p ${config.home.homeDirectory}/.local/bin
@@ -125,7 +127,13 @@ in {
         show_preview = true;
         history_format = "{time}\t{command}\t{duration}";
         enter_accept = false;
-        ignored_commands = ["cd" "ls" "vi" "cls" "clear"];
+        ignored_commands = [
+          "cd"
+          "ls"
+          "vi"
+          "cls"
+          "clear"
+        ];
         keys = {
           scroll_exits = false;
         };

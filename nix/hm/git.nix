@@ -46,6 +46,10 @@ in
       sh = "show";
       default-branch = "!git symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4";
       ss = ''!f() { if [ $# -eq 0 ]; then git stash list; else git stash $@; fi; }; f'';
+      # stash and name with "wip"
+      ss-wip = "stash -m wip";
+      # stash staged changes
+      ss-staged = "stash --staged";
       up = ''!git push -u origin HEAD:$(git rev-parse --abbrev-ref HEAD)'';
       fu = ''!git status --short && git push -u --force-with-lease'';
       pr = "pull --rebase";

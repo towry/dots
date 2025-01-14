@@ -4,7 +4,8 @@
   config,
   theme,
   ...
-}: let
+}:
+let
   tmux = "${pkgs.tmux}/bin/tmux";
   tmux_keymaps = {
     "super+n" = "launch_silent ${tmux} new-window -a -c #{pane_current_path}";
@@ -53,7 +54,8 @@
     "super+8" = "launch_silent ${zj} action go-to-tab 8";
     "super+9" = "launch_silent ${zj} action go-to-tab 9";
   };
-in {
+in
+{
   programs.kitty = {
     enable = true;
     package = pkgs-stable.kitty;
@@ -67,7 +69,7 @@ in {
     };
     font = {
       name = "Berkeley Mono Nerd Font";
-      size = 14;
+      size = 15;
       # name = "Iosevka";
       # size = 16;
     };
@@ -101,32 +103,26 @@ in {
       # hide_window_decorations = "no";
       notify_on_cmd_finish = "unfocused";
     };
-    keybindings =
-      {
-        "ctrl+c" = "copy_or_interrupt";
-        "super+c" = "copy_to_clipboard";
-        "super+v" = "paste_from_clipboard";
-        "kitty_mod+u" = "input_unicode_character";
-        "kitty_mod+`" = "load_config_file";
-        "kitty_mod+equal" = "change_font_size all +2.0";
-        "kitty_mod+minus" = "change_font_size all -2.0";
-        "kitty_mod+0" = "change_font_size all 0";
-        "kitty_mod+f10" = "toggle_maximized";
-        "kitty_mod+f11" = "toggle_fullscreen";
-        "super+o" = "hide_macos_app";
-      }
-      // (
-        if config.programs.tmux.enable
-        then tmux_keymaps
-        else {}
-      );
+    keybindings = {
+      "ctrl+c" = "copy_or_interrupt";
+      "super+c" = "copy_to_clipboard";
+      "super+v" = "paste_from_clipboard";
+      "kitty_mod+u" = "input_unicode_character";
+      "kitty_mod+`" = "load_config_file";
+      "kitty_mod+equal" = "change_font_size all +2.0";
+      "kitty_mod+minus" = "change_font_size all -2.0";
+      "kitty_mod+0" = "change_font_size all 0";
+      "kitty_mod+f10" = "toggle_maximized";
+      "kitty_mod+f11" = "toggle_fullscreen";
+      "super+o" = "hide_macos_app";
+    } // (if config.programs.tmux.enable then tmux_keymaps else { });
     extraConfig = ''
       globinclude kitty.d/**/*.conf
       include theme/current-theme.conf
 
       modify_font underline_thickness 40%
       modify_font underline_position 120%
-      modify_font cell_height +1px
+      modify_font cell_height 115%
       ## ===
       ## 你好
       symbol_map U+4E00–U+9FFF LXGW WenKai Mono

@@ -1,4 +1,5 @@
-{...} @ inputs: let
+{ ... }@inputs:
+let
   supportedPlatforms = {
     aarch64-darwin = {
       rustTarget = "aarch64-apple-darwin";
@@ -13,10 +14,9 @@
       rustTarget = "x86_64-unknown-linux-gnu";
     };
   };
-in {
+in
+{
   inherit supportedPlatforms;
   currentPlatform =
-    if builtins.hasAttr "system" inputs
-    then supportedPlatforms.${inputs.system}
-    else {};
+    if builtins.hasAttr "system" inputs then supportedPlatforms.${inputs.system} else { };
 }
