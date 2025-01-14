@@ -2,10 +2,12 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   tmuxdot = "${config.home.homeDirectory}/.tmux";
   bash = "${pkgs.bash}/bin/bash";
-in {
+in
+{
   home.file = {
     ".tmux/bin".source = ../../conf/tmux/bin;
 
@@ -79,7 +81,7 @@ in {
     tmuxinator.enable = false;
     # https://github.com/tmux-python/tmuxp
     tmuxp.enable = false;
-    plugins = with pkgs; [];
+    plugins = with pkgs; [ ];
     extraConfig = ''
       #== env
       if-shell "echo $TERM | grep alacritty" "set-option -sa terminal-overrides ',alacritty:Tc'"

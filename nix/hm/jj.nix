@@ -1,4 +1,8 @@
-{config, lib, ...}: let gitCfg = config.programs.git.extraConfig; in {
+{ config, lib, ... }:
+let
+  gitCfg = config.programs.git.extraConfig;
+in
+{
   programs.jujutsu = {
     enable = true;
     settings = {

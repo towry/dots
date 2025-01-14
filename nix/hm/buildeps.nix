@@ -3,9 +3,11 @@
   lib,
   config,
   ...
-}: let
+}:
+let
   path-prefix = config.vars.path-prefix.value;
-in {
+in
+{
   home.packages = [
     pkgs.gnumake
     pkgs.pkg-config

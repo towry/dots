@@ -3,10 +3,12 @@
   system,
   lib,
   ...
-}: let
-  rustlib = pkgs.callPackage ../lib/rust.nix {inherit system;};
+}:
+let
+  rustlib = pkgs.callPackage ../lib/rust.nix { inherit system; };
   rustTarget = rustlib.currentPlatform.rustTarget;
-  rust-toolchain = with pkgs.fenix;
+  rust-toolchain =
+    with pkgs.fenix;
     combine [
       stable.cargo
       stable.rustc
@@ -15,7 +17,8 @@
       stable.clippy
       targets.${rustTarget}.stable.rust-std
     ];
-in {
+in
+{
   home = {
     packages = [
       rust-toolchain

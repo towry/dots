@@ -2,8 +2,9 @@
   username,
   pkgs,
   ...
-}: {
-  environment.etc."sudoers.d/yabai".source = pkgs.runCommand "sudoers-yabai" {} ''
+}:
+{
+  environment.etc."sudoers.d/yabai".source = pkgs.runCommand "sudoers-yabai" { } ''
     YABAI_BIN="/etc/profiles/per-user/${username}/bin/yabai"
     SHASUM=$(sha256sum "$YABAI_BIN" | cut -d' ' -f1)
     cat <<EOF >"$out"

@@ -1,7 +1,8 @@
 {
   system,
-  pkgs ? (import <nixpkgs> {}),
-}: let
+  pkgs ? (import <nixpkgs> { }),
+}:
+let
   version = "2.1.0";
   # NOTE: the tar must contain file only.
   # tar -czvf xxxx.tar.gz ./somefile
@@ -19,24 +20,24 @@
     sha256 = sha256-map.${system};
   };
 in
-  with pkgs;
-    stdenv.mkDerivation {
-      pname = "uclanr";
-      version = version;
-      nativeBuildInputs = [makeWrapper];
-      src = ./.;
-      unpackPhase = ''
-        tar -xvzf ${tarbar}
-      '';
-      installPhase = ''
-        mkdir -p $out/bin
-        chmod +x ./uclanr
-        mv ./uclanr $out/bin/
-        wrapProgram $out/bin/uclanr
-      '';
-      meta = {
-        homepage = "https://github.com/Axlefublr/uclanr";
-        description = "Generate random word";
-        license = lib.licenses.mit;
-      };
-    }
+with pkgs;
+stdenv.mkDerivation {
+  pname = "uclanr";
+  version = version;
+  nativeBuildInputs = [ makeWrapper ];
+  src = ./.;
+  unpackPhase = ''
+    tar -xvzf ${tarbar}
+  '';
+  installPhase = ''
+    mkdir -p $out/bin
+    chmod +x ./uclanr
+    mv ./uclanr $out/bin/
+    wrapProgram $out/bin/uclanr
+  '';
+  meta = {
+    homepage = "https://github.com/Axlefublr/uclanr";
+    description = "Generate random word";
+    license = lib.licenses.mit;
+  };
+}

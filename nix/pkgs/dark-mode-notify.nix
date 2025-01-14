@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   version = "0.1.2";
   tarballUrlMap = {
     x86_64-darwin = {
@@ -12,34 +13,36 @@
   };
   tarball = tarballUrlMap.${pkgs.system};
 in
-  pkgs.stdenv.mkDerivation {
-    name = "dark-notify";
-    version = version;
+pkgs.stdenv.mkDerivation {
+  name = "dark-notify";
+  version = version;
 
-    src = pkgs.fetchurl tarball;
+  src = pkgs.fetchurl tarball;
 
-    nativeBuildInputs = [
-      # installShellFiles
-      pkgs.makeBinaryWrapper
-    ];
+  nativeBuildInputs = [
+    # installShellFiles
+    pkgs.makeBinaryWrapper
+  ];
 
-    sourceRoot = ".";
-    installPhase = ''
-      mkdir -p $out/bin
-      mv dark-notify $out/bin/dark-notify
-    '';
+  sourceRoot = ".";
+  installPhase = ''
+    mkdir -p $out/bin
+    mv dark-notify $out/bin/dark-notify
+  '';
 
-    postFixup = with pkgs; ''
-      wrapProgram $out/bin/dark-notify \
-        --set PATH ${lib.makeBinPath [
-        coreutils
-        bash
-        python3
-      ]}
-    '';
+  postFixup = with pkgs; ''
+    wrapProgram $out/bin/dark-notify \
+      --set PATH ${
+        lib.makeBinPath [
+          coreutils
+          bash
+          python3
+        ]
+      }
+  '';
 
-    meta = {
-      description = "Watcher for macOS 10.14+ light/dark mode changes";
-      homepage = "https://github.com/cormacrelf/dark-notify";
-    };
-  }
+  meta = {
+    description = "Watcher for macOS 10.14+ light/dark mode changes";
+    homepage = "https://github.com/cormacrelf/dark-notify";
+  };
+}
