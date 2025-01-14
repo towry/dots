@@ -144,6 +144,7 @@ in
         name = "Towry Wang";
         email = "towry@users.noreply.github.com";
         username = "towry";
+        signingkey = "~/.ssh/id_ed25519.pub";
       };
       url = {
         # "ssh://".indexOf = "git://";
@@ -166,6 +167,7 @@ in
       };
       gpg = {
         program = "${pkgs.gnupg}/bin/gpg";
+        format = "ssh";
       };
       fetch = {
         prune = false;
