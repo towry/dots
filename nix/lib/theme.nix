@@ -3,10 +3,7 @@
   kanagawa = {
     kitty = {
       light = "kanagawa_light.conf";
-      # dark = "kanagawa_dragon.conf";
-      dark = "kanagawa.conf";
-      # dark = "anysphere-dark.conf";
-      # light = "anysphere-dark.conf";
+      dark = "kanagawa_dragon.conf";
     };
     fish = {
       light = "kanagawa_light";
