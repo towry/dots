@@ -152,7 +152,7 @@ in
     ./hm/kitty.nix
     ./hm/zellij.nix
     ./hm/rust.nix
-    ./hm/go.nix
+    # ./hm/go.nix
     ./hm/skhd.nix
     ./hm/yabai.nix
     ./hm/dark-mode-notify.nix
