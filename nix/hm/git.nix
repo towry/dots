@@ -54,6 +54,7 @@ in
       fu = ''!git status --short && git push -u --force-with-lease'';
       pr = "pull --rebase";
       pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
+      px = ''pull --all --prune --no-tags'';
       pp-theirs = ''!git pull -X theirs --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       pp-ours = ''!git pull -X ours --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
