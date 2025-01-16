@@ -183,7 +183,7 @@ in
         autoSetupRemote = true;
       };
       merge = {
-        tool = "nvimtwoway";
+        tool = "nvim";
         conflictstyle = "diff3";
         prompt = true;
       };
@@ -198,6 +198,9 @@ in
         vscode = {
           cmd = ''code --wait --diff $LOCAL $REMOTE'';
         };
+        cursor = {
+          cmd = ''cursor --wait --diff $LOCAL $REMOTE'';
+        };
         nvim = {
           cmd = ''nvim -d "$REMOTE" "$LOCAL"'';
         };
@@ -207,11 +210,18 @@ in
       };
       mergetool = {
         keepBackup = false;
-        nvimmerge = {
+        nvim3 = {
           cmd = ''nvim -d "$LOCAL" "$BASE" "$REMOTE" "$MERGED" -c "wincmd w" -c "wincmd J"'';
         };
-        nvimtwoway = {
+        nvim = {
           cmd = ''nvim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"'';
+        };
+        code = {
+          # mergetoo with vscode
+          cmd = ''code --wait --merge "$LOCAL" "$BASE" "$REMOTE" "$MERGED"'';
+        };
+        cursor = {
+          cmd = ''cursor --wait --merge "$LOCAL" "$BASE" "$REMOTE" "$MERGED"'';
         };
       };
       credential.helper = "store";
