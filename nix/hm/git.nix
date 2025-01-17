@@ -98,6 +98,8 @@ in
       des = "describe";
       wt = "worktree";
       mt = "mergetool";
+      mt-code = "mergetool --tool=code";
+      mt-cursor = "mergetool --tool=cursor";
       bi = "bisect";
       rp = "rev-parse";
       rl = "rev-list";
@@ -218,10 +220,10 @@ in
         };
         code = {
           # mergetoo with vscode
-          cmd = ''code --wait --merge "$LOCAL" "$BASE" "$REMOTE" "$MERGED"'';
+          cmd = ''code --new-window --wait --merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"'';
         };
         cursor = {
-          cmd = ''cursor --wait --merge "$LOCAL" "$BASE" "$REMOTE" "$MERGED"'';
+          cmd = ''cursor --new-window --wait --merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"'';
         };
       };
       credential.helper = "store";
