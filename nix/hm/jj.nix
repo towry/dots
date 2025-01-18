@@ -11,7 +11,7 @@ in
         email = gitCfg.user.email;
       };
       ui = {
-        default-command = "log";
+        default-command = "status";
         pager = "less -FRX";
       };
       signing = {
