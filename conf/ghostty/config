@@ -6,7 +6,7 @@
 theme = dark:Kanagawa Dragon,light:Builtin Solarized Light
 font-family = Berkeley Mono Nerd Font
 # font-family = Iosevka Nerd Font Mono
-font-size = 13
+font-size = 15
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = cursor,sudo,title
@@ -16,8 +16,10 @@ selection-invert-fg-bg = true
 macos-option-as-alt = true
 macos-titlebar-style = tabs
 macos-window-shadow  = true
-adjust-underline-position = 45%
-adjust-underline-thickness =
+adjust-underline-position = 10%
+adjust-underline-thickness = -45%
+adjust-box-thickness = -45%
+adjust-cell-height = 10%
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 1
