@@ -15,8 +15,9 @@ in
         pager = "less -FRX";
       };
       signing = {
-        backend = "gpg";
-        sign-all = gitCfg.commit.gpgsign;
+        backend = "ssh";
+        key = "~/.ssh/id_ed25519.pub";
+        sign-all = true;
       };
       templates = {
         draft_commit_description = ''
