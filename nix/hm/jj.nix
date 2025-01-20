@@ -50,16 +50,19 @@ in
           "desc"
           "-m"
         ];
-      };
-      ui = {
-        editor = "nvim";
-
-        default-command = [
+        l = [
           "log"
           "-r"
           "reachable(@, mutable() | ~mutable())"
           "-n"
           "8"
+        ];
+      };
+      ui = {
+        editor = "nvim";
+
+        default-command = [
+          "status"
         ];
         diff.tool = [
           "${lib.getExe pkgs.difftastic}"
