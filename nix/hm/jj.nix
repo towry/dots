@@ -94,6 +94,12 @@ in
           )
         '';
       };
+      colors = {
+        bookmarks = {
+          bold = true;
+          underline = true;
+        };
+      };
     };
   };
 }
