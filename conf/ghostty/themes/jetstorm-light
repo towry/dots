@@ -1,32 +1,27 @@
 # Base colors from editor.background and editor.foreground
 background = #ffffff
 foreground = #080808
-
-# Cursor colors
 cursor-color = #000000
 cursor-text = #ffffff
-
-# Selection colors from editor.selectionBackground and editor.selectionForeground
 selection-background = #a6d2ff
 selection-foreground = #000000
-
 # Terminal colors (based on syntax highlighting and UI colors)
 # Normal colors (0-7)
-palette = 0=#ffffff    # Black (background)
-palette = 1=#cf5b56    # Red (from problemsErrorIcon.foreground)
-palette = 2=#077d18    # Green (from string color)
-palette = 3=#9e880d    # Yellow (from decorator color)
-palette = 4=#315fbd    # Blue (from pickerGroup.foreground)
-palette = 5=#861194    # Magenta (from namespace color)
-palette = 6=#238f8f    # Cyan (from variable color)
-palette = 7=#080808    # White (foreground)
+palette = 0=#ffffff
+palette = 1=#cf5b56
+palette = 2=#077d18
+palette = 3=#9e880d
+palette = 4=#315fbd
+palette = 5=#861194
+palette = 6=#238f8f
+palette = 7=#080808
 
 # Bright colors (8-15)
-palette = 8=#8c8c8c    # Bright Black (from comment color)
-palette = 9=#f50000    # Bright Red (from invalid color)
-palette = 10=#0a7700   # Bright Green (from gitDecoration.addedResourceForeground)
-palette = 11=#f1bf56   # Bright Yellow (from problemsWarningIcon.foreground)
-palette = 12=#4781fa   # Bright Blue (from problemsInfoIcon.foreground)
-palette = 13=#ad6339   # Bright Magenta (from support.class.component)
-palette = 14=#006279   # Bright Cyan (from function color)
-palette = 15=#000000   # Bright White
+palette = 8=#8c8c8c
+palette = 9=#f50000
+palette = 10=#0a7700
+palette = 11=#f1bf56
+palette = 12=#4781fa
+palette = 13=#ad6339
+palette = 14=#006279
+palette = 15=#000000
