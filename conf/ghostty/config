@@ -3,8 +3,7 @@
 # https://github.com/ghostty-org/ghostty/blob/b8ffee7acbdd5ee97953f6e6d02e047d4bfda37b/src/input/key.zig#L255
 
 
-# theme = dark:JetBrains Darcula,light:Builtin Solarized Light
-theme = JetBrains Darcula
+theme = dark:jetstorm-darcula,light:jetstorm-light
 font-family = Berkeley Mono Nerd Font
 # font-family = Iosevka Nerd Font Mono
 font-size = 15

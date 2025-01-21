@@ -1,0 +1,32 @@
+# Base colors from editor.background and editor.foreground
+background = #2b2b2b
+foreground = #bcbec3
+
+# Cursor colors
+cursor-color = #bbbbbb
+cursor-text = #2b2b2b
+
+# Selection colors from editor.selectionBackground and editor.selectionForeground
+selection-background = #214283
+selection-foreground = #bcbec3
+
+# Terminal colors (based on syntax highlighting and UI colors)
+# Normal colors (0-7)
+palette = 0=#2b2b2b    # Black (background)
+palette = 1=#c75450    # Red (from debugIcon.breakpointForeground)
+palette = 2=#6aab73    # Green (from string color)
+palette = 3=#d5b778    # Yellow (from entity.name.tag)
+palette = 4=#589df6    # Blue (from pickerGroup.foreground)
+palette = 5=#c77dbb    # Magenta (from namespace color)
+palette = 6=#2cabb8    # Cyan (from constant.numeric)
+palette = 7=#bcbec3    # White (foreground)
+
+# Bright colors (8-15)
+palette = 8=#606366    # Bright Black (from editorLineNumber.foreground)
+palette = 9=#f75464    # Bright Red (from invalid)
+palette = 10=#629755   # Bright Green (from gitDecoration.addedResourceForeground)
+palette = 11=#be9117   # Bright Yellow (from problemsWarningIcon.foreground)
+palette = 12=#57a8f5   # Bright Blue (from textLink.foreground)
+palette = 13=#d0cfff   # Bright Magenta (from keyword.control.at-rule.mixin.scss)
+palette = 14=#40b6e0   # Bright Cyan (from inputOption.activeForeground)
+palette = 15=#ffffff   # Bright White
