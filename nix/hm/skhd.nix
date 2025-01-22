@@ -80,7 +80,7 @@
 
         ## ==============  manage windows
         mode_window < x : yabai -m window --close; skhd -k "ctrl - space"
-        mode_window < return : yabai -m window --toggle zoom-fullscreen; skhd -k "ctrl - space"
+        mode_window < return : yabai -m window --toggle windowed-fullscreen; skhd -k "ctrl - space"
         # current window will be in float state, out control of current space layout.
         mode_window_toggle < f : yabai -m window --toggle float; skhd -k "ctrl - space"
         # make current window stick to current space layout.
@@ -90,6 +90,8 @@
         mode_window < j : yabai -m window --focus south; ${skhd} -k "ctrl - space"
         mode_window < k : yabai -m window --focus north; ${skhd} -k "ctrl - space"
         mode_window < l : yabai -m window --focus east; ${skhd} -k "ctrl - space"
+        # swap with the largest
+        mode_window < space : yabai -m window --swap largest; ${skhd} -k "ctrl - space"
 
         # focus recent window
         ralt - r : yabai -m window --focus recent
@@ -163,7 +165,7 @@
         ## >>>>>>>>>>>>>>>>> manage spaces
         mode_space < i : yabai -m space --create; skhd -k "ctrl - space"
         mode_space < x : yabai -m space --destroy; skhd -k "ctrl - space"
-
+        mode_space < return : yabai -m space --balance; skhd -k "ctrl - space"
         mode_space < r : yabai -m space --rotate 270; skhd -k "ctrl - space"
         mode_space < b : yabai -m space --balance; skhd -k "ctrl - space"
 
