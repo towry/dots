@@ -107,17 +107,6 @@
         ctrl+shift+alt - h : yabai -m query --spaces --space | ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $has_index > 0 then nth($has_index - 1).id else nth($array_length - 1).id end' | xargs -I{} yabai -m window --focus {}
         ctrl+shift+alt - l : yabai -m query --spaces --space | ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $array_length - 1 > $has_index then nth($has_index + 1).id else nth(0).id end' | xargs -I{} yabai -m window --focus {}
 
-        # toggle mission control in current space
-        ## show mission control preview of other spaces.
-        ## see: https://github.com/koekeishiya/yabai/issues/147
-        ## for cliclick issue(move): https://github.com/BlueM/cliclick/issues/168#issuecomment-1575103405
-        ## you might need to sleep shortly for consistency
-        ## yabai -m space --toggle mission-control && cliclick -r w:10 m:0,0
-        # -r: restore initial position after move.
-        # w:250 wait for 250ms after each event.
-        # m:0,0, move to 0,0 coords.
-        # ctrl+shift+alt - g : yabai -m space --toggle mission-control && cliclick -w 250 -r m:0,0 m:1,1 w:250
-
         # moving windows
         mode_window_move < h : yabai -m window --warp west; skhd -k "ctrl - space"
         mode_window_move < j : yabai -m window --warp south; skhd -k "ctrl - space"
@@ -157,10 +146,10 @@
         mode_window_stack < u : yabai -m window --insert stack; skhd -k "ctrl - space"
 
         # resize windows — use shift to shrink
-        mode_window_resize < h : yabai -m window --resize left:-25:0 | yabai -m window --resize right:-25:0
-        mode_window_resize < j : yabai -m window --resize bottom:0:25 | yabai -m window --resize top:0:25
-        mode_window_resize < k : yabai -m window --resize top:0:-25 | yabai -m window --resize bottom:0:-25
-        mode_window_resize < l : yabai -m window --resize right:25:0 | yabai -m window --resize left:25:0
+        mode_window_resize < h : yabai -m window --resize left:-40:0 | yabai -m window --resize right:-40:0
+        mode_window_resize < j : yabai -m window --resize bottom:0:40 | yabai -m window --resize top:0:40
+        mode_window_resize < k : yabai -m window --resize top:0:-40 | yabai -m window --resize bottom:0:-40
+        mode_window_resize < l : yabai -m window --resize right:40:0 | yabai -m window --resize left:40:0
 
         ## >>>>>>>>>>>>>>>>> manage spaces
         mode_space < i : yabai -m space --create; skhd -k "ctrl - space"
