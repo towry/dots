@@ -6,7 +6,7 @@
 ratio = [1, 4, 3]
 sort_by = "mtime"
 sort_sensitive = false
-# newly modifed come first if sort reverse is true
+# newly modified come first if sort reverse is true
 sort_reverse = true
 sort_dir_first = true
 linemode = "mtime"
@@ -18,7 +18,7 @@ mouse_events = ["click", "scroll"]
 title_format = ""
 
 # [flavor]
-# use = "Nord"
+# dark = "dracula"
 
 [preview]
 tab_size = 2
@@ -87,7 +87,7 @@ rules = [
 		"extract",
 		"reveal",
 	] },
-	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = [
+	{ mime = "application/{tar,bzip*,7z-compressed,xz,rar}", use = [
 		"extract",
 		"reveal",
 	] },
@@ -139,7 +139,7 @@ previewers = [
 	{ mime = "application/pdf", run = "pdf" },
 	# Archive
 	{ mime = "application/*zip", run = "archive" },
-	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", run = "archive" },
+	{ mime = "application/{tar,bzip*,7z-compressed,xz,rar}", run = "archive" },
 	# Fallback
 	{ name = "*", run = "file" },
 ]
