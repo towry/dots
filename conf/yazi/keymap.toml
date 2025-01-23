@@ -129,7 +129,7 @@ keymap = [
   { on = [
     "<Space>",
   ], run = [
-    "select --state=none",
+    "toggle",
     "arrow 1",
   ], desc = "Toggle the current selection state" },
   { on = [
@@ -140,10 +140,10 @@ keymap = [
   ], run = "visual_mode --unset", desc = "Enter visual mode (unset mode)" },
   { on = [
     "<C-a>",
-  ], run = "select_all --state=true", desc = "Select all files" },
+  ], run = "toggle_all --state=on", desc = "Select all files" },
   { on = [
     "<C-r>",
-  ], run = "select_all --state=none", desc = "Inverse selection of all files" },
+  ], run = "toggle_all", desc = "Inverse selection of all files" },
 
   # Operation
   { on = [
@@ -217,7 +217,7 @@ keymap = [
   ], run = "search rg", desc = "Search files by content using ripgrep" },
   { on = [
     "<C-s>",
-  ], run = '''shell "$SHELL" --block --confirm''', desc = "Open shell here" },
+  ], run = '''shell "$SHELL" --block''', desc = "Open shell here" },
   { on = [
     "Z",
   ], run = "plugin zoxide", desc = "Jump to a directory using zoxide" },
@@ -284,19 +284,27 @@ keymap = [
   { on = [
     ",",
     "m",
-  ], run = "sort modified --dir-first", desc = "Sort by modified time" },
+  ], run = "sort mtime --dir-first", desc = "Sort by modified time" },
   { on = [
     ",",
     "M",
-  ], run = "sort modified --reverse --dir-first", desc = "Sort by modified time (reverse)" },
+  ], run = "sort mtime --reverse --dir-first", desc = "Sort by modified time (reverse)" },
+  { on = [
+    ",",
+    "b",
+  ], run = "sort btime --dir-first", desc = "Sort by birth time" },
+  { on = [
+    ",",
+    "B",
+  ], run = "sort btime --reverse --dir-first", desc = "Sort by birth time (reverse)" },
   { on = [
     ",",
     "c",
-  ], run = "sort created --dir-first", desc = "Sort by created time" },
+  ], run = "sort btime --dir-first", desc = "Sort by created time" },
   { on = [
     ",",
     "C",
-  ], run = "sort created --reverse --dir-first", desc = "Sort by created time (reverse)" },
+  ], run = "sort btime --reverse --dir-first", desc = "Sort by created time (reverse)" },
   { on = [
     ",",
     "e",
@@ -445,7 +453,7 @@ keymap = [
   ], run = "help", desc = "Open help" },
 ]
 
-[select]
+[pick]
 
 keymap = [
   { on = [

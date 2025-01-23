@@ -13,6 +13,8 @@ in
     gh
     git-smash
     gnupg
+    # git branchless, git smartlog(git sl)
+    git-branchless
     # gitu
   ];
   programs.git = {
@@ -54,6 +56,7 @@ in
       fu = ''!git status --short && git push -u --force-with-lease'';
       pr = "pull --rebase";
       pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
+      px = ''pull --all --prune --no-tags'';
       pp-theirs = ''!git pull -X theirs --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       pp-ours = ''!git pull -X ours --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
@@ -97,6 +100,8 @@ in
       des = "describe";
       wt = "worktree";
       mt = "mergetool";
+      mt-code = "mergetool --tool=code";
+      mt-cursor = "mergetool --tool=cursor";
       bi = "bisect";
       rp = "rev-parse";
       rl = "rev-list";
@@ -182,7 +187,7 @@ in
         autoSetupRemote = true;
       };
       merge = {
-        tool = "nvimtwoway";
+        tool = "nvim";
         conflictstyle = "diff3";
         prompt = true;
       };
@@ -197,6 +202,9 @@ in
         vscode = {
           cmd = ''code --wait --diff $LOCAL $REMOTE'';
         };
+        cursor = {
+          cmd = ''cursor --wait --diff $LOCAL $REMOTE'';
+        };
         nvim = {
           cmd = ''nvim -d "$REMOTE" "$LOCAL"'';
         };
@@ -206,11 +214,18 @@ in
       };
       mergetool = {
         keepBackup = false;
-        nvimmerge = {
+        nvim3 = {
           cmd = ''nvim -d "$LOCAL" "$BASE" "$REMOTE" "$MERGED" -c "wincmd w" -c "wincmd J"'';
         };
-        nvimtwoway = {
+        nvim = {
           cmd = ''nvim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"'';
+        };
+        code = {
+          # mergetoo with vscode
+          cmd = ''code --new-window --wait --merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"'';
+        };
+        cursor = {
+          cmd = ''cursor --new-window --wait --merge "$LOCAL" "$REMOTE" "$BASE" "$MERGED"'';
         };
       };
       credential.helper = "store";

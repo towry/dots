@@ -80,7 +80,7 @@
 
         ## ==============  manage windows
         mode_window < x : yabai -m window --close; skhd -k "ctrl - space"
-        mode_window < return : yabai -m window --toggle zoom-fullscreen; skhd -k "ctrl - space"
+        mode_window < return : yabai -m window --toggle windowed-fullscreen; skhd -k "ctrl - space"
         # current window will be in float state, out control of current space layout.
         mode_window_toggle < f : yabai -m window --toggle float; skhd -k "ctrl - space"
         # make current window stick to current space layout.
@@ -90,6 +90,8 @@
         mode_window < j : yabai -m window --focus south; ${skhd} -k "ctrl - space"
         mode_window < k : yabai -m window --focus north; ${skhd} -k "ctrl - space"
         mode_window < l : yabai -m window --focus east; ${skhd} -k "ctrl - space"
+        # swap with the largest
+        mode_window < space : yabai -m window --swap largest; ${skhd} -k "ctrl - space"
 
         # focus recent window
         ralt - r : yabai -m window --focus recent
@@ -104,17 +106,6 @@
         # https://github.com/koekeishiya/yabai/issues/203#issuecomment-1289940339
         ctrl+shift+alt - h : yabai -m query --spaces --space | ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $has_index > 0 then nth($has_index - 1).id else nth($array_length - 1).id end' | xargs -I{} yabai -m window --focus {}
         ctrl+shift+alt - l : yabai -m query --spaces --space | ${jqbin} -re ".index" | xargs -I{} yabai -m query --windows --space {} | ${jqbin} -sre 'add | map(select(."is-minimized"==false)) | map(select(."has-ax-reference"==true)) | sort_by(.display, .frame.y, .frame.x, .id) | . as $array | length as $array_length | index(map(select(."has-focus"==true))) as $has_index | if $array_length - 1 > $has_index then nth($has_index + 1).id else nth(0).id end' | xargs -I{} yabai -m window --focus {}
-
-        # toggle mission control in current space
-        ## show mission control preview of other spaces.
-        ## see: https://github.com/koekeishiya/yabai/issues/147
-        ## for cliclick issue(move): https://github.com/BlueM/cliclick/issues/168#issuecomment-1575103405
-        ## you might need to sleep shortly for consistency
-        ## yabai -m space --toggle mission-control && cliclick -r w:10 m:0,0
-        # -r: restore initial position after move.
-        # w:250 wait for 250ms after each event.
-        # m:0,0, move to 0,0 coords.
-        # ctrl+shift+alt - g : yabai -m space --toggle mission-control && cliclick -w 250 -r m:0,0 m:1,1 w:250
 
         # moving windows
         mode_window_move < h : yabai -m window --warp west; skhd -k "ctrl - space"
@@ -155,15 +146,15 @@
         mode_window_stack < u : yabai -m window --insert stack; skhd -k "ctrl - space"
 
         # resize windows — use shift to shrink
-        mode_window_resize < h : yabai -m window --resize left:-25:0 | yabai -m window --resize right:-25:0
-        mode_window_resize < j : yabai -m window --resize bottom:0:25 | yabai -m window --resize top:0:25
-        mode_window_resize < k : yabai -m window --resize top:0:-25 | yabai -m window --resize bottom:0:-25
-        mode_window_resize < l : yabai -m window --resize right:25:0 | yabai -m window --resize left:25:0
+        mode_window_resize < h : yabai -m window --resize left:-40:0 | yabai -m window --resize right:-40:0
+        mode_window_resize < j : yabai -m window --resize bottom:0:40 | yabai -m window --resize top:0:40
+        mode_window_resize < k : yabai -m window --resize top:0:-40 | yabai -m window --resize bottom:0:-40
+        mode_window_resize < l : yabai -m window --resize right:40:0 | yabai -m window --resize left:40:0
 
         ## >>>>>>>>>>>>>>>>> manage spaces
         mode_space < i : yabai -m space --create; skhd -k "ctrl - space"
         mode_space < x : yabai -m space --destroy; skhd -k "ctrl - space"
-
+        mode_space < return : yabai -m space --balance; skhd -k "ctrl - space"
         mode_space < r : yabai -m space --rotate 270; skhd -k "ctrl - space"
         mode_space < b : yabai -m space --balance; skhd -k "ctrl - space"
 
@@ -220,6 +211,7 @@
         rshift - 2 : ${bash} ${skhdDir}/focus-app.sh "Google Chrome";
         ralt - 3 : ${bash} ${skhdDir}/focus-app.sh "Cursor";
         rshift - 3 : ${bash} ${skhdDir}/focus-app.sh "Cursor";
+        ctrl+shift+alt - return : ${bash} ${skhdDir}/toggle-app.sh "Ghostty";
       '';
 
       # ========== scripts
@@ -343,6 +335,16 @@
           )"
 
         yabai -m window --focus "$focus"
+      '';
+      "skhd/toggle-app.sh".text = ''
+        main(){
+          if [[ $(osascript -e 'set front_app to (path to frontmost application as Unicode text)' | grep "$@") ]]; then
+            osascript -e "tell application \"System Events\" to set visible of process \"$@\" to false"
+          else
+            open "/Applications/$@.app";
+          fi
+        }
+        main "$@";
       '';
     };
 }

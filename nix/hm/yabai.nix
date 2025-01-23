@@ -38,9 +38,9 @@
         # yabai -m signal --list
         # focus window after active space changes
         # keeps calling twice.
-        ${yabai} -m signal --add event=space_changed action="${bash} ${yabaiDir}/focus-window.sh"
+        # ${yabai} -m signal --add event=space_changed action="${bash} ${yabaiDir}/focus-window.sh"
         # focus window after active display changes
-        ${yabai} -m signal --add event=display_changed action="${bash} ${yabaiDir}/focus-window.sh"
+        # ${yabai} -m signal --add event=display_changed action="${bash} ${yabaiDir}/focus-window.sh"
 
         # Unload the macOS WindowManager process
         launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist > /dev/null 2>&1 &
@@ -93,8 +93,8 @@
         ${yabai} -m rule --add app="(Finder|访达|DevTools|模拟器|Kap|Bartender|TradingView)" manage=off sub-layer=normal
         ${yabai} -m rule --apply
 
-        ${yabai} -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
-        ${yabai} -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
+        # ${yabai} -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+        # ${yabai} -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
 
         # stackline specific tweaks
         # yabai -m signal --add event=window_created action="~/.config/yabai/adjust-padding-for-stacked-windows.sh"

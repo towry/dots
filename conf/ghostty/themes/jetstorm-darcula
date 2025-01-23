@@ -1,0 +1,26 @@
+# Base colors from editor.background and editor.foreground
+background = #2b2b2b
+foreground = #bcbec3
+cursor-color = #bbbbbb
+cursor-text = #2b2b2b
+# Selection colors from editor.selectionBackground and editor.selectionForeground
+selection-background = #214283
+selection-foreground = #bcbec3
+# Terminal colors (based on syntax highlighting and UI colors)
+# Normal colors (0-7)
+palette = 0=#2b2b2b
+palette = 1=#c75450
+palette = 2=#6aab73
+palette = 3=#d5b778
+palette = 4=#589df6
+palette = 5=#c77dbb
+palette = 6=#2cabb8
+palette = 7=#bcbec3
+palette = 8=#606366
+palette = 9=#f75464
+palette = 10=#629755
+palette = 11=#be9117
+palette = 12=#57a8f5
+palette = 13=#d0cfff
+palette = 14=#40b6e0
+palette = 15=#ffffff
