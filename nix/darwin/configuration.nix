@@ -2,6 +2,7 @@
   pkgs,
   username,
   config,
+  system,
   ...
 }:
 {
@@ -17,6 +18,7 @@
     home = "/Users/${username}";
     shell = pkgs.fish;
   };
+  nixpkgs.hostPlatform = system;
 
   environment = {
     variables = {
@@ -79,6 +81,7 @@
       # for nix-direnv
       keep-outputs = true;
       keep-derivations = true;
+      sandbox = "relaxed";
       # --
       substituters = [
         "https://dots.cachix.org"
@@ -88,9 +91,7 @@
         "https://cache.nixos.org"
       ];
       trusted-users = [
-        "root"
-        "@staff"
-        username
+        "${username}"
       ];
       trusted-public-keys = [
         "dots.cachix.org-1:H/gV3a5Ossrd/R+qrqrAk9tr3j51NHEB+pCTOk0OjYA="
@@ -100,10 +101,8 @@
       ];
     };
     package = pkgs.nix;
-    gc = {
+    optimise = {
       automatic = true;
-      interval.Day = 7;
-      options = "--delete-older-than 7d";
     };
     extraOptions = ''
       # auto-optimise-store = true
