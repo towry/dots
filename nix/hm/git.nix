@@ -15,7 +15,7 @@ in
     gnupg
     # git branchless, git smartlog(git sl)
     git-branchless
-    # gitu
+    gitu
   ];
   programs.git = {
     enable = true;
@@ -177,8 +177,8 @@ in
         format = "ssh";
       };
       fetch = {
-        prune = false;
-        pruneTags = false;
+        prune = true;
+        pruneTags = true;
       };
       pull = {
         rebase = true;
@@ -189,6 +189,7 @@ in
         autoSetupRemote = true;
       };
       merge = {
+        autostash = true;
         tool = "nvim";
         conflictstyle = "diff3";
         prompt = true;
