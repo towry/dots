@@ -10,9 +10,9 @@
     nodejs
     pnpm
     # biome
-    nodePackages.prettier
-    nodePackages.eslint
-    nodePackages.typescript
+    # nodePackages.prettier
+    # nodePackages.eslint
+    # nodePackages.typescript
     # vtsls
     # nodePackages.typescript-language-server
     # tailwindcss-language-server
