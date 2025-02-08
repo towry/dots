@@ -7,20 +7,6 @@ let
   path-prefix = config.vars.path-prefix.value;
 in
 {
-  nixpkgs.overlays = [
-    (_self: super: {
-      lua-language-server = super.lua-language-server.overrideAttrs (_: rec {
-        version = "3.9.1";
-        src = super.fetchFromGitHub {
-          owner = "luals";
-          repo = "lua-language-server";
-          rev = version;
-          hash = "sha256-M4eTrs5Ue2+b40TPdW4LZEACGYCE/J9dQodEk9d+gpY=";
-          fetchSubmodules = true;
-        };
-      });
-    })
-  ];
   home.packages = with pkgs; [
     ## build neovim
     ninja
@@ -30,24 +16,24 @@ in
     tree-sitter
     sqlite
     luajit
-    stylua
-    lua-language-server
+    # stylua
+    # lua-language-server
     luarocks
-    shellcheck
+    # shellcheck
     # for nix language lsp support.
     nil
     deadnix
     # markdown
-    marksman
+    # marksman
     # yaml
-    yaml-language-server
-    yamllint
+    # yaml-language-server
+    # yamllint
     # for neovim
     # nodePackages.neovim
     # jsonls
-    vscode-langservers-extracted
+    # vscode-langservers-extracted
     # pyright
-    basedpyright
+    # basedpyright
     ruff
     (python3.buildEnv.override {
       extraLibs = [
@@ -70,7 +56,6 @@ in
       env__npm_root = "${path-prefix}",
       runtime__python3_host_prog = "${path-prefix}/bin/python3",
       runtime__node_host_prog = "${path-prefix}/bin/neovim-node-host",
-      lsp_biome = "${pkgs.biome}/bin/biome",
       dap_firefox_debug_adapter_path = "${pkgs.vscode-extensions.firefox-devtools.vscode-firefox-debug}/share/vscode/extensions/firefox-devtools.vscode-firefox-debug/dist/adapter.bundle.js"
     }
   '';
