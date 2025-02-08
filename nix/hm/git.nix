@@ -15,7 +15,7 @@ in
     gnupg
     # git branchless, git smartlog(git sl)
     git-branchless
-    # gitu
+    gitu
   ];
   programs.git = {
     enable = true;
@@ -120,6 +120,8 @@ in
       config-fetch-origin = ''config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'';
       clone-bare = ''!f() { git clone --bare $@ && cd $@ && git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; }; f'';
       ahead = "rev-list --left-right --count";
+      # count commit diff between two branches
+      commit-diff-count = ''!f() { git rev-list --count HEAD ^$1; }; f'';
       # create feat branch in format of feat/YYYYMMDD-short-description, also accept other git arguments
       br-feat = "!f() { git checkout -b feat/$(date +%Y%m)-$1 $2; }; f";
       br-fix = "!f() { git checkout -b fix/$(date +%Y%m)-$1 $2; }; f";
@@ -175,8 +177,8 @@ in
         format = "ssh";
       };
       fetch = {
-        prune = false;
-        pruneTags = false;
+        prune = true;
+        pruneTags = true;
       };
       pull = {
         rebase = true;
@@ -187,6 +189,7 @@ in
         autoSetupRemote = true;
       };
       merge = {
+        autostash = true;
         tool = "nvim";
         conflictstyle = "diff3";
         prompt = true;

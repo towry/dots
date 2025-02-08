@@ -10,13 +10,13 @@
     nodejs
     pnpm
     # biome
-    nodePackages.prettier
-    nodePackages.eslint
-    nodePackages.typescript
-    vtsls
-    nodePackages.typescript-language-server
-    tailwindcss-language-server
-    vscode-extensions.firefox-devtools.vscode-firefox-debug
+    # nodePackages.prettier
+    # nodePackages.eslint
+    # nodePackages.typescript
+    # vtsls
+    # nodePackages.typescript-language-server
+    # tailwindcss-language-server
+    # vscode-extensions.firefox-devtools.vscode-firefox-debug
   ];
 
   home.sessionVariables = {
@@ -26,7 +26,7 @@
     PNPM_HOME = "${config.xdg.dataHome}/pnpm";
     NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
     NPM_CONFIG_PREFIX = "${config.xdg.dataHome}/npm";
-    NPM_CONFIG_TMP = "${config.xdg.cacheHome}/npm-tmp";
+    # NPM_CONFIG_TMP = "${config.xdg.cacheHome}/npm-tmp";
     COREPACK_HOME = "${config.xdg.cacheHome}/node/corepack";
   };
   home.sessionPath = [
