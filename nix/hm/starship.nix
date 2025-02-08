@@ -72,7 +72,7 @@ in
         show_always = false;
       };
       nodejs = {
-        disabled = true;
+        disabled = false;
         format = "via [🤖 $version](bold green) ";
       };
       direnv = {
