@@ -1,7 +1,8 @@
-{ ... }:
+{ pkgs-stable, ... }:
 {
   # docs: https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
   programs.lazygit = {
+    package = pkgs-stable.lazygit;
     enable = true;
     settings = {
       gui = {
