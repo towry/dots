@@ -19,7 +19,6 @@
     shell = pkgs.fish;
   };
   nixpkgs.hostPlatform = system;
-
   environment = {
     variables = {
       EDITOR = "${config.vars.editor}";
@@ -111,7 +110,7 @@
   };
 
   system = {
-    stateVersion = 4;
+    stateVersion = 6;
 
     defaults = {
       screencapture.location = "~/Pictures/Screenshots";
@@ -120,8 +119,5 @@
       };
     };
   };
-  documentation.enable = true;
-  programs.info.enable = true;
-  programs.man.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
 }
