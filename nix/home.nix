@@ -162,7 +162,8 @@ in
 
   # Let Home Manager install and manage itself.
   programs = {
-    man.generateCaches = true;
+    man.enable = false;
+    man.generateCaches = false;
     home-manager.enable = true;
     # Direnv integration for flakes
     direnv = {
