@@ -2,13 +2,10 @@
 {
   environment.systemPackages = with pkgs; [
     raycast
-    vscode
+    # vscode
     logseq
     # brave
     ice-bar
-    man-pages
-    man-pages-posix
-    groff
   ];
 
   homebrew = {
