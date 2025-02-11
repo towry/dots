@@ -11,9 +11,9 @@
     executable = true;
     target = ".config/AutoRaise/config";
     text = ''
-      pollMillis=50
-      delay=1
-      focusDelay=0
+      pollMillis=500
+      delay=2
+      focusDelay=3
       warpX=0.5
       warpY=0.1
       scale=2.5
