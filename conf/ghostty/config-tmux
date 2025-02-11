@@ -16,6 +16,8 @@ keybind = super+one=text:\x1a1
 keybind = super+two=text:\x1a2
 keybind = super+three=text:\x1a3
 keybind = super+four=text:\x1a4
+# select last window
+keybind = super+z=text:\x1al
 
 keybind = super+h=text:\x1bh
 keybind = super+l=text:\x1bl
