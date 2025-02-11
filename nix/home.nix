@@ -158,6 +158,7 @@ in
     ./hm/dark-mode-notify.nix
     ./hm/lazygit.nix
     ./hm/jj.nix
+    ./hm/autoraise.nix
   ];
 
   # Let Home Manager install and manage itself.
