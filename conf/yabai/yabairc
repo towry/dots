@@ -30,26 +30,30 @@ launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist >
 # -- mouse --
 
 # yabai -m config focus_follows_mouse autofocus
-# -- off autoraise autofocus
-yabai -m config focus_follows_mouse off
-# yabai -m config mouse_modifier fn
-# yabai -m config mouse_action1 resize
-# yabai -m config mouse_action2 move
+# ---? off autoraise autofocus
+yabai -m config focus_follows_mouse autoraise
+yabai -m config mouse_drop_action swap
+yabai -m config mouse_modifier fn
+yabai -m config mouse_action1 move
+yabai -m config mouse_action2 resize
 
 # -- window --
 yabai -m config window_placement first_child
+yabai -m config window_insertion_point last
 yabai -m config window_shadow on
 yabai -m config insert_feedback_color 0xaad75f5f
-yabai -m config split_ratio 0.30
-yabai -m config split_type auto
-yabai -m config auto_balance off
+yabai -m config split_ratio 0.5
+yabai -m config display_arrangement_order horizontal
+yabai -m config window_animation_duration 0.15
+yabai -m config window_animation_easing ease_in_sine
+yabai -m config window_origin_display cursor
+yabai -m config split_type horizontal
+yabai -m config auto_balance x-axis
 yabai -m config window_opacity off
 
 # -- space --
-yabai -m config layout float
+yabai -m config layout bsp
 yabai -m config --space 1 layout stack
-yabai -m config --space 2 layout bsp
-# yabai -m config --space 3 layout bsp
 yabai -m config top_padding 4
 yabai -m config bottom_padding 4
 yabai -m config left_padding 4
@@ -64,7 +68,7 @@ yabai -m space 2 --label code
 ## see: https://github.com/koekeishiya/yabai/issues/1929
 yabai -m rule --add app=".*" layer=normal sub-layer=below
 yabai -m rule --add app="^(Safari|Firefox|Google Chrome)$" role=AXWindow subrole=AXStandardWindow
-yabai -m rule --add app="^(Cursor)$" role=AXWindow subrole=AXStandardWindow
+yabai -m rule --add app="^(Code|Cursor)$" role=AXWindow subrole=AXStandardWindow
 yabai -m rule --add app="(微信|钉钉|Wechat|企业微信|Telegram|Numi|MenubarX|备忘录|Notes)" manage=off sub-layer=below
 yabai -m rule --add app="(腾讯会议|快速会议|会议|Capacities|数码测色计|富途牛牛|豆包)" manage=off sub-layer=below
 yabai -m rule --add app="^Ghostty$" manage=off sub-layer=below
