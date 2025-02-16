@@ -80,7 +80,6 @@
       # for nix-direnv
       keep-outputs = true;
       keep-derivations = true;
-      sandbox = "relaxed";
       # --
       substituters = [
         "https://dots.cachix.org"
