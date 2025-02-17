@@ -15,6 +15,10 @@ in
         name = gitCfg.user.name;
         email = gitCfg.user.email;
       };
+      snapshot = {
+        auto-update-stale = true;
+        auto-track = "glob:'**/*.*'";
+      };
       format.tree-level-conflicts = true;
       aliases = {
         df = [ "diff" ];
