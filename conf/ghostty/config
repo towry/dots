@@ -3,7 +3,7 @@
 # https://github.com/ghostty-org/ghostty/blob/b8ffee7acbdd5ee97953f6e6d02e047d4bfda37b/src/input/key.zig#L255
 
 
-theme = dark:Kanagawa Dragon,light:Builtin Solarized Light
+theme = dark:kanagawa-dragon,light:Builtin Solarized Light
 font-family = Berkeley Mono Nerd Font
 # font-family = Iosevka Nerd Font Mono
 font-size = 15
@@ -19,7 +19,7 @@ macos-window-shadow  = true
 adjust-underline-position = 10%
 adjust-underline-thickness = -40%
 adjust-box-thickness = -40%
-adjust-cell-height = 20%
+adjust-cell-height = 25%
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 1

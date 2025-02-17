@@ -11,11 +11,13 @@ keybind = super+left_bracket=text:\x1ap
 keybind = super+right_bracket=text:\x1an
 keybind = super+slash=text:\x1a/
 keybind = super+minus=text:\x1a-
-keybind = super+w=text:\x1aw
+keybind = super+w=text:\x1a\x17
 keybind = super+one=text:\x1a1
 keybind = super+two=text:\x1a2
 keybind = super+three=text:\x1a3
 keybind = super+four=text:\x1a4
+# select last window
+keybind = super+z=text:\x1al
 
 keybind = super+h=text:\x1bh
 keybind = super+l=text:\x1bl
