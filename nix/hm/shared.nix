@@ -39,6 +39,8 @@ in
       # termshark
       # inetutils
       moreutils
+      ## image suppport in terminal
+      viu
       # concurrently
       overmind
       tig
