@@ -11,6 +11,7 @@ font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = cursor,sudo,title
 cursor-style = block
+font-feature = -calt, -liga, -dlig
 cursor-invert-fg-bg = true
 selection-invert-fg-bg = true
 macos-option-as-alt = true
