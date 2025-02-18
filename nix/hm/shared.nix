@@ -39,6 +39,7 @@ in
       # termshark
       # inetutils
       moreutils
+      watchman
       ## image suppport in terminal
       viu
       # concurrently

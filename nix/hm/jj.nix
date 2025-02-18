@@ -15,9 +15,38 @@ in
         name = gitCfg.user.name;
         email = gitCfg.user.email;
       };
+      core = {
+        fsmonitor = "watchman";
+        watchman.register_snapshot_trigger = true;
+      };
       snapshot = {
         auto-update-stale = true;
         auto-track = "glob:'**/*.*'";
+      };
+      git = {
+        fetch = [
+          "upstream"
+          "origin"
+        ];
+
+        push = "origin";
+        push-bookmark-prefix = "towry/";
+      };
+      merge-tools = {
+        nvim2way = {
+          program = "nvim";
+          merge-tool-edits-conflict-markers = true;
+          merge-args = [
+            "-c"
+            "let g:jj_diffconflicts_marker_length=$marker_length"
+            "-c"
+            "JJDiffConflicts!"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
+        };
       };
       format.tree-level-conflicts = true;
       aliases = {
