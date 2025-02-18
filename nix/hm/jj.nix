@@ -8,12 +8,59 @@ let
   gitCfg = config.programs.git.extraConfig;
 in
 {
+  home.packages = [
+    # pkgs.diffedit3
+  ];
   programs.jujutsu = {
     enable = true;
     settings = {
       user = {
         name = gitCfg.user.name;
         email = gitCfg.user.email;
+      };
+      core = {
+        fsmonitor = "watchman";
+        watchman.register_snapshot_trigger = true;
+      };
+      snapshot = {
+        auto-update-stale = true;
+        auto-track = "glob:'**/*.*'";
+      };
+      git = {
+        fetch = [
+          "origin"
+        ];
+
+        push = "origin";
+        push-bookmark-prefix = "towry/";
+      };
+      merge-tools = {
+        code = {
+          program = "code";
+          merge-tool-edits-conflict-markers = true;
+          merge-args = [
+            "--wait"
+            "--merge"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
+        };
+        nvim2way = {
+          program = "nvim";
+          merge-tool-edits-conflict-markers = true;
+          merge-args = [
+            "-c"
+            "let g:jj_diffconflicts_marker_length=$marker_length"
+            "-c"
+            "JJDiffConflicts!"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
+        };
       };
       format.tree-level-conflicts = true;
       aliases = {
@@ -30,14 +77,33 @@ in
         ];
         mv = [
           "bookmark"
-          "set"
-          "--revision"
+          "move"
+        ];
+        mv-back = [
+          "bookmark"
+          "move"
+          "--allow-backwards"
+        ];
+        discard-changes = [
+          "restore"
+        ];
+        amend = [
+          "squash"
         ];
         gp = [
           "git"
           "push"
         ];
-        ft = [
+        gp-new = [
+          "git"
+          "push"
+          "--allow-new"
+        ];
+        blame = [
+          "file"
+          "annotate"
+        ];
+        fb = [
           "git"
           "fetch"
           "-b"
@@ -53,7 +119,7 @@ in
         l = [
           "log"
           "-r"
-          "reachable(@, mutable() | ~mutable())"
+          "reachable(@, mutable() | parents(mutable()))"
           "-n"
           "8"
         ];
@@ -70,11 +136,8 @@ in
           "$left"
           "$right"
         ];
-        diff-editor = [
-          "nvim"
-          "-c"
-          "DiffEditor $left $right $output"
-        ];
+        diff-editor = ":builtin";
+        # diff-editor = "diffedit3";
         pager = "less -FRX";
       };
       signing = {
@@ -101,6 +164,7 @@ in
         bookmarks = {
           bold = true;
           underline = true;
+          fg = "magenta";
         };
       };
     };

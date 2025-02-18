@@ -289,8 +289,8 @@ in
       set -g status-right "#[bold] #h "
       #+--- Windows ---+
       set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
-      set -g window-status-current-format "#[bold][#I:#W]#F#{?window_end_flag, , }"
-      # set -g window-status-separator "#[fg=colour8]│"
+      set -g window-status-current-format "#[bold,bg=white] #I:#W#F#{?window_end_flag, , }"
+      set -g window-status-separator " "
       # ========== End UI
     '';
   };

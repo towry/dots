@@ -44,7 +44,7 @@ yabai -m config window_shadow on
 yabai -m config insert_feedback_color 0xaad75f5f
 yabai -m config split_ratio 0.5
 yabai -m config display_arrangement_order horizontal
-yabai -m config window_animation_duration 0.15
+yabai -m config window_animation_duration 0.1
 yabai -m config window_animation_easing ease_in_sine
 yabai -m config window_origin_display cursor
 yabai -m config split_type horizontal
@@ -69,7 +69,7 @@ yabai -m space 2 --label code
 yabai -m rule --add app=".*" layer=normal sub-layer=below
 yabai -m rule --add app="^(Safari|Firefox|Google Chrome)$" role=AXWindow subrole=AXStandardWindow
 yabai -m rule --add app="^(Code|Cursor)$" role=AXWindow subrole=AXStandardWindow
-yabai -m rule --add app="(微信|钉钉|Wechat|企业微信|Telegram|Numi|MenubarX|备忘录|Notes)" manage=off sub-layer=below
+yabai -m rule --add app="(微信|钉钉|Wechat|企业微信|Telegram|Numi|MenubarX|备忘录|Notes|GitButler)" manage=off sub-layer=below
 yabai -m rule --add app="(腾讯会议|快速会议|会议|Capacities|数码测色计|富途牛牛|豆包)" manage=off sub-layer=below
 yabai -m rule --add app="^Ghostty$" manage=off sub-layer=below
 yabai -m rule --add app="^\s*$" manage=off sub-layer=below
