@@ -66,14 +66,33 @@ in
         ];
         mv = [
           "bookmark"
-          "set"
-          "--revision"
+          "move"
+        ];
+        mv-back = [
+          "bookmark"
+          "move"
+          "--allow-backwards"
+        ];
+        discard-changes = [
+          "restore"
+        ];
+        amend = [
+          "squash"
         ];
         gp = [
           "git"
           "push"
         ];
-        ft = [
+        gp-new = [
+          "git"
+          "push"
+          "--allow-new"
+        ];
+        blame = [
+          "file"
+          "annotate"
+        ];
+        fb = [
           "git"
           "fetch"
           "-b"
@@ -89,7 +108,7 @@ in
         l = [
           "log"
           "-r"
-          "reachable(@, mutable() | ~mutable())"
+          "reachable(@, mutable())"
           "-n"
           "8"
         ];
