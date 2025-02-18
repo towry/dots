@@ -108,7 +108,7 @@ in
         l = [
           "log"
           "-r"
-          "reachable(@, mutable())"
+          "reachable(@, mutable() | parents(mutable()))"
           "-n"
           "8"
         ];
