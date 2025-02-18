@@ -108,6 +108,10 @@ in
           "fetch"
           "-b"
         ];
+        download = [
+          "git"
+          "fetch"
+        ];
         rb = [
           "rebase"
           "-d"
