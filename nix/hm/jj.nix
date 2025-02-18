@@ -8,6 +8,9 @@ let
   gitCfg = config.programs.git.extraConfig;
 in
 {
+  home.packages = [
+    pkgs.jjui
+  ];
   programs.jujutsu = {
     enable = true;
     settings = {
