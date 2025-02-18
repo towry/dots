@@ -9,7 +9,7 @@ let
 in
 {
   home.packages = [
-    pkgs.jjui
+    # pkgs.diffedit3
   ];
   programs.jujutsu = {
     enable = true;
@@ -36,6 +36,18 @@ in
         push-bookmark-prefix = "towry/";
       };
       merge-tools = {
+        code = {
+          program = "code";
+          merge-tool-edits-conflict-markers = true;
+          merge-args = [
+            "--wait"
+            "--merge"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
+        };
         nvim2way = {
           program = "nvim";
           merge-tool-edits-conflict-markers = true;
@@ -125,11 +137,8 @@ in
           "$left"
           "$right"
         ];
-        diff-editor = [
-          "nvim"
-          "-c"
-          "DiffEditor $left $right $output"
-        ];
+        diff-editor = ":builtin";
+        # diff-editor = "diffedit3";
         pager = "less -FRX";
       };
       signing = {
