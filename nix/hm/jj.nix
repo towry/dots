@@ -165,6 +165,11 @@ in
         '';
       };
       colors = {
+        git_head = {
+          fg = "black";
+          bg = "white";
+          bold = true;
+        };
         bookmarks = {
           bold = true;
           underline = true;
