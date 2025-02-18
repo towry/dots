@@ -24,7 +24,7 @@ in
       };
       snapshot = {
         auto-update-stale = true;
-        auto-track = "glob:'**/*.*'";
+        max-new-file-size = "1MiB";
       };
       git = {
         fetch = [
