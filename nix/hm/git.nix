@@ -11,6 +11,7 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
+    stgit
     git-smash
     gnupg
     # git branchless, git smartlog(git sl)
