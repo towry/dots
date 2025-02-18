@@ -28,7 +28,6 @@ in
       };
       git = {
         fetch = [
-          "upstream"
           "origin"
         ];
 
@@ -165,6 +164,7 @@ in
         bookmarks = {
           bold = true;
           underline = true;
+          fg = "magenta";
         };
       };
     };
