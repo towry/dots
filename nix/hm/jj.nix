@@ -11,6 +11,13 @@ in
   home.packages = [
     # pkgs.diffedit3
   ];
+  programs.fish.shellAliases = {
+    jl = "jj log";
+    j = "jj";
+    jj-mv-work = "jj bookmark move --to @ towry/workspace";
+    jj-up-work = "jj git push -b towry/workspace --allow-empty-description";
+    jj-sync-work = "jj bookmark move --to @ towry/workspace && jj git push -b towry/workspace --allow-empty-description";
+  };
   programs.jujutsu = {
     enable = true;
     settings = {

@@ -9,8 +9,6 @@ let
 in
 {
   programs.fish.shellAliases = {
-    jl = "jj log";
-    j = "jj";
   };
 
   home.packages = with pkgs; [
