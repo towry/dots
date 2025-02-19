@@ -107,6 +107,18 @@ in
           "git"
           "push"
         ];
+        # push bookmarks that point to the rev
+        gpr = [
+          "git"
+          "push"
+          "-r"
+        ];
+        # push commits by creating bookmark based on it's changeid.
+        gpc = [
+          "git"
+          "push"
+          "-c"
+        ];
         gp-new = [
           "git"
           "push"
