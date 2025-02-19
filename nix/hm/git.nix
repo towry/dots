@@ -14,8 +14,6 @@ in
     stgit
     git-smash
     gnupg
-    # git branchless, git smartlog(git sl)
-    git-branchless
     gitu
   ];
   programs.git = {
