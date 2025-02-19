@@ -39,7 +39,7 @@ in
         ];
 
         push = "origin";
-        push-bookmark-prefix = "towry/";
+        push-bookmark-prefix = "towry/id/";
       };
       merge-tools = {
         code = {
