@@ -72,6 +72,7 @@ in
       format.tree-level-conflicts = true;
       aliases = {
         df = [ "diff" ];
+        drop = [ "abandon" ];
         lmaster = [
           "log"
           "-r"
