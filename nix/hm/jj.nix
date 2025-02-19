@@ -12,7 +12,7 @@ in
     # pkgs.diffedit3
   ];
   programs.fish.shellAliases = {
-    jl = "jj log";
+    jl = "jj l";
     j = "jj";
     jj-mv-work = "jj bookmark move --to @ towry/workspace";
     jj-up-work = "jj git push -b towry/workspace --allow-empty-description";
@@ -39,7 +39,7 @@ in
         ];
 
         push = "origin";
-        push-bookmark-prefix = "towry/id/";
+        push-bookmark-prefix = "towry/push-";
       };
       merge-tools = {
         code = {
@@ -199,6 +199,21 @@ in
           bold = true;
           underline = true;
           fg = "magenta";
+        };
+        commit_id = "yellow";
+        timestamp = "bright black";
+        author = {
+          fg = "bright black";
+          italic = true;
+        };
+        change_id = {
+          bold = true;
+          fg = "yellow";
+          underline = false;
+        };
+        "diff modified" = {
+          fg = "cyan";
+          bold = true;
         };
       };
     };
