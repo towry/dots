@@ -10,7 +10,7 @@ in
 {
   programs.fish.shellAliases = {
     jl = "jj log";
-    s = "stg";
+    j = "jj";
   };
 
   home.packages = with pkgs; [
