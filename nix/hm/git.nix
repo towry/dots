@@ -8,6 +8,10 @@ let
   enable_delta = true;
 in
 {
+  programs.fish.shellAliases = {
+    jl = "jj log";
+  };
+
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
