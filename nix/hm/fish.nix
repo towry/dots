@@ -80,7 +80,7 @@
     qq = "exit && exit && exit";
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
-    j = "jump-first";
+    j0 = "jump-first";
     ji = "jump";
     nix-proxy = "sudo /usr/bin/env python ~/.dotfiles/bin/darwin-nix-proxy.py";
     cachix-exec = "cachix watch-exec towry --";

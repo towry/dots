@@ -11,6 +11,13 @@ in
   home.packages = [
     # pkgs.diffedit3
   ];
+  programs.fish.shellAliases = {
+    jl = "jj l";
+    j = "jj";
+    jj-mv-work = "jj bookmark move --to @ towry/workspace";
+    jj-up-work = "jj git push -b towry/workspace --allow-empty-description";
+    jj-sync-work = "jj bookmark move --to @ towry/workspace && jj git push -b towry/workspace --allow-empty-description";
+  };
   programs.jujutsu = {
     enable = true;
     settings = {
@@ -24,7 +31,7 @@ in
       };
       snapshot = {
         auto-update-stale = true;
-        auto-track = "glob:'**/*.*'";
+        max-new-file-size = "1MiB";
       };
       git = {
         fetch = [
@@ -32,7 +39,7 @@ in
         ];
 
         push = "origin";
-        push-bookmark-prefix = "towry/";
+        push-bookmark-prefix = "towry/push-";
       };
       merge-tools = {
         code = {
@@ -79,6 +86,12 @@ in
           "bookmark"
           "move"
         ];
+        tug = [
+          "bookmark"
+          "move"
+          "--to"
+          "@-"
+        ];
         mv-back = [
           "bookmark"
           "move"
@@ -94,6 +107,18 @@ in
           "git"
           "push"
         ];
+        # push bookmarks that point to the rev
+        gpr = [
+          "git"
+          "push"
+          "-r"
+        ];
+        # push commits by creating bookmark based on it's changeid.
+        gpc = [
+          "git"
+          "push"
+          "-c"
+        ];
         gp-new = [
           "git"
           "push"
@@ -107,6 +132,10 @@ in
           "git"
           "fetch"
           "-b"
+        ];
+        download = [
+          "git"
+          "fetch"
         ];
         rb = [
           "rebase"
@@ -161,10 +190,30 @@ in
         '';
       };
       colors = {
+        git_head = {
+          fg = "black";
+          bg = "white";
+          bold = true;
+        };
         bookmarks = {
           bold = true;
           underline = true;
           fg = "magenta";
+        };
+        commit_id = "yellow";
+        timestamp = "bright black";
+        author = {
+          fg = "bright black";
+          italic = true;
+        };
+        change_id = {
+          bold = true;
+          fg = "yellow";
+          underline = false;
+        };
+        "diff modified" = {
+          fg = "cyan";
+          bold = true;
         };
       };
     };

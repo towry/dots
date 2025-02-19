@@ -6,7 +6,7 @@
 theme = dark:kanagawa-dragon,light:Builtin Solarized Light
 font-family = Berkeley Mono Nerd Font
 # font-family = Iosevka Nerd Font Mono
-font-size = 15
+font-size = 16
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = cursor,sudo,title
