@@ -13,7 +13,7 @@ in
     # pkgs.diffedit3
   ];
   programs.fish.shellAliases = {
-    jl = "jj log";
+    jl = "jj log -n 8";
     j = "jj";
     jj-mv-work = "jj bookmark move --to @ towry/workspace";
     jj-up-work = "jj git push -b towry/workspace --allow-empty-description";
@@ -122,6 +122,10 @@ in
           "push"
           "-c"
         ];
+        ce = [
+          "commit"
+          "--no-edit"
+        ];
         gp-new = [
           "git"
           "push"
@@ -157,20 +161,30 @@ in
         ];
       };
       ui = {
+        log-word-wrap = false;
         editor = "nvim";
+        streampager = {
+          interface = "full-screen-clear-output";
+          wrapping = "none";
+        };
 
         default-command = [
-          "status"
+          "log"
+          "-n"
+          "8"
         ];
-        diff.tool = [
-          "${lib.getExe pkgs.difftastic}"
-          "--color=always"
-          "$left"
-          "$right"
-        ];
+        # diff.tool = [
+        #   "${lib.getExe pkgs.difftastic}"
+        #   "--color=always"
+        #   "$left"
+        #   "$right"
+        # ];
+        ### use git diff as default diff tool
+        diff.format = "git";
         diff-editor = ":builtin";
         # diff-editor = "diffedit3";
-        pager = "less -FRX";
+        pager = "delta";
+        # pager = "less -FRX";
       };
       signing = {
         backend = "ssh";
@@ -465,7 +479,8 @@ in
         };
         bookmarks = {
           bold = true;
-          underline = true;
+          italic = true;
+          underline = false;
           fg = "magenta";
         };
         commit_id = "yellow";
@@ -475,7 +490,7 @@ in
           italic = true;
         };
         change_id = {
-          bold = false;
+          bold = true;
           fg = "bright green";
           underline = true;
         };
