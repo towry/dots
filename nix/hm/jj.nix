@@ -79,6 +79,12 @@ in
           "bookmark"
           "move"
         ];
+        tug = [
+          "bookmark"
+          "move"
+          "--to"
+          "@-"
+        ];
         mv-back = [
           "bookmark"
           "move"
