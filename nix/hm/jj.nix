@@ -126,10 +126,6 @@ in
           "commit"
           "-m"
         ];
-        ce = [
-          "commit"
-          "--no-edit"
-        ];
         gp-new = [
           "git"
           "push"
