@@ -162,6 +162,12 @@ in
           "-n"
           "8"
         ];
+        sq = [
+          "squash"
+        ];
+        usq = [
+          "unsquash"
+        ];
       };
       ui = {
         log-word-wrap = false;
