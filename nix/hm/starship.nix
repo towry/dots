@@ -5,13 +5,18 @@ in
 {
   programs.starship = {
     enable = enable_starship;
-    enableTransience = true;
+    enableTransience = false;
     settings = {
       format = lib.concatStrings [ "$all" ];
       right_format = lib.concatStrings [ "$time" ];
       command_timeout = 300;
       scan_timeout = 10;
       follow_symlinks = false;
+      add_newline = true;
+      character = {
+        success_symbol = "[➜](bold green) ";
+        error_symbol = "[✗](bold red) ";
+      };
       directory = {
         truncate_to_repo = false;
         truncation_length = 3;
