@@ -12,7 +12,7 @@ in
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
     # g = "git";
-    gts = "gits";
+    gts = "git status";
     gac = ''echo "$()$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git commit'';
     gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git cz'';
     gtail = "git rev-list --all | tail";
@@ -24,10 +24,10 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
-    stgit
+    # stgit
     git-smash
     gnupg
-    gitu
+    # gitu
   ];
   programs.git = {
     enable = true;
@@ -160,8 +160,8 @@ in
       }
       // {
         # alias for stg
-        refresh = "!f() { stg refresh $@; }; f";
-        list = "!f() { stg series $@; }; f";
+        # refresh = "!f() { stg refresh $@; }; f";
+        # list = "!f() { stg series $@; }; f";
       };
 
     extraConfig = {
