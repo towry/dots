@@ -9,15 +9,25 @@ let
 in
 {
   programs.fish.shellAliases = {
+    gcd = "cd-gitroot";
+    git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
+    # g = "git";
+    gts = "git status";
+    gac = ''echo "$()$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git commit'';
+    gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git cz'';
+    gtail = "git rev-list --all | tail";
+    ggrep = "git rev-list --all | xargs git grep --break";
+    xmerge = "git merge --ff";
+    xmerged = "git branch --merged master";
   };
 
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
-    stgit
+    # stgit
     git-smash
     gnupg
-    gitu
+    # gitu
   ];
   programs.git = {
     enable = true;
@@ -150,8 +160,8 @@ in
       }
       // {
         # alias for stg
-        refresh = "!f() { stg refresh $@; }; f";
-        list = "!f() { stg series $@; }; f";
+        # refresh = "!f() { stg refresh $@; }; f";
+        # list = "!f() { stg series $@; }; f";
       };
 
     extraConfig = {
@@ -199,14 +209,14 @@ in
       merge = {
         autostash = true;
         tool = "nvim";
-        conflictstyle = "diff3";
+        conflictstyle = "zdiff3";
         prompt = true;
       };
       diff = {
         colorMoved = "dimmed-zebra";
         algorithm = "histogram";
         compactionHeuristic = true;
-        guitool = "vscode";
+        guitool = "code";
         tool = "nvim";
       };
       difftool = {
@@ -265,10 +275,11 @@ in
         syntax-theme = "${theme.delta.dark}";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
-        line-numbers = true;
+        line-numbers = false;
         navigate = true;
-        features = "diff-so-fancy kanagawa-style";
+        features = "kanagawa-style";
         hyperlinks = true;
+        wrap-right-percent = 5;
       };
     };
 
