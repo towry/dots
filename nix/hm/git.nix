@@ -209,14 +209,14 @@ in
       merge = {
         autostash = true;
         tool = "nvim";
-        conflictstyle = "diff3";
+        conflictstyle = "zdiff3";
         prompt = true;
       };
       diff = {
         colorMoved = "dimmed-zebra";
         algorithm = "histogram";
         compactionHeuristic = true;
-        guitool = "vscode";
+        guitool = "code";
         tool = "nvim";
       };
       difftool = {
@@ -275,10 +275,11 @@ in
         syntax-theme = "${theme.delta.dark}";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
-        line-numbers = true;
+        line-numbers = false;
         navigate = true;
-        features = "diff-so-fancy kanagawa-style";
+        features = "kanagawa-style";
         hyperlinks = true;
+        wrap-right-percent = 5;
       };
     };
 
