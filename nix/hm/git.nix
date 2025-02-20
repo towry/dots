@@ -9,6 +9,16 @@ let
 in
 {
   programs.fish.shellAliases = {
+    gcd = "cd-gitroot";
+    git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
+    # g = "git";
+    gts = "gits";
+    gac = ''echo "$()$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git commit'';
+    gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git cz'';
+    gtail = "git rev-list --all | tail";
+    ggrep = "git rev-list --all | xargs git grep --break";
+    xmerge = "git merge --ff";
+    xmerged = "git branch --merged master";
   };
 
   home.packages = with pkgs; [
