@@ -21,6 +21,10 @@
       enable = true;
       plugins = [
         {
+          name = "autopair";
+          inherit (pkgs.fishPlugins.autopair) src;
+        }
+        {
           name = "foreign-env";
           inherit (pkgs.fishPlugins.foreign-env) src;
         }
