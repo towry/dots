@@ -36,6 +36,7 @@ in
         max-new-file-size = "1MiB";
       };
       git = {
+        subprocess = true;
         fetch = [
           "origin"
         ];
@@ -182,18 +183,17 @@ in
           "-n"
           "8"
         ];
-        # diff.tool = [
-        #   "${lib.getExe pkgs.difftastic}"
-        #   "--color=always"
-        #   "$left"
-        #   "$right"
-        # ];
+        diff.tool = [
+          "${lib.getExe pkgs.difftastic}"
+          "--color=always"
+          "$left"
+          "$right"
+        ];
         ### use git diff as default diff tool
         diff.format = "git";
         diff-editor = ":builtin";
         # diff-editor = "diffedit3";
-        pager = "delta";
-        # pager = "less -FRX";
+        pager = "less -FRX";
       };
       signing = {
         backend = "ssh";

@@ -5,7 +5,7 @@
   ...
 }:
 let
-  enable_delta = true;
+  enable_delta = false;
 in
 {
   programs.fish.shellAliases = {
@@ -26,6 +26,7 @@ in
     gh
     # stgit
     git-smash
+    difftastic
     gnupg
     # gitu
   ];
@@ -38,8 +39,8 @@ in
 
     difftastic = {
       # enable this need to disable delta.
-      enable = false;
-      background = "dark";
+      enable = true;
+      background = "light";
     };
 
     aliases =
