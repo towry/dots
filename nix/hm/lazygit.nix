@@ -40,7 +40,6 @@
         fetchAll = false;
         paging = {
           colorArg = "always";
-          pager = "delta --dark --paging=never";
           externalDiffCommand = "difft --color=always";
         };
       };
