@@ -122,6 +122,10 @@ in
           "push"
           "-c"
         ];
+        cim = [
+          "commit"
+          "-m"
+        ];
         ce = [
           "commit"
           "--no-edit"
@@ -149,6 +153,9 @@ in
           "-d"
         ];
         ds = [
+          "desc"
+        ];
+        dsm = [
           "desc"
           "-m"
         ];
