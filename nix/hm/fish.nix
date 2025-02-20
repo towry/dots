@@ -152,6 +152,9 @@
     # fish_add_path $HOME/.nimble/bin
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path /run/current-system/sw/bin
+
+    # keybinds
+    bind \cg just-pick-status-file
   '';
 
   programs.fish.functions = {
@@ -431,6 +434,55 @@
       '';
       description = "Use fzf to browse current unstaged changes";
     };
+    just-pick-status-file = {
+      body = ''
+        # Ensure we are in a git repository
+        if not git rev-parse --is-inside-work-tree >/dev/null 2>&1
+            commandline -f repaint
+            return 1
+        end
+
+        # Store the current command line state
+        set -l buffer (commandline -b)
+        set -l cursor_pos (commandline -C)
+
+        # Get the word under cursor and its length
+        set -l token (commandline -t)
+        set -l token_length (string length -- "$token")
+
+        # Calculate positions for before and after the current token
+        set -l before_token (string sub -l (math $cursor_pos - $token_length) -- "$buffer")
+        set -l after_token (string sub -s (math $cursor_pos + 1) -- "$buffer")
+
+        set -l selected_files (git diff --name-only | fzf \
+            --multi \
+            --bind "tab:toggle+down" \
+            --bind "shift-tab:toggle+up" \
+            --bind "ctrl-a:select-all" \
+            --bind "ctrl-d:deselect-all" \
+            --bind "enter:accept" \
+            --delimiter='\n' \
+            --no-sort \
+            --query="$token")
+
+        if test $status -eq 0
+            # Convert newline-separated files to space-separated and properly escape them
+            set -l escaped_files
+            for file in $selected_files
+                set -a escaped_files (string escape -- $file)
+            end
+
+            # Combine the parts: text before token + selected files + text after token
+            set -l new_text "$before_token"(string join ' ' $escaped_files)"$after_token"
+            commandline -r -- $new_text
+
+            # Move cursor position after the inserted files
+            commandline -C (math (string length -- "$before_token") + (string length -- (string join ' ' $escaped_files)))
+        end
+
+        commandline -f repaint
+      '';
+    };
     fpick-status = {
       body = ''
         # Ensure we are in a git repository
@@ -440,7 +492,7 @@
         end
 
         # Use git to list changed files and pipe into fzf
-        set selected_file (git diff --name-only | fzf)
+        set selected_file (git diff --name-only | fzf --multi --print0 --bind "tab:toggle+down" --bind "ctrl-a:select-all" --bind "ctrl-d:deselect-all" --bind "enter:print()+accept" | tr '\0' ' ')
 
         # Check if a file was selected
         if test -z "$selected_file"
