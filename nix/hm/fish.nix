@@ -458,7 +458,7 @@
         set -l before_token (string sub -l (math $cursor_pos - $token_length) -- "$buffer")
         set -l after_token (string sub -s (math $cursor_pos + 1) -- "$buffer")
 
-        set -l selected_files (git diff --name-only | fzf \
+        set -l selected_files (git -c diff.relative=true diff --name-only | fzf \
             --multi \
             --bind "tab:toggle+down" \
             --bind "shift-tab:toggle+up" \
