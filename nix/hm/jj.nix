@@ -11,6 +11,7 @@ in
 {
   home.packages = [
     # pkgs.diffedit3
+    pkgs.gg-jj
   ];
   programs.fish.shellAliases = {
     jl = "jj log -n 8";
