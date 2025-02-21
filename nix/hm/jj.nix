@@ -82,6 +82,11 @@ in
           "-r"
           "(master..@):: | (master..@)-"
         ];
+        lr = [
+          "log"
+          "-r"
+          "working()"
+        ];
         lmain = [
           "log"
           "-r"
@@ -480,6 +485,8 @@ in
         "archived()" = "(mine() & description(regex:'^archive($|:)'))::";
         "unarchived(x)" = "x ~ archived()";
         "diverge(x)" = "fork_point(x)::x";
+        # "working()" = "visible_heads() | ancestors(visible_heads(), 2)";
+        "working()" = "ancestors(visible_heads() & mutable(), 2)";
       };
       colors = {
         git_head = {
