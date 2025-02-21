@@ -73,8 +73,6 @@
     ];
   };
 
-  services.nix-daemon.enable = true;
-
   nix = {
     settings = {
       # for nix-direnv
