@@ -4,11 +4,11 @@
 
 # dotfiles
 
-Towry's dotfiles managed in The Nix Way with home-manager.
+Towry's dotfiles managed in The Nix Way with nix-darwin/home-manager.
 
 ## Getting Started
 
-### home-manager
+### With home-manager
 
 `make build`
 
@@ -25,7 +25,7 @@ $HOME/.nix-profile/bin/
   (`$HOME/.nix-profile/bin/fish`) as an entry.
 - Run `chsh -s $(which fish)`.
 
-### nix-darwin
+### With nix-darwin
 
 First run:
 
