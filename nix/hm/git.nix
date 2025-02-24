@@ -11,10 +11,10 @@ in
   programs.fish.shellAliases = {
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
-    # g = "git";
+    g = "git";
     gts = "git status";
-    gac = ''echo "$()$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git commit'';
-    gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git cz'';
+    gac = ''echo "$()$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git commit'';
+    gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git cz'';
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
     xmerge = "git merge --ff";
@@ -24,7 +24,7 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
-    # stgit
+    stgit
     git-smash
     difftastic
     gnupg
@@ -49,7 +49,7 @@ in
         ad = "add";
         ada = "add -A";
         sw = "switch";
-        # apply patch with commit text only (no commitee info)
+        # apply patch with commit text only (no committee info)
         apply-diff-patch = "apply --allow-empty";
         # amend without edit, not use ca because sometimes we should use git sm instead.
         amend = "commit --amend --no-edit";
@@ -161,8 +161,8 @@ in
       }
       // {
         # alias for stg
-        # refresh = "!f() { stg refresh $@; }; f";
-        # list = "!f() { stg series $@; }; f";
+        refresh = "!f() { stg refresh $@; }; f";
+        list = "!f() { stg series $@; }; f";
       };
 
     extraConfig = {
