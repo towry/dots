@@ -60,6 +60,10 @@ in
         };
         nvim3way = {
           program = "nvim";
+          diff-expected-exit-codes = [
+            0
+            1
+          ];
           merge-tool-edits-conflict-markers = true;
           merge-args = [
             "-c"
@@ -191,7 +195,11 @@ in
       ui = {
         conflict-marker-style = "git";
         log-word-wrap = false;
-        editor = "nvim";
+        editor = [
+          "nvim"
+          "--cmd"
+          "let g:flatten_wait=1"
+        ];
         streampager = {
           interface = "full-screen-clear-output";
           wrapping = "none";
@@ -202,17 +210,18 @@ in
           "-n"
           "8"
         ];
-        diff.tool = [
-          "${lib.getExe pkgs.difftastic}"
-          "--color=always"
-          "$left"
-          "$right"
-        ];
+        # diff.tool = [
+        #   "${lib.getExe pkgs.difftastic}"
+        #   "--color=always"
+        #   "$left"
+        #   "$right"
+        # ];
         ### use git diff as default diff tool
         diff.format = "git";
         diff-editor = ":builtin";
         # diff-editor = "diffedit3";
-        pager = "less -FRX";
+        # pager = "less -FRX";
+        pager = "delta";
       };
       signing = {
         backend = "ssh";

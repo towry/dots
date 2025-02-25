@@ -5,7 +5,7 @@
   ...
 }:
 let
-  enable_delta = false;
+  enable_delta = true;
 in
 {
   programs.fish.shellAliases = {
@@ -26,7 +26,7 @@ in
     gh
     stgit
     git-smash
-    difftastic
+    # difftastic
     gnupg
     # gitu
   ];
@@ -39,7 +39,7 @@ in
 
     difftastic = {
       # enable this need to disable delta.
-      enable = true;
+      enable = false;
       background = "light";
     };
 
@@ -272,15 +272,24 @@ in
           line-numbers-zero-style = ''blue'';
         };
         # allow easy copy
+        side-by-side = true;
         keep-plus-minus-markers = false;
         syntax-theme = "${theme.delta.dark}";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
-        line-numbers = false;
+        line-numbers = true;
+        line-numbers-left-format = "{nm:>4} ";
+        line-numbers-right-format = "│ {np:>4} ";
         navigate = true;
         features = "kanagawa-style";
         hyperlinks = true;
-        wrap-right-percent = 5;
+        diff-stat-align-width = 48;
+        wrap-left-symbol = "↵";
+        wrap-right-symbol = "↴";
+        wrap-right-prefix-symbol = "…";
+        hunk-label = "  󰡏 ";
+        wrap-max-lines = 2;
+        wrap-right-percent = "37.0";
       };
     };
 
