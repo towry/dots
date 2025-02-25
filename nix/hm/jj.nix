@@ -58,6 +58,18 @@ in
             "$right"
           ];
         };
+        nvim3way = {
+          program = "nvim";
+          merge-tool-edits-conflict-markers = true;
+          merge-args = [
+            "-c"
+            "DiffConflicts"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
+        };
         nvim2way = {
           program = "nvim";
           merge-tool-edits-conflict-markers = true;
@@ -177,6 +189,7 @@ in
         ];
       };
       ui = {
+        conflict-marker-style = "git";
         log-word-wrap = false;
         editor = "nvim";
         streampager = {
