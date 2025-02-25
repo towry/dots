@@ -503,9 +503,8 @@ in
       };
       colors = {
         git_head = {
-          fg = "black";
-          bg = "white";
-          bold = true;
+          bold = false;
+          italic = true;
         };
         bookmarks = {
           bold = true;
