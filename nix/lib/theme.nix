@@ -7,18 +7,18 @@
     };
     fish = {
       light = "kanagawa_light";
-      # dark = "kanagawa_dragon";
-      dark = "kanagawa";
+      dark = "kanagawa_dragon";
+      # dark = "kanagawa";
     };
     bat = {
       light = "kanagawa-light";
-      # dark = "kanagawa-dragon";
-      dark = "kanagawa";
+      dark = "kanagawa-dragon";
+      # dark = "kanagawa";
     };
     delta = {
       light = "kanagawa-light";
-      # dark = "kanagawa-dragon";
-      dark = "kanagawa";
+      dark = "kanagawa-dragon";
+      # dark = "kanagawa";
     };
   };
   monokai = {
@@ -64,15 +64,15 @@
     };
     fish = {
       light = "kanagawa_light";
-      dark = "nightfox";
+      dark = "carbonfox";
     };
     bat = {
       light = "kanagawa-light";
-      dark = "nightfox";
+      dark = "carbonfox";
     };
     delta = {
       light = "kanagawa-light";
-      dark = "nightfox";
+      dark = "carbonfox";
     };
   };
   modus = {

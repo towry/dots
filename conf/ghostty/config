@@ -3,7 +3,7 @@
 # https://github.com/ghostty-org/ghostty/blob/b8ffee7acbdd5ee97953f6e6d02e047d4bfda37b/src/input/key.zig#L255
 
 
-theme = dark:Kanagawa Wave,light:Builtin Solarized Light
+theme = dark:carbonfox,light:Builtin Solarized Light
 font-family = Berkeley Mono Nerd Font
 # font-family = Iosevka Nerd Font Mono
 font-size = 16
@@ -26,7 +26,7 @@ focus-follows-mouse = false
 unfocused-split-opacity = 1
 window-padding-balance = true
 window-padding-x = 8
-window-padding-y = 4
+window-padding-y = 0
 
 background-opacity = 1
 background-blur-radius = 0
