@@ -4,12 +4,11 @@
 
 
 theme = dark:carbonfox,light:Builtin Solarized Light
-font-family = Berkeley Mono Nerd Font
-# font-family = Iosevka Nerd Font Mono
+font-family = Berkeley Mono Nerd Font # font-family = Iosevka Nerd Font Mono
 font-size = 16
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
-shell-integration-features = cursor,sudo,title
+shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 font-feature = -calt, -liga, -dlig
 cursor-invert-fg-bg = true
@@ -24,17 +23,21 @@ adjust-cell-height = 40%
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 1
-window-padding-balance = true
+window-padding-balance = false
+window-padding-color = extend
 window-padding-x = 8
 window-padding-y = 0
 
 background-opacity = 1
 background-blur-radius = 0
 
+auto-update = off
+
 # Quick terminal
 
 quick-terminal-animation-duration = 0
 quick-terminal-position = top
+quick-terminal-autohide = false
 
 
 # keybinds

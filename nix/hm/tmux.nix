@@ -269,7 +269,7 @@ in
 
       # ===============================================
       ## UI
-      set -g pane-border-status bottom
+      set -g pane-border-status off
       set -g status-interval 10
       set -g status on
       set -g status-left-length 100
@@ -288,7 +288,7 @@ in
       # set -g status-right "#[bold] #h "
       #+--- Windows ---+
       # set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
-      # set -g window-status-current-format "#[bold,bg=white] #I:#W#F#{?window_end_flag, , }"
+      set -g window-status-current-format "#[bold,underscore]#I:#W#F#{?window_end_flag,,}"
       # set -g window-status-separator " "
       # ========== End UI
     '';
