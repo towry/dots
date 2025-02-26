@@ -271,6 +271,7 @@ in
         kanagawa-style = {
           line-numbers-zero-style = ''blue'';
         };
+        dark = true;
         # allow easy copy
         side-by-side = true;
         keep-plus-minus-markers = false;
