@@ -4,13 +4,13 @@
 
 
 theme = dark:carbonfox,light:Builtin Solarized Light
-font-family = Berkeley Mono Nerd Font # font-family = Iosevka Nerd Font Mono
+font-family = "Berkeley Mono Nerd Font"
 font-size = 16
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
-font-feature = -calt, -liga, -dlig
+# font-feature = -calt, -liga, -dlig
 cursor-invert-fg-bg = true
 selection-invert-fg-bg = true
 macos-option-as-alt = true
