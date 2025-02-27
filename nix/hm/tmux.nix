@@ -5,7 +5,6 @@
 }:
 let
   tmuxdot = "${config.home.homeDirectory}/.tmux";
-  bash = "${pkgs.bash}/bin/bash";
 in
 {
   home.file = {
@@ -270,7 +269,7 @@ in
 
       # ===============================================
       ## UI
-      set -g pane-border-status top
+      set -g pane-border-status off
       set -g status-interval 10
       set -g status on
       set -g status-left-length 100
@@ -285,12 +284,12 @@ in
       # set -g display-panes-colour black
       # set -g display-panes-active-colour cyan
       #+--- Bars ---+
-      set -g status-left "#[bold] #S "
-      set -g status-right "#[bold] #h "
+      set -g status-left "#[bold][#S] "
+      # set -g status-right "#[bold] #h "
       #+--- Windows ---+
-      set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
-      set -g window-status-current-format "#[bold,bg=white] #I:#W#F#{?window_end_flag, , }"
-      set -g window-status-separator " "
+      # set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
+      set -g window-status-current-format "#[bold,underscore]#I:#W#F#{?window_end_flag,,}"
+      # set -g window-status-separator " "
       # ========== End UI
     '';
   };

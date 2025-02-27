@@ -5,16 +5,16 @@
   ...
 }:
 let
-  enable_delta = false;
+  enable_delta = true;
 in
 {
   programs.fish.shellAliases = {
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
-    # g = "git";
+    g = "git";
     gts = "git status";
-    gac = ''echo "$()$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git commit'';
-    gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be carefull$(tput sgr0)" && git add . && git cz'';
+    gac = ''echo "$()$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git commit'';
+    gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git cz'';
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
     xmerge = "git merge --ff";
@@ -24,9 +24,9 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
-    # stgit
+    stgit
     git-smash
-    difftastic
+    # difftastic
     gnupg
     # gitu
   ];
@@ -39,7 +39,7 @@ in
 
     difftastic = {
       # enable this need to disable delta.
-      enable = true;
+      enable = false;
       background = "light";
     };
 
@@ -49,7 +49,7 @@ in
         ad = "add";
         ada = "add -A";
         sw = "switch";
-        # apply patch with commit text only (no commitee info)
+        # apply patch with commit text only (no committee info)
         apply-diff-patch = "apply --allow-empty";
         # amend without edit, not use ca because sometimes we should use git sm instead.
         amend = "commit --amend --no-edit";
@@ -161,8 +161,8 @@ in
       }
       // {
         # alias for stg
-        # refresh = "!f() { stg refresh $@; }; f";
-        # list = "!f() { stg series $@; }; f";
+        refresh = "!f() { stg refresh $@; }; f";
+        list = "!f() { stg series $@; }; f";
       };
 
     extraConfig = {
@@ -271,16 +271,26 @@ in
         kanagawa-style = {
           line-numbers-zero-style = ''blue'';
         };
+        dark = true;
         # allow easy copy
+        side-by-side = true;
         keep-plus-minus-markers = false;
         syntax-theme = "${theme.delta.dark}";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
-        line-numbers = false;
+        line-numbers = true;
+        line-numbers-left-format = "{nm:>4} ";
+        line-numbers-right-format = "│ {np:>4} ";
         navigate = true;
         features = "kanagawa-style";
         hyperlinks = true;
-        wrap-right-percent = 5;
+        diff-stat-align-width = 48;
+        wrap-left-symbol = "↵";
+        wrap-right-symbol = "↴";
+        wrap-right-prefix-symbol = "…";
+        hunk-label = "  󰡏 ";
+        wrap-max-lines = 2;
+        wrap-right-percent = "37.0";
       };
     };
 

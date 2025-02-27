@@ -40,7 +40,8 @@ in
       # inetutils
       moreutils
       watchman
-      ## image suppport in terminal
+      skim
+      ## image support in terminal
       viu
       # concurrently
       overmind

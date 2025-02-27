@@ -43,7 +43,7 @@ in
         ];
 
         push = "origin";
-        push-bookmark-prefix = "towry/push-";
+        push-bookmark-prefix = "towry-push-";
       };
       merge-tools = {
         code = {
@@ -52,6 +52,22 @@ in
           merge-args = [
             "--wait"
             "--merge"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
+        };
+        nvim3way = {
+          program = "nvim";
+          diff-expected-exit-codes = [
+            0
+            1
+          ];
+          merge-tool-edits-conflict-markers = true;
+          merge-args = [
+            "-c"
+            "DiffConflicts"
             "$output"
             "$base"
             "$left"
@@ -117,21 +133,11 @@ in
           "git"
           "push"
         ];
-        # push bookmarks that point to the rev
-        gpr = [
-          "git"
-          "push"
-          "-r"
-        ];
         # push commits by creating bookmark based on it's changeid.
         gpc = [
           "git"
           "push"
           "-c"
-        ];
-        cim = [
-          "commit"
-          "-m"
         ];
         gp-new = [
           "git"
@@ -142,25 +148,22 @@ in
           "file"
           "annotate"
         ];
-        fb = [
+        ff = [
           "git"
           "fetch"
-          "-b"
         ];
         download = [
           "git"
           "fetch"
         ];
+        abs = [
+          "absorb"
+        ];
         rb = [
           "rebase"
-          "-d"
         ];
         ds = [
           "desc"
-        ];
-        dsm = [
-          "desc"
-          "-m"
         ];
         l = [
           "log"
@@ -177,8 +180,13 @@ in
         ];
       };
       ui = {
+        conflict-marker-style = "git";
         log-word-wrap = false;
-        editor = "nvim";
+        editor = [
+          "nvim"
+          "--cmd"
+          "let g:flatten_wait=1"
+        ];
         streampager = {
           interface = "full-screen-clear-output";
           wrapping = "none";
@@ -186,20 +194,22 @@ in
 
         default-command = [
           "log"
+          "--no-pager"
           "-n"
-          "8"
+          "3"
         ];
-        diff.tool = [
-          "${lib.getExe pkgs.difftastic}"
-          "--color=always"
-          "$left"
-          "$right"
-        ];
+        # diff.tool = [
+        #   "${lib.getExe pkgs.difftastic}"
+        #   "--color=always"
+        #   "$left"
+        #   "$right"
+        # ];
         ### use git diff as default diff tool
         diff.format = "git";
         diff-editor = ":builtin";
         # diff-editor = "diffedit3";
-        pager = "less -FRX";
+        # pager = "less -FRX";
+        pager = "delta";
       };
       signing = {
         backend = "ssh";
@@ -490,9 +500,8 @@ in
       };
       colors = {
         git_head = {
-          fg = "black";
-          bg = "white";
-          bold = true;
+          bold = false;
+          italic = true;
         };
         bookmarks = {
           bold = true;

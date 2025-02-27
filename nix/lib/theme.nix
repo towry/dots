@@ -7,36 +7,36 @@
     };
     fish = {
       light = "kanagawa_light";
-      # dark = "kanagawa_dragon";
-      dark = "kanagawa";
+      dark = "kanagawa_dragon";
+      # dark = "kanagawa";
     };
     bat = {
       light = "kanagawa-light";
-      # dark = "kanagawa-dragon";
-      dark = "kanagawa";
+      dark = "kanagawa-dragon";
+      # dark = "kanagawa";
     };
     delta = {
       light = "kanagawa-light";
-      # dark = "kanagawa-dragon";
-      dark = "kanagawa";
+      dark = "kanagawa-dragon";
+      # dark = "kanagawa";
     };
   };
-  monokai = {
+  rosepine = {
     kitty = {
       light = "anysphere-dark.conf";
       dark = "anysphere-dark.conf";
     };
     fish = {
-      light = "anysphere_dark";
-      dark = "anysphere_dark";
+      light = "rose_pine_dawn";
+      dark = "rose_pine_moon";
     };
     bat = {
-      light = "anysphere-dark";
-      dark = "anysphere-dark";
+      light = "rosepine-light";
+      dark = "rosepine";
     };
     delta = {
-      light = "anysphere-dark";
-      dark = "anysphere-dark";
+      light = "rosepine-light";
+      dark = "rosepine";
     };
   };
   nord = {
@@ -45,15 +45,15 @@
       dark = "nord.conf";
     };
     fish = {
-      light = "kanagawa_light";
+      light = "neovim_light";
       dark = "nord";
     };
     bat = {
-      light = "kanagawa-light";
+      light = "jetstorm-light";
       dark = "Nord";
     };
     delta = {
-      light = "kanagawa-light";
+      light = "jetstorm-light";
       dark = "Nord";
     };
   };
@@ -64,15 +64,15 @@
     };
     fish = {
       light = "kanagawa_light";
-      dark = "nightfox";
+      dark = "carbonfox";
     };
     bat = {
       light = "kanagawa-light";
-      dark = "nightfox";
+      dark = "carbonfox";
     };
     delta = {
       light = "kanagawa-light";
-      dark = "nightfox";
+      dark = "carbonfox";
     };
   };
   modus = {
