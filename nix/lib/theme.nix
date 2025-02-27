@@ -21,22 +21,22 @@
       # dark = "kanagawa";
     };
   };
-  monokai = {
+  rosepine = {
     kitty = {
       light = "anysphere-dark.conf";
       dark = "anysphere-dark.conf";
     };
     fish = {
-      light = "anysphere_dark";
-      dark = "anysphere_dark";
+      light = "rose_pine_dawn";
+      dark = "rose_pine_moon";
     };
     bat = {
-      light = "anysphere-dark";
-      dark = "anysphere-dark";
+      light = "rosepine-light";
+      dark = "rosepine";
     };
     delta = {
-      light = "anysphere-dark";
-      dark = "anysphere-dark";
+      light = "rosepine-light";
+      dark = "rosepine";
     };
   };
   nord = {
