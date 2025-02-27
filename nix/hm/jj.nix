@@ -194,8 +194,9 @@ in
 
         default-command = [
           "log"
+          "--no-pager"
           "-n"
-          "8"
+          "3"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
