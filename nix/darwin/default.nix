@@ -49,7 +49,7 @@ let
               username
               ;
             useGlobalPkgs = true;
-            theme = pkgs.callPackage ../lib/theme.nix { theme = "rosepine"; };
+            theme = pkgs.callPackage ../lib/theme.nix { theme = "kanagawa"; };
           };
         }
       ] ++ modules;

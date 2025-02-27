@@ -45,15 +45,15 @@
       dark = "nord.conf";
     };
     fish = {
-      light = "kanagawa_light";
+      light = "neovim_light";
       dark = "nord";
     };
     bat = {
-      light = "kanagawa-light";
+      light = "jetstorm-light";
       dark = "Nord";
     };
     delta = {
-      light = "kanagawa-light";
+      light = "jetstorm-light";
       dark = "Nord";
     };
   };
