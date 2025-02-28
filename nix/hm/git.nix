@@ -19,6 +19,7 @@ in
     ggrep = "git rev-list --all | xargs git grep --break";
     xmerge = "git merge --ff";
     xmerged = "git branch --merged master";
+    gh-new-pr = "gh pr create -f -H";
   };
 
   home.packages = with pkgs; [
