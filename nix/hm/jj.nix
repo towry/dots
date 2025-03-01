@@ -196,7 +196,7 @@ in
           "log"
           "--no-pager"
           "-n"
-          "3"
+          "5"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
