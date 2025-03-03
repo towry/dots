@@ -269,8 +269,24 @@ in
     delta = {
       enable = enable_delta;
       options = {
-        kanagawa-style = {
-          line-numbers-zero-style = ''blue'';
+        kanagawa-dragon = {
+          dark = true;
+          green = "#7aa89f";
+          greenDarker = "#6998cc";
+          red = "#990017";
+          line-numbers-right-style = "green";
+          file-style = ''blue bold'';
+          line-numbers-minus-style = "red normal";
+          line-numbers-plus-style = "green normal";
+          line-numbers-zero-style = "blue normal";
+          minus-style = "bold red";
+          minus-emph-style = "bold darkred";
+          minus-non-emph-style = "bold";
+          plus-style = "bold green";
+          plus-emph-style = "bold darkgreen";
+          plus-non-emph-style = "bold";
+          zero-style = "syntax";
+          blame-code-style = "syntax";
         };
         dark = true;
         # allow easy copy
@@ -283,7 +299,7 @@ in
         line-numbers-left-format = "{nm:>4} ";
         line-numbers-right-format = "│ {np:>4} ";
         navigate = true;
-        features = "kanagawa-style";
+        features = "kanagawa-dragon";
         hyperlinks = true;
         diff-stat-align-width = 48;
         wrap-left-symbol = "↵";
