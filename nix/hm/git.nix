@@ -292,7 +292,7 @@ in
         # allow easy copy
         side-by-side = true;
         keep-plus-minus-markers = false;
-        syntax-theme = "${theme.delta.dark}";
+        syntax-theme = "none";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
         line-numbers = true;
