@@ -28,7 +28,7 @@ in
     # stgit
     git-smash
     gnupg
-    git-sim
+    # git-sim
   ];
   programs.git = {
     enable = true;
@@ -270,10 +270,10 @@ in
           darkred = "#e82424";
           file-style = ''blue bold'';
           minus-style = "kanagawa-dragon.red";
-          minus-emph-style = "kanagawa-dragon.darkred italic";
+          minus-emph-style = "kanagawa-dragon.darkred bold italic";
           minus-non-emph-style = "normal";
           plus-style = "kanagawa-dragon.green";
-          plus-emph-style = "kanagawa-dragon.darkgreen italic";
+          plus-emph-style = "kanagawa-dragon.darkgreen bold italic";
           plus-non-emph-style = "normal";
           zero-style = "syntax";
           blame-code-style = "syntax";
@@ -288,15 +288,18 @@ in
         line-numbers-left-format = "{nm:>4} │";
         line-numbers-right-format = "{np:>4} │";
         navigate = true;
+        tabs = 4;
         features = "kanagawa-dragon";
         hyperlinks = true;
         diff-stat-align-width = 48;
         wrap-left-symbol = "↵";
         wrap-right-symbol = "↴";
         wrap-right-prefix-symbol = "…";
-        hunk-label = "  󰡏 ";
-        wrap-max-lines = 2;
-        wrap-right-percent = "37.0";
+        hunk-label = "󰡏 ";
+        hunk-header-style = "file line-number syntax";
+        file-style = "omit";
+        wrap-max-lines = 3;
+        wrap-right-percent = 1;
       };
     };
 
