@@ -58,6 +58,7 @@ in
       # ocamlPackages.ocaml-lsp
       asdf-vm
       docker-credential-helpers
+      # harper
       uv
       neofetch
     ])
