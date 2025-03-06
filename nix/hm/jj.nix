@@ -193,10 +193,11 @@ in
         };
 
         default-command = [
-          "log"
-          "--no-pager"
-          "-n"
-          "5"
+          "status"
+          # "log"
+          # "--no-pager"
+          # "-n"
+          # "5"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"

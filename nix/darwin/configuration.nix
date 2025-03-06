@@ -58,6 +58,7 @@
   };
 
   programs.fish.enable = true;
+  programs.fish.package = pkgs.fish;
 
   homebrew = {
     enable = true;

@@ -18,6 +18,7 @@
     carapace.enableFishIntegration = true;
     kitty.shellIntegration.enableFishIntegration = true;
     fish = {
+      package = pkgs.fish;
       enable = true;
       plugins = [
         {
