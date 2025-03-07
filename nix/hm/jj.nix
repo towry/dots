@@ -175,6 +175,15 @@ in
         sq = [
           "squash"
         ];
+        mv-changes = [
+          "squash"
+          "-k"
+          "-u"
+        ];
+        new-node = [
+          "new"
+          "--no-edit"
+        ];
         usq = [
           "unsquash"
         ];
