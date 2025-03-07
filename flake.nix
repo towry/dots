@@ -12,13 +12,22 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     git-smash = {
       url = "github:towry/nix-flakes?dir=git-smash";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zig.url = "github:mitchellh/zig-overlay";
-    zls.url = "github:zigtools/zls?ref=refs/tags/0.13.0";
+    zig = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    zls = {
+      url = "github:zigtools/zls?ref=refs/tags/0.13.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     gitu = {
       url = "github:pze/gitu?ref=master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -134,7 +143,7 @@
       "https://dots.cachix.org"
       "https://nix-community.cachix.org"
       "https://towry.cachix.org"
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      # "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org"
     ];
     extra-trusted-public-keys = [
