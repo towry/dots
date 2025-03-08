@@ -58,6 +58,7 @@
   };
 
   programs.fish.enable = true;
+  programs.fish.package = pkgs.fish;
 
   homebrew = {
     enable = true;
@@ -83,7 +84,7 @@
         "https://dots.cachix.org"
         "https://nix-community.cachix.org"
         "https://towry.cachix.org"
-        "https://mirrors.ustc.edu.cn/nix-channels/store"
+        # "https://mirrors.ustc.edu.cn/nix-channels/store"
         "https://cache.nixos.org"
       ];
       trusted-users = [

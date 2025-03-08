@@ -47,7 +47,7 @@ yabai -m config display_arrangement_order vertical
 # yabai -m config window_animation_duration 0
 yabai -m config window_animation_easing ease_in_sine
 yabai -m config window_origin_display cursor
-yabai -m config split_type horizontal
+yabai -m config split_type vertical
 yabai -m config auto_balance x-axis
 yabai -m config window_opacity off
 
@@ -82,21 +82,21 @@ yabai -m rule --add app="(Finder|访达|DevTools|模拟器|Kap|Bartender|Trading
 
 
 # stackline specific tweaks
-yabai -m signal --add event=window_created action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=window_destroyed action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=application_terminated action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=window_deminimized action='~/.config/yabai/yabai-panes.sh; yabai -m window --warp first'
-yabai -m signal --add event=window_minimized action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=application_hidden action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=application_visible action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=space_destroyed action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=space_changed action='~/.config/yabai/yabai-panes.sh'
-yabai -m signal --add event=display_changed action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=window_created action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=window_destroyed action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=application_terminated action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=window_deminimized action='~/.config/yabai/yabai-panes.sh; yabai -m window --warp first'
+# yabai -m signal --add event=window_minimized action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=application_hidden action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=application_visible action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=space_destroyed action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=space_changed action='~/.config/yabai/yabai-panes.sh'
+# yabai -m signal --add event=display_changed action='~/.config/yabai/yabai-panes.sh'
 
 
 ## final
 yabai -m rule --apply
 ## run the panel layout
-~/.config/yabai/yabai-panes.sh
+# ~/.config/yabai/yabai-panes.sh
 
 echo "yabai configuration loaded.."

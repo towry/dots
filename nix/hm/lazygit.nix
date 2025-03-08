@@ -39,8 +39,8 @@
         autoRefresh = true;
         fetchAll = false;
         paging = {
-          colorArg = "always";
-          externalDiffCommand = "difft --color=always";
+          # colorArg = "always";
+          # externalDiffCommand = "difft --color=always";
         };
       };
       update = {

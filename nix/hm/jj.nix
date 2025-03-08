@@ -175,6 +175,15 @@ in
         sq = [
           "squash"
         ];
+        mv-changes = [
+          "squash"
+          "-k"
+          "-u"
+        ];
+        new-node = [
+          "new"
+          "--no-edit"
+        ];
         usq = [
           "unsquash"
         ];
@@ -193,10 +202,11 @@ in
         };
 
         default-command = [
-          "log"
-          "--no-pager"
-          "-n"
-          "5"
+          "status"
+          # "log"
+          # "--no-pager"
+          # "-n"
+          # "5"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
