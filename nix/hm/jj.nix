@@ -224,7 +224,7 @@ in
       signing = {
         backend = "ssh";
         key = "~/.ssh/id_ed25519.pub";
-        sign-all = true;
+        behavior = "own";
       };
       templates = {
         log = "log_compact";
