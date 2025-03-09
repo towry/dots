@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [
     raycast
     # vscode
-    logseq
+    # logseq
     # brave
     ice-bar
   ];
