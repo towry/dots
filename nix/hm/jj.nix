@@ -37,6 +37,7 @@ in
         max-new-file-size = "1MiB";
       };
       git = {
+        auto-local-bookmark = false;
         subprocess = true;
         fetch = [
           "origin"
@@ -91,8 +92,14 @@ in
       };
       format.tree-level-conflicts = true;
       aliases = {
+        wk = [ "workspace" ];
         df = [ "diff" ];
         drop = [ "abandon" ];
+        bt = [
+          "bookmark"
+          "list"
+          "--tracked"
+        ];
         lmaster = [
           "log"
           "-r"
@@ -102,6 +109,11 @@ in
           "log"
           "-r"
           "working()"
+        ];
+        ls = [
+          "log"
+          "-r"
+          "stack(@)"
         ];
         lmain = [
           "log"
@@ -152,7 +164,7 @@ in
           "git"
           "fetch"
         ];
-        download = [
+        down = [
           "git"
           "fetch"
         ];
