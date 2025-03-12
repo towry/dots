@@ -419,7 +419,6 @@ keymap = [
 ]
 
 [tasks]
-
 keymap = [
   { on = [
     "<Esc>",
@@ -454,7 +453,6 @@ keymap = [
 ]
 
 [pick]
-
 keymap = [
   { on = [
     "<C-q>",
@@ -662,8 +660,7 @@ keymap = [
   ], run = "help", desc = "Open help" },
 ]
 
-[completion]
-
+[cmp]
 keymap = [
   { on = [
     "<C-q>",
@@ -740,4 +737,51 @@ keymap = [
   { on = [
     "/",
   ], run = "filter", desc = "Apply a filter for the help items" },
+]
+
+[confirm]
+keymap = [
+  { on = "<Esc>", run = "close", desc = "Cancel the confirm" },
+  { on = "<C-[>", run = "close", desc = "Cancel the confirm" },
+  { on = "<C-c>", run = "close", desc = "Cancel the confirm" },
+  { on = "<Enter>", run = "close --submit", desc = "Submit the confirm" },
+
+  { on = "n", run = "close", desc = "Cancel the confirm" },
+  { on = "y", run = "close --submit", desc = "Submit the confirm" },
+
+  { on = "k", run = "arrow -1", desc = "Move cursor up" },
+  { on = "j", run = "arrow 1", desc = "Move cursor down" },
+
+  { on = "<Up>", run = "arrow -1", desc = "Move cursor up" },
+  { on = "<Down>", run = "arrow 1", desc = "Move cursor down" },
+
+  # Help
+  { on = "~", run = "help", desc = "Open help" },
+  { on = "<F1>", run = "help", desc = "Open help" },
+]
+
+[spot]
+
+keymap = [
+  { on = "<Esc>", run = "close", desc = "Close the spot" },
+  { on = "<C-[>", run = "close", desc = "Close the spot" },
+  { on = "<C-c>", run = "close", desc = "Close the spot" },
+  { on = "<Tab>", run = "close", desc = "Close the spot" },
+
+  { on = "k", run = "arrow -1", desc = "Move cursor up" },
+  { on = "j", run = "arrow 1", desc = "Move cursor down" },
+  { on = "h", run = "swipe -1", desc = "Swipe to the previous file" },
+  { on = "l", run = "swipe 1", desc = "Swipe to the next file" },
+
+  { on = "<Up>", run = "arrow -1", desc = "Move cursor up" },
+  { on = "<Down>", run = "arrow 1", desc = "Move cursor down" },
+  { on = "<Left>", run = "swipe -1", desc = "Swipe to the next file" },
+  { on = "<Right>", run = "swipe 1", desc = "Swipe to the previous file" },
+
+  # Copy
+  { on = ["c", "c"], run = "copy cell", desc = "Copy selected cell" },
+
+  # Help
+  { on = "~", run = "help", desc = "Open help" },
+  { on = "<F1>", run = "help", desc = "Open help" },
 ]
