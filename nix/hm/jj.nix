@@ -187,6 +187,9 @@ in
         sq = [
           "squash"
         ];
+        unsq = [
+          "unsquash"
+        ];
         mv-changes = [
           "squash"
           "-k"
@@ -196,8 +199,15 @@ in
           "new"
           "--no-edit"
         ];
-        usq = [
-          "unsquash"
+        new-master = [
+          "new"
+          "-r"
+          "master@origin"
+        ];
+        new-main = [
+          "new"
+          "-r"
+          "main@origin"
         ];
       };
       ui = {
