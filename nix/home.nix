@@ -13,7 +13,7 @@ let
       ## Nix
       cachix
       # nix formatter
-      treefmt2
+      treefmt
       nixfmt-rfc-style
       nixd
       # nix-health
