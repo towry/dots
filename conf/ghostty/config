@@ -4,8 +4,8 @@
 
 
 theme = dark:kanagawa-dragon,light:solarized-light
-font-family = "Berkeley Mono Nerd Font"
-# font-family = "Iosevka Nerd Font"
+# font-family = "Berkeley Mono Nerd Font"
+font-family = "MonoLisa Nerd Font"
 font-size = 16
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
@@ -20,7 +20,7 @@ macos-window-shadow  = true
 adjust-underline-position = 15%
 adjust-underline-thickness = -40%
 adjust-box-thickness = -40%
-adjust-cell-height = 40%
+adjust-cell-height = 25%
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 1
