@@ -28,6 +28,7 @@ let
       lxgw-wenkai
       nerd-fonts.iosevka
       nerd-fonts.jetbrains-mono
+      maple-mono
       # utils
       ## man page tldr
       tlrc
