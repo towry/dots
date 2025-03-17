@@ -23,7 +23,7 @@ jobs:
       - uses: DeterminateSystems/flakehub-cache-action@main
 
       - name: Setup Cachix
-        uses: cachix/cachix-action@v15
+        uses: cachix/cachix-action@v16
         with:
           name: dots
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
