@@ -26,9 +26,6 @@ let
       nix-prefetch-github
       nerd-font-patcher
       lxgw-wenkai
-      nerd-fonts.iosevka
-      nerd-fonts.jetbrains-mono
-      maple-mono
       # utils
       ## man page tldr
       tlrc
@@ -48,6 +45,7 @@ let
     ++ lib.lists.optionals pkgs.stdenv.isLinux [
       # linux packages
       xclip
+      maple-mono
     ];
 in
 {
