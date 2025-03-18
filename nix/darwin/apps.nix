@@ -6,6 +6,7 @@
     # logseq
     # brave
     ice-bar
+    net-news-wire
   ];
 
   homebrew = {
