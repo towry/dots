@@ -1,7 +1,7 @@
 # https://raw.githubusercontent.com/bnjmnt4n/system/refs/heads/main/home/shared/jujutsu.nix
 {
   config,
-  lib,
+  # lib,
   pkgs,
   ...
 }:
@@ -190,7 +190,7 @@ in
         unsq = [
           "unsquash"
         ];
-        mv-changes = [
+        mvc = [
           "squash"
           "-k"
           "-u"
@@ -208,6 +208,15 @@ in
           "new"
           "-r"
           "main@origin"
+        ];
+        rv = [
+          "resolve"
+        ];
+        # resolve conflicts with nvim3way tool
+        mt = [
+          "resolve"
+          "--tool"
+          "nvim3way"
         ];
       };
       ui = {
