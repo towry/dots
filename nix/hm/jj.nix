@@ -190,7 +190,7 @@ in
         unsq = [
           "unsquash"
         ];
-        mv-changes = [
+        mvc = [
           "squash"
           "-k"
           "-u"
