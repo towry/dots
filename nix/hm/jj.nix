@@ -16,9 +16,6 @@ in
   programs.fish.shellAliases = {
     jl = "jj log -n 8";
     j = "jj";
-    jj-mv-work = "jj bookmark move --to @ towry/workspace";
-    jj-up-work = "jj git push -b towry/workspace --allow-empty-description";
-    jj-sync-work = "jj bookmark move --to @ towry/workspace && jj git push -b towry/workspace --allow-empty-description";
   };
   programs.jujutsu = {
     enable = true;
@@ -99,6 +96,10 @@ in
           "bookmark"
           "list"
           "--tracked"
+        ];
+        bl = [
+          "bookmark"
+          "list"
         ];
         lmaster = [
           "log"
@@ -257,6 +258,7 @@ in
         key = "~/.ssh/id_ed25519.pub";
         behavior = "own";
       };
+      # used by the builtin utils.
       templates = {
         log = "log_compact";
         log_node = ''
