@@ -3,7 +3,7 @@
 # https://github.com/ghostty-org/ghostty/blob/b8ffee7acbdd5ee97953f6e6d02e047d4bfda37b/src/input/key.zig#L255
 
 
-theme = dark:kanagawa-dragon,light:solarized-light
+theme = dark:kanagawabones,light:solarized-light
 # font-family = "Berkeley Mono Nerd Font"
 font-family = "Maple Mono"
 font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"

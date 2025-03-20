@@ -7,18 +7,18 @@
     };
     fish = {
       light = "kanagawa_light";
-      dark = "kanagawa_dragon";
-      # dark = "kanagawa";
+      # dark = "kanagawa_dragon";
+      dark = "kanagawa";
     };
     bat = {
       light = "kanagawa-light";
-      dark = "kanagawa-dragon";
-      # dark = "kanagawa";
+      # dark = "kanagawa-dragon";
+      dark = "kanagawa";
     };
     delta = {
       light = "kanagawa-light";
-      dark = "kanagawa-dragon";
-      # dark = "kanagawa";
+      # dark = "kanagawa-dragon";
+      dark = "kanagawa";
     };
   };
   rosepine = {
