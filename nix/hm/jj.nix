@@ -191,6 +191,12 @@ in
         unsq = [
           "unsquash"
         ];
+        mcto = [
+          "squash"
+          "-k"
+          "-u"
+          "--to"
+        ];
         mvc = [
           "squash"
           "-k"
