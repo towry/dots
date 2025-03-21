@@ -4,9 +4,10 @@
 
 
 theme = dark:kanagawabones,light:solarized-light
-# font-family = "Berkeley Mono Nerd Font"
-font-family = "Maple Mono"
-font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"
+font-family = "Berkeley Mono Nerd Font"
+font-feature = "+calt"
+# font-family = "Maple Mono"
+# font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"
 font-size = 17
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=Maple Mono
