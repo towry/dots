@@ -202,17 +202,29 @@ in
           "-k"
           "-u"
         ];
-        new-node = [
+        create = [
           "new"
           "--no-edit"
         ];
+        new-after = [
+          "new"
+          "--no-edit"
+          "-A"
+        ];
+        new-before = [
+          "new"
+          "--no-edit"
+          "-B"
+        ];
         new-master = [
           "new"
+          "--no-edit"
           "-r"
           "master@origin"
         ];
         new-main = [
           "new"
+          "--no-edit"
           "-r"
           "main@origin"
         ];
