@@ -187,6 +187,7 @@ in
         ];
         sq = [
           "squash"
+          "-u"
         ];
         unsq = [
           "unsquash"
