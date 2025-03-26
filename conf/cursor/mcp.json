@@ -1,13 +1,5 @@
 {
   "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/towry/workspace/work"
-      ]
-    },
     "playwright": {
       "command": "npx",
       "args": ["-y", "@playwright/mcp@latest"]
