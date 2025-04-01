@@ -119,7 +119,7 @@ in
       '';
     };
     atuin = {
-      enable = true;
+      enable = false;
       enableFishIntegration = true;
       flags = [
         "--disable-up-arrow"

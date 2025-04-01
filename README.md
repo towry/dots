@@ -56,7 +56,6 @@ This configuration includes setup for:
 - **Fzf** - Fuzzy finder
 - **Eza** - Modern replacement for ls
 - **Zoxide** - Smarter cd command
-- **Atuin** - Shell history with search
 - **Yazi** - Terminal file manager
 - **Bottom** - System monitor
 - **Cachix** - Binary cache for Nix
