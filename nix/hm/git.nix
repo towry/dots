@@ -12,6 +12,7 @@ in
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
     g = "git";
+    sg = "stg";
     gts = "git status";
     gac = ''echo "$()$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git commit'';
     gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git cz'';
@@ -67,9 +68,7 @@ in
       ss-wip = "stash -m wip";
       # stash staged changes
       ss-staged = "stash --staged";
-      up = ''!git push -u origin HEAD:$(git rev-parse --abbrev-ref HEAD)'';
-      force-push = ''!git status --short && git push -u --force-with-lease'';
-      gp = ''!git status --short && git push -u --force-with-lease'';
+      fu = ''!git status --short && git push -u --force-with-lease'';
       pull-rebase = "pull --rebase";
       pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       down = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
@@ -80,7 +79,7 @@ in
       pf = ''!git pull --no-tags --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
       fetch-all = "fetch --all --no-tags";
       # fz = "fuzzy";
-      fetch-prune = "fetch --prune --prune-tags";
+      fp = "fetch --prune";
       mg = "merge --no-edit --ff";
       mg-theirs = "merge --no-edit --ff -X theirs";
       kill-merge = "merge --abort";
@@ -157,6 +156,7 @@ in
       it-skip = ''!f() { git commit -m "[skip ci]: $(echo $@)"; }; f'';
       it-deps = ''!f() { git commit -m "deps: $(echo $@)"; }; f'';
       it-rm = ''!f() { git commit -m "cleanup: $(echo $@)"; }; f'';
+      list = ''!stg series'';
     };
 
     extraConfig = {
