@@ -4,7 +4,7 @@
 
 
 theme = dark:kanagawabones,light:solarized-light
-font-family = "Berkeley Mono Nerd Font"
+font-family = "Berkeley Mono"
 font-feature = "+calt"
 # font-family = "Maple Mono"
 # font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"

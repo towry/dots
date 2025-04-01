@@ -27,7 +27,7 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
-    # stgit
+    stgit
     git-smash
     gnupg
     # git-sim
@@ -68,18 +68,19 @@ in
       # stash staged changes
       ss-staged = "stash --staged";
       up = ''!git push -u origin HEAD:$(git rev-parse --abbrev-ref HEAD)'';
-      fu = ''!git status --short && git push -u --force-with-lease'';
-      pr = "pull --rebase";
+      force-push = ''!git status --short && git push -u --force-with-lease'';
+      gp = ''!git status --short && git push -u --force-with-lease'';
+      pull-rebase = "pull --rebase";
       pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
-      px = ''pull --all --prune --no-tags'';
+      down = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
+      pull-all-prune = ''pull --all --prune --no-tags'';
       pp-theirs = ''!git pull -X theirs --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       pp-ours = ''!git pull -X ours --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
       pf = ''!git pull --no-tags --ff-only $(git-rev-parse --abbrev-ref HEAD)'';
-      fa = "fetch --all --no-tags";
+      fetch-all = "fetch --all --no-tags";
       # fz = "fuzzy";
-      ff = "fetch --no-tags";
-      fp = "fetch --prune --prune-tags";
+      fetch-prune = "fetch --prune --prune-tags";
       mg = "merge --no-edit --ff";
       mg-theirs = "merge --no-edit --ff -X theirs";
       kill-merge = "merge --abort";
@@ -117,10 +118,6 @@ in
       mt = "mergetool";
       mt-code = "mergetool --tool=code";
       mt-cursor = "mergetool --tool=cursor";
-      bi = "bisect";
-      rp = "rev-parse";
-      rl = "rev-list";
-      rn = "name-rev";
       rb = "rebase";
       rbk = "rebase --skip";
       rbc = "rebase --continue";
@@ -138,9 +135,10 @@ in
       # count commit diff between two branches
       commit-diff-count = ''!f() { git rev-list --count HEAD ^$1; }; f'';
       # create feat branch in format of feat/YYYYMMDD-short-description, also accept other git arguments
-      br-feat = "!f() { git checkout -b feat/$(date +%Y%m)-$1 $2; }; f";
-      br-fix = "!f() { git checkout -b fix/$(date +%Y%m)-$1 $2; }; f";
-      br-refactor = "!f() { git checkout -b refactor/$(date +%Y%m)-$1 $2; }; f";
+      br-feat = "!f() { git checkout -b towry-feat-$(date +%Y%m)-$1 $2; }; f";
+      br-fix = "!f() { git checkout -b towry-fix-$(date +%Y%m)-$1 $2; }; f";
+      br-refactor = "!f() { git checkout -b towry-refactor-$(date +%Y%m)-$1 $2; }; f";
+      br-chore = "!f() { git checkout -b towry-chore-$(date +%Y%m)-$1 $2; }; f";
       # sync and rebase, for example: git sync-rebase origin master do: git fetch origin master && git rebase origin/master
       sync-rebase = "!f() { git fetch $1 $2 && git rebase $1/$2; }; f";
       # commit convention
