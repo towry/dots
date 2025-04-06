@@ -60,7 +60,7 @@ in
       dap_firefox_debug_adapter_path = "${pkgs.vscode-extensions.firefox-devtools.vscode-firefox-debug}/share/vscode/extensions/firefox-devtools.vscode-firefox-debug/dist/adapter.bundle.js"
     }
   '';
-  home.file.".cursor/mcp.json" = {
-    source = ../../conf/cursor/mcp.json;
-  };
+  # home.file.".cursor/mcp.json" = {
+  #   source = ../../conf/cursor/mcp.json;
+  # };
 }
