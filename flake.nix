@@ -25,7 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zls = {
-      url = "github:zigtools/zls?ref=refs/tags/0.13.0";
+      url = "github:zigtools/zls?ref=refs/tags/0.14.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     gitu = {
