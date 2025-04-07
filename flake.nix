@@ -2,6 +2,7 @@
   description = "Towry de dotfiles";
 
   inputs = {
+    nixpkgs-edge.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/release-24.11";
     home-manager = {
@@ -43,6 +44,7 @@
       self,
       nixpkgs,
       nixpkgs-stable,
+      nixpkgs-edge,
       darwin,
       home-manager,
       mac-app-util,
@@ -59,6 +61,11 @@
       };
       mkSystemConfig = system: {
         pkgs-stable = import nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+          config.allowUnfreePredicate = true;
+        };
+        pkgs-edge = import nixpkgs-edge {
           inherit system;
           config.allowUnfree = true;
           config.allowUnfreePredicate = true;
@@ -87,7 +94,7 @@
           system,
         }:
         let
-          inherit (mkSystemConfig system) pkgs pkgs-stable;
+          inherit (mkSystemConfig system) pkgs pkgs-stable pkgs-edge;
         in
         home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
@@ -95,6 +102,7 @@
             system = system;
             username = username;
             pkgs-stable = pkgs-stable;
+            pkgs-edge = pkgs-edge;
 
             theme = pkgs.callPackage ./nix/lib/theme.nix { theme = "kanagawa"; };
           };
@@ -125,6 +133,7 @@
             inputs
             nixpkgs
             nixpkgs-stable
+            nixpkgs-edge
             home-manager
             mac-app-util
             darwin
