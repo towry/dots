@@ -14,7 +14,7 @@ let
       modules ? [ ],
     }:
     let
-      inherit (mkSystemConfig system) pkgs pkgs-stable;
+      inherit (mkSystemConfig system) pkgs pkgs-stable pkgs-edge;
     in
     darwin.lib.darwinSystem {
       inherit system;
@@ -24,6 +24,7 @@ let
           system
           pkgs
           pkgs-stable
+          pkgs-edge
           username
           ;
       };
@@ -46,6 +47,7 @@ let
               system
               pkgs
               pkgs-stable
+              pkgs-edge
               username
               ;
             useGlobalPkgs = true;

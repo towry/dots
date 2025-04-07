@@ -3,6 +3,7 @@
   config,
   # lib,
   pkgs,
+  pkgs-edge,
   ...
 }:
 let
@@ -18,6 +19,8 @@ in
     j = "jj";
   };
   programs.jujutsu = {
+    # use master version
+    package = pkgs-edge.jujutsu;
     enable = true;
     settings = {
       user = {
@@ -27,7 +30,7 @@ in
       repo.github-url = "";
       core = {
         fsmonitor = "watchman";
-        watchman.register_snapshot_trigger = true;
+        watchman.register-snapshot-trigger = true;
       };
       snapshot = {
         auto-update-stale = true;
@@ -190,7 +193,8 @@ in
           "-u"
         ];
         unsq = [
-          "unsquash"
+          "squash"
+          "--restore-descendants"
         ];
         mcto = [
           "squash"
