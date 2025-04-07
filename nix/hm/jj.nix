@@ -253,6 +253,10 @@ in
           "--tool"
           ":theirs"
         ];
+        lo = [
+          "log"
+          "--no-graph"
+        ];
       };
       ui = {
         conflict-marker-style = "git";
