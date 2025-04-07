@@ -243,6 +243,16 @@ in
           "--tool"
           "nvim3way"
         ];
+        mt-ours = [
+          "resolve"
+          "--tool"
+          ":ours"
+        ];
+        mt-theirs = [
+          "resolve"
+          "--tool"
+          ":theirs"
+        ];
       };
       ui = {
         conflict-marker-style = "git";
