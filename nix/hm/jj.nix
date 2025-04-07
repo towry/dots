@@ -44,8 +44,8 @@ in
         ];
 
         push = "origin";
-        push-bookmark-prefix = "towry-push-";
-        private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'megamerge:*')";
+        push-bookmark-prefix = "towry/jj-";
+        private-commits = "description(glob:'wip:*') | description(glob:'private:*')";
       };
       merge-tools = {
         code = {
