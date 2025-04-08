@@ -125,6 +125,9 @@ in
           "-r"
           "(main..@):: | (main..@)-"
         ];
+        dup = [
+          "duplicate"
+        ];
         mv = [
           "bookmark"
           "move"
@@ -578,6 +581,8 @@ in
         "diverge(x)" = "fork_point(x)::x";
         # "working()" = "visible_heads() | ancestors(visible_heads(), 2)";
         "working()" = "ancestors(visible_heads() & mutable(), 2)";
+        "diff_xy(x, y)" = "..x & mutable() ~ ..y & mutable()";
+        "not_included(x, y)" = "x..ancestors(y, 1)";
       };
       colors = {
         git_head = {
