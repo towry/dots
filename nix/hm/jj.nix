@@ -608,4 +608,9 @@ in
       };
     };
   };
+  home.file = {
+    ".config/fish/functions/jj-mega-merge.fish" = {
+      source = ../../conf/fish/funcs/jj-mega-merge.fish;
+    };
+  };
 }
