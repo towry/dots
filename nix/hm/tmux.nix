@@ -115,6 +115,7 @@ in
       ## must be on, otherwise float won't close
       set -g detach-on-destroy on
       set -g renumber-windows on
+      set-option -g focus-events on
       set -sg escape-time 0
       set -g display-time 1500
       set -g remain-on-exit off
