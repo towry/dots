@@ -20,7 +20,7 @@ in
   };
   programs.jujutsu = {
     # use master version
-    package = pkgs-edge.jujutsu;
+    # package = pkgs-edge.jujutsu;
     enable = true;
     settings = {
       user = {
@@ -30,7 +30,7 @@ in
       repo.github-url = "";
       core = {
         fsmonitor = "watchman";
-        watchman.register-snapshot-trigger = true;
+        # watchman.register-snapshot-trigger = true;
       };
       snapshot = {
         auto-update-stale = true;
@@ -44,7 +44,7 @@ in
         ];
 
         push = "origin";
-        push-bookmark-prefix = "towry/jj-";
+        # push-bookmark-prefix = "towry/jj-";
         private-commits = "description(glob:'wip:*') | description(glob:'private:*')";
       };
       merge-tools = {
