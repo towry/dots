@@ -105,6 +105,12 @@ in
           "--retain-bookmarks"
           "--restore-descendants"
         ];
+        mega-heads = [
+          "log"
+          "-r"
+          "m-m-"
+          "--no-graph"
+        ];
         bt = [
           "bookmark"
           "list"
@@ -219,6 +225,11 @@ in
           "-k"
           "-u"
           "--to"
+        ];
+        tree = [
+          "log"
+          "-r"
+          "tree(@)"
         ];
         mvc = [
           "squash"
