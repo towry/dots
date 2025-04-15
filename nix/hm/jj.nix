@@ -95,6 +95,11 @@ in
       aliases = {
         wk = [ "workspace" ];
         df = [ "diff" ];
+        sync-delete-bookmarks = [
+          "git"
+          "push"
+          "--deleted"
+        ];
         drop = [
           "abandon"
           "--retain-bookmarks"
@@ -188,6 +193,11 @@ in
         ];
         ds = [
           "desc"
+        ];
+        des-megamerge = [
+          "describe"
+          "-m"
+          "private: megamerge"
         ];
         l = [
           "log"
@@ -565,8 +575,7 @@ in
         '';
       };
       revset-aliases = {
-        "at" = "@";
-        "AT" = "@";
+        "m-m" = "description('private: megamerge')";
 
         "new_visible_commits(op)" =
           "at_operation(@-, at_operation(op, visible_heads()))..at_operation(op, visible_heads())";
