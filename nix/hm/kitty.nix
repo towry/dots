@@ -57,7 +57,7 @@ let
 in
 {
   programs.kitty = {
-    enable = true;
+    enable = false;
     package = pkgs-stable.kitty;
     darwinLaunchOptions = [
       "--single-instance"
