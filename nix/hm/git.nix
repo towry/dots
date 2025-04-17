@@ -12,7 +12,6 @@ in
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
     g = "git";
-    sg = "stg";
     gts = "git status";
     gac = ''echo "$()$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git commit'';
     gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git cz'';
@@ -28,7 +27,6 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
-    stgit
     git-smash
     gnupg
     # git-sim
@@ -156,7 +154,6 @@ in
       it-skip = ''!f() { git commit -m "[skip ci]: $(echo $@)"; }; f'';
       it-deps = ''!f() { git commit -m "deps: $(echo $@)"; }; f'';
       it-rm = ''!f() { git commit -m "cleanup: $(echo $@)"; }; f'';
-      list = ''!stg series'';
     };
 
     extraConfig = {

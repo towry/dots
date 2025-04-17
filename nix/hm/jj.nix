@@ -20,7 +20,7 @@ in
   };
   programs.jujutsu = {
     # use master version
-    package = pkgs-edge.jujutsu;
+    # package = pkgs-edge.jujutsu;
     enable = true;
     settings = {
       user = {
@@ -95,7 +95,22 @@ in
       aliases = {
         wk = [ "workspace" ];
         df = [ "diff" ];
-        drop = [ "abandon" ];
+        sync-delete-bookmarks = [
+          "git"
+          "push"
+          "--deleted"
+        ];
+        drop = [
+          "abandon"
+          "--retain-bookmarks"
+          "--restore-descendants"
+        ];
+        mega-heads = [
+          "log"
+          "-r"
+          "m-m-"
+          "--no-graph"
+        ];
         bt = [
           "bookmark"
           "list"
@@ -124,6 +139,9 @@ in
           "log"
           "-r"
           "(main..@):: | (main..@)-"
+        ];
+        dup = [
+          "duplicate"
         ];
         mv = [
           "bookmark"
@@ -182,6 +200,11 @@ in
         ds = [
           "desc"
         ];
+        des-megamerge = [
+          "describe"
+          "-m"
+          "private: megamerge"
+        ];
         l = [
           "log"
           "-r"
@@ -202,6 +225,11 @@ in
           "-k"
           "-u"
           "--to"
+        ];
+        tree = [
+          "log"
+          "-r"
+          "tree(@)"
         ];
         mvc = [
           "squash"
@@ -558,8 +586,7 @@ in
         '';
       };
       revset-aliases = {
-        "at" = "@";
-        "AT" = "@";
+        "m-m" = "description('private: megamerge')";
 
         "new_visible_commits(op)" =
           "at_operation(@-, at_operation(op, visible_heads()))..at_operation(op, visible_heads())";
@@ -578,6 +605,8 @@ in
         "diverge(x)" = "fork_point(x)::x";
         # "working()" = "visible_heads() | ancestors(visible_heads(), 2)";
         "working()" = "ancestors(visible_heads() & mutable(), 2)";
+        "diff_xy(x, y)" = "..x & mutable() ~ ..y & mutable()";
+        "not_included(x, y)" = "x..ancestors(y, 1)";
       };
       colors = {
         git_head = {

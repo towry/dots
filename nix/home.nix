@@ -149,7 +149,7 @@ in
     # ./hm/alacritty.nix
     # ./hm/wezterm.nix
     ./hm/kitty.nix
-    # ./hm/zellij.nix
+    ./hm/zellij.nix
     ./hm/rust.nix
     # ./hm/go.nix
     ./hm/skhd.nix
