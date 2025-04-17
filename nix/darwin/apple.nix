@@ -32,10 +32,10 @@
         magnification = true;
         mineffect = "scale";
         # minimize-to-application = true;
-        orientation = "bottom";
+        orientation = "left";
         showhidden = true;
         show-recents = true;
-        tilesize = 36;
+        tilesize = 32;
         largesize = 42;
       };
       finder = {
