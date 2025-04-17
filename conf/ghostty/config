@@ -5,30 +5,33 @@
 
 theme = dark:kanagawabones,light:solarized-light
 font-family = "Berkeley Mono"
+window-title-font-family = "Berkeley Mono"
 font-feature = "+calt"
 # font-family = "Maple Mono"
 # font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"
 font-size = 17
 font-thicken = false
-font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=Maple Mono
+font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 cursor-invert-fg-bg = true
 selection-invert-fg-bg = true
 macos-option-as-alt = true
-macos-titlebar-style = tabs
+# macos-titlebar-style = tabs
+macos-titlebar-style = transparent
 macos-window-shadow  = true
 adjust-underline-position = 15%
 adjust-underline-thickness = -40%
 adjust-box-thickness = -40%
-adjust-cell-height = 25%
+adjust-cell-height = 20%
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 1
 window-padding-balance = false
-window-padding-color = extend
+window-padding-color = background
 window-padding-x = 8
 window-padding-y = 0
+window-save-state = always
 
 background-opacity = 1
 background-blur-radius = 0
@@ -38,14 +41,15 @@ auto-update = off
 # Quick terminal
 
 quick-terminal-animation-duration = 0
-quick-terminal-position = top
-quick-terminal-autohide = false
+quick-terminal-position = bottom
+quick-terminal-autohide = true
+quick-terminal-space-behavior = remain
 
 
 # keybinds
 keybind = clear
 keybind = super+shift+r=reload_config
-keybind = super+backslash=toggle_quick_terminal
+keybind = global:super+backslash=toggle_quick_terminal
 keybind = super+v=paste_from_clipboard
 keybind = super+c=copy_to_clipboard
 keybind = alt+d=jump_to_prompt:-1

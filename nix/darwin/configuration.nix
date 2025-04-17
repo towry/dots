@@ -11,6 +11,7 @@
     ./vars.nix
     ./apps.nix
     ./yabai.nix
+    ./autoraise.nix
     # ./jankyborders.nix
   ];
 
