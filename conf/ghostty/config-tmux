@@ -12,7 +12,8 @@ keybind = super+right_bracket=text:\x1an
 keybind = super+slash=text:\x1a/
 keybind = super+minus=text:\x1a-
 # pick window
-keybind = super+w=text:\x1a\x17
+keybind = super+w=text:\x1aw
+# keybind = super+w=text:\x1a\x17
 # pick session
 keybind = super+s=text:\x1as
 # switch last session
