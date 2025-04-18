@@ -50,34 +50,8 @@ in
       }
 
       keybinds clear-defaults=true {
-          normal {
-              bind "Alt z" { SwitchToMode "Locked"; }
-              bind "Alt [" { GoToPreviousTab; SwitchToMode "Normal"; }
-              bind "Alt ]" { GoToNextTab; SwitchToMode "Normal"; }
-              bind "Alt p" { SwitchFocus; }
-          }
           locked {
-              bind "Alt z" { SwitchToMode "Normal"; }
-          }
-          resize {
-              bind "Backspace" { SwitchToMode "Tmux"; }
-              bind "Ctrl n" { SwitchToMode "Normal"; }
-              bind "h" "Left" { Resize "Increase Left"; }
-              bind "j" "Down" { Resize "Increase Down"; }
-              bind "k" "Up" { Resize "Increase Up"; }
-              bind "l" "Right" { Resize "Increase Right"; }
-
-              bind "Ctrl h" { MoveFocus "Left"; }
-              bind "Ctrl j" { MoveFocus "Down"; }
-              bind "Ctrl k" { MoveFocus "Up"; }
-              bind "Ctrl l" { MoveFocus "Right"; }
-
-              bind "H" { Resize "Decrease Left"; }
-              bind "J" { Resize "Decrease Down"; }
-              bind "K" { Resize "Decrease Up"; }
-              bind "L" { Resize "Decrease Right"; }
-              bind "=" "+" { Resize "Increase"; }
-              bind "-" { Resize "Decrease"; }
+              bind "Ctrl g" { SwitchToMode "Normal"; }
           }
           move {
               bind "Backspace" { SwitchToMode "Tmux"; }
@@ -124,7 +98,7 @@ in
           }
           renametab {
               bind "Ctrl c" { SwitchToMode "Normal"; }
-              bind "Esc" { UndoRenameTab; SwitchToMode "Tab"; }
+              bind "Esc" { UndoRenameTab; SwitchToMode "Normal"; }
           }
           renamepane {
               bind "Ctrl c" { SwitchToMode "Normal"; }
@@ -198,11 +172,19 @@ in
               bind "Space" { NextSwapLayout; }
               bind "x" { CloseFocus; SwitchToMode "Normal"; }
           }
-          shared_except "tmux" "locked" {
+          normal {
               bind "Ctrl z" { SwitchToMode "Tmux"; }
-              bind "Super [" { GoToPreviousTab; }
-              bind "Super ]" { GoToNextTab; }
-              bind "Super p" { SwitchFocus; }
+              bind "Alt Left" { GoToPreviousTab; }
+              bind "Alt Right" { GoToNextTab; }
+              bind "Super t" { ToggleFloatingPanes; }
+              bind "Super p" {
+                  LaunchOrFocusPlugin "plugin-manager" {
+                      floating true
+                      move_to_focused_tab true
+                  };
+              }
+              bind "Super [" { GoToPreviousTab; SwitchToMode "Normal"; }
+              bind "Super ]" { GoToNextTab; SwitchToMode "Normal"; }
               bind "Super z" { ToggleTab; }
               bind "Super n" {
                   NewTab {
@@ -365,13 +347,10 @@ in
       default_mode "normal"
       copy_command "pbcopy"
       default_shell "fish"
-      pane_frames false
       copy_clipboard "system"
       copy_on_select true
       styled_underlines true
       show_startup_tips false
-      disable_session_metadata false
-      support_kitty_keyboard_protocol true
     '';
     "zellij/layouts/default.kdl".text = ''
       layout {
