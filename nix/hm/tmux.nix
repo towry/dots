@@ -40,14 +40,18 @@ in
 
       tmux switch-client -t "$selected_name"
     '';
-    ".tmux/nix-bin/commands.sh".text = ''
-      selected_label=$(${pkgs.jq}/bin/jq -r '.[].label' ${tmuxdot}/commands.json | ${pkgs.fzf}/bin/fzf --prompt=' Run: ' --preview-window="right,border-left,<60(bottom,30%,border-top)" --preview '${pkgs.bat}/bin/bat --wrap auto -lsh --style=numbers --color=always <(jq -r ".[{n}] | .script" ${tmuxdot}/commands.json)')
-      selected_script=$(${pkgs.jq}/bin/jq -r ".[] | select(.label == \"$selected_label\") | .script" ${tmuxdot}/commands.json)
-      if [ -n "$selected_script" ]; then
-        export PATH=${config.home.homeDirectory}/.nix-profile/bin:$PATH
-        ${pkgs.bash}/bin/bash "$selected_script" && exit
-      fi
-    '';
+    ".tmux/nix-bin/commands.sh" = {
+      text = ''
+          #!${pkgs.bash}/bin/bash
+        selected_label=$(${pkgs.jq}/bin/jq -r '.[].label' "${tmuxdot}/commands.json" | ${pkgs.fzf}/bin/fzf --tmux 70% --prompt=' Run: ' --preview-window="right,border-left,<60(bottom,50%,border-top)" --preview "${pkgs.bat}/bin/bat --wrap auto -lsh --style=numbers --color=always <(jq -r '.[{n}] | .script' \"${tmuxdot}/commands.json\")")
+        selected_script=$(${pkgs.jq}/bin/jq -r ".[] | select(.label == \"$selected_label\") | .script" "${tmuxdot}/commands.json")
+        if [ -n "$selected_script" ]; then
+          export PATH="${config.home.homeDirectory}/.nix-profile/bin:$PATH"
+          ${pkgs.bash}/bin/bash "$selected_script" && exit
+        fi
+      '';
+      executable = true;
+    };
     # >commands
     ".tmux/commands.json".text = ''
       [
@@ -179,7 +183,7 @@ in
       bind-key -n M-k if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 15'
       bind-key -n M-l if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 15'
 
-      bind C-g popup -E -w 80% -h 60% "${pkgs.bash}/bin/bash ${tmuxdot}/nix-bin/commands.sh"
+      bind C-g run-shell "${tmuxdot}/nix-bin/commands.sh"
 
       bind z resize-pane -x 50% -y 50%
       ## Zoom pane
