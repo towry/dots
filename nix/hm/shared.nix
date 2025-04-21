@@ -61,6 +61,8 @@ in
       # harper
       uv
       neofetch
+      docker
+      colima
     ])
     ++ [
       python3
