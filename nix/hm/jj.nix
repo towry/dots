@@ -3,7 +3,6 @@
   config,
   # lib,
   pkgs,
-  pkgs-edge,
   ...
 }:
 let
@@ -646,6 +645,9 @@ in
     };
     ".config/fish/functions/jj-fork-master.fish" = {
       source = ../../conf/fish/funcs/jj-fork-master.fish;
+    };
+    ".config/fish/functions/_fzf-jj-revs.fish" = {
+      source = ../../conf/fish/funcs/_fzf-jj-revs.fish;
     };
   };
 }

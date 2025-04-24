@@ -64,6 +64,11 @@
     target = ".config/fish/themes";
     source = ../../conf/fish/themes;
   };
+  # home.file = {
+  #   ".config/fish/conf.d/fzf-fish-extras.fish" = {
+  #     source = ../../conf/fish/conf.d/_fzf-fish-extras.fish;
+  #   };
+  # };
 
   # aliases
   programs.fish.shellAliases = {
@@ -134,7 +139,7 @@
 
     fish_add_path --path --append $HOME/.local/bin
   '';
-  ## do not foget to run fish --login to generate new fish_variables file.
+  ## do not forget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122
   programs.fish.loginShellInit = ''
     set -U fish_greeting ""
@@ -159,7 +164,8 @@
     fish_add_path /run/current-system/sw/bin
 
     # keybinds
-    bind \cg just-pick-status-file
+    bind --user \cg\cf just-pick-status-file
+    bind --user \cg\cv _fzf-jj-revs
   '';
 
   programs.fish.functions = {
