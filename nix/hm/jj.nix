@@ -641,5 +641,11 @@ in
     ".config/fish/functions/jj-mega-merge.fish" = {
       source = ../../conf/fish/funcs/jj-mega-merge.fish;
     };
+    ".config/fish/functions/jj-fork-main.fish" = {
+      source = ../../conf/fish/funcs/jj-fork-main.fish;
+    };
+    ".config/fish/functions/jj-fork-master.fish" = {
+      source = ../../conf/fish/funcs/jj-fork-master.fish;
+    };
   };
 }
