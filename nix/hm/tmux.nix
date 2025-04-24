@@ -293,9 +293,9 @@ in
       set -g status-left "#[bold][#S] "
       # set -g status-right "#[bold] #h "
       #+--- Windows ---+
-      # set -g window-status-format "#I:#W#F#{?window_end_flag, , }"
-      set -g window-status-current-format "#[bold,underscore]#I:#W#F#{?window_end_flag,,}"
-      # set -g window-status-separator " "
+      set -g window-status-format " #I:#W#F "
+      set -g window-status-current-format "#[fg=white,bg=magenta,bold] #I:#W#F "
+      set -g window-status-separator ""
       # ========== End UI
     '';
   };
