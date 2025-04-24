@@ -39,6 +39,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zjstatus.url = "github:dj95/zjstatus";
+    nix-priv = {
+      url = "git+ssh://git@github.com/towry/nix-priv.git?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

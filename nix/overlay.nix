@@ -44,6 +44,7 @@
     nodePackages = prev.nodePackages.override {
       nodejs = prev.nodejs_22;
     };
+    nix-priv = inputs.nix-priv.packages.${prev.system}.default;
   }
   // (import ./pkgs {
     inherit inputs;
