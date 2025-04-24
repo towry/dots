@@ -63,6 +63,8 @@ in
       neofetch
       docker
       colima
+      # kill process by port
+      killport
     ])
     ++ [
       python3
