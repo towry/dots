@@ -223,6 +223,7 @@ in
           "squash"
           "-k"
           "-u"
+          "-i"
           "--to"
         ];
         tree = [
