@@ -57,12 +57,12 @@ in
       # ocamlPackages.utop
       # ocamlPackages.ocaml-lsp
       asdf-vm
-      docker-credential-helpers
+      # docker-credential-helpers
       # harper
       uv
       neofetch
-      docker
-      colima
+      # docker
+      # colima
       # kill process by port
       killport
     ])
