@@ -47,12 +47,12 @@
       "/include"
       "/lib"
     ];
-    extraOutputsToInstall = [
-      "out"
-      "lib"
-      "bin"
-      "dev"
-    ];
+    # extraOutputsToInstall = [
+    #   "out"
+    #   "lib"
+    #   "bin"
+    #   "dev"
+    # ];
     systemPath = [
       config.homebrew.brewPrefix
     ];
