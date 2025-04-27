@@ -22,13 +22,13 @@ top_p: 0.1
    - `refactor-`: 重构
    - `perf-`: 性能优化
    - `test-`: 测试
-7. 加上当前的月日，比如 `04-25`
+7. 加上今天的月日，格式是 `mm-dd`，必须是今天的日期
 8. 分支名称长度不应过长
 
 一个完整的分支名称示例：
 
 ```
-towry/feat-04-25-add-dark-mode-support
+towry/feat-add-dark-mode-support
 ```
 
 只返回生成的分支名称，不要包含任何解释或其他文本以及换行符号。
