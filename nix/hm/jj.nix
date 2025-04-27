@@ -227,9 +227,21 @@ in
           "--to"
         ];
         tree = [
-          "log"
-          "-r"
-          "tree(@)"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+            if [ $# -gt 0 ]; then
+              jj log -r "stack($1)"
+            else
+              jj log -r "stack(@)"
+            fi
+          ''
+          ""
         ];
         mvc = [
           "squash"
