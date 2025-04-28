@@ -5,15 +5,15 @@
     # vscode
     # logseq
     # brave
-    ice-bar
+    # ice-bar
     net-news-wire
   ];
 
   homebrew = {
     casks = [
-      "font-maple-mono"
+      # "font-maple-mono"
       "postico"
-      "spaceid"
+      # "spaceid"
       "telegram-desktop"
     ];
     masApps = {

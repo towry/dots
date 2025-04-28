@@ -86,8 +86,8 @@ in
     ./hm/tmux.nix
     # ./hm/alacritty.nix
     # ./hm/wezterm.nix
-    ./hm/kitty.nix
-    ./hm/zellij.nix
+    # ./hm/kitty.nix
+    # ./hm/zellij.nix
     ./hm/rust.nix
     # ./hm/go.nix
     ./hm/skhd.nix

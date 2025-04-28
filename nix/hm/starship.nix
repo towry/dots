@@ -103,16 +103,6 @@ in
       status = {
         disabled = true;
       };
-      custom = {
-        stgit = {
-          command = "stg top";
-          when = "stg top";
-          require_repo = true;
-          style = "bold purple";
-          format = "[$symbol ($output )]($style)";
-          symbol = "";
-        };
-      };
     };
   };
 }

@@ -10,36 +10,41 @@ in
   home.file = {
     ".tmux/bin".source = ../../conf/tmux/bin;
 
-    ".tmux/nix-bin/zoxide-projects.sh".text = ''
-      current_session=$(tmux display-message -p '#{session_name}')
-      if [[ $current_session == "FLOAT" ]]; then
-          exit
-      fi
+    ".tmux/nix-bin/zoxide-projects.sh" = {
+      text = ''
+        #!/usr/bin/env bash
 
-      if [[ $# -eq 1 ]]; then
-        selected=$1
-      else
-        selected=$(${pkgs.zoxide}/bin/zoxide query -l --exclude "$PWD" | ${pkgs.path-git-format}/bin/path-git-format --filter --no-bare -f"{path} [{branch}]" | awk -v home="$HOME" '{gsub(home, "~"); print}' | ${pkgs.fzf}/bin/fzf --reverse --preview-window="down,30%,border-top" --tiebreak=index -1 -0 --exact --preview "echo {} | awk -F '[' '{print \$1}' | awk -v home=\"\$HOME\" '{sub(/^~/,home)};1' | xargs -I % ${pkgs.eza}/bin/eza --color=always --icons=auto --group-directories-first --git --no-user --no-quotes --git-repos %" | awk -v home="$HOME" '{sub(/^~/, home)};1')
-      fi
+        current_session=$(tmux display-message -p '#{session_name}')
+        if [[ $current_session == "FLOAT" ]]; then
+            exit
+        fi
 
-      if [[ -z $selected ]]; then
-        exit 0
-      fi
+        if [[ $# -eq 1 ]]; then
+          selected=$1
+        else
+          selected=$(${pkgs.zoxide}/bin/zoxide query -l --exclude "$PWD" | ${pkgs.path-git-format}/bin/path-git-format --filter --no-bare -f"{path} [{branch}]" | awk -v home="$HOME" '{gsub(home, "~"); print}' | ${pkgs.fzf}/bin/fzf --tmux 95% --reverse --preview-window="down,30%,border-top" --tiebreak=index -1 -0 --exact --preview "echo {} | awk -F '[' '{print \$1}' | awk -v home=\"\$HOME\" '{sub(/^~/,home)};1' | xargs -I % ${pkgs.eza}/bin/eza --color=always --icons=auto --group-directories-first --git --no-user --no-quotes --git-repos %" | awk -v home="$HOME" '{sub(/^~/, home)};1')
+        fi
 
-      selected=$(echo $selected | awk -F '[' '{print $1}' | awk '{$1=$1;print}')
-      selected_name="''${selected##*/}"
+        if [[ -z $selected ]]; then
+          exit 0
+        fi
 
-      if [[ -z $TMUX ]]; then
-        tmux new-session -s $selected_name -c $selected
-        exit 0
-      fi
+        selected=$(echo $selected | awk -F '[' '{print $1}' | awk '{$1=$1;print}')
+        selected_name="''${selected##*/}"
 
-      if ! tmux has-session -t "$selected_name" 2>/dev/null; then
-        tmux new-session -ds "$selected_name" -c $selected
-      fi
+        if [[ -z $TMUX ]]; then
+          tmux new-session -s $selected_name -c $selected
+          exit 0
+        fi
 
-      tmux switch-client -t "$selected_name"
-    '';
+        if ! tmux has-session -t "$selected_name" 2>/dev/null; then
+          tmux new-session -ds "$selected_name" -c $selected
+        fi
+
+        tmux switch-client -t "$selected_name"
+      '';
+      executable = true;
+    };
     ".tmux/nix-bin/commands.sh" = {
       text = ''
           #!${pkgs.bash}/bin/bash
@@ -224,14 +229,12 @@ in
       ## <prefix>w to switch windows.
       bind C-w run "${config.home.homeDirectory}/.tmux/bin/windows.sh switch"
       ## <prefix>s to switch sessions
-      bind s run "${config.home.homeDirectory}/.tmux/bin/session.sh switch"
-      bind S run "${config.home.homeDirectory}/.tmux/bin/session.sh kill"
-      bind C-p run "${config.home.homeDirectory}/.tmux/bin/pane.sh switch"
+      bind s run-shell "${config.home.homeDirectory}/.tmux/bin/session.sh switch"
+      bind S run-shell "${config.home.homeDirectory}/.tmux/bin/session.sh kill"
+      bind C-p run-shell "${config.home.homeDirectory}/.tmux/bin/pane.sh switch"
       ## start new session from folder.
-      bind y popup -E -w 80% -h 60% "${pkgs.bash}/bin/bash ${config.home.homeDirectory}/.tmux/nix-bin/zoxide-projects.sh"
+      bind y run "${config.home.homeDirectory}/.tmux/nix-bin/zoxide-projects.sh"
       bind-key -n M-f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux"
-      ## M-g to open popup to run tig on current directory
-      bind-key -n M-g popup -E -w 95% -h 98% -d "#{pane_current_path}" "lazygit"
       bind : run "${config.home.homeDirectory}/.tmux/bin/command.sh"
       bind & run "${config.home.homeDirectory}/.tmux/bin/process.sh"
 
@@ -281,7 +284,7 @@ in
       set -g status-right-length 300
       set -g status-justify left
       set -g status-style bg=blue,fg=black
-      set-window-option -g status-position bottom
+      set-window-option -g status-position top
       set -g message-style fg=black,bg=blue
       set -g message-command-style fg=black,bg=blue
       # set -g status-style bg=default,fg=yellow

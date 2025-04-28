@@ -64,6 +64,11 @@
     target = ".config/fish/themes";
     source = ../../conf/fish/themes;
   };
+  # home.file = {
+  #   ".config/fish/conf.d/fzf-fish-extras.fish" = {
+  #     source = ../../conf/fish/conf.d/_fzf-fish-extras.fish;
+  #   };
+  # };
 
   # aliases
   programs.fish.shellAliases = {
@@ -134,7 +139,7 @@
 
     fish_add_path --path --append $HOME/.local/bin
   '';
-  ## do not foget to run fish --login to generate new fish_variables file.
+  ## do not forget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122
   programs.fish.loginShellInit = ''
     set -U fish_greeting ""
@@ -159,7 +164,8 @@
     fish_add_path /run/current-system/sw/bin
 
     # keybinds
-    bind \cg just-pick-status-file
+    bind --user \cg\cf just-pick-status-file
+    bind --user \cg\cv _fzf-jj-revs
   '';
 
   programs.fish.functions = {
@@ -460,6 +466,8 @@
         set -l after_token (string sub -s (math $cursor_pos + 1) -- "$buffer")
 
         set -l selected_files (git -c diff.relative=true diff --name-only | fzf \
+            --reverse \
+            --cycle \
             --multi \
             --bind "tab:toggle+down" \
             --bind "shift-tab:toggle+up" \
@@ -467,7 +475,6 @@
             --bind "ctrl-d:deselect-all" \
             --bind "enter:accept" \
             --delimiter='\n' \
-            --no-sort \
             --query="$token")
 
         if test $status -eq 0
@@ -497,7 +504,7 @@
         end
 
         # Use git to list changed files and pipe into fzf
-        set selected_file (git diff --name-only | fzf --multi --print0 --bind "tab:toggle+down" --bind "ctrl-a:select-all" --bind "ctrl-d:deselect-all" --bind "enter:print()+accept" | tr '\0' ' ')
+        set selected_file (git diff --name-only | fzf --reverse --cycle --multi --print0 --bind "tab:toggle+down" --bind "ctrl-a:select-all" --bind "ctrl-d:deselect-all" --bind "enter:print()+accept" | tr '\0' ' ')
 
         # Check if a file was selected
         if test -z "$selected_file"

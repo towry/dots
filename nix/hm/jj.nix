@@ -3,7 +3,6 @@
   config,
   # lib,
   pkgs,
-  pkgs-edge,
   ...
 }:
 let
@@ -224,12 +223,25 @@ in
           "squash"
           "-k"
           "-u"
+          "-i"
           "--to"
         ];
         tree = [
-          "log"
-          "-r"
-          "tree(@)"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+            if [ $# -gt 0 ]; then
+              jj log -r "stack($1)"
+            else
+              jj log -r "stack(@)"
+            fi
+          ''
+          ""
         ];
         mvc = [
           "squash"
@@ -640,6 +652,15 @@ in
   home.file = {
     ".config/fish/functions/jj-mega-merge.fish" = {
       source = ../../conf/fish/funcs/jj-mega-merge.fish;
+    };
+    ".config/fish/functions/jj-fork-main.fish" = {
+      source = ../../conf/fish/funcs/jj-fork-main.fish;
+    };
+    ".config/fish/functions/jj-fork-master.fish" = {
+      source = ../../conf/fish/funcs/jj-fork-master.fish;
+    };
+    ".config/fish/functions/_fzf-jj-revs.fish" = {
+      source = ../../conf/fish/funcs/_fzf-jj-revs.fish;
     };
   };
 }
