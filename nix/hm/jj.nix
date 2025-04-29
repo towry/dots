@@ -41,7 +41,6 @@ in
         fetch = [
           "origin"
         ];
-
         push = "origin";
         push-bookmark-prefix = "towry/jj-";
         private-commits = "description(glob:'wip:*') | description(glob:'private:*')";
@@ -247,6 +246,88 @@ in
           "squash"
           "-k"
           "-u"
+        ];
+        push = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+            if [[ $# -eq 0 ]]; then
+              echo "jj git push"
+              jj git push
+            elif [[ $# -eq 1 ]]; then
+              echo "jj git push --allow-new -b $1"
+              jj git push --allow-new -b "$1"
+            else
+              cmd=(jj git push)
+              for b in "$@"; do
+                cmd+=("-b" "''$b")
+              done
+              echo "$cmd"
+              eval "$cmd"
+            fi
+          ''
+          ""
+        ];
+        # create new rev from bookmark and move the bookmark to the new rev.
+        # 1 accept a bookmark name as argument
+        # 2 create a new rev from the bookmark, jj new --from <bookmark>
+        # 3 move the bookmark to the new rev, jj bookmark move <bookmark> --to <new-rev>
+        # NOTE: log each command with echo
+        new-from-bookmark = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            msg=""
+            bookmark=""
+
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                -m)
+                  shift
+                  msg="$1"
+                  ;;
+                *)
+                  bookmark="$1"
+                  ;;
+              esac
+              shift || true
+            done
+
+            if [[ -z "$bookmark" ]]; then
+              echo "缺少 bookmark 名称"
+              exit 1
+            fi
+
+            if [[ -n "$msg" ]]; then
+              echo "jj new --no-edit -r $bookmark --message \"$msg\""
+              output=$(jj new --no-edit -r "$bookmark" --message "$msg" 2>&1)
+            else
+              echo "jj new --no-edit -r $bookmark"
+              output=$(jj new --no-edit -r "$bookmark" 2>&1)
+            fi
+
+            rev=$(echo "$output" | grep -Eo 'Created new commit [a-z0-9]+' | sed 's/Created new commit //')
+
+            if [[ -z "$rev" ]]; then
+              echo "无法从 jj new 输出中提取 revision id: $output"
+              exit 1
+            fi
+
+            echo "jj bookmark move $bookmark --to $rev"
+            jj bookmark move "$bookmark" --to "$rev"
+          ''
+          ""
         ];
         create = [
           "new"
