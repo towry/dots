@@ -1,7 +1,5 @@
 {
   pkgs,
-
-  pkgs-stable,
   lib,
   ...
 }:
@@ -19,7 +17,6 @@ in
     FZF_COMPLETION_OPTS = "--border --info=inline";
   };
   programs.fzf = {
-    package = pkgs-stable.fzf;
     enable = true;
     defaultCommand = "${pkgs.fd}/bin/fd --color=always -td --ignore-file=$HOME/.ignore";
     defaultOptions = [
