@@ -1,0 +1,17 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# FZF 配置规则
+
+## 规则要求
+
+1. 实现任何 fzf 相关功能前，必须先阅读最新的 fzf man 手册：
+   ```bash
+   # 看在线最新版本
+   curl -s https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 | man -l -
+   ```
+
+   # 查看本地 man 手册
+   man fzf
