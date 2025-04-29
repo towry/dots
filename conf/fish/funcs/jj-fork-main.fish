@@ -26,6 +26,14 @@ function jj-fork-main --description "Fork main branch"
     jj git fetch -b main > /dev/null 2>&1
     or return
 
+    # create bookmark name from aichat
+    echo "Generating bookmark name..."
+    set -l bookmark_name (aichat --role git-branch -S -c "$description")
+    or return
+
+    set -l date_now (date +%m%d)
+    set -l bookmark_name "$bookmark_name-$date_now"
+
     # 确保我们能捕获所有输出，包括stderr
     set -l output (jj new --no-pager --no-edit -r main@origin -m "$description" 2>&1)
     if test $status -ne 0
@@ -49,14 +57,6 @@ function jj-fork-main --description "Fork main branch"
     end
 
     echo "Created new revision: $rev"
-
-    # create bookmark name from aichat
-    echo "Generating bookmark name..."
-    set -l bookmark_name (aichat --role git-branch -S -c "$description")
-    or return
-
-    set -l date_now (date +%m%d)
-    set -l bookmark_name "$bookmark_name-$date_now"
 
     echo "Creating bookmark point to $rev: $bookmark_name"
     jj bookmark set -r $rev "$bookmark_name"
