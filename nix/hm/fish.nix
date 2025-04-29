@@ -166,6 +166,7 @@
     # keybinds
     bind --user \cg\cf just-pick-status-file
     bind --user \cg\cv _fzf-jj-revs
+    bind --user \cg\cb _fzf-jj-bookmarks
   '';
 
   programs.fish.functions = {

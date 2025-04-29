@@ -662,5 +662,8 @@ in
     ".config/fish/functions/_fzf-jj-revs.fish" = {
       source = ../../conf/fish/funcs/_fzf-jj-revs.fish;
     };
+    ".config/fish/functions/_fzf-jj-bookmarks.fish" = {
+      source = ../../conf/fish/funcs/_fzf-jj-bookmarks.fish;
+    };
   };
 }
