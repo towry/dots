@@ -746,5 +746,8 @@ in
     ".config/fish/functions/_fzf-jj-bookmarks.fish" = {
       source = ../../conf/fish/funcs/_fzf-jj-bookmarks.fish;
     };
+    ".config/fish/functions/jj-review.fish" = {
+      source = ../../conf/fish/funcs/jj-review.fish;
+    };
   };
 }
