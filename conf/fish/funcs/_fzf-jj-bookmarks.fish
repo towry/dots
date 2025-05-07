@@ -1,7 +1,7 @@
 function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks"
     jj root --quiet &>/dev/null; or return
-    set -f lines (jj bookmark list --color always | fzf --tmux 98% --ansi --layout=reverse \
-        --scheme=default \
+    set -f lines (jj bookmark list --color always | grep -v '^[[:space:]]' | fzf --tmux 98% --ansi --layout=reverse \
+        --scheme=path \
         --preview='jj log --color=always -r "stack($(echo {} | cut -d: -f2 | awk "{print \$1}" | string trim))" --no-graph' \
         --preview-label='Commit Details' \
         --bind='ctrl-y:execute-silent(echo {} | cut -d: -f2 | awk "{print \$1}" | string trim | pbcopy)' \
@@ -19,3 +19,4 @@ function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks"
     end
 end
 
+# _fzf-jj-bookmarks

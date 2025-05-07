@@ -32,7 +32,7 @@ in
       # "--preview-window=sharp"
       "--preview-window='sharp,right,border-left,<70(bottom,50%,border-top)'"
       # this keybind should match the telescope ones in nvim config
-      ''--bind="ctrl-u:unix-line-discard+top,tab:down,shift-tab:up,ctrl-d:preview-down,ctrl-f:preview-up"''
+      ''--bind="ctrl-u:unix-line-discard+top,tab:down,shift-tab:up,ctrl-d:preview-half-page-down,ctrl-f:preview-half-page-up"''
     ];
     fileWidgetCommand = "${pkgs.fd}/bin/fd --color=always --type f";
     fileWidgetOptions = [
