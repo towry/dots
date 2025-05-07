@@ -284,7 +284,7 @@ in
       set -g status-right-length 300
       set -g status-justify left
       set -g status-style bg=blue,fg=black
-      set-window-option -g status-position top
+      set-window-option -g status-position bottom
       set -g message-style fg=black,bg=blue
       set -g message-command-style fg=black,bg=blue
       # set -g status-style bg=default,fg=yellow
