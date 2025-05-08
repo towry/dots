@@ -311,6 +311,8 @@ in
       "node_modules/"
       "result/"
       "target/"
+      ".aider.*"
+      ".aider*"
     ];
   };
 }

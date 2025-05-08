@@ -13,3 +13,4 @@ syncLocalSettings.json
 sync.lock
 nix/foo.nix
 ./result
+.aider*
