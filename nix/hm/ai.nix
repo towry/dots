@@ -12,6 +12,7 @@ in
   home.packages = with pkgs; [
     aichat
     ollama
+    aider-chat
   ];
 
   home.file = {
@@ -22,7 +23,12 @@ in
     };
     "${configDir}/config.yaml" = {
       source = pkgs.replaceVars ../../conf/llm/aichat/config.yaml {
-        DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apikey;
+        DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apiKey;
+      };
+    };
+    ".aider.conf.yml" = {
+      text = builtins.toJSON {
+
       };
     };
   };

@@ -16,6 +16,8 @@ in
   programs.fish.shellAliases = {
     jl = "jj log -n 8";
     j = "jj";
+    jj-mega-add = "jj-mega-merge -t m-m -f";
+    jj-mega-rm = "jj-mega-merge -t m-m --remove";
   };
   programs.jujutsu = {
     # use master version
@@ -745,6 +747,9 @@ in
     };
     ".config/fish/functions/_fzf-jj-bookmarks.fish" = {
       source = ../../conf/fish/funcs/_fzf-jj-bookmarks.fish;
+    };
+    ".config/fish/functions/jj-review.fish" = {
+      source = ../../conf/fish/funcs/jj-review.fish;
     };
   };
 }
