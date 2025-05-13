@@ -39,7 +39,6 @@ in
       };
       git = {
         auto-local-bookmark = false;
-        subprocess = true;
         fetch = [
           "origin"
         ];
