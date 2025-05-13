@@ -738,6 +738,9 @@ in
     ".config/fish/functions/jj-fork-main.fish" = {
       source = ../../conf/fish/funcs/jj-fork-main.fish;
     };
+    ".config/fish/functions/jj-mega-up.fish" = {
+      source = ../../conf/fish/funcs/jj-mega-up.fish;
+    };
     ".config/fish/functions/jj-fork-master.fish" = {
       source = ../../conf/fish/funcs/jj-fork-master.fish;
     };
