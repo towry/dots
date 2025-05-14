@@ -18,8 +18,8 @@ let
       nixd
       # nix-health
       # git-fuzzy
-      zig
-      zls
+      # zig
+      # zls
       # vim-zellij-navigator
       path-git-format
       uclanr
