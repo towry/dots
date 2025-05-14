@@ -2,7 +2,7 @@
 
 function _fzf-jj-revs --description "Search for jujutsu revision ids"
     jj root --quiet &>/dev/null; or return
-    set -f lines (jj log --ignore-working-copy --no-graph --color always \
+    set -f lines (jj log --quiet --ignore-working-copy --no-graph --color always \
         --revisions 'bookmarks(towry) | (ancestors(@) & author(towry) ~ empty())' \
         --template 'author.timestamp().format("%F") ++ " " ++change_id.shortest(7) ++ " " ++ description.first_line() ++ " " ++ bookmarks ++ "\n"' \
         | fzf --tmux 98% --ansi --layout=reverse --multi \

@@ -22,27 +22,26 @@ function jj-mega-up --description "update mega-merge-heads"
         set target_rev "m-m"
     end
     if test -z "$target_rev"
-        echo "缺少 <target-rev> 参数，且默认值 m-m 也为空"
+        echo "Missing <target-rev> parameter"
         echo $help_string
         return 1
     end
 
-    # 取第一个非选项参数作为 from_rev
     set -l from_rev $argv[1]
     if not set -q from_rev || test -z "$from_rev"
-        echo "缺少 <from-rev> 参数"
+        echo "Missing <from-rev> parameter"
         echo $help_string
         return 1
     end
 
     # 查找 trunk()..$from_rev & parents($target_rev)
-    set -l found_revs (jj log -r "(trunk()..$from_rev) & parents($target_rev)" --no-graph --template 'change_id.shortest(7) ++ " \t" ++ description.first_line()' --no-pager)
+    set -l found_revs (jj log --quiet -r "(trunk()..$from_rev) & parents($target_rev) ~ $from_rev" --no-graph --template 'change_id.shortest(7) ++ " \t" ++ description.first_line()' --no-pager)
     set -l found_count (count $found_revs)
 
     if test $found_count -eq 0
-        echo "没有找到可用的父节点，更新 $target_rev 到 mega-merge heads 中"
-        echo "> jj-mega-merge -t $target_rev -f $from_rev"
-        # jj-mega-merge -t $target_rev -f $from_rev
+        echo "Parent node not found，update "(set_color yellow)$from_rev(set_color normal)" to mega-merge node ("(set_color yellow)$target_rev(set_color normal)") parents"
+        # echo "> jj-mega-merge -t $target_rev -f $from_rev"
+        jj-mega-merge -t $target_rev -f $from_rev
         return 0
     end
 
@@ -58,9 +57,7 @@ function jj-mega-up --description "update mega-merge-heads"
         set pick_rev (string split " " $pick_line)[1]
     end
 
-    echo ""
     echo "To remove: "(set_color red)$pick_rev(set_color normal)
-    echo ""
 
     # 先合并
     # echo "jj-mega-merge -t $target_rev -f $from_rev"

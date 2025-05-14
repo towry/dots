@@ -114,10 +114,14 @@ in
           "bookmark"
           "list"
           "--tracked"
+          "--sort"
+          "committer-date-"
         ];
         bl = [
           "bookmark"
           "list"
+          "--sort"
+          "committer-date-"
         ];
         lmaster = [
           "log"

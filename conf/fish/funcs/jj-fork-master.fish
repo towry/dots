@@ -34,14 +34,14 @@ function jj-fork-master --description "Fork master branch"
     set -l date_now (date +%m%d)
     set -l bookmark_name "$bookmark_name-$date_now"
 
-    jj log -r $bookmark_name -n 1 > /dev/null 2>&1
+    jj log --quiet -r $bookmark_name -n 1 > /dev/null 2>&1
     if test $status -eq 0
         echo "Bookmark name $bookmark_name is already used"
         return 1
     end
 
     # 确保我们能捕获所有输出，包括stderr
-    set -l output (jj new --no-pager --no-edit -r master@origin -m "$description" 2>&1)
+    set -l output (jj new --quiet --no-pager --no-edit -r master@origin -m "$description" 2>&1)
     if test $status -ne 0
         echo "Failed to create new revision"
         return 1

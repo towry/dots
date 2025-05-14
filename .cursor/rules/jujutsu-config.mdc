@@ -15,3 +15,5 @@ alwaysApply: true
 4. template language: https://jj-vcs.github.io/jj/latest/templates/
 
 请阅读本地对 jj 的配置 [jj.nix](mdc:nix/hm/jj.nix)
+
+- Use option `--quiet` to suppress non-command output, like "Hint: some not wanted help hint text" string.

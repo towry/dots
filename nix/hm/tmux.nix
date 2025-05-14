@@ -277,7 +277,7 @@ in
 
       # ===============================================
       ## UI
-      set -g pane-border-status off
+      set -g pane-border-status top
       set -g status-interval 10
       set -g status on
       set -g status-left-length 100

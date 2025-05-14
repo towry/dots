@@ -45,7 +45,7 @@ function jj-fork-main --description "Fork main branch"
     end
 
     # 确保我们能捕获所有输出，包括stderr
-    set -l output (jj new --no-pager --no-edit -r main@origin -m "$description" 2>&1)
+    set -l output (jj new --quiet --no-pager --no-edit -r main@origin -m "$description" 2>&1)
     if test $status -ne 0
         echo "Failed to create new revision"
         return 1
