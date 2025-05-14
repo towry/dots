@@ -733,6 +733,29 @@ in
           bold = true;
         };
       };
+      fix.tools = {
+        ncu-sandbox = {
+          command = [
+            "qx"
+            "ncu"
+            "sandbox"
+          ];
+          patterns = [
+            "package.json"
+          ];
+          enabled = false;
+        };
+        ncu-latest = {
+          command = [
+            "qx"
+            "ncu"
+            "latest"
+          ];
+          patterns = [
+            "package.json"
+          ];
+        };
+      };
     };
   };
   home.file = {
