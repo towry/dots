@@ -8,6 +8,7 @@ let
 in
 {
   home.packages = with pkgs; [
+    code-assistant
     ## build neovim
     ninja
     gettext
