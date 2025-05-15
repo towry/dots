@@ -8,7 +8,7 @@ let
 in
 {
   home.packages = with pkgs; [
-    code-assistant
+    mcp-filesystem-server
     ## build neovim
     ninja
     gettext
