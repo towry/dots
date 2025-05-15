@@ -9,6 +9,7 @@
     fnm
     nodejs
     pnpm
+    bun
     # biome
     nodePackages.prettier
     nodePackages.eslint
