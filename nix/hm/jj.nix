@@ -114,10 +114,14 @@ in
           "bookmark"
           "list"
           "--tracked"
+          "--sort"
+          "committer-date-"
         ];
         bl = [
           "bookmark"
           "list"
+          "--sort"
+          "committer-date-"
         ];
         lmaster = [
           "log"
@@ -727,6 +731,29 @@ in
         "diff modified" = {
           fg = "cyan";
           bold = true;
+        };
+      };
+      fix.tools = {
+        ncu-sandbox = {
+          command = [
+            "qx"
+            "ncu"
+            "sandbox"
+          ];
+          patterns = [
+            "package.json"
+          ];
+          enabled = false;
+        };
+        ncu-latest = {
+          command = [
+            "qx"
+            "ncu"
+            "latest"
+          ];
+          patterns = [
+            "package.json"
+          ];
         };
       };
     };

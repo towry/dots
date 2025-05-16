@@ -8,6 +8,7 @@ let
 in
 {
   home.packages = with pkgs; [
+    mcp-filesystem-server
     ## build neovim
     ninja
     gettext

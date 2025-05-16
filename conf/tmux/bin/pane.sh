@@ -6,13 +6,16 @@ source "$CURRENT_DIR/.envs"
 current_pane_origin=$(tmux display-message -p '#S:#{window_index}.#{pane_index}: #{window_name}')
 current_pane=$(tmux display-message -p '#S:#{window_index}.#{pane_index}')
 
+# Define the default format string
+DEFAULT_FORMAT="#S:#{window_index}.#{pane_index}: [#{window_name}:#{pane_title}] #{pane_current_command}  [#{pane_width}x#{pane_height}] [history #{history_size}/#{history_limit}, #{history_bytes} bytes] #{?pane_active,[active],[inactive]}"
+
 if [[ -z "$TMUX_FZF_PANE_FORMAT" ]]; then
-    panes=$(tmux list-panes -a -F "#S:#{window_index}.#{pane_index}: [#{window_name}:#{pane_title}] #{pane_current_command}  [#{pane_width}x#{pane_height}] [history #{history_size}/#{history_limit}, #{history_bytes} bytes] #{?pane_active,[active],[inactive]}")
+    panes=$(tmux list-panes -a -F "$DEFAULT_FORMAT")
 else
-    panes=$(tmux list-panes -a -F "#S:#{window_index}.#{pane_index}: $TMUX_FZF_PANE_FORMAT")
+    panes=$(tmux list-panes -a -F "$TMUX_FZF_PANE_FORMAT")
 fi
 
-FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --header='Select an action.'"
+FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --header='Select an action.' --bind='ctrl-x:execute-silent(echo {} | sed \"s/: .*//\" | xargs -I{} tmux kill-pane -t {})+reload(tmux list-panes -a -F \"$DEFAULT_FORMAT\")'"
 if [[ -z "$1" ]]; then
     action=$(printf "switch\nbreak\njoin\nswap\nlayout\nkill\nresize\nrename\n[cancel]" | eval "$TMUX_FZF_BIN $TMUX_FZF_OPTIONS")
 else

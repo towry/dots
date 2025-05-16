@@ -34,7 +34,7 @@ function jj-fork-master --description "Fork master branch"
     set -l date_now (date +%m%d)
     set -l bookmark_name "$bookmark_name-$date_now"
 
-    jj log -r $bookmark_name -n 1 > /dev/null 2>&1
+    jj log --quiet -r $bookmark_name -n 1 > /dev/null 2>&1
     if test $status -eq 0
         echo "Bookmark name $bookmark_name is already used"
         return 1

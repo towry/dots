@@ -8,6 +8,16 @@
       pkgs = final;
       system = final.system;
     };
+    mcp-filesystem-server = final.callPackage ./pkgs/mcp-filesystem-server.nix {
+      version = "0.9.0";
+      pkgs = final;
+      system = final.system;
+    };
+    code-assistant = final.callPackage ./pkgs/code-assistant.nix {
+      version = "0.1.6";
+      pkgs = final;
+      system = final.system;
+    };
     # git-fuzzy = final.callPackage ./pkgs/git-fuzzy.nix {};
     uclanr = final.callPackage ./pkgs/uclanr.nix {
       pkgs = final;

@@ -1,6 +1,6 @@
 function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks"
     jj root --quiet &>/dev/null; or return
-    set -f lines (jj bookmark list --color always | grep -v '^[[:space:]]' | fzf --tmux 98% --ansi --layout=reverse \
+    set -f lines (jj bookmark list --sort committer-date- --quiet --no-pager --color always | grep -v '^[[:space:]]' | grep -v '\(deleted\)' | fzf --tmux 98% --ansi --layout=reverse \
         --scheme=path \
         --preview='jj log --color=always -r "stack($(echo {} | cut -d: -f2 | awk "{print \$1}" | string trim))" --no-graph' \
         --preview-label='Commit Details' \
