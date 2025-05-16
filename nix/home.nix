@@ -71,6 +71,13 @@ in
       "$HOME/.cargo/bin"
       "/Applications/Ghostty.app/Contents/MacOS/"
     ];
+    file = {
+      bashScripts = {
+        enable = true;
+        source = ../conf/bash/scripts;
+        target = ".local/bash/scripts";
+      };
+    };
   };
 
   imports = [

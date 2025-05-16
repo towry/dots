@@ -7,6 +7,7 @@
 }:
 let
   gitCfg = config.programs.git.extraConfig;
+  bashScriptsDir = "${config.home.homeDirectory}/.local/bash/scripts";
 in
 {
   home.packages = [
@@ -156,6 +157,51 @@ in
           "--to"
           "@-"
         ];
+        # move bookmark to next node.
+        mv-next = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            bookmark=""
+
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                *)
+                  bookmark="$1"
+                  ;;
+              esac
+              shift || true
+            done
+
+            if [[ -z "$bookmark" ]]; then
+              echo "Missing bookmark name"
+              exit 1
+            fi
+
+            # source the jj-util.sh to use the functions
+            source ${bashScriptsDir}/jj-util.sh
+
+            next_changeid=$(__jj_util_get_next_changeid "$bookmark")
+            if [[ $? -ne 0 ]]; then
+              exit 1
+            fi
+
+            if [[ -n "$next_changeid" ]]; then
+              # echo "jj bookmark move $bookmark --to $next_changeid"
+              jj bookmark move "$bookmark" --to "$next_changeid"
+            else
+              echo "No next node found"
+              exit 1
+            fi
+          ''
+          ""
+        ];
         mv-back = [
           "bookmark"
           "move"
@@ -223,7 +269,12 @@ in
           "squash"
           "--restore-descendants"
         ];
-        mcto = [
+        mcon = [
+          "split"
+          "-i"
+          "-d"
+        ];
+        sqto = [
           "squash"
           "-k"
           "-u"
@@ -411,7 +462,7 @@ in
         #   "$right"
         # ];
         ### use git diff as default diff tool
-        diff.format = "git";
+        diff-formatter = ":git";
         diff-editor = ":builtin";
         # diff-editor = "diffedit3";
         # pager = "less -FRX";

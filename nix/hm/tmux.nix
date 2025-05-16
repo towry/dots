@@ -297,7 +297,7 @@ in
       # set -g status-right "#[bold] #h "
       #+--- Windows ---+
       set -g window-status-format " #I:#W#F "
-      set -g window-status-current-format "#[fg=white,bg=magenta,bold] #I:#W#F "
+      set -g window-status-current-format "#[fg=black,bg=magenta,bold] #I:#W#F "
       set -g window-status-separator ""
       # ========== End UI
     '';
