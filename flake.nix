@@ -43,6 +43,10 @@
       url = "git+ssh://git@github.com/towry/nix-priv.git?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    jj-repo = {
+      url = "git+ssh://git@github.com/pze/jj.git?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
