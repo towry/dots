@@ -18,7 +18,7 @@ function __jj_util_get_next_changeid() {
   # then check line count, if only one line, extract change id and return
   # otherwise use fzf to select one and return
   # no private and no merges commits
-  local cmd="$JJ_LOG_CMD_PRE \"$rev+ ~ description(\\\"private:\\\") ~ merges() \""
+  local cmd="$JJ_LOG_CMD_PRE \"$rev+ ~ description(\\\"private:\\\") ~ merges() ~ empty() \""
 #   local cmd="$JJ_LOG_CMD_PRE \"$rev+\""
   local output=$(eval $cmd)
 
