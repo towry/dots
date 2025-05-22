@@ -39,9 +39,7 @@ function jj-mega-up --description "update mega-merge-heads"
     set -l found_count (count $found_revs)
 
     if test $found_count -eq 0
-        echo "Parent node not found，update "(set_color yellow)$from_rev(set_color normal)" to mega-merge node ("(set_color yellow)$target_rev(set_color normal)") parents"
-        # echo "> jj-mega-merge -t $target_rev -f $from_rev"
-        jj-mega-merge -t $target_rev -f $from_rev
+        echo "Parent node not found"
         return 0
     end
 
