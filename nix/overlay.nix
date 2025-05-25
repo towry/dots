@@ -46,7 +46,7 @@
     dark-notify = final.callPackage ./pkgs/dark-mode-notify.nix {
       pkgs = final;
     };
-    zig = inputs.zig.packages.${prev.system}."0.13.0";
+    zig = inputs.zig.packages.${prev.system}."0.14.0";
     zls = inputs.zls.packages.${prev.system}.zls;
     git-smash = inputs.git-smash.packages.${prev.system}.default;
     gitu = inputs.gitu.packages.${prev.system}.default;
