@@ -109,6 +109,7 @@
   };
 
   system = {
+    primaryUser = username;
     stateVersion = 6;
 
     defaults = {

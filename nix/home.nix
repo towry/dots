@@ -24,7 +24,7 @@ let
       path-git-format
       uclanr
       nix-prefetch-github
-      nerd-font-patcher
+      # nerd-font-patcher
       lxgw-wenkai
       # utils
       ## man page tldr
