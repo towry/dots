@@ -1,10 +1,12 @@
 {
   pkgs,
   lib,
+  config,
   # theme,
   ...
 }:
 let
+  bashScriptsDir = "${config.home.homeDirectory}/.local/bash/scripts";
   enable_delta = true;
 in
 {
@@ -22,11 +24,13 @@ in
     gh-new-pr = "gh pr create -f -H";
     gh-pr-rebase = "gh pr merge -d -r";
     gh-pr-squash = "gh pr merge -d -s";
+    glab-new-pr = "bash ${bashScriptsDir}/glab-new-pr.sh";
   };
 
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
+    # glab
     git-smash
     gnupg
     # git-sim
