@@ -259,6 +259,10 @@ in
       advice = {
         detachedHead = true;
       };
+      git-town = {
+        sync-tags = false;
+        contribution-regex = "^(pub/sandbox)$";
+      };
     };
 
     delta = {
