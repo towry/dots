@@ -30,6 +30,7 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
+    git-town
     # glab
     git-smash
     gnupg
