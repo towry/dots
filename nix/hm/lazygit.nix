@@ -50,15 +50,8 @@ let
             | {
                 read -r selected_msg
                 if [ -n "$selected_msg" ]; then
-                    COMMIT_MSG_FILE=$(mktemp)
-                    echo "$selected_msg" > "$COMMIT_MSG_FILE"
-                    $EDITOR "$COMMIT_MSG_FILE"
-                    if [ -s "$COMMIT_MSG_FILE" ]; then
-                        git commit -F "$COMMIT_MSG_FILE"
-                    else
-                        echo "Commit message is empty, commit aborted."
-                    fi
-                    rm -f "$COMMIT_MSG_FILE"
+                    git commit -m "$selected_msg"
+                    echo "Commit message: $selected_msg"
                 else
                     echo "No commit message selected."
                 fi

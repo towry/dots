@@ -12,6 +12,7 @@ in
 {
   programs.fish.shellAliases = {
     gt = "git-town";
+    ai-commit = "git commit -m (aichat --role git-commit -S -c (git diff --staged))";
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
     g = "git";
