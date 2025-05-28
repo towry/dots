@@ -11,7 +11,6 @@ let
 in
 {
   programs.fish.shellAliases = {
-    gt = "git-town";
     ai-commit = "aichat --role git-commit -S -c (${bashScriptsDir}/git-commit-context.sh) | ${bashScriptsDir}/git-commit-chunk-text.sh";
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
@@ -34,7 +33,6 @@ in
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
-    git-town
     # glab
     git-smash
     gnupg
@@ -54,7 +52,6 @@ in
     };
 
     aliases = {
-      hack = ''!f() { if [ -z "$1" ]; then echo "Usage: git hack <description>"; return 1; fi; branch_name=$(aichat --role git-branch -S -c "$*"); if [ $? -eq 0 ] && [ -n "$branch_name" ]; then date_suffix=$(date +%m%d); final_branch_name="$branch_name-$date_suffix"; git-town hack "$final_branch_name"; else echo "Failed to generate branch name"; return 1; fi; }; f'';
       co = "checkout";
       ad = "add";
       ada = "add -A";
@@ -209,7 +206,7 @@ in
         autoSetupRemote = true;
       };
       merge = {
-        autostash = true;
+        autostash = false;
         tool = "nvim";
         conflictstyle = "zdiff3";
         prompt = true;
@@ -263,10 +260,6 @@ in
       interactive = lib.mkIf enable_delta { diffFilter = "${pkgs.delta}/bin/delta --color-only"; };
       advice = {
         detachedHead = true;
-      };
-      git-town = {
-        sync-tags = false;
-        contribution-regex = "^(pub/sandbox)$";
       };
     };
 

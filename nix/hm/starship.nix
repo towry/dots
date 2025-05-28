@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 let
   enable_starship = true;
 in
@@ -104,12 +104,13 @@ in
         disabled = true;
       };
       custom = {
-        git_town = {
+        gittown = {
+          disabled = !config.vars.git-town.enable;
           description = "Git Town";
           symbol = "🏘️";
           require_repo = true;
-          command = "git town status --pending";
-          format = "[$symbol($output )]($style)";
+          command = "git-town status --pending";
+          format = "[$symbol ($output)]($style)";
         };
       };
     };

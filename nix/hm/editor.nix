@@ -19,7 +19,7 @@ in
     luajit
     # stylua
     # lua-language-server
-    luarocks
+    # luarocks
     # shellcheck
     # for nix language lsp support.
     nil
