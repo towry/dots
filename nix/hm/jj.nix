@@ -202,6 +202,39 @@ in
           ''
           ""
         ];
+        ai-ci = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            # Check if revision argument is provided
+            if [[ $# -eq 0 ]]; then
+              echo "Error: Revision argument is required" >&2
+              echo "Usage: jj ai-ci <rev>" >&2
+              echo "Examples:" >&2
+              echo "  jj ai-ci @      # Current working copy" >&2
+              echo "  jj ai-ci @-     # Parent of working copy" >&2
+              echo "  jj ai-ci abc123 # Specific revision" >&2
+              exit 1
+            fi
+
+            rev="$1"
+
+            # Get the bash scripts directory
+            bashScriptsDir="$HOME/.local/bash/scripts"
+
+            # Generate commit message using aichat with jj context and apply it
+            "$bashScriptsDir/jj-commit-context.sh" "$rev" | \
+            aichat --role git-commit -S -c | \
+            "$bashScriptsDir/jj-ai-commit.sh" "$rev"
+          ''
+          ""
+        ];
         mv-back = [
           "bookmark"
           "move"
