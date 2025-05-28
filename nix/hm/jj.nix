@@ -419,8 +419,8 @@ in
               echo "jj new --no-edit -r $bookmark --message \"$msg\""
               output=$(jj new --no-edit -r "$bookmark" --message "$msg" 2>&1)
             else
-              echo "jj new --no-edit -r $bookmark"
-              output=$(jj new --no-edit -r "$bookmark" 2>&1)
+              echo "jj new --no-edit -r $bookmark -m \"WIP: empty message\""
+              output=$(jj new --no-edit -r "$bookmark" -m "WIP: empty message" 2>&1)
             fi
 
             rev=$(echo "$output" | grep -Eo 'Created new commit [a-z0-9]+' | sed 's/Created new commit //')
