@@ -4,7 +4,7 @@ let
   aichatSelectCommit = [
     {
       key = "<c-a>";
-      description = "Pick AI commit";
+      description = "Auto commit with AI";
       command = ''
         {
           echo "Running commit suggestion..."
@@ -13,7 +13,8 @@ let
         } 2>> /tmp/lazygit-debug.log
       '';
       context = "files";
-      subprocess = true;
+      stream = true;
+      loadingText = "Generating commit suggestion";
     }
   ];
   gitTownCommands = [
