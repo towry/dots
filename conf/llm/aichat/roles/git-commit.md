@@ -46,22 +46,18 @@ top_p: 0.1
 
 ## 示例
 
-注意: 示例中的 "```" 是 markdown 的代码块，不要输出，务必确保输出的内容是合格的 git commit message
+注意: 示例中的 \`\`\` 是 markdown 的代码块符号，不要输出，务必确保输出的内容是合格的 git commit message
 
 注意: 使用空行进行分割，第一行会作为 commit message 的标题，后续行会作为 commit message 的详细描述。
 
 ### 简短格式
 
-```
 feat: add user authentication system
-```
 
 ### 带详细描述格式
 
-```
 feat: add user authentication system
 
 Implement JWT-based authentication with login, logout, and token refresh.
 Add middleware for route protection and user session management.
 Include password hashing and validation utilities.
-```
