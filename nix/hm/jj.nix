@@ -16,9 +16,10 @@ in
   ];
   programs.fish.shellAliases = {
     jl = "jj log -n 8";
-    # j = "jj";
+    j = "jj";
     jj-mega-add = "jj-mega-merge -t m-m -f";
     jj-mega-rm = "jj-mega-merge -t m-m --remove";
+    jj-sq-on = "bash ${bashScriptsDir}/jj-split-on-bookmark.sh -ai";
   };
   programs.jujutsu = {
     # use master version
