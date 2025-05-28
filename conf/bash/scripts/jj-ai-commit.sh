@@ -55,7 +55,7 @@ describe_with_text() {
     fi
 
     # Build jj describe command
-    local jj_cmd=("jj" "describe" "--quiet" "--no-edit" "-r" "$rev" "-m" "$commit_title")
+    local jj_cmd=("jj" "describe" "--no-edit" "-r" "$rev" "-m" "$commit_title")
 
     # Add description lines (skip first line and any immediately following empty lines)
     local in_description=false

@@ -212,21 +212,38 @@ in
             #!/usr/bin/env bash
             set -euo pipefail
 
-            # Check if revision argument is provided
-            if [[ $# -eq 0 ]]; then
-              echo "Error: Revision argument is required" >&2
-              echo "Usage: jj ai-ci <rev>" >&2
-              echo "Examples:" >&2
-              echo "  jj ai-ci @      # Current working copy" >&2
-              echo "  jj ai-ci @-     # Parent of working copy" >&2
-              echo "  jj ai-ci abc123 # Specific revision" >&2
-              exit 1
-            fi
-
-            rev="$1"
-
             # Get the bash scripts directory
             bashScriptsDir="$HOME/.local/bash/scripts"
+
+            if [[ $# -eq 0 ]]; then
+              # No revision provided - create interactive commit first
+              echo "No revision provided. Creating interactive commit..."
+
+              # Run interactive commit (let it be truly interactive)
+              if ! jj commit -m 'WIP: empty message' --color=never --no-pager -i; then
+                exit_code=$?
+                echo "Interactive commit failed or was cancelled" >&2
+                exit $exit_code
+              fi
+
+              # Now get the status output to extract parent commit ID
+              output=$(jj status --color=never --no-pager 2>&1)
+
+              # Extract the parent commit ID from the output
+              # Looking for pattern like: "Parent commit (@-): pknnznu 1c577a2 (empty) WIP: empty message"
+              rev=$(echo "$output" | grep -E "Parent commit.*:" | sed -E 's/Parent commit \(@-\): ([a-z0-9]+) .*/\1/')
+
+              if [[ -z "$rev" ]]; then
+                echo "Error: Could not extract parent commit ID from jj output" >&2
+                echo "Output was: $output" >&2
+                exit 1
+              fi
+
+              echo "[AI] Using rev: $rev"
+            else
+              # Revision provided as argument
+              rev="$1"
+            fi
 
             # Generate commit message using aichat with jj context and apply it
             "$bashScriptsDir/jj-commit-context.sh" "$rev" | \
@@ -367,7 +384,7 @@ in
         # 2 create a new rev from the bookmark, jj new --from <bookmark>
         # 3 move the bookmark to the new rev, jj bookmark move <bookmark> --to <new-rev>
         # NOTE: log each command with echo
-        new-from-bookmark = [
+        nb = [
           "util"
           "exec"
           "--"
