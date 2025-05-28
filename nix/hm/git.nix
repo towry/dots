@@ -210,7 +210,7 @@ in
         autoSetupRemote = true;
       };
       merge = {
-        autostash = true;
+        autostash = false;
         tool = "nvim";
         conflictstyle = "zdiff3";
         prompt = true;
