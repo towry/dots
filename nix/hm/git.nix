@@ -267,6 +267,7 @@ in
       git-town = {
         sync-tags = false;
         contribution-regex = "^(pub/sandbox)$";
+        sync-feature-strategy = "merge";
       };
     };
 

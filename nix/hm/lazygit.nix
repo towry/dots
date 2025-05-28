@@ -6,21 +6,11 @@ let
       key = "<c-a>";
       description = "Pick AI commit";
       command = ''
-        echo "Running commit suggestion..." > /tmp/lazygit-debug.log
-        aichat --role git-commit -S -c "$(${bashScriptsDir}/git-commit-context.sh)" 2>> /tmp/lazygit-debug.log | \
-            fzf --tmux --height 80% --border --ansi --preview "echo {}" --preview-window=up:wrap \
-            | {
-                read -r selected_msg
-                if [ -n "$selected_msg" ]; then
-                    echo "$selected_msg" | ${bashScriptsDir}/git-commit-chunk-text.sh
-                    if [ $? -ne 0 ]; then
-                        echo "Failed to commit."
-                        exit 1
-                    fi
-                else
-                    echo "No commit message selected."
-                fi
-            }
+        {
+          echo "Running commit suggestion..."
+          aichat --role git-commit -S -c "$(${bashScriptsDir}/git-commit-context.sh)" | \
+              ${bashScriptsDir}/git-commit-chunk-text.sh
+        } 2>> /tmp/lazygit-debug.log
       '';
       context = "files";
       subprocess = true;
