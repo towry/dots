@@ -19,4 +19,10 @@
     type = lib.types.str;
     default = "nvim";
   };
+  options.vars.git-town = {
+    enable = lib.mkEnableOption {
+      description = "Whether to enable git-town";
+      default = false;
+    };
+  };
 }

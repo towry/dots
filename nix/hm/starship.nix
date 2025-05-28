@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 let
   enable_starship = true;
 in
@@ -105,6 +105,7 @@ in
       };
       custom = {
         gittown = {
+          disabled = !config.vars.git-town.enable;
           description = "Git Town";
           symbol = "🏘️";
           require_repo = true;

@@ -215,7 +215,7 @@ in
             command = "nvim -c 'Gedit {{.SelectedCommit.Sha}}:{{.SelectedFile.Name}}'";
           }
         ]
-        ++ gitTownCommands
+        ++ (if config.vars.git-town.enable then gitTownCommands else [ ])
         ++ aichatSelectCommit;
       quitOnTopLevelReturn = false;
       disableStartupPopups = true;
