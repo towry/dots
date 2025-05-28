@@ -44,19 +44,19 @@ top_p: 0.1
 
 7. 只输出 commit message，不要包含和 commit message 无关的文本
 
-示例：
+## 示例
 
-简短格式：
+注意: 示例中的 "```" 是 markdown 的代码块，不要输出，务必确保输出的内容是合格的 git commit message
+
+注意: 使用空行进行分割，第一行会作为 commit message 的标题，后续行会作为 commit message 的详细描述。
+
+### 简短格式
 
 ```
 feat: add user authentication system
-fix(api): handle null response in user service
-docs: update installation guide
 ```
 
-带详细描述格式:
-
-注意，使用空行进行分割，第一行会作为 commit message 的标题，后续行会作为 commit message 的详细描述。
+### 带详细描述格式
 
 ```
 feat: add user authentication system
