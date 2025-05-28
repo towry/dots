@@ -9,10 +9,10 @@
     fnm
     nodejs
     pnpm
-    bun
+    # bun
     # biome
-    nodePackages.prettier
-    nodePackages.eslint
+    # nodePackages.prettier
+    # nodePackages.eslint
     # nodePackages.typescript
     # vtsls
     # nodePackages.typescript-language-server

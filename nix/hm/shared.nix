@@ -25,8 +25,6 @@ in
   };
   home.packages =
     (with pkgs; [
-      # system info tool.
-      neofetch
       ## code counter
       scc
       # bore-cli
@@ -34,11 +32,11 @@ in
       # inetutils
       moreutils
       watchman
-      skim
+      # skim
       ## image support in terminal
       viu
       # concurrently
-      overmind
+      # overmind
       tig
       neovim-remote
       wget
@@ -53,7 +51,6 @@ in
       # docker-credential-helpers
       # harper
       uv
-      neofetch
       # docker
       # colima
       # kill process by port

@@ -104,12 +104,12 @@ in
         disabled = true;
       };
       custom = {
-        git_town = {
+        gittown = {
           description = "Git Town";
           symbol = "🏘️";
           require_repo = true;
-          command = "git town status --pending";
-          format = "[$symbol($output )]($style)";
+          command = "git-town status --pending";
+          format = "[$symbol ($output)]($style)";
         };
       };
     };
