@@ -68,7 +68,6 @@ commit_with_text() {
     done
 
     # Execute the git commit command
-    echo "Executing: ${git_cmd[*]}"
     "${git_cmd[@]}"
 }
 
