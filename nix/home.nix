@@ -24,7 +24,7 @@ let
       path-git-format
       uclanr
       nix-prefetch-github
-      nerd-font-patcher
+      # nerd-font-patcher
       lxgw-wenkai
       # utils
       ## man page tldr
@@ -97,10 +97,10 @@ in
     # ./hm/zellij.nix
     ./hm/rust.nix
     # ./hm/go.nix
-    ./hm/skhd.nix
-    ./hm/yabai.nix
+    # ./hm/skhd.nix
+    # ./hm/yabai.nix
     ./hm/dark-mode-notify.nix
-    # ./hm/lazygit.nix
+    ./hm/lazygit.nix
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai.nix

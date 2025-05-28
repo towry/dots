@@ -3,13 +3,13 @@
 # https://github.com/ghostty-org/ghostty/blob/b8ffee7acbdd5ee97953f6e6d02e047d4bfda37b/src/input/key.zig#L255
 
 
-theme = dark:jb-dark,light:jb-light
+theme = dark:Kanagawa Dragon,light:Builtin Solarized Light
 font-family = "Berkeley Mono"
 window-title-font-family = "PT Sans"
 font-feature = "+calt"
 # font-family = "Maple Mono"
 # font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"
-font-size = 15
+font-size = 16
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = no-cursor,sudo,no-title

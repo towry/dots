@@ -103,6 +103,15 @@ in
       status = {
         disabled = true;
       };
+      custom = {
+        git_town = {
+          description = "Git Town";
+          symbol = "🏘️";
+          require_repo = true;
+          command = "git town status --pending";
+          format = "[$symbol($output )]($style)";
+        };
+      };
     };
   };
 }

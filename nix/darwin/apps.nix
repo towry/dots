@@ -10,6 +10,9 @@
   ];
 
   homebrew = {
+    brews = [
+      "asdf"
+    ];
     casks = [
       # "font-maple-mono"
       "postico"

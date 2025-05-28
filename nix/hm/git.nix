@@ -1,20 +1,21 @@
 {
   pkgs,
   lib,
+  config,
   # theme,
   ...
 }:
 let
+  bashScriptsDir = "${config.home.homeDirectory}/.local/bash/scripts";
   enable_delta = true;
 in
 {
   programs.fish.shellAliases = {
+    gt = "git-town";
+    ai-commit = "aichat --role git-commit -S -c (${bashScriptsDir}/git-commit-context.sh) | ${bashScriptsDir}/git-commit-chunk-text.sh";
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
     g = "git";
-    gts = "git status";
-    gac = ''echo "$()$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git commit'';
-    gcz = ''echo "$(tput bold)$(tput setaf 3)warning: be careful$(tput sgr0)" && git add . && git cz'';
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
     xmerge = "git merge --ff";
@@ -22,11 +23,19 @@ in
     gh-new-pr = "gh pr create -f -H";
     gh-pr-rebase = "gh pr merge -d -r";
     gh-pr-squash = "gh pr merge -d -s";
+    glab-new-pr = "bash ${bashScriptsDir}/glab-new-pr.sh";
+    gstat = "git show --stat";
+    lg = "lazygit";
+    lgs = "lazygit status";
+    tig = "TERM=xterm-256color ${pkgs.tig}/bin/tig";
+    flog = "glog";
   };
 
   home.packages = with pkgs; [
     # github cli, manage repo, gists etc.
     gh
+    git-town
+    # glab
     git-smash
     gnupg
     # git-sim
@@ -45,6 +54,7 @@ in
     };
 
     aliases = {
+      hack = ''!f() { if [ -z "$1" ]; then echo "Usage: git hack <description>"; return 1; fi; branch_name=$(aichat --role git-branch -S -c "$*"); if [ $? -eq 0 ] && [ -n "$branch_name" ]; then date_suffix=$(date +%m%d); final_branch_name="$branch_name-$date_suffix"; git-town hack "$final_branch_name"; else echo "Failed to generate branch name"; return 1; fi; }; f'';
       co = "checkout";
       ad = "add";
       ada = "add -A";
@@ -253,6 +263,10 @@ in
       interactive = lib.mkIf enable_delta { diffFilter = "${pkgs.delta}/bin/delta --color-only"; };
       advice = {
         detachedHead = true;
+      };
+      git-town = {
+        sync-tags = false;
+        contribution-regex = "^(pub/sandbox)$";
       };
     };
 

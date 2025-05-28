@@ -23,7 +23,7 @@ update-input:
 boot:
 	nix --extra-experimental-features nix-command --extra-experimental-features flakes run nix-darwin -- switch --flake .
 rebuild:
-	darwin-rebuild switch --flake .
+	sudo darwin-rebuild switch --flake .
 format:
 	treefmt
 

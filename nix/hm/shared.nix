@@ -23,12 +23,6 @@ in
       run mkdir -p ${config.home.homeDirectory}/Pictures/Screenshots
     '';
   };
-  # TODO: move to module.
-  programs.fish.shellInit = ''
-    if ! set -q ASDF_DIR
-      set -x ASDF_DIR ${pkgs.asdf-vm}/share/asdf-vm
-    end
-  '';
   home.packages =
     (with pkgs; [
       # system info tool.
@@ -56,7 +50,6 @@ in
       # ocamlPackages.ocamlformat
       # ocamlPackages.utop
       # ocamlPackages.ocaml-lsp
-      asdf-vm
       # docker-credential-helpers
       # harper
       uv
@@ -96,7 +89,6 @@ in
     };
   };
   home.file = {
-    # ".tool-versions".source = ../../conf/asdf/tool-versions;
     ".config/bat/themes/" = {
       source = ../../conf/bat/themes;
       recursive = true;
