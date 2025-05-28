@@ -12,7 +12,7 @@ in
 {
   programs.fish.shellAliases = {
     gt = "git-town";
-    ai-commit = "git commit -m (aichat --role git-commit -S -c (git diff --staged))";
+    ai-commit = "aichat --role git-commit -S -c (${bashScriptsDir}/git-commit-context.sh) | ${bashScriptsDir}/git-commit-chunk-text.sh";
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
     g = "git";
@@ -24,6 +24,11 @@ in
     gh-pr-rebase = "gh pr merge -d -r";
     gh-pr-squash = "gh pr merge -d -s";
     glab-new-pr = "bash ${bashScriptsDir}/glab-new-pr.sh";
+    gstat = "git show --stat";
+    lg = "lazygit";
+    lgs = "lazygit status";
+    tig = "TERM=xterm-256color ${pkgs.tig}/bin/tig";
+    flog = "glog";
   };
 
   home.packages = with pkgs; [
