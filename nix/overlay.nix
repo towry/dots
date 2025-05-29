@@ -19,6 +19,11 @@
       pkgs = final;
       system = final.system;
     };
+    git-town = final.callPackage ./pkgs/git-town.nix {
+      version = "21.0.0";
+      pkgs = final;
+      system = final.system;
+    };
     # git-fuzzy = final.callPackage ./pkgs/git-fuzzy.nix {};
     uclanr = final.callPackage ./pkgs/uclanr.nix {
       pkgs = final;

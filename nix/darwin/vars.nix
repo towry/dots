@@ -5,5 +5,8 @@
       value = "/etc/profiles/per-user/${username}";
       enable = true;
     };
+    git-town = {
+      enable = true;
+    };
   };
 }

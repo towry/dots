@@ -16,8 +16,12 @@
     };
     extraConfig = {
       git-town = {
+        # https://www.git-town.com/all-commands.html?highlight=observed#limit-branch-syncing
         sync-tags = false;
-        contribution-regex = "^(pub/sandbox)$";
+        # prevent merge into parent branch
+        # contribution-regex = "^(pub/sandbox|wip)$";
+        # no parent, never ship
+        # perennial-regex = "^(pub/sandbox|wip)$";
         sync-feature-strategy = "merge";
       };
     };
