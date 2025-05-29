@@ -1,6 +1,5 @@
 all:
     just --list
 
-# Update jj-repo dep
-@update-jj:
-    nix flake update --update-input jj-repo
+@update-self-repo:
+    nix flake update nix-priv jj-repo --commit-lock-file --refresh

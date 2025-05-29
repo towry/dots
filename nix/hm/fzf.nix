@@ -20,6 +20,9 @@ in
     enable = true;
     defaultCommand = "${pkgs.fd}/bin/fd --color=always -td --ignore-file=$HOME/.ignore";
     defaultOptions = [
+       "--prompt='  '"
+      "--marker=''"
+      "--marker=' '"
       "--ansi"
       # nightfox
       # "--color=fg:#cdcecf,bg:#131a24,hl:#5f87af --color=fg+:#d60d7b,bg+:#3a5275,hl+:#5fd7ff --color=info:#afaf87,prompt:#c74462,pointer:#bf1537 --color=marker:#ffff00,spinner:#af5fff,header:#db3e1f"
@@ -34,11 +37,10 @@ in
       # this keybind should match the telescope ones in nvim config
       ''--bind="ctrl-u:unix-line-discard+top,tab:down,shift-tab:up,ctrl-d:preview-half-page-down,ctrl-f:preview-half-page-up"''
     ];
-    fileWidgetCommand = "${pkgs.fd}/bin/fd --color=always --type f";
+    fileWidgetCommand = "${pkgs.ripgrep}/bin/rg --files";
     fileWidgetOptions = [
-      "--keep-right"
-      # Preview files with bat
       "--preview '${pkgs.bat}/bin/bat --color=always {}'"
+      "--layout default"
     ];
   };
   programs.fish = {
@@ -54,6 +56,8 @@ in
       }
     ];
     interactiveShellInit = ''
+      set -U fifc_custom_fzf_opts +e
+
       for mode in insert default normal
       ${lib.concatMapStrings (keybind: ''
         bind -M $mode ${keybind.lhs} ${keybind.rhs}
@@ -61,6 +65,11 @@ in
       end
 
       set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
+
+      # keybinds
+      bind --user \cg\cf _fzf-just-pick-status-file
+      bind --user \cg\cv _fzf-jj-revs
+      bind --user \cg\cb _fzf-jj-bookmarks
     '';
     functions = {
       fzf-file-widget-wrapped = ''

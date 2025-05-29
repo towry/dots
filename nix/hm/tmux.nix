@@ -89,8 +89,10 @@ in
     tmuxinator.enable = false;
     # https://github.com/tmux-python/tmuxp
     tmuxp.enable = false;
-    plugins = with pkgs; [ ];
+    # plugins = with pkgs; [ ];
     extraConfig = ''
+      set -gu default-command
+      set -g default-shell "${pkgs.fish}/bin/fish"
       #== env
       if-shell "echo $TERM | grep alacritty" "set-option -sa terminal-overrides ',alacritty:Tc'"
       if-shell "echo $TERM | grep alacritty" 'set-option -ga terminal-features ",alacritty:usstyle"'

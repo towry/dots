@@ -64,11 +64,6 @@
     target = ".config/fish/themes";
     source = ../../conf/fish/themes;
   };
-  # home.file = {
-  #   ".config/fish/conf.d/fzf-fish-extras.fish" = {
-  #     source = ../../conf/fish/conf.d/_fzf-fish-extras.fish;
-  #   };
-  # };
 
   # aliases
   programs.fish.shellAliases = {
@@ -148,7 +143,6 @@
   programs.fish.interactiveShellInit = ''
     set fish_cursor_default block blink
     set fish_cursor_insert underscore blink
-    set -U fifc_custom_fzf_opts +e
 
     if test "$DARKMODE" = "dark"
         fish_config theme choose "${theme.fish.dark}"
@@ -159,11 +153,6 @@
     # fish_add_path $HOME/.nimble/bin
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path /run/current-system/sw/bin
-
-    # keybinds
-    bind --user \cg\cf just-pick-status-file
-    bind --user \cg\cv _fzf-jj-revs
-    bind --user \cg\cb _fzf-jj-bookmarks
   '';
 
   programs.fish.functions = {
@@ -184,9 +173,11 @@
               rm $(readlink "$link")
           end
         end
+        sudo nix-store --verify --repair
         nix-env --delete-generations old
-        nix-collect-garbage -d --delete-older-than 5d
-        sudo nix-collect-garbage -d --delete-older-than 5d
+        sudo nix-store --gc
+        sudo nix-collect-garbage -d --delete-older-than 5h
+        sudo nix-collect-garbage -d
       '';
     };
     random-folder = {
