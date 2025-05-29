@@ -175,6 +175,9 @@
       description = "Run Nix garbage collection and remove old kernels to free up space in boot partition";
       body = ''
         # NixOS-specific steps
+        echo "May need sudo to run this command"
+        echo "see issue: https://github.com/nix-darwin/nix-darwin/issues/237"
+        echo ""
         if test -f /etc/NIXOS
           sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +3
           for link in /nix/var/nix/gcroots/auto/*
@@ -182,10 +185,8 @@
           end
         end
         nix-env --delete-generations old
-        nix-store --gc
-        nix-channel --update
-        nix-env -u --always
-        nix-collect-garbage -d
+        nix-collect-garbage -d --delete-older-than 5d
+        sudo nix-collect-garbage -d --delete-older-than 5d
       '';
     };
     random-folder = {
