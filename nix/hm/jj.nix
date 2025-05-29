@@ -302,6 +302,7 @@ in
         ];
         rb = [
           "rebase"
+          "--skip-emptied"
         ];
         ds = [
           "desc"
