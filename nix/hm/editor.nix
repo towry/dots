@@ -17,6 +17,7 @@ in
     tree-sitter
     sqlite
     luajit
+    typos-lsp
     # stylua
     # lua-language-server
     # luarocks
