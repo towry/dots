@@ -1,5 +1,6 @@
 { config, ... }:
 let
+  useGitTownInLazygit = false;
   bashScriptsDir = "${config.home.homeDirectory}/.local/bash/scripts";
   aichatSelectCommit = [
     {
@@ -215,7 +216,7 @@ in
             command = "nvim -c 'Gedit {{.SelectedCommit.Sha}}:{{.SelectedFile.Name}}'";
           }
         ]
-        ++ (if config.vars.git-town.enable then gitTownCommands else [ ])
+        ++ (if config.vars.git-town.enable && useGitTownInLazygit then gitTownCommands else [ ])
         ++ aichatSelectCommit;
       quitOnTopLevelReturn = false;
       disableStartupPopups = true;

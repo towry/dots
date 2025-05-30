@@ -239,7 +239,8 @@ in
       bind-key -n M-f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux"
       bind : run "${config.home.homeDirectory}/.tmux/bin/command.sh"
       bind & run "${config.home.homeDirectory}/.tmux/bin/process.sh"
-
+      ## open lazygit in popup
+      bind g display-popup -d "#{pane_current_path}" -w 95% -h 95% -E "${pkgs.lazygit}/bin/lazygit"
 
       # ================================================
       # Copy mode, scroll and clipboard
