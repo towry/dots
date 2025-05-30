@@ -255,7 +255,7 @@ in
 
             # Generate commit message using aichat with jj context and apply it
             "$bashScriptsDir/jj-commit-context.sh" "$rev" | \
-            aichat --role git-commit -S -c | \
+            aichat --role git-commit -S | \
             "$bashScriptsDir/jj-ai-commit.sh" "$rev"
           ''
           ""
