@@ -40,6 +40,7 @@ in
         max-new-file-size = "1MiB";
       };
       git = {
+        write-change-id-header = true;
         auto-local-bookmark = false;
         fetch = [
           "origin"
