@@ -13,6 +13,7 @@ in
     aichat
     ollama
     aider-chat
+    github-mcp-server
   ];
 
   programs.fish = {

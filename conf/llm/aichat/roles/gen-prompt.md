@@ -54,6 +54,15 @@ Please write an agent task plan in markdown file that does:
 **Constraints:**
 [Technical, time, or resource limitations]
 
+**Technical Research Requirements:**
+- Research and recommend current industry-standard technologies and frameworks
+- Include latest stable versions and modern architectural patterns
+- Justify technology choices based on current best practices and community adoption
+- Consider modern development workflows, CI/CD practices, and deployment strategies
+- **USE WEB SEARCH**: Search the web for latest trends, best practices, and technology comparisons
+- **USE GITHUB SEARCH**: Use GitHub MCP tools to find and evaluate suitable libraries, frameworks, and code examples
+- **LIBRARY EVALUATION**: Research GitHub repositories for popularity, maintenance status, and community adoption
+
 **Expected Task Plan Structure:**
 Use this markdown template for your task plan:
 
@@ -75,17 +84,20 @@ Use this markdown template for your task plan:
 - **Duration**: [Estimated time with justification]
 - **Deliverables**: [Specific outputs]
 - **Tasks**:
-  1. [Detailed task with clear acceptance criteria]
-  2. [Next task with dependencies clearly noted]
+  1. [Research and evaluate libraries/frameworks using web search and GitHub tools]
+  2. [Detailed task with clear acceptance criteria]
+  3. [Next task with dependencies clearly noted]
 - **Risks**: [Potential blockers and mitigation strategies]
 
 ### Phase N: [Continue for all phases]
 
 ## Technical Architecture
-- **Technology Stack**: [Justified technology choices]
-- **System Design**: [High-level architecture overview]
-- **Data Flow**: [Key data interactions and flow]
-- **Security Considerations**: [Auth, encryption, compliance]
+- **Technology Stack**: [Modern, justified technology choices with latest stable versions, researched via web and GitHub]
+- **System Design**: [High-level architecture using contemporary design patterns]
+- **Data Flow**: [Key data interactions and flow with modern protocols]
+- **Security Considerations**: [Current security best practices, auth, encryption, compliance]
+- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns]
+- **Library Selection**: [Researched GitHub repositories with stars, maintenance status, and community adoption metrics]
 
 ## Testing Strategy
 - **Unit Testing**: [Coverage approach and tools]
@@ -122,6 +134,11 @@ Use this markdown template for your task plan:
 - Make the plan actionable by a development team
 - **SCALE APPROPRIATELY**: Match plan complexity to actual project scope - simple tasks should have simple plans
 - **AVOID OVER-ENGINEERING**: Don't suggest enterprise-grade solutions for basic requirements
+- **MODERN TECHNICAL RESEARCH**: Include current best practices, latest stable versions, and contemporary architectural patterns
+- **CURRENT TECH STACK**: Recommend modern, well-supported technologies and frameworks that are industry-standard as of 2024
+- **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns and modern development practices
+- **RESEARCH-DRIVEN DECISIONS**: Use web search and GitHub tools to validate technology choices and find optimal libraries
+- **EVIDENCE-BASED RECOMMENDATIONS**: Include GitHub stars, maintenance activity, and community feedback in technology selection
 
 **Output Format:**
 - Use markdown format
