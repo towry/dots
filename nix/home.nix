@@ -4,6 +4,7 @@
   lib,
   username,
   useGlobalPkgs ? false,
+  config,
   ...
 }:
 let
@@ -63,9 +64,6 @@ in
     homeDirectory = if pkgs.stdenv.isLinux then "/home/${username}" else "/Users/${username}";
     stateVersion = "24.11"; # Please read the comment before changing.
     packages = locals.packages;
-    sessionVariables = {
-      EDITOR = "nvim";
-    };
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/.cargo/bin"
@@ -90,6 +88,7 @@ in
     ./hm/fzf.nix
     ./hm/editor.nix
     ./hm/frontend-dev.nix
+    ./hm/helix.nix
     ./hm/tmux.nix
     # ./hm/alacritty.nix
     # ./hm/wezterm.nix
@@ -104,6 +103,7 @@ in
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai.nix
+    ./hm/git-town.nix
   ];
 
   # Let Home Manager install and manage itself.

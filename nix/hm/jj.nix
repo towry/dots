@@ -40,13 +40,14 @@ in
         max-new-file-size = "1MiB";
       };
       git = {
+        write-change-id-header = true;
         auto-local-bookmark = false;
         fetch = [
           "origin"
         ];
         push = "origin";
         push-bookmark-prefix = "towry/jj-";
-        private-commits = "description(glob:'wip:*') | description(glob:'private:*')";
+        private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'WIP:*')";
       };
       merge-tools = {
         code = {
@@ -94,6 +95,12 @@ in
       };
       format.tree-level-conflicts = true;
       aliases = {
+        wip = [
+          "commit"
+          "-i"
+          "--message"
+          "WIP: empty message"
+        ];
         wk = [ "workspace" ];
         df = [ "diff" ];
         sync-delete-bookmarks = [
@@ -248,7 +255,7 @@ in
 
             # Generate commit message using aichat with jj context and apply it
             "$bashScriptsDir/jj-commit-context.sh" "$rev" | \
-            aichat --role git-commit -S -c | \
+            aichat --role git-commit -S | \
             "$bashScriptsDir/jj-ai-commit.sh" "$rev"
           ''
           ""
@@ -296,6 +303,7 @@ in
         ];
         rb = [
           "rebase"
+          "--skip-emptied"
         ];
         ds = [
           "desc"

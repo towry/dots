@@ -89,8 +89,10 @@ in
     tmuxinator.enable = false;
     # https://github.com/tmux-python/tmuxp
     tmuxp.enable = false;
-    plugins = with pkgs; [ ];
+    # plugins = with pkgs; [ ];
     extraConfig = ''
+      set -gu default-command
+      set -g default-shell "${pkgs.fish}/bin/fish"
       #== env
       if-shell "echo $TERM | grep alacritty" "set-option -sa terminal-overrides ',alacritty:Tc'"
       if-shell "echo $TERM | grep alacritty" 'set-option -ga terminal-features ",alacritty:usstyle"'
@@ -237,7 +239,8 @@ in
       bind-key -n M-f run "${config.home.homeDirectory}/.tmux/bin/tmux-scratch-toggle.tmux"
       bind : run "${config.home.homeDirectory}/.tmux/bin/command.sh"
       bind & run "${config.home.homeDirectory}/.tmux/bin/process.sh"
-
+      ## open lazygit in popup
+      bind g display-popup -d "#{pane_current_path}" -w 95% -h 95% -E "${pkgs.lazygit}/bin/lazygit"
 
       # ================================================
       # Copy mode, scroll and clipboard

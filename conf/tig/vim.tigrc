@@ -30,9 +30,10 @@ bind generic gpp !git pull --ff --prune --no-tags origin %(branch)
 bind main gfp !git fetch --prune --prune-tags
 bind main gfa ?+git fetch --all
 bind main gca +git commit --amend --no-edit
-bind main rh ?git reset --hard %(commit)
-bind main rs ?git reset --soft %(commit)
-bind main fu !git commit --fixup=%(commit)
+# reset current and desendants
+bind main rh ?git reset --hard %(commit)~1
+bind main rs ?git reset --soft %(commit)~1
+bind main fu !git commit --fixup=%(commit)~1
 
 
 bind main    G move-last-line

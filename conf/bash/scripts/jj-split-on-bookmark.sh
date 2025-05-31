@@ -68,8 +68,6 @@ perform_split() {
         exit 1
     fi
 
-    echo "Split created revision: $rev"
-
     # Step 3: Generate AI commit message if requested
     if [[ "$use_ai" == "true" ]]; then
         echo "Using AI to generate commit message for revision: $rev"
@@ -82,8 +80,8 @@ perform_split() {
         fi
     fi
 
-    echo "Split operation completed successfully!"
     echo "Created revision: $rev with bookmark: $bookmark"
+    echo "Tip: run ` jj mv-next $bookmark ` to move to the new revision"
 }
 
 # Main function
