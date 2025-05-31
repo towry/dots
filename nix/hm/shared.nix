@@ -36,7 +36,7 @@ in
       ## image support in terminal
       viu
       # concurrently
-      # overmind
+      overmind
       tig
       neovim-remote
       wget
