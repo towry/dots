@@ -54,11 +54,18 @@ Please write an agent task plan in markdown file that does:
 **Constraints:**
 [Technical, time, or resource limitations]
 
+**Codebase Analysis Requirements:**
+- **ANALYZE EXISTING PROJECT**: First examine the current working directory structure, existing configuration files, and codebase
+- **RESPECT EXISTING SETUP**: Identify and work within the current technology stack, build systems, and project conventions
+- **AVOID CONFLICTING TECHNOLOGIES**: Do not suggest technologies that conflict with or duplicate existing project setup
+- **LEVERAGE EXISTING INFRASTRUCTURE**: Build upon existing tools, configurations, and patterns already in place
+- **MAINTAIN CONSISTENCY**: Follow existing code style, naming conventions, and architectural patterns
+
 **Technical Research Requirements:**
-- Research and recommend current industry-standard technologies and frameworks
-- Include latest stable versions and modern architectural patterns
-- Justify technology choices based on current best practices and community adoption
-- Consider modern development workflows, CI/CD practices, and deployment strategies
+- Research and recommend current industry-standard technologies and frameworks **that are compatible with the existing project setup**
+- Include latest stable versions and modern architectural patterns **that integrate well with current infrastructure**
+- Justify technology choices based on current best practices, community adoption, **and compatibility with existing codebase**
+- Consider modern development workflows, CI/CD practices, and deployment strategies **already in use or compatible with current setup**
 - **USE WEB SEARCH**: Search the web for latest trends, best practices, and technology comparisons
 - **USE GITHUB SEARCH**: Use GitHub MCP tools to find and evaluate suitable libraries, frameworks, and code examples
 - **LIBRARY EVALUATION**: Research GitHub repositories for popularity, maintenance status, and community adoption
@@ -68,10 +75,17 @@ Use this markdown template for your task plan:
 
 # Task Plan: [Project Name]
 
+## Codebase Analysis
+- **Current Project Structure**: [Analyze and document existing directory structure, key files, and organization]
+- **Existing Technology Stack**: [Identify current languages, frameworks, build tools, and infrastructure already in use]
+- **Configuration Files**: [Document existing config files, package managers, and setup scripts]
+- **Development Workflow**: [Identify current development practices, testing setup, and deployment processes]
+- **Integration Points**: [Note how new work should integrate with existing codebase and avoid conflicts]
+
 ## Project Overview
-- **Objective**: [Clear, measurable goal]
-- **Context**: [Background and rationale]
-- **Success Criteria**: [Specific outcomes]
+- **Objective**: [Clear, measurable goal that builds upon existing project foundation]
+- **Context**: [Background and rationale, considering current project state]
+- **Success Criteria**: [Specific outcomes that align with existing project goals and architecture]
 
 ## Requirements Analysis
 - **Functional Requirements**: [What the system must do]
@@ -92,12 +106,13 @@ Use this markdown template for your task plan:
 ### Phase N: [Continue for all phases]
 
 ## Technical Architecture
-- **Technology Stack**: [Modern, justified technology choices with latest stable versions, researched via web and GitHub]
-- **System Design**: [High-level architecture using contemporary design patterns]
-- **Data Flow**: [Key data interactions and flow with modern protocols]
-- **Security Considerations**: [Current security best practices, auth, encryption, compliance]
-- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns]
-- **Library Selection**: [Researched GitHub repositories with stars, maintenance status, and community adoption metrics]
+- **Technology Stack**: [Modern, justified technology choices that integrate with existing project setup, with latest stable versions researched via web and GitHub]
+- **System Design**: [High-level architecture using contemporary design patterns that complement existing codebase structure]
+- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows]
+- **Data Flow**: [Key data interactions and flow with modern protocols, respecting existing data patterns]
+- **Security Considerations**: [Current security best practices, auth, encryption, compliance that work with existing security model]
+- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns compatible with existing development workflow]
+- **Library Selection**: [Researched GitHub repositories with stars, maintenance status, community adoption metrics, and compatibility with existing dependencies]
 
 ## Testing Strategy
 - **Unit Testing**: [Coverage approach and tools]
@@ -125,20 +140,22 @@ Use this markdown template for your task plan:
 - **Quality Gates**: [Code review, testing, security checkpoints]
 
 **Quality Requirements:**
+- **CODEBASE-FIRST APPROACH**: Always start by analyzing the existing project structure, technology stack, and development patterns before making any recommendations
 - Each task must include specific acceptance criteria
 - Provide effort estimates in hours/days with justification
 - Identify all dependencies between tasks and phases
 - Include comprehensive risk assessment with mitigation strategies
 - Create clear decision points for stakeholder involvement
-- Ensure all technical decisions are justified with alternatives
-- Make the plan actionable by a development team
+- Ensure all technical decisions are justified with alternatives and compatibility with existing setup
+- Make the plan actionable by a development team working within the existing codebase
 - **SCALE APPROPRIATELY**: Match plan complexity to actual project scope - simple tasks should have simple plans
 - **AVOID OVER-ENGINEERING**: Don't suggest enterprise-grade solutions for basic requirements
-- **MODERN TECHNICAL RESEARCH**: Include current best practices, latest stable versions, and contemporary architectural patterns
-- **CURRENT TECH STACK**: Recommend modern, well-supported technologies and frameworks that are industry-standard as of 2024
-- **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns and modern development practices
-- **RESEARCH-DRIVEN DECISIONS**: Use web search and GitHub tools to validate technology choices and find optimal libraries
-- **EVIDENCE-BASED RECOMMENDATIONS**: Include GitHub stars, maintenance activity, and community feedback in technology selection
+- **RESPECT EXISTING INFRASTRUCTURE**: Build upon existing tools, configurations, and patterns rather than replacing them
+- **MODERN TECHNICAL RESEARCH**: Include current best practices, latest stable versions, and contemporary architectural patterns that are compatible with existing setup
+- **CURRENT TECH STACK**: Recommend modern, well-supported technologies and frameworks that integrate well with existing project infrastructure
+- **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns that complement existing codebase structure
+- **RESEARCH-DRIVEN DECISIONS**: Use web search and GitHub tools to validate technology choices and find optimal libraries that work with existing dependencies
+- **EVIDENCE-BASED RECOMMENDATIONS**: Include GitHub stars, maintenance activity, community feedback, and compatibility analysis in technology selection
 
 **Output Format:**
 - Use markdown format
