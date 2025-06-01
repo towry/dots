@@ -20,7 +20,7 @@ in
     enable = true;
     defaultCommand = "${pkgs.fd}/bin/fd --color=always -td --ignore-file=$HOME/.ignore";
     defaultOptions = [
-       "--prompt='  '"
+      "--prompt='  '"
       "--marker=''"
       "--marker=' '"
       "--ansi"
@@ -67,7 +67,7 @@ in
       set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
 
       # keybinds
-      bind --user \cg\cf _fzf-just-pick-status-file
+      bind --user \cg\cf just-pick-status-file
       bind --user \cg\cv _fzf-jj-revs
       bind --user \cg\cb _fzf-jj-bookmarks
     '';
