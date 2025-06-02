@@ -129,6 +129,7 @@
         source $HOME/.private.fish
     end
 
+    fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path --path --append $HOME/.local/bin
   '';
   ## do not forget to run fish --login to generate new fish_variables file.
