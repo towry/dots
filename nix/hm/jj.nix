@@ -542,6 +542,7 @@ in
             if(immutable, label("immutable", "◆")),
             if(conflict, label("conflict", "×")),
             if(is_wip_commit_description(description), label("wip", "○")),
+            if(empty, "◌"),
             "○"
           )
         '';
