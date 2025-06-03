@@ -16,7 +16,6 @@
   };
   programs = {
     carapace.enableFishIntegration = true;
-    kitty.shellIntegration.enableFishIntegration = true;
     fish = {
       package = pkgs.fish;
       enable = true;
@@ -35,13 +34,12 @@
         # }
         {
           name = "fifc";
-          # src = pkgs.fetchFromGitHub {
-          #   owner = "ollehu";
-          #   repo = "fifc";
-          #   rev = "26c5863f7f44a5f7e375cbda6806839acd121c8e";
-          #   sha256 = "sha256-EO2QO5TgZB/Fhu+75MAvTwIthUiRtHrUMhOntyF+vBo=";
-          # };
-          inherit (pkgs.fishPlugins.fifc) src;
+          src = pkgs.fetchFromGitHub {
+            owner = "ollehu";
+            repo = "fifc";
+            rev = "235aace6ebc3f8e962957b31305f6aad1fc8e42b";
+            sha256 = "sha256-hG5qzRj4TvYrinlUu+AoRwt3OUJrj1ki7wOOu21EFDM=";
+          };
         }
         {
           # type .... will expand to ../..
@@ -73,9 +71,6 @@
         "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
       else
         "/user/bin/firefox --start-debugger-server";
-    wz = "wezterm";
-    wz-rename = "wezterm cli rename-workspace";
-    split-pane = "wezterm cli split-pane";
     cls = "clear";
     vi = "nvim";
     lazy = "NVIM_APPNAME=lazy nvim";
@@ -94,7 +89,6 @@
     pn = "pnpm";
     make-neovim = "make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$HOME/.local";
     nvim-lazy-install = "nvim --headless \"+Lazy! install\" +qa && echo 'done'";
-    kitty-list-fonts = "kitty +list-fonts --psnames";
     ghc = "gh copilot";
     ghcp = "gh copilot explain";
     zj = "zellij";
@@ -104,7 +98,6 @@
       zellij action start-or-reload-plugin file:$HOME/.config/zellij/plugins/multitask.wasm --configuration "shell=$SHELL,cwd=`pwd`"
     '';
     emptytrash = "sudo rm -rf ~/.Trash/*";
-    kittyconf = "nvim ~/.config/kitty/kitty.conf";
     stop-yabai = "yabai --stop-service";
     start-yabai = "yabai --start-service";
     # yabaiconf="nvim ~/.config/yabai/yabairc";
@@ -131,17 +124,96 @@
 
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path --path --append $HOME/.local/bin
+
+    # FIFC (Fish Interactive Fuzzy Completion) configuration
+    # Initialize fifc variables
+    set -gx _fifc_comp_count 0
+    set -gx _fifc_unordered_comp
+    set -gx _fifc_ordered_comp
+
+    # Configure fifc sources for different completion groups
+    # Directory completions
+    fifc \
+        -n 'test "$fifc_group" = "directories"' \
+        -s _fifc_source_directories
+
+    # File completions
+    fifc \
+        -n 'test "$fifc_group" = "files"' \
+        -s _fifc_source_files
+
+    # Process completions
+    fifc \
+        -n 'test "$fifc_group" = processes' \
+        -s 'ps -ax -o pid=,command='
+
+    # Configure preview and open commands for different types
+    # Options
+    fifc \
+        -n 'test "$fifc_group" = "options"' \
+        -p _fifc_preview_opt \
+        -o _fifc_open_opt
+
+    # Commands (executables)
+    fifc \
+        -n 'test \( -n "$fifc_desc" -o -z "$fifc_commandline" \); and type -q -f -- "$fifc_candidate"' \
+        -r '^(?!\\w+\\h+)' \
+        -p _fifc_preview_cmd \
+        -o _fifc_open_cmd
+
+    # Functions
+    fifc \
+        -n 'test -n "$fifc_desc" -o -z "$fifc_commandline"' \
+        -r '^(functions)?\\h+' \
+        -p _fifc_preview_fn \
+        -o _fifc_open_fn
+
+    # Files
+    fifc \
+        -n 'test -f "$fifc_candidate"' \
+        -p _fifc_preview_file \
+        -o _fifc_open_file
+
+    # Directories
+    fifc \
+        -n 'test -d "$fifc_candidate"' \
+        -p _fifc_preview_dir \
+        -o _fifc_open_dir
+
+    # Processes
+    fifc \
+        -n 'test "$fifc_group" = processes -a (ps -p (_fifc_parse_pid "$fifc_candidate") &>/dev/null)' \
+        -p _fifc_preview_process \
+        -o _fifc_open_process \
+        -e '^\\h*([0-9]+)'
   '';
   ## do not forget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122
   programs.fish.loginShellInit = ''
     set -U fish_greeting ""
     set -Ux fifc_editor nvim
-    # set -U fifc_keybinding \cf
     set -U fifc_fd_opts --hidden
+
+    fish_add_path /etc/profiles/per-user/${username}/bin
+    fish_add_path /run/current-system/sw/bin
   '';
 
   programs.fish.interactiveShellInit = ''
+    set -qU fifc_keybinding
+    or set -U fifc_keybinding \t
+    set -qU fifc_open_keybinding
+    or set -U fifc_open_keybinding ctrl-o
+
+    set -qU fifc_rm_cmd
+    or set -U fifc_rm_cmd rm
+
+    set -qU fifc_custom_fzf_opts
+    or set -U fifc_custom_fzf_opts
+
+    for mode in default insert
+        bind --mode $mode $fifc_keybinding _fifc
+    end
+
     set fish_cursor_default block blink
     set fish_cursor_insert underscore blink
 
@@ -151,9 +223,6 @@
         fish_config theme choose "${theme.fish.light}"
     end
 
-    # fish_add_path $HOME/.nimble/bin
-    fish_add_path /etc/profiles/per-user/${username}/bin
-    fish_add_path /run/current-system/sw/bin
   '';
 
   programs.fish.functions = {

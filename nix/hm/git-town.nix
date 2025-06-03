@@ -22,7 +22,8 @@
         # contribution-regex = "^(pub/sandbox|wip)$";
         # no parent, never ship
         # perennial-regex = "^(pub/sandbox|wip)$";
-        sync-feature-strategy = "merge";
+        sync-feature-strategy = "rebase";
+        perennial-branches = "master main develop wip";
       };
     };
   };

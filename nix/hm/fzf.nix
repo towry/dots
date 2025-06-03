@@ -45,19 +45,17 @@ in
   };
   programs.fish = {
     plugins = [
-      {
-        name = "fzf";
-        src = pkgs.fetchFromGitHub {
-          owner = "PatrickF1";
-          repo = "fzf.fish";
-          rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
-          sha256 = "sha256-T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM";
-        };
-      }
+      # {
+      #   name = "fzf";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "PatrickF1";
+      #     repo = "fzf.fish";
+      #     rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
+      #     sha256 = "sha256-T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM";
+      #   };
+      # }
     ];
     interactiveShellInit = ''
-      set -U fifc_custom_fzf_opts +e
-
       for mode in insert default normal
       ${lib.concatMapStrings (keybind: ''
         bind -M $mode ${keybind.lhs} ${keybind.rhs}
