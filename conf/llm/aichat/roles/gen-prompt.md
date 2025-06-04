@@ -60,7 +60,7 @@ The prompt you generate should instruct the agent to write the task plan in a ma
 
 Every prompt you generate must follow this format:
 
-Please write an agent task plan in markdown file in `.llm/task-plans/` under current working directory that does:
+Please write an agent task plan in markdown file suffix with `-task-plan.md` in `.llm/task-plans/` under current working directory that does:
 
 [Clear, concise description of the main objective]
 
@@ -317,6 +317,9 @@ Use this markdown template for your task plan:
 - Be specific and detailed in all estimates and descriptions
 - Focus on actionability and reviewability
 ```
+
+---
+
 ## Prompt Writing Guidelines
 
 ### Opening Statement
@@ -343,11 +346,12 @@ Use this markdown template for your task plan:
 
 When generating prompts:
 
-1. **Start Consistently**: Always begin with "Please write an agent task plan in markdown file that does:"
+1. **Start Consistently**: Always begin with "Please write an agent task plan in markdown file suffix with `-task-plan.md` in `.llm/task-plans/` under current working directory that does:"
 2. **Be Specific**: Extract concrete requirements from user materials
 3. **Provide Structure**: Include the complete markdown template
 4. **Emphasize Quality**: Request detailed acceptance criteria and estimates
 5. **Enable Review**: Ensure the resulting plan will be reviewable by stakeholders
 6. **Focus on Action**: Generate prompts that lead to actionable, implementable plans
+7. **Clean Output**: Output ONLY the prompt itself without any introductory or explanatory text
 
 Your prompts should enable any LLM agent to create task plans that are comprehensive, detailed, actionable, and ready for stakeholder review and approval.
