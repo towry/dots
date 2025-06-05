@@ -802,6 +802,9 @@ in
       revset-aliases = {
         "m-m" = "description('private: megamerge')";
 
+        # Override immutable_heads to include pub/sandbox bookmark
+        "immutable_heads()" = "builtin_immutable_heads() | present(pub/sandbox)";
+
         "new_visible_commits(op)" =
           "at_operation(@-, at_operation(op, visible_heads()))..at_operation(op, visible_heads())";
         "new_hidden_commits(op)" =
