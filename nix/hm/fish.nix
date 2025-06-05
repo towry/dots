@@ -63,6 +63,12 @@
     source = ../../conf/fish/themes;
   };
 
+  home.file.fishCompletions = {
+    enable = true;
+    target = ".config/fish/completions";
+    source = ../../conf/fish/shellcompl;
+  };
+
   # aliases
   programs.fish.shellAliases = {
     cd-home = "cd $HOME/workspace";
@@ -859,4 +865,5 @@
       '';
     };
   };
+
 }
