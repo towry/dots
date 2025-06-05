@@ -14,6 +14,7 @@ in
     ollama
     aider-chat
     github-mcp-server
+    goose-cli
   ];
 
   programs.fish = {
@@ -34,6 +35,15 @@ in
         end
         rm $tmpfile
       '';
+    };
+  };
+
+  xdg.configFile = {
+    "goose/config.yaml" = {
+      source = ../../conf/llm/goose/config.yaml;
+    };
+    "goose/.goosehint" = {
+      source = ../../conf/llm/docs/coding-rules.md;
     };
   };
 

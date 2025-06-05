@@ -89,7 +89,22 @@ in
     tmuxinator.enable = false;
     # https://github.com/tmux-python/tmuxp
     tmuxp.enable = false;
-    # plugins = with pkgs; [ ];
+    plugins = [
+      {
+        plugin = pkgs.tmuxPlugins.fingers;
+        extraConfig = ''
+          set -g @plugin 'Morantron/tmux-fingers'
+          set -g @fingers-key Space
+          set -g @fingers-hint-style 'fg=red,bold,underscore'
+        '';
+      }
+      {
+        plugin = pkgs.tmuxPlugins.yank;
+        extraConfig = ''
+        set -g @plugin 'tmux-plugins/tmux-yank'
+        '';
+      }
+    ];
     extraConfig = ''
       set -gu default-command
       set -g default-shell "${pkgs.fish}/bin/fish"
@@ -265,18 +280,18 @@ in
       bind-key -T copy-mode-vi 'C-k' select-pane -U
       bind-key -T copy-mode-vi 'C-l' select-pane -R
 
-      yank="${config.home.homeDirectory}/.tmux/bin/yank.sh"
-      # Copy selected text
-      bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "$yank"
-      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "$yank"
-      bind -T copy-mode-vi Y send-keys -X copy-line \; run "tmux save-buffer - | $yank"
-      bind-key -T copy-mode-vi D send-keys -X copy-end-of-line \; run "tmux save-buffer - | $yank"
-      bind -T copy-mode-vi C-j send-keys -X copy-pipe-and-cancel "$yank"
-      bind-key -T copy-mode-vi A send-keys -X append-selection-and-cancel \; run "tmux save-buffer - | $yank"
-      # Copy selection on drag end event, but do not cancel copy mode and do not clear selection
-      # clear select on subsequence mouse click
-      bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe "$yank"
-      bind -T copy-mode-vi MouseDown1Pane select-pane \; send-keys -X clear-selection
+      # yank="${config.home.homeDirectory}/.tmux/bin/yank.sh"
+      # # Copy selected text
+      # bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "$yank"
+      # bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "$yank"
+      # bind -T copy-mode-vi Y send-keys -X copy-line \; run "tmux save-buffer - | $yank"
+      # bind-key -T copy-mode-vi D send-keys -X copy-end-of-line \; run "tmux save-buffer - | $yank"
+      # bind -T copy-mode-vi C-j send-keys -X copy-pipe-and-cancel "$yank"
+      # bind-key -T copy-mode-vi A send-keys -X append-selection-and-cancel \; run "tmux save-buffer - | $yank"
+      # # Copy selection on drag end event, but do not cancel copy mode and do not clear selection
+      # # clear select on subsequence mouse click
+      # bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe "$yank"
+      # bind -T copy-mode-vi MouseDown1Pane select-pane \; send-keys -X clear-selection
 
       # ===============================================
       ## UI

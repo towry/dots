@@ -48,12 +48,9 @@ in
       # ocamlPackages.ocamlformat
       # ocamlPackages.utop
       # ocamlPackages.ocaml-lsp
-      # docker-credential-helpers
       # harper
       uv
-      # docker
-      # colima
-      # kill process by port
+      ## kill process by port
       killport
     ])
     ++ [

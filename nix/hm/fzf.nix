@@ -11,6 +11,15 @@ let
       rhs = "fzf-file-widget-wrapped";
     }
   ];
+
+  # FZF key bindings for better maintainability
+  fzf-key-bindings = [
+    "ctrl-u:unix-line-discard+top"
+    "tab:down"
+    "shift-tab:up"
+    "ctrl-d:preview-half-page-down"
+    "ctrl-f:preview-half-page-up"
+  ];
 in
 {
   home.sessionVariables = {
@@ -21,7 +30,6 @@ in
     defaultCommand = "${pkgs.fd}/bin/fd --color=always -td --ignore-file=$HOME/.ignore";
     defaultOptions = [
       "--prompt='  '"
-      "--marker=''"
       "--marker=' '"
       "--ansi"
       # nightfox
@@ -35,7 +43,7 @@ in
       # "--preview-window=sharp"
       "--preview-window='sharp,right,border-left,<70(bottom,50%,border-top)'"
       # this keybind should match the telescope ones in nvim config
-      ''--bind="ctrl-u:unix-line-discard+top,tab:down,shift-tab:up,ctrl-d:preview-half-page-down,ctrl-f:preview-half-page-up"''
+      ''--bind="${lib.concatStringsSep "," fzf-key-bindings}"''
     ];
     fileWidgetCommand = "${pkgs.ripgrep}/bin/rg --files";
     fileWidgetOptions = [
@@ -45,19 +53,17 @@ in
   };
   programs.fish = {
     plugins = [
-      {
-        name = "fzf";
-        src = pkgs.fetchFromGitHub {
-          owner = "PatrickF1";
-          repo = "fzf.fish";
-          rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
-          sha256 = "sha256-T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM";
-        };
-      }
+      # {
+      #   name = "fzf";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "PatrickF1";
+      #     repo = "fzf.fish";
+      #     rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
+      #     sha256 = "sha256-T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM";
+      #   };
+      # }
     ];
     interactiveShellInit = ''
-      set -U fifc_custom_fzf_opts +e
-
       for mode in insert default normal
       ${lib.concatMapStrings (keybind: ''
         bind -M $mode ${keybind.lhs} ${keybind.rhs}

@@ -31,7 +31,7 @@ function jj-fork-master --description "Fork master branch"
     set -l bookmark_name (aichat --role git-branch -S -c "$description")
     or return
 
-    set -l date_now (date +%m%d)
+    set -l date_now (date +%m%d%H)
     set -l bookmark_name "$bookmark_name-$date_now"
 
     jj log --quiet -r $bookmark_name -n 1 > /dev/null 2>&1

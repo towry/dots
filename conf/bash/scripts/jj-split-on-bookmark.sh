@@ -76,7 +76,8 @@ perform_split() {
         if "$AI_COMMIT_CONTEXT_SCRIPT" "$rev" | aichat --role git-commit -S -c | "$JJ_AI_COMMIT_SCRIPT" "$rev"; then
             echo "Successfully applied AI-generated commit message to revision: $rev"
         else
-            echo "Warning: AI commit message generation failed, keeping default message" >&2
+            ai_exit_code=$?
+            echo "Warning: AI commit message generation failed (exit code: $ai_exit_code), keeping default message" >&2
         fi
     fi
 

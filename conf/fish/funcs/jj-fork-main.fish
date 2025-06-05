@@ -31,7 +31,7 @@ function jj-fork-main --description "Fork main branch"
     set -l bookmark_name (aichat --role git-branch -S -c "$description")
     or return
 
-    set -l date_now (date +%m%d)
+    set -l date_now (date +%m%d%H)
     set -l bookmark_name "$bookmark_name-$date_now"
 
     # check if the bookmark name is already used
