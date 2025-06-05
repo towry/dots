@@ -254,9 +254,14 @@ in
             fi
 
             # Generate commit message using aichat with jj context and apply it
-            "$bashScriptsDir/jj-commit-context.sh" "$rev" | \
-            aichat --role git-commit -S | \
-            "$bashScriptsDir/jj-ai-commit.sh" "$rev"
+            if ! "$bashScriptsDir/jj-commit-context.sh" "$rev" | \
+               aichat --role git-commit -S -c | \
+               "$bashScriptsDir/jj-ai-commit.sh" "$rev"; then
+              ai_exit_code=$?
+              echo "Error: AI commit message generation failed (exit code: $ai_exit_code)" >&2
+              echo "You can try again manually or edit the commit message directly with 'jj edit -r $rev'" >&2
+              exit $ai_exit_code
+            fi
           ''
           ""
         ];

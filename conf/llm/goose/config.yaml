@@ -1,0 +1,25 @@
+extensions:
+  developer:
+    bundled: true
+    display_name: Developer
+    enabled: true
+    name: developer
+    timeout: 300
+    type: builtin
+  memory:
+    bundled: true
+    display_name: Memory
+    enabled: true
+    name: memory
+    timeout: 500
+    type: builtin
+  tutorial:
+    bundled: true
+    display_name: Tutorial
+    enabled: true
+    name: tutorial
+    timeout: 500
+    type: builtin
+GOOSE_MODE: auto
+GOOSE_PROVIDER: github_copilot
+GOOSE_MODEL: gpt-4o
