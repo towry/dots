@@ -104,6 +104,7 @@ in
     # ./hm/autoraise.nix
     ./hm/ai.nix
     ./hm/git-town.nix
+    ./hm/docker.nix
   ];
 
   # Let Home Manager install and manage itself.
