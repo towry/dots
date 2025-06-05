@@ -16,9 +16,16 @@
 - Consolidate similar logic into reusable functions
 - Maintain a single source of truth for business rules
 - Make function contracts clear
-- First ,makethe  code correct, then make it efficient
+- First, make the code correct, then make it efficient
 - When refactoring, validate behavior preservation
 - Favor explicit control flow over hidden dependencies
+- **Prefer minimal function dependencies and primitive arguments**
+  - Functions should accept only the minimal data they actually need
+  - When a function only needs a simple value (boolean, string, number), pass that value directly instead of passing a complex object that contains it
+  - This reduces coupling, improves testability, and makes function contracts clearer
+  - Example (bad): `function foo(arg1, store) { const isAggCompany = store.isAggCompany(); }`
+  - Example (good): `function foo(arg1, isAggCompany) { // use isAggCompany directly }`
+  - Exception: When a function needs multiple related values from the same object, it may be acceptable to pass the object, but with good documentation
 - Preserve existing code structures and adhere to project coding styles, unless the existing code is flawed.
 - Whether responding in code comments, documentation, or UI prompts, always aim to be concise and focused. Eliminate unnecessary details that don't aid understanding or action
 - Never remove or modify code in a way that could break existing functionality without fully understanding how those changes will affect the code.
@@ -35,6 +42,7 @@
 - Ensure error handling is consistent and graceful; prefer explicit error propagation over silent failure
 - When adding significant logic or refactoring, update or write accompanying documentation if necessary
 - Add or update tests to reflect critical logic paths affected by your changes
+- Avoid having files over 2000 lines of code, refactor at that point
 - Constants Over Magic Numbers
   - Replace hard-coded values with named constants
   - Use descriptive constant names that explain the value's purpose
@@ -76,5 +84,3 @@
 - Use `actual` as variable name if the tested method returns something
 - Use `expected` as variable name for the expected output
 - Helper methods prefixed with `given_` for test setup and `then_` for test assertions where appropriate
-
-
