@@ -22,8 +22,8 @@
   nixpkgs.hostPlatform = system;
   environment = {
     variables = {
-      # EDITOR = "${config.vars.editor}";
-      # VISUAL = "${config.vars.editor}";
+      EDITOR = "${config.vars.editor}";
+      VISUAL = "${config.vars.editor}";
       # build env
       CPATH = "/etc/profiles/per-user/${username}/include";
       CMAKE_INCLUDE_PATH = "/etc/profiles/per-user/${username}/include";
