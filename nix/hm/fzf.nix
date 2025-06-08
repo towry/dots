@@ -49,6 +49,10 @@ in
     fileWidgetOptions = [
       "--preview '${pkgs.bat}/bin/bat --color=always {}'"
       "--layout default"
+      "--header 'CTRL-ALT-H: show hidden files | CTRL-G: hide hidden files | CTRL-Y: copy path | CTRL-D/F: preview scroll'"
+      "--bind 'ctrl-alt-h:reload(${pkgs.ripgrep}/bin/rg --files --hidden)+clear-query'"
+      "--bind 'ctrl-g:reload(${pkgs.ripgrep}/bin/rg --files)+clear-query'"
+      "--bind 'ctrl-y:execute-silent(realpath {} | pbcopy)'"
     ];
   };
   programs.fish = {

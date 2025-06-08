@@ -32,6 +32,12 @@ The prompt you generate should instruct the agent to write the task plan in a ma
 - Prefer simple, proven solutions over complex architectures
 - **INCLUDE COMPLEXITY GUIDANCE**: Always specify the task complexity level (Simple/Medium/Complex) in your generated prompt to guide the agent in creating an appropriately scaled plan
 
+**CRITICAL DATA FLOW PRINCIPLES TO ENFORCE:**
+- **NO PARENT ACCESS**: Never recommend `$parent`, `this.$parent`, `useParent()`, DOM traversal, or any direct parent component access
+- **EXPLICIT PARAMETERS**: All data must be passed as explicit parameters - no implicit access to parent state or global guessing
+- **PROPS DOWN, EVENTS UP**: Data flows down through props/parameters, events/callbacks flow up
+- **CLEAR INTERFACES**: Components must have explicit input/output contracts with declared dependencies
+
 **CRITICAL DEPENDENCY ANTI-PATTERNS TO PREVENT:**
 - **Upward Dependencies**: Never recommend placing modules in lower-level apps that higher-level apps need to call (e.g., don't add modules to `snowbt` that `snowflake` would need to call, since `snowflake` already depends on `snowbt`)
 - **Circular Dependencies**: Never create situations where App A depends on App B and App B depends on App A (directly or indirectly)
@@ -53,6 +59,25 @@ The prompt you generate should instruct the agent to write the task plan in a ma
   - **Pure Functions + Side Effects**: Don't add logging, metrics, or external calls to pure computational functions
 - **Cross-Cutting Concern Placement**: Implement cross-cutting concerns (caching, logging, metrics, security) at appropriate architectural boundaries, not mixed into business logic
 - **Dependency Direction Enforcement**: Higher-level layers can depend on lower-level layers, but never the reverse - infrastructure concerns should never leak into core business logic
+
+**CRITICAL API DESIGN & FUNCTION SIGNATURE VIOLATIONS TO PREVENT:**
+- **Unclear API Signatures with Complex Object Dependencies**: Never pass entire objects (like `this`, `$store`, component instances) when only specific values are needed
+  - **Bad Example**: `downloadResume(candidateData, applicationId, $store, componentInstance)` - unclear what properties are needed, forces callers to understand internal implementation
+  - **Good Example**: `downloadResume(candidateId, candidateName, applicationId, authToken, onProgress)` - clear contracts for each parameter
+- **Function Signature Anti-Patterns to Avoid**:
+  - **Context Object Passing**: Don't pass entire context objects when only specific values are needed
+  - **Component Instance Passing**: Avoid passing `this` or component instances unless absolutely necessary for callbacks
+  - **Store/State Object Passing**: Don't pass entire stores when only specific state values are needed
+  - **Unclear Parameter Purposes**: Each parameter should have a clear, single purpose evident from the parameter name
+- **API Contract Requirements**:
+  - Function signatures must clearly indicate what data is required without forcing callers to understand internal implementation
+  - Each parameter should have a clear, well-documented purpose
+  - Prefer primitive arguments over complex objects when possible
+  - Use TypeScript interfaces or JSDoc to specify exact shape of required data when objects are necessary
+- **Dependency Minimization**: Functions should accept only the minimal data they actually need
+  - Extract specific values from complex objects at the call site, not within the function
+  - This reduces coupling, improves testability, and makes function contracts clearer
+  - Makes APIs easier to test, reuse, and understand
 
 ## Prompt Generation Framework
 
@@ -87,6 +112,10 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
   - **Sub-project Discovery**: Recursively analyze subdirectories to identify individual applications, services, or modules
   - **Configuration File Mapping**: Document all configuration files and their relationships (e.g., root `mix.exs` vs app-specific `mix.exs` files)
   - **Dependency Analysis**: Understand how dependencies are managed across the entire project structure
+- **CRITICAL: DATA FLOW ANALYSIS**: **MANDATORY** step to understand current data flow and prevent anti-patterns
+  - **Current Data Flow**: Document how data flows between components and identify any parent access anti-patterns
+  - **Component Interfaces**: Analyze component props/parameters and events/callbacks
+  - **State Management**: Identify existing state management patterns and ensure proper integration
 - **CRITICAL: DEPENDENCY MAPPING & ANALYSIS**: **MANDATORY** step to prevent circular dependencies and incorrect module placement
   - **Inter-app Dependencies**: For umbrella projects, analyze each app's `mix.exs` deps to understand the dependency graph (e.g., if `snowflake` depends on `snowbt` and `snowspider`, then `snowflake` is higher in the dependency chain)
   - **Dependency Direction**: Map dependency flow to understand which apps can depend on which others (lower-level apps cannot depend on higher-level apps)
@@ -121,6 +150,7 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
   - **Umbrella Project Detection**: For Elixir projects, check for `apps/` directory and multiple `mix.exs` files
   - **Workspace Detection**: Look for workspace configuration files and multiple project roots
   - **Build System Analysis**: Identify build tools and their configurations across the project
+- **MANDATORY DATA FLOW ANALYSIS TOOLS**: Search for parent access anti-patterns: `grep -r "\$parent\|this\.\$parent\|useParent\|\.closest\|\.parent" --include="*.js" --include="*.ts" --include="*.vue"` and analyze component interfaces
 - **MANDATORY DEPENDENCY ANALYSIS TOOLS**: **CRITICAL** for preventing architectural violations:
   - **Elixir Umbrella Dependency Mapping**: Use `grep -r "deps:" apps/*/mix.exs` and `grep -r "path:" apps/*/mix.exs` to map inter-app dependencies
   - **JavaScript/Node.js Workspace Dependencies**: Check `package.json` files for workspace dependencies and `pnpm-workspace.yaml` or `lerna.json` configs
@@ -157,6 +187,10 @@ Use this markdown template for your task plan:
   - **Sub-projects/Applications**: [For umbrella projects or monorepos, list all individual applications/services with their locations (e.g., `apps/web_app`, `apps/api_service`)]
   - **Shared Resources**: [Identify shared libraries, configurations, or utilities and their locations]
   - **Key Files**: [Document important configuration files at root and sub-project levels]
+- **CRITICAL: Data Flow Analysis**: [**MANDATORY** section to prevent data flow anti-patterns]
+  - **Anti-Pattern Audit**: [Search for `$parent`, `this.$parent`, `useParent()`, DOM traversal for state access]
+  - **Component Interfaces**: [Document component props/parameters and events/callbacks]
+  - **State Management**: [Identify existing patterns and ensure proper integration without bypassing them]
 - **CRITICAL: Dependency Architecture Analysis**: [**MANDATORY** section to prevent circular dependencies and architectural violations]
   - **Dependency Graph Mapping**: [Create a visual or hierarchical representation of inter-app dependencies. Example: `snowflake` → `snowbt`, `snowspider` (meaning snowflake depends on the other two)]
   - **Architectural Layers**: [Identify distinct layers like: Core/Infrastructure → Business Logic → Application/UI, with clear dependency direction rules]
@@ -206,23 +240,25 @@ Use this markdown template for your task plan:
     - **Dependency Direction Compliance**: [Ensure new features follow existing dependency direction rules (e.g., don't add modules to lower-level apps that higher-level apps would need to call)]
     - **Alternative Placement Options**: [If the obvious placement would violate dependency rules, provide alternative locations that maintain architectural integrity]
     - **Refactoring Requirements**: [If the desired functionality requires dependency restructuring, clearly identify what refactoring would be needed and the complexity involved]
+  - **CRITICAL: Data Flow Integration**: [Ensure new components follow proper data flow without parent access anti-patterns]
 
 ## Project Overview
-- **Objective**: [Clear, measurable goal that builds upon existing project foundation]
-- **Context**: [Background and rationale, considering current project state]
-- **Success Criteria**: [Specific outcomes that align with existing project goals and architecture]
+- **Objective**: [Clear, measurable goal that builds upon existing project foundation and follows proper data flow patterns]
+- **Context**: [Background and rationale, considering current project state and data flow architecture]
+- **Success Criteria**: [Specific outcomes that align with existing project goals, architecture, and proper data flow principles]
 
 ## Requirements Analysis
-- **Functional Requirements**: [What the system must do]
-- **Non-functional Requirements**: [Performance, security, usability]
-- **Constraints**: [Technical, time, resource limitations]
-- **Dependencies**: [External systems, APIs, services]
+- **Functional Requirements**: [What the system must do, with explicit data flow requirements]
+- **Non-functional Requirements**: [Performance, security, usability, maintainability of data flow]
+- **Constraints**: [Technical, time, resource limitations, and data flow pattern constraints]
+- **Dependencies**: [External systems, APIs, services, and their data integration patterns]
 
 ## Implementation Plan
 ### Phase 1: [Phase Name]
 - **Duration**: [Estimated time with justification]
 - **Deliverables**: [Specific outputs with exact file paths and locations]
 - **Target Directory**: [Specify exactly where in the project structure this phase's work will be done]
+- **CRITICAL: Data Flow Validation**: [Ensure no parent access anti-patterns and explicit parameter passing]
 - **CRITICAL: Dependency Validation**: [**MANDATORY** for each phase that adds new modules or features]
   - **Dependency Graph Check**: [Verify that all proposed changes comply with existing dependency architecture]
   - **Circular Dependency Prevention**: [Confirm no circular dependencies will be introduced]
@@ -233,51 +269,64 @@ Use this markdown template for your task plan:
   - **Cross-Cutting Concern Placement**: [Ensure cross-cutting concerns (caching, logging, metrics) are implemented at appropriate architectural boundaries, not mixed into business logic]
   - **Concern Separation Validation**: [Verify that infrastructure concerns are not mixed with business logic, and that pure functions remain side-effect free]
   - **Layer Communication Validation**: [Ensure proposed inter-layer communication follows established patterns and doesn't violate architectural boundaries]
+- **CRITICAL: API Design & Function Signature Validation**: [**MANDATORY** for each phase to ensure clear, maintainable function contracts]
+  - **Clear Function Signatures**: [Verify that all function signatures clearly indicate required data without forcing callers to understand internal implementation]
+  - **Minimal Parameter Dependencies**: [Ensure functions accept only the minimal data they actually need - extract specific values from complex objects at call sites]
+  - **Primitive Argument Preference**: [Prefer primitive arguments (strings, numbers, booleans) over complex objects when possible]
+  - **Complex Object Passing Validation**: [When objects must be passed, document exactly which properties are used and consider using TypeScript interfaces or JSDoc]
+  - **Anti-Pattern Prevention**: [Prevent passing entire context objects, component instances (`this`), or stores when only specific values are needed]
+  - **API Contract Documentation**: [Ensure each parameter has a clear, single purpose evident from parameter name and documentation]
 - **Tasks**:
   1. [Research and evaluate libraries/frameworks using web search and GitHub tools]
   2. [Detailed task with clear acceptance criteria and specific file paths]
   3. [Next task with dependencies clearly noted and target locations specified]
 - **File Placement Strategy**: [Specify exactly where new files will be created relative to project root and existing structure, with dependency compliance verification]
-- **Risks**: [Potential blockers and mitigation strategies, including directory structure conflicts and dependency violations]
+- **Risks**: [Potential blockers and mitigation strategies, including directory structure conflicts, dependency violations, and data flow anti-patterns]
 
 ### Phase N: [Continue for all phases]
 
 ## Technical Architecture
 - **Technology Stack**: [Modern, justified technology choices that integrate with existing project setup, with latest stable versions researched via web and GitHub]
-- **System Design**: [High-level architecture using contemporary design patterns that complement existing codebase structure]
-- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows]
-- **Data Flow**: [Key data interactions and flow with modern protocols, respecting existing data patterns]
+- **System Design**: [High-level architecture using contemporary design patterns that complement existing codebase structure and follow proper data flow principles]
+- **Data Flow Architecture**: [Design explicit component interfaces with props down, events up pattern]
+- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows while maintaining proper data flow]
+- **Data Flow**: [Key data interactions and flow with modern protocols, respecting existing data patterns and preventing anti-patterns]
 - **Security Considerations**: [Current security best practices, auth, encryption, compliance that work with existing security model]
 - **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns compatible with existing development workflow]
 - **Library Selection**: [Researched GitHub repositories with stars, maintenance status, community adoption metrics, and compatibility with existing dependencies]
 
 ## Testing Strategy
-- **Unit Testing**: [Coverage approach and tools]
-- **Integration Testing**: [Service interaction testing]
-- **User Acceptance Testing**: [Validation criteria]
+- **Unit Testing**: [Coverage approach and tools, including data flow testing]
+- **Integration Testing**: [Service interaction testing, including component communication testing]
+- **User Acceptance Testing**: [Validation criteria including proper data flow behavior]
+- **Data Flow Testing**: [Specific tests to verify proper data passing and prevent anti-patterns]
 
 ## Deployment Plan
 - **Environment Setup**: [Dev, staging, production configs]
 - **Deployment Process**: [Step-by-step deployment and rollback]
-- **Monitoring**: [Health checks, alerts, and observability]
+- **Monitoring**: [Health checks, alerts, and observability including data flow monitoring]
 
 ## Timeline & Milestones
 - **Key Dates**: [Major deliverable dates]
-- **Dependencies**: [Critical path items]
+- **Dependencies**: [Critical path items including data flow refactoring if needed]
 - **Buffer Time**: [Risk mitigation time allocation]
 
 ## Resource Requirements
-- **Team**: [Roles, responsibilities, and skill requirements]
+- **Team**: [Roles, responsibilities, and skill requirements including data flow expertise]
 - **Tools**: [Development and deployment tools needed]
 - **Infrastructure**: [Hosting, services, and hardware needs]
 
 ## Review Checkpoints
-- **Phase Gates**: [Go/no-go decision points]
-- **Stakeholder Reviews**: [When and who needs to review]
-- **Quality Gates**: [Code review, testing, security checkpoints]
+- **Phase Gates**: [Go/no-go decision points including data flow pattern reviews]
+- **Stakeholder Reviews**: [When and who needs to review including architecture reviews]
+- **Quality Gates**: [Code review, testing, security checkpoints including data flow pattern validation]
 
 **Quality Requirements:**
 - **CODEBASE-FIRST APPROACH**: Always start by analyzing the existing project structure, technology stack, and development patterns before making any recommendations
+- **DATA-FLOW-FIRST ARCHITECTURE**: **CRITICAL** requirement to prevent data flow anti-patterns
+  - **No Parent Access**: Prevent `$parent`, `this.$parent`, `useParent()`, DOM traversal for state access
+  - **Explicit Parameters**: All data must be passed as explicit parameters, no implicit dependencies
+  - **Props Down, Events Up**: Enforce proper data flow direction with clear component interfaces
 - **DEPENDENCY-AWARE ARCHITECTURE**: **CRITICAL** requirement to prevent architectural violations
   - **Mandatory Dependency Analysis**: Every task plan MUST include comprehensive dependency mapping before recommending any new code placement
   - **Circular Dependency Prevention**: Verify that no proposed changes will create circular dependencies
@@ -290,6 +339,14 @@ Use this markdown template for your task plan:
   - **Cross-Cutting Concern Isolation**: Implement cross-cutting concerns (caching, logging, metrics, security) at appropriate architectural boundaries, not mixed into business logic
   - **Pure Responsibility Assignment**: Each module should have one clear, well-defined responsibility without mixing infrastructure and business concerns
   - **Architectural Layer Compliance**: Verify that Core/Domain layers contain only pure business logic, Service layers handle orchestration/caching, Infrastructure layers handle external concerns, and Presentation layers handle UI logic
+- **API DESIGN & FUNCTION SIGNATURE ENFORCEMENT**: **CRITICAL** requirement to ensure clear, maintainable function contracts
+  - **Mandatory API Contract Analysis**: Every task plan MUST include analysis of function signatures to ensure they follow clear contract principles
+  - **Unclear Parameter Prevention**: Prevent passing entire objects (context, stores, component instances) when only specific values are needed
+  - **Self-Documenting Signatures**: Ensure function signatures clearly indicate what data is required without forcing callers to understand internal implementation
+  - **Minimal Dependency Principle**: Functions should accept only the minimal data they actually need - extract specific values at call sites
+  - **Primitive Argument Preference**: Prefer primitive arguments over complex objects when possible for better testability and clarity
+  - **Complex Object Documentation**: When objects must be passed, require documentation of exactly which properties are used and why
+  - **Anti-Pattern Detection**: Identify and prevent common API design anti-patterns like context object passing and unclear parameter purposes
 - **WORKING DIRECTORY AWARENESS**: Always understand and respect the current working directory context
   - **Directory Structure Analysis**: Use tools like `tree`, `ls`, or `find` to understand the complete project structure
   - **Project Root Identification**: Identify the actual project root and understand the relationship between working directory and project structure
@@ -307,7 +364,7 @@ Use this markdown template for your task plan:
 - **RESPECT EXISTING INFRASTRUCTURE**: Build upon existing tools, configurations, and patterns rather than replacing them
 - **MODERN TECHNICAL RESEARCH**: Include current best practices, latest stable versions, and contemporary architectural patterns that are compatible with existing setup
 - **CURRENT TECH STACK**: Recommend modern, well-supported technologies and frameworks that integrate well with existing project infrastructure
-- **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns that complement existing codebase structure
+- **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns that complement existing codebase structure and enforce proper data flow
 - **RESEARCH-DRIVEN DECISIONS**: Use web search and GitHub tools to validate technology choices and find optimal libraries that work with existing dependencies
 - **EVIDENCE-BASED RECOMMENDATIONS**: Include GitHub stars, maintenance activity, community feedback, and compatibility analysis in technology selection
 
@@ -316,6 +373,7 @@ Use this markdown template for your task plan:
 - Include all sections from the template above
 - Be specific and detailed in all estimates and descriptions
 - Focus on actionability and reviewability
+- Emphasize proper data flow patterns and anti-pattern prevention
 ```
 
 ---
@@ -352,6 +410,7 @@ When generating prompts:
 4. **Emphasize Quality**: Request detailed acceptance criteria and estimates
 5. **Enable Review**: Ensure the resulting plan will be reviewable by stakeholders
 6. **Focus on Action**: Generate prompts that lead to actionable, implementable plans
-7. **Clean Output**: Output ONLY the prompt itself without any introductory or explanatory text
+7. **Enforce Data Flow**: Ensure proper data flow patterns and prevent anti-patterns in all recommendations
+8. **Clean Output**: Output ONLY the prompt itself without any introductory or explanatory text
 
 Your prompts should enable any LLM agent to create task plans that are comprehensive, detailed, actionable, and ready for stakeholder review and approval.

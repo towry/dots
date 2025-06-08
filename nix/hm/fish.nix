@@ -63,6 +63,12 @@
     source = ../../conf/fish/themes;
   };
 
+  home.file.fishCompletions = {
+    enable = true;
+    target = ".config/fish/completions";
+    source = ../../conf/fish/shellcompl;
+  };
+
   # aliases
   programs.fish.shellAliases = {
     cd-home = "cd $HOME/workspace";
@@ -477,7 +483,7 @@
       '';
       description = "Cd into current opened finder";
     };
-    fstatus = {
+        fstatus = {
       body = ''
         # Ensure we are in a git repository
         set git_root (git rev-parse --show-toplevel)
@@ -504,8 +510,8 @@
                                  --bind "ctrl-d:preview-page-down"
       '';
       description = "Use fzf to browse current unstaged changes";
-    };
-    just-pick-status-file = {
+      };
+     just-pick-status-file = {
       body = ''
         # Ensure we are in a git repository
         if not git rev-parse --is-inside-work-tree >/dev/null 2>&1
@@ -525,7 +531,12 @@
         set -l before_token (string sub -l (math $cursor_pos - $token_length) -- "$buffer")
         set -l after_token (string sub -s (math $cursor_pos + 1) -- "$buffer")
 
-        set -l selected_files (git -c diff.relative=true diff --name-only HEAD | fzf \
+        # First get the list of changed files
+        set -l git_status_files (git -c diff.relative=true diff --name-only HEAD)
+        set -l untracked_files (git ls-files --others --exclude-standard)
+
+        # Combine the lists and pipe to fzf
+        set -l selected_files (printf "%s\n" $git_status_files $untracked_files | sort | uniq | fzf \
             --reverse \
             --cycle \
             --multi \
@@ -554,6 +565,7 @@
 
         commandline -f repaint
       '';
+      description = "Use fzf to browse current unstaged changes";
     };
     fpick-status = {
       body = ''
@@ -859,4 +871,5 @@
       '';
     };
   };
+
 }
