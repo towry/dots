@@ -1,5 +1,5 @@
 {
-  version ? "21.0.0",
+  version ? "21.1.0",
   system,
   pkgs ? (import <nixpkgs> { }),
 }:
@@ -9,8 +9,8 @@ let
     aarch64-darwin = "https://github.com/git-town/git-town/releases/download/v${version}/git-town_macos_arm_64.tar.gz";
   };
   sha256-map = {
-    x86_64-darwin = "1b46c97827347f199bfd8e7dcf668d3d8c6070802499152ac10cae43fdeaaec1";
-    aarch64-darwin = "0d8f003c8da45b6f5e2bf6a318d63f7db222f4f1a9e112f771558476263d7258";
+    x86_64-darwin = "397fc9be31d2c9b120e5ee26d5a85635cfc3bebcf8f12b4113bfc0c45279ad08";
+    aarch64-darwin = "ec279c1e0e58a00085d53e9035edacdcfcc85a2bb9ee7dace46395dad97ac154";
   };
   tarfile = builtins.fetchurl {
     url = url-map.${system};

@@ -20,7 +20,6 @@
       system = final.system;
     };
     git-town = final.callPackage ./pkgs/git-town.nix {
-      version = "21.0.0";
       pkgs = final;
       system = final.system;
     };
