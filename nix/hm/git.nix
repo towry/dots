@@ -54,7 +54,6 @@ in
     aliases = {
       co = "checkout";
       ad = "add";
-      ada = "add -A";
       sw = "switch";
       # apply patch with commit text only (no committee info)
       apply-diff-patch = "apply --allow-empty";
@@ -62,13 +61,11 @@ in
       amend = "commit --amend --no-edit";
       ci = "commit";
       cne = "commit --no-edit";
-      cm = "commit -m";
       st = "status";
       add-note = ''branch --edit-description'';
       note = ''!git config --get branch.$(git rev-parse --abbrev-ref HEAD).description'';
-      sh = "show";
       default-branch = "!git symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4";
-      ss = ''!f() { if [ $# -eq 0 ]; then git stash list; else git stash $@; fi; }; f'';
+      ss = ''!f() { if [ $# -eq 0 ]; then git stash list; else git stash "$@"; fi; }; f'';
       # stash and name with "wip"
       ss-wip = "stash -m wip";
       # stash staged changes
