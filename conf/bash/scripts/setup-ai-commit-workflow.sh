@@ -31,6 +31,87 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Function to detect current shell and return appropriate config file
+detect_shell_config() {
+    local shell_name
+    local config_file
+
+    # Get the current shell from $SHELL or $0
+    if [[ -n "${SHELL:-}" ]]; then
+        shell_name=$(basename "$SHELL")
+    else
+        shell_name=$(basename "$0" | sed 's/^-//')
+    fi
+
+    case "$shell_name" in
+        bash)
+            config_file="$HOME/.bashrc"
+            # On macOS, also check for .bash_profile if .bashrc doesn't exist
+            if [[ ! -f "$config_file" && -f "$HOME/.bash_profile" ]]; then
+                config_file="$HOME/.bash_profile"
+            fi
+            ;;
+        zsh)
+            config_file="$HOME/.zshrc"
+            ;;
+        fish)
+            config_file="$HOME/.config/fish/config.fish"
+            ;;
+        *)
+            # Default to bashrc for unknown shells
+            config_file="$HOME/.bashrc"
+            print_warning "Unknown shell '$shell_name', defaulting to .bashrc"
+            ;;
+    esac
+
+    echo "$config_file"
+}
+
+# Function to get aichat config directory with better error handling
+get_aichat_config_dir() {
+    local config_dir
+
+    # First check if aichat is available
+    if ! command_exists aichat; then
+        print_error "aichat is not installed or not in PATH"
+        exit 1
+    fi
+
+    # Try to get config directory from aichat --info
+    # Handle the case where config doesn't exist yet
+    local aichat_info_output
+    if aichat_info_output=$(aichat --info 2>/dev/null); then
+        config_dir=$(echo "$aichat_info_output" | grep "roles_dir" | sed 's/^roles_dir[[:space:]]*//' | sed 's|/roles$||')
+    else
+        # If aichat --info fails (e.g., no config), use default location
+        print_warning "aichat --info failed, using default config location"
+        case "$(uname -s)" in
+            Darwin)
+                config_dir="$HOME/Library/Application Support/aichat"
+                ;;
+            Linux)
+                config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/aichat"
+                ;;
+            *)
+                config_dir="$HOME/.aichat"
+                ;;
+        esac
+    fi
+
+    if [[ -z "$config_dir" ]]; then
+        print_error "Failed to determine aichat config directory"
+        exit 1
+    fi
+
+    # Create config directory if it doesn't exist
+    if [[ ! -d "$config_dir" ]]; then
+        print_info "Creating aichat config directory: $config_dir"
+        mkdir -p "$config_dir"
+    fi
+
+    echo "$config_dir"
+}
+
 # Function to check if aichat config exists and download if needed
 ensure_aichat_config() {
     local config_dir="$1"
@@ -59,8 +140,6 @@ install_aichat() {
 
     if command_exists aichat; then
         print_success "aichat is already installed"
-        # Only check version if we can safely run aichat commands
-        # We'll verify this after ensuring config exists
         return 0
     fi
 
@@ -77,33 +156,6 @@ install_aichat() {
         print_success "aichat installed successfully"
     else
         print_error "Failed to install aichat"
-        exit 1
-    fi
-}
-
-# Function to get aichat config directory
-get_aichat_config_dir() {
-    local config_dir
-
-        # Try to get config directory from aichat
-    if command_exists aichat; then
-        # Get the actual config directory from aichat --info
-        config_dir=$(aichat --info | grep "roles_dir" | sed 's/^roles_dir[[:space:]]*//' | sed 's|/roles$||')
-
-        if [[ -z "$config_dir" ]]; then
-            print_error "Failed to get aichat config directory from 'aichat --info'"
-            exit 1
-        fi
-
-        # Create config directory if it doesn't exist
-        if [[ ! -d "$config_dir" ]]; then
-            print_info "Creating aichat config directory: $config_dir"
-            mkdir -p "$config_dir"
-        fi
-
-        echo "$config_dir"
-    else
-        print_error "aichat is not installed or not in PATH"
         exit 1
     fi
 }
@@ -127,7 +179,6 @@ download_file() {
     fi
 
     if command_exists curl; then
-        # Use quotes around destination to handle spaces in path
         if curl -fsSL "$url" -o "$destination"; then
             print_success "Downloaded $description successfully"
             # Only chmod +x for shell scripts, not markdown files
@@ -216,26 +267,39 @@ setup_aichat_role() {
     print_success "aichat git-commit role configured"
 }
 
-# Function to setup bash alias
-setup_bash_alias() {
+# Function to setup shell alias
+setup_shell_alias() {
     local scripts_dir="$1"
-    local bashrc="$HOME/.bashrc"
+    local config_file
+    local shell_name
     local alias_name="ai-commit"
     local alias_command="$scripts_dir/git-commit-context.sh | aichat --role git-commit -S | $scripts_dir/git-commit-chunk-text.sh"
 
-    print_info "Setting up bash alias '$alias_name'..."
+    # Detect current shell and get config file
+    config_file=$(detect_shell_config)
+    shell_name=$(basename "$(dirname "$config_file")" | sed 's/.*\.//')
+    if [[ "$config_file" == *".bashrc"* ]] || [[ "$config_file" == *".bash_profile"* ]]; then
+        shell_name="bash"
+    elif [[ "$config_file" == *".zshrc"* ]]; then
+        shell_name="zsh"
+    elif [[ "$config_file" == *"fish"* ]]; then
+        shell_name="fish"
+    fi
 
-    # Check if .bashrc exists
-    if [[ ! -f "$bashrc" ]]; then
-        print_warning ".bashrc not found. Creating it..."
-        touch "$bashrc"
+    print_info "Setting up $shell_name alias '$alias_name' in $config_file..."
+
+    # Check if config file exists, create if needed
+    if [[ ! -f "$config_file" ]]; then
+        print_warning "Config file not found. Creating it..."
+        mkdir -p "$(dirname "$config_file")"
+        touch "$config_file"
     fi
 
     # Check if alias already exists
-    if grep -q "alias $alias_name=" "$bashrc"; then
-        print_warning "Alias '$alias_name' already exists in .bashrc"
-        print_info "Current alias definition:"
-        grep "alias $alias_name=" "$bashrc"
+    if grep -q "alias $alias_name=" "$config_file" 2>/dev/null; then
+        print_warning "Alias '$alias_name' already exists in $config_file"
+        echo "Current alias definition:"
+        grep "alias $alias_name=" "$config_file"
 
         read -p "Do you want to update it? (y/N): " -n 1 -r
         echo
@@ -245,24 +309,31 @@ setup_bash_alias() {
         fi
 
         # Remove existing alias
-        sed -i.bak "/alias $alias_name=/d" "$bashrc"
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "/alias $alias_name=/d" "$config_file"
+        else
+            sed -i "/alias $alias_name=/d" "$config_file"
+        fi
         print_info "Removed existing alias"
     fi
 
-    # Add new alias
-    echo "" >> "$bashrc"
-    echo "# AI-powered git commit workflow" >> "$bashrc"
-    echo "alias $alias_name='$alias_command'" >> "$bashrc"
+    # Add new alias (without color codes)
+    {
+        echo ""
+        echo "# AI-powered git commit workflow"
+        echo "alias $alias_name='$alias_command'"
+    } >> "$config_file"
 
-    print_success "Added '$alias_name' alias to .bashrc"
-    print_info "Alias command: $alias_command"
-    print_warning "Please run 'source ~/.bashrc' or restart your terminal to use the alias"
+    print_success "Added '$alias_name' alias to $config_file"
+    echo "Alias command: $alias_command"
+    print_warning "Please run 'source $config_file' or restart your terminal to use the alias"
 }
 
 # Function to display usage instructions
 display_usage_instructions() {
     local scripts_dir="$1"
     local config_dir="$2"
+    local config_file="$3"
 
     echo
     print_success "=== AI Commit Workflow Setup Complete ==="
@@ -270,7 +341,8 @@ display_usage_instructions() {
     print_info "📁 Scripts installed in: $scripts_dir"
     print_info "⚙️  aichat config directory: $config_dir"
     print_info "🎭 aichat role configured: git-commit"
-    print_info "🔗 Bash alias created: ai-commit"
+    print_info "🔗 Shell alias created: ai-commit"
+    print_info "📝 Shell config file: $config_file"
     echo
     print_info "📋 Usage Instructions:"
     echo "  1. Navigate to your git repository"
@@ -281,7 +353,7 @@ display_usage_instructions() {
     echo "  $scripts_dir/git-commit-context.sh | aichat --role git-commit -S | $scripts_dir/git-commit-chunk-text.sh"
     echo
     print_info "⚡ Next Steps:"
-    echo "  • Run 'source ~/.bashrc' to load the new alias"
+    echo "  • Run 'source $config_file' to load the new alias"
     echo "  • Configure your API key in the aichat config file (see below)"
     echo "  • Test the workflow in a git repository with staged changes"
     echo
@@ -306,13 +378,13 @@ main() {
     echo "   • Install aichat via Homebrew (if not already installed)"
     echo "   • Download required scripts to ~/.git/ai-commit/"
     echo "   • Setup aichat role for git commits"
-    echo "   • Create bash alias 'ai-commit' in ~/.bashrc"
+    echo "   • Create shell alias 'ai-commit' in your shell config"
     echo
 
     # Install aichat
     install_aichat
 
-    # Get aichat config directory
+    # Get aichat config directory (with better error handling)
     local config_dir
     config_dir=$(get_aichat_config_dir)
     print_info "aichat config directory: $config_dir"
@@ -339,11 +411,13 @@ main() {
     # Setup aichat role
     setup_aichat_role "$config_dir"
 
-    # Setup bash alias
-    setup_bash_alias "$scripts_dir"
+    # Setup shell alias (now supports bash and zsh)
+    local shell_config_file
+    shell_config_file=$(detect_shell_config)
+    setup_shell_alias "$scripts_dir"
 
     # Display usage instructions
-    display_usage_instructions "$scripts_dir" "$config_dir"
+    display_usage_instructions "$scripts_dir" "$config_dir" "$shell_config_file"
 }
 
 # Run main function
