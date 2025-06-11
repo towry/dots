@@ -31,6 +31,96 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Function to check bash version and readarray support
+check_bash_readarray_support() {
+    print_info "Checking bash version and readarray support..."
+
+    # Check if readarray is available in current bash
+    if bash -c 'type readarray' >/dev/null 2>&1; then
+        print_success "Current bash supports readarray"
+        return 0
+    fi
+
+    # Check bash version
+    local bash_version
+    bash_version=$(bash --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | head -n1)
+    print_warning "Current bash version: $bash_version (readarray not available)"
+
+    # readarray was introduced in bash 4.0
+    if [[ $(echo "$bash_version" | cut -d. -f1) -lt 4 ]]; then
+        print_warning "bash version $bash_version does not support readarray (requires bash 4.0+)"
+        install_modern_bash
+    else
+        print_error "bash version $bash_version should support readarray but it's not available"
+        print_info "This might be due to bash being compiled without certain features"
+        install_modern_bash
+    fi
+}
+
+# Function to install modern bash via Homebrew
+install_modern_bash() {
+    print_info "Installing modern bash via Homebrew..."
+
+    if ! command_exists brew; then
+        print_error "Homebrew is not installed. Please install Homebrew first."
+        print_info "Visit: https://brew.sh/"
+        exit 1
+    fi
+
+    # Check if bash is already installed via brew
+    if brew list bash >/dev/null 2>&1; then
+        print_info "Modern bash is already installed via Homebrew"
+        local brew_bash_path
+        brew_bash_path=$(brew --prefix)/bin/bash
+
+        if [[ -x "$brew_bash_path" ]]; then
+            print_success "Homebrew bash found at: $brew_bash_path"
+            # Test if this bash supports readarray
+            if "$brew_bash_path" -c 'type readarray' >/dev/null 2>&1; then
+                print_success "Homebrew bash supports readarray"
+                return 0
+            else
+                print_warning "Homebrew bash doesn't support readarray, reinstalling..."
+                brew reinstall bash
+            fi
+        fi
+    else
+        print_info "Installing bash via Homebrew..."
+        if brew install bash; then
+            print_success "Modern bash installed successfully"
+        else
+            print_error "Failed to install bash via Homebrew"
+            exit 1
+        fi
+    fi
+
+    # Verify the installation
+    local brew_bash_path
+    brew_bash_path=$(brew --prefix)/bin/bash
+
+    if [[ -x "$brew_bash_path" ]]; then
+        local new_bash_version
+        new_bash_version=$("$brew_bash_path" --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | head -n1)
+        print_success "Installed bash version: $new_bash_version"
+
+        # Test readarray support
+        if "$brew_bash_path" -c 'type readarray' >/dev/null 2>&1; then
+            print_success "New bash supports readarray"
+
+            # Suggest adding to PATH
+            print_info "To use the new bash as default, add this to your shell config:"
+            print_info "export PATH=\"$(brew --prefix)/bin:\$PATH\""
+            print_warning "Note: You may need to restart your terminal for changes to take effect"
+        else
+            print_error "Even the new bash doesn't support readarray"
+            exit 1
+        fi
+    else
+        print_error "Failed to find installed bash at expected location"
+        exit 1
+    fi
+}
+
 # Function to detect current shell and return appropriate config file
 detect_shell_config() {
     local shell_name
@@ -166,6 +256,13 @@ download_file() {
     local destination="$2"
     local description="$3"
 
+    # Check if file already exists
+    if [[ -f "$destination" ]]; then
+        print_success "$description already exists at: $destination"
+        print_info "Skipping download"
+        return 0
+    fi
+
     print_info "Downloading $description..."
     print_info "URL: $url"
     print_info "Destination: $destination"
@@ -215,7 +312,7 @@ download_file() {
 
 # Function to setup scripts directory
 setup_scripts_directory() {
-    local scripts_dir="$HOME/.git/ai-commit"
+    local scripts_dir="$HOME/.config/ai-commit"
 
     print_info "Setting up AI commit scripts directory: $scripts_dir"
 
@@ -239,8 +336,53 @@ setup_scripts_directory() {
         "$scripts_dir/git-commit-context.sh" \
         "git-commit-context.sh script"
 
+    # Update shebang in scripts if modern bash was installed
+    update_script_shebangs "$scripts_dir"
+
     print_success "All scripts downloaded to $scripts_dir"
-    echo "$scripts_dir"
+}
+
+# Function to update script shebangs to use modern bash if available
+update_script_shebangs() {
+    local scripts_dir="$1"
+
+    # Check if modern bash is available
+    local brew_bash_path
+    if command_exists brew && [[ -x "$(brew --prefix)/bin/bash" ]]; then
+        brew_bash_path="$(brew --prefix)/bin/bash"
+
+        # Verify it supports readarray
+        if "$brew_bash_path" -c 'type readarray' >/dev/null 2>&1; then
+            print_info "Updating script shebangs to use modern bash: $brew_bash_path"
+
+            # Update git-commit-chunk-text.sh shebang
+            local chunk_script="$scripts_dir/git-commit-chunk-text.sh"
+            if [[ -f "$chunk_script" ]]; then
+                # Replace the shebang line
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                    sed -i '' "1s|#!/usr/bin/env bash|#!$brew_bash_path|" "$chunk_script"
+                else
+                    sed -i "1s|#!/usr/bin/env bash|#!$brew_bash_path|" "$chunk_script"
+                fi
+                print_success "Updated shebang in git-commit-chunk-text.sh"
+            fi
+
+            # Update git-commit-context.sh shebang (in case it also needs modern bash features)
+            local context_script="$scripts_dir/git-commit-context.sh"
+            if [[ -f "$context_script" ]]; then
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                    sed -i '' "1s|#!/usr/bin/env bash|#!$brew_bash_path|" "$context_script"
+                else
+                    sed -i "1s|#!/usr/bin/env bash|#!$brew_bash_path|" "$context_script"
+                fi
+                print_success "Updated shebang in git-commit-context.sh"
+            fi
+        else
+            print_warning "Homebrew bash found but doesn't support readarray, keeping original shebangs"
+        fi
+    else
+        print_info "No modern bash detected, keeping original shebangs"
+    fi
 }
 
 # Function to setup aichat role
@@ -273,7 +415,7 @@ setup_shell_alias() {
     local config_file
     local shell_name
     local alias_name="ai-commit"
-    local alias_command="$scripts_dir/git-commit-context.sh | aichat --role git-commit -S | $scripts_dir/git-commit-chunk-text.sh"
+    local alias_command="\$HOME/.config/ai-commit/git-commit-context.sh | aichat --role git-commit -S | \$HOME/.config/ai-commit/git-commit-chunk-text.sh"
 
     # Detect current shell and get config file
     config_file=$(detect_shell_config)
@@ -368,6 +510,8 @@ display_usage_instructions() {
     print_warning "📝 Important Notes:"
     echo "  • Make sure you have staged changes before running ai-commit"
     echo "  • You MUST configure your API key in the config file for aichat to work"
+    echo "  • If bash was updated, restart your terminal or source your shell config"
+    echo "  • Modern bash (4.0+) is required for readarray support"
 }
 
 # Main function
@@ -375,11 +519,15 @@ main() {
     echo
     print_info "🚀 Setting up AI-powered Git Commit Workflow"
     print_info "This script will:"
+    echo "   • Check bash version and install modern bash if needed"
     echo "   • Install aichat via Homebrew (if not already installed)"
-    echo "   • Download required scripts to ~/.git/ai-commit/"
+    echo "   • Download required scripts to ~/.config/ai-commit/"
     echo "   • Setup aichat role for git commits"
     echo "   • Create shell alias 'ai-commit' in your shell config"
     echo
+
+    # Check bash version and readarray support
+    check_bash_readarray_support
 
     # Install aichat
     install_aichat
@@ -405,8 +553,8 @@ main() {
     fi
 
     # Setup scripts directory and download scripts
-    local scripts_dir
-    scripts_dir=$(setup_scripts_directory)
+    local scripts_dir="$HOME/.config/ai-commit"
+    setup_scripts_directory > /dev/null
 
     # Setup aichat role
     setup_aichat_role "$config_dir"
