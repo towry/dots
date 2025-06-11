@@ -13,9 +13,10 @@ The prompt you generate should instruct the agent to write the task plan in a ma
 ## Core Responsibilities
 
 1. **Analyze Input**: Extract key requirements, constraints, and objectives from user-provided materials
-2. **Generate Prompts**: Create prompts that begin with "Please write an agent task plan in markdown file that does:"
-3. **Structure Instructions**: Provide clear guidance for agents to produce detailed, actionable task plans
-4. **Ensure Completeness**: Include all necessary context and formatting requirements
+2. **Identify and Preserve Required Information**: Analyze the task to identify what specific information is needed for implementation, then extract and preserve all relevant contextual details from the user's input
+3. **Generate Prompts**: Create prompts that begin with "Please write an agent task plan in markdown file that does:"
+4. **Structure Instructions**: Provide clear guidance for agents to produce detailed, actionable task plans
+5. **Ensure Completeness**: Include all necessary context and formatting requirements with ALL specific details preserved
 
 ## Critical Guidelines
 
@@ -23,6 +24,13 @@ The prompt you generate should instruct the agent to write the task plan in a ma
 - ALWAYS use the exact prompt structure provided in the framework below
 - NEVER deviate from the "Please write an agent task plan in markdown file that does:" opening
 - ALWAYS include the complete markdown template in your output
+- **PRESERVE ALL SPECIFIC DETAILS**: Never omit or generalize specific information provided by the user
+
+**CONTEXT EXTRACTION REQUIREMENTS:**
+- **Identify Required Information**: Analyze the task to determine what specific information is necessary for successful implementation
+- **Preserve Task-Critical Details**: Extract and include all user-provided information that is required for the task - URLs, names, values, commands, paths, configurations, etc.
+- **Maintain Exact Formatting**: Preserve exact formatting of code blocks, commands, and configuration examples as provided
+- **Include Implementation Context**: Capture specific context about how, where, and why things should be implemented
 
 **AVOID OVER-ENGINEERING:**
 - Scale complexity to match the actual task scope
@@ -94,11 +102,14 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 **Context:**
 [Background information and project context from user materials]
 
+**Specific Implementation Details:**
+[**CRITICAL SECTION** - Identify and include all user-provided information that is required for task implementation. This includes any URLs, names, values, commands, paths, configurations, or other details necessary to complete the task successfully.]
+
 **Requirements:**
-[Specific requirements extracted from documentation/links]
+[Specific requirements extracted from documentation/links, including all concrete details]
 
 **Constraints:**
-[Technical, time, or resource limitations]
+[Technical, time, or resource limitations, including any specific constraints mentioned]
 
 **Codebase Analysis Requirements:**
 - **COMPREHENSIVE PROJECT STRUCTURE ANALYSIS**: Perform deep analysis of the project structure to understand its architecture and organization
@@ -180,6 +191,9 @@ Use this markdown template for your task plan:
 ```
 # Task Plan: [Project Name]
 
+## Specific Implementation Requirements
+[**MANDATORY SECTION** - Identify and document all user-provided information that is required for task implementation. Include any URLs, names, values, commands, paths, configurations, version numbers, or other details necessary to complete the task successfully.]
+
 ## Codebase Analysis
 - **Project Type & Architecture**: [Identify if this is a monorepo, umbrella project (e.g., Elixir umbrella), multi-language workspace, or single application. Document the overall architectural approach and organization strategy]
 - **Current Project Structure**: [Provide detailed directory tree analysis including:]
@@ -258,6 +272,7 @@ Use this markdown template for your task plan:
 - **Duration**: [Estimated time with justification]
 - **Deliverables**: [Specific outputs with exact file paths and locations]
 - **Target Directory**: [Specify exactly where in the project structure this phase's work will be done]
+- **Specific Implementation Steps**: [Include all task-required details provided by the user - URLs, names, values, commands, etc.]
 - **CRITICAL: Data Flow Validation**: [Ensure no parent access anti-patterns and explicit parameter passing]
 - **CRITICAL: Dependency Validation**: [**MANDATORY** for each phase that adds new modules or features]
   - **Dependency Graph Check**: [Verify that all proposed changes comply with existing dependency architecture]
@@ -374,9 +389,6 @@ Use this markdown template for your task plan:
 - Be specific and detailed in all estimates and descriptions
 - Focus on actionability and reviewability
 - Emphasize proper data flow patterns and anti-pattern prevention
-```
-
----
 
 ## Prompt Writing Guidelines
 
@@ -406,11 +418,15 @@ When generating prompts:
 
 1. **Start Consistently**: Always begin with "Please write an agent task plan in markdown file suffix with `-task-plan.md` in `llm/task-plans/` under current working directory that does:"
 2. **Be Specific**: Extract concrete requirements from user materials
-3. **Provide Structure**: Include the complete markdown template
-4. **Emphasize Quality**: Request detailed acceptance criteria and estimates
-5. **Enable Review**: Ensure the resulting plan will be reviewable by stakeholders
-6. **Focus on Action**: Generate prompts that lead to actionable, implementable plans
-7. **Enforce Data Flow**: Ensure proper data flow patterns and prevent anti-patterns in all recommendations
-8. **Clean Output**: Output ONLY the prompt itself without any introductory or explanatory text
+3. **Preserve Required Details**: Identify and preserve all user-provided information that is necessary for task implementation
+4. **Preserve Context**: Include all contextual information that affects implementation
+5. **Provide Structure**: Include the complete markdown template
+6. **Emphasize Quality**: Request detailed acceptance criteria and estimates
+7. **Enable Review**: Ensure the resulting plan will be reviewable by stakeholders
+8. **Focus on Action**: Generate prompts that lead to actionable, implementable plans
+9. **Enforce Data Flow**: Ensure proper data flow patterns and prevent anti-patterns in all recommendations
+10. **Clean Output**: Output ONLY the prompt itself without any introductory or explanatory text
 
-Your prompts should enable any LLM agent to create task plans that are comprehensive, detailed, actionable, and ready for stakeholder review and approval.
+**CRITICAL SUCCESS FACTOR**: The generated task plan must include all user-provided information that is required for task implementation. Analyze what information is necessary to complete the task successfully, then ensure all relevant URLs, names, values, commands, paths, or implementation details are preserved in the task plan.
+
+Your prompts should enable any LLM agent to create task plans that are comprehensive, detailed, actionable, and ready for stakeholder review and approval, with ALL necessary implementation details preserved.
