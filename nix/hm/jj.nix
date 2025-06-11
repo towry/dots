@@ -260,13 +260,14 @@ in
 
             echo "[AI-CI] Step 3/4: Generating commit context..."
             # Generate commit context and check if successful
-            if ! context_output=$("$bashScriptsDir/jj-commit-context.sh" "$rev" 2>&1); then
+            # Don't capture stderr so we can see debug messages
+            if context_output=$("$bashScriptsDir/jj-commit-context.sh" "$rev"); then
+              echo "[AI-CI] Step 3/4: ✓ Commit context generated successfully"
+            else
               context_exit_code=$?
               echo "[AI-CI] ERROR: Step 3/4 failed - jj-commit-context.sh failed (exit code: $context_exit_code)" >&2
-              echo "Context script output: $context_output" >&2
               exit $context_exit_code
             fi
-            echo "[AI-CI] Step 3/4: ✓ Commit context generated successfully"
 
             echo "[AI-CI] Step 4/4: Generating AI commit message and applying..."
             # Generate commit message using aichat with jj context and apply it

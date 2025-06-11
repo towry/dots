@@ -32,48 +32,15 @@ describe_with_text() {
     local rev="$1"
     local input_text="$2"
 
-    # Split input into lines and process
-    local lines=()
-
-    # Use readarray to split input into lines
-    readarray -t lines <<< "$input_text"
-    local line_count=${#lines[@]}
-
-    # Check if we have at least one line
-    if [[ $line_count -eq 0 ]]; then
+    # Check if input is empty
+    if [[ -z "$input_text" ]]; then
         echo "Error: No commit message provided" >&2
         exit 1
     fi
 
-    # First line is the commit title
-    local commit_title="${lines[0]}"
-
-    # Check if title is empty
-    if [[ -z "$commit_title" ]]; then
-        echo "Error: Commit title cannot be empty" >&2
-        exit 1
-    fi
-
-    # Build jj describe command
-    local jj_cmd=("jj" "describe" "--no-edit" "-r" "$rev" "-m" "$commit_title")
-
-    # Add description lines (skip first line and any immediately following empty lines)
-    local in_description=false
-    for ((i=1; i<line_count; i++)); do
-        local current_line="${lines[i]}"
-
-        # Skip empty lines immediately after title until we find content
-        if [[ -z "$current_line" ]] && [[ "$in_description" == false ]]; then
-            continue
-        fi
-
-        # Once we find content, we're in description mode
-        in_description=true
-        jj_cmd+=("-m" "$current_line")
-    done
-
-    # Execute the jj describe command
-    "${jj_cmd[@]}"
+    # Use stdin to pass the commit message to avoid issues with messages starting with dashes
+    # This is more robust than using multiple -m arguments
+    echo "$input_text" | jj describe --stdin --no-edit -r "$rev"
 }
 
 # Main script logic
