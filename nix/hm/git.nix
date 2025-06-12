@@ -37,6 +37,7 @@ in
     git-smash
     gnupg
     # git-sim
+    git-interactive-rebase-tool
   ];
   programs.git = {
     enable = true;
@@ -202,6 +203,7 @@ in
         default = "current";
         autoSetupRemote = true;
       };
+      sequence = { editor = "interactive-rebase-tool"; };
       merge = {
         autostash = false;
         tool = "nvim";
