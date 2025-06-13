@@ -1,11 +1,8 @@
-function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks or git branches"
-    # Get the current token as initial query
+function _fzf-jj-bookmarks-git --description "fzf for git branches"
     set -l query ""
     if status is-interactive
         set query (commandline --current-token)
     end
-
-    # Try git first
     if git rev-parse --git-dir &>/dev/null
         set -f lines (git branch --sort=-committerdate --color=always | sed 's/^[* ] //' | fzf --cycle --tmux 98% --ansi --layout=reverse \
             --scheme=path \
@@ -24,9 +21,18 @@ function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks or git br
             else
                 echo $branch
             end
+            return 0
         end
-    # Fallback to jj if not in a git repo
-    else if jj root --quiet &>/dev/null
+    end
+    return 1
+end
+
+function _fzf-jj-bookmarks-jj --description "fzf for jj bookmarks"
+    set -l query ""
+    if status is-interactive
+        set query (commandline --current-token)
+    end
+    if jj root --ignore-working-copy --quiet &>/dev/null
         set -f lines (jj bookmark list --ignore-working-copy --sort committer-date- --quiet --no-pager --color always | grep -v '^[[:space:]]' | grep -v '\(deleted\)' | fzf --cycle --tmux 98% --ansi --layout=reverse \
             --scheme=path \
             --query="$query" \
@@ -44,8 +50,15 @@ function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks or git br
             else
                 echo $bookmark
             end
+            return 0
         end
-    else
+    end
+    return 1
+end
+
+function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks or git branches"
+    # Change the order here to switch priority
+    _fzf-jj-bookmarks-jj; or _fzf-jj-bookmarks-git; or begin
         echo "Not in a jj or git repository" >&2
         return 1
     end

@@ -1,7 +1,7 @@
 # credit: https://github.com/gessen/fzf.fish/blob/master/functions/_fzf-jj-revs.fish
 
 function _fzf-jj-revs --description "Search for jujutsu revision ids"
-    jj root --quiet &>/dev/null; or return
+    jj root --ignore-working-copy --quiet &>/dev/null; or return
     set -f lines (jj log --quiet --ignore-working-copy --no-graph --color always \
         --revisions 'bookmarks(towry) | (ancestors(@) & author(towry) ~ empty())' \
         --template 'committer.timestamp().format("%F/%H:%M") ++ " " ++change_id.shortest(7) ++ " " ++ description.first_line() ++ " " ++ bookmarks ++ "\n"' \
