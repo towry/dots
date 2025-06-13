@@ -25,9 +25,9 @@ in
         set tmpfile (mktemp)
         $EDITOR $tmpfile
         if test -s $tmpfile
-          mkdir -p .llm/task-plan-prompts
+          mkdir -p llm/task-plan-prompts
           set timestamp (date +%Y%m%d_%H%M%S)
-          set output_file ".llm/task-plan-prompts/task_plan_$timestamp.md"
+          set output_file "llm/task-plan-prompts/task_plan_$timestamp.md"
           cat $tmpfile | aichat --role gen-prompt > $output_file
           echo "Task plan generated: $output_file"
         else

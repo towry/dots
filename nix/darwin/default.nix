@@ -51,7 +51,7 @@ let
               username
               ;
             useGlobalPkgs = true;
-            theme = pkgs.callPackage ../lib/theme.nix { theme = "kanagawa"; };
+            theme = pkgs.callPackage ../lib/theme.nix { theme = "dracula"; };
           };
         }
       ] ++ modules;

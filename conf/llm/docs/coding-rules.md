@@ -37,6 +37,7 @@
 - Add or update tests to reflect critical logic paths affected by your changes
 - Avoid having files over 2000 lines of code, refactor at that point
 - **Enforce proper data flow patterns**: Prefer explicit parameter passing over parent component access. Avoid direct parent access (parent refs, DOM traversal, global state guessing) unless using established framework patterns (Context, dependency injection). All data should have a clear, traceable source
+- **Avoid global dependencies**: Do not add dependencies to global modules (which will affect a lot of code) or global state (like `window` in JavaScript) unless explicitly required. Prefer dependency injection, explicit imports, and localized state management to maintain code modularity and testability
 - Constants Over Magic Numbers
   - Replace hard-coded values with named constants
   - Use descriptive constant names that explain the value's purpose
@@ -82,6 +83,7 @@
 
 ## Coding workflow preferences
 
+- **Confirm command sequences**: Before running a sequence of commands, always ask the user for confirmation at the first command. This prevents issues like dev servers being started when previous servers are still running
 - Focus on the areas of code relevant to the task
 - Do not touch code that is unrelated to the task
 - Follow Test-Driven Development (TDD) principles, i.e. start with the test and then implement the code

@@ -93,5 +93,23 @@
       light = "modus_light";
     };
   };
+  dracula = {
+    kitty = {
+      light = "kanagawa_light.conf";
+      dark = "kanagawa.conf";
+    };
+    fish = {
+      light = "dracula";
+      dark = "dracula";
+    };
+    bat = {
+      light = "dracula";
+      dark = "dracula";
+    };
+    delta = {
+      light = "dracula";
+      dark = "dracula";
+    };
+  };
 }
 .${theme}

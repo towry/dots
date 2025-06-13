@@ -223,17 +223,21 @@ in
             # Get the bash scripts directory
             bashScriptsDir="$HOME/.local/bash/scripts"
 
+            echo "[AI-CI] Starting AI commit process..."
+
             if [[ $# -eq 0 ]]; then
               # No revision provided - create interactive commit first
-              echo "No revision provided. Creating interactive commit..."
+              echo "[AI-CI] Step 1/4: No revision provided. Creating interactive commit..."
 
               # Run interactive commit (let it be truly interactive)
               if ! jj commit -m 'WIP: empty message' --color=never --no-pager -i; then
                 exit_code=$?
-                echo "Interactive commit failed or was cancelled" >&2
+                echo "[AI-CI] ERROR: Step 1/4 failed - Interactive commit failed or was cancelled (exit code: $exit_code)" >&2
                 exit $exit_code
               fi
+              echo "[AI-CI] Step 1/4: ✓ Interactive commit successful"
 
+              echo "[AI-CI] Step 2/4: Extracting parent commit ID..."
               # Now get the status output to extract parent commit ID
               output=$(jj status --color=never --no-pager 2>&1)
 
@@ -242,27 +246,48 @@ in
               rev=$(echo "$output" | grep -E "Parent commit.*:" | sed -E 's/Parent commit \(@-\): ([a-z0-9]+) .*/\1/')
 
               if [[ -z "$rev" ]]; then
-                echo "Error: Could not extract parent commit ID from jj output" >&2
+                echo "[AI-CI] ERROR: Step 2/4 failed - Could not extract parent commit ID from jj output" >&2
                 echo "Output was: $output" >&2
                 exit 1
               fi
 
-              echo "[AI] Using rev: $rev"
+              echo "[AI-CI] Step 2/4: ✓ Using rev: $rev"
             else
               # Revision provided as argument
               rev="$1"
+              echo "[AI-CI] Step 1/4: ✓ Using provided revision: $rev"
             fi
 
-            # Generate commit message using aichat with jj context and apply it
-            "$bashScriptsDir/jj-commit-context.sh" "$rev" | \
-               aichat --role git-commit -S -c | \
-               "$bashScriptsDir/jj-ai-commit.sh" "$rev"
-            ai_exit_code=$?
-            if [[ $ai_exit_code -ne 0 ]]; then
-               echo "Error: AI commit message generation failed (exit code: $ai_exit_code)" >&2
-               echo "You can try again with 'jj ai-ci $rev' or undo last op with 'jj op undo'" >&2
-               exit $ai_exit_code
+            echo "[AI-CI] Step 3/4: Generating commit context..."
+            # Generate commit context and check if successful
+            # Don't capture stderr so we can see debug messages
+            if context_output=$("$bashScriptsDir/jj-commit-context.sh" "$rev"); then
+              echo "[AI-CI] Step 3/4: ✓ Commit context generated successfully"
+            else
+              context_exit_code=$?
+              echo "[AI-CI] ERROR: Step 3/4 failed - jj-commit-context.sh failed (exit code: $context_exit_code)" >&2
+              exit $context_exit_code
             fi
+
+            echo "[AI-CI] Step 4/4: Generating AI commit message and applying..."
+            # Generate commit message using aichat with jj context and apply it
+            if ! ai_output=$(echo "$context_output" | aichat --role git-commit -S -c 2>&1); then
+              aichat_exit_code=$?
+              echo "[AI-CI] ERROR: Step 4/4 failed - aichat failed (exit code: $aichat_exit_code)" >&2
+              echo "aichat output: $ai_output" >&2
+              exit $aichat_exit_code
+            fi
+            echo "[AI-CI] Step 4/4: ✓ AI commit message generated"
+
+            echo "[AI-CI] Step 5/5: Applying commit message..."
+            if ! echo "$ai_output" | "$bashScriptsDir/jj-ai-commit.sh" "$rev"; then
+              apply_exit_code=$?
+              echo "[AI-CI] ERROR: Step 5/5 failed - jj-ai-commit.sh failed (exit code: $apply_exit_code)" >&2
+              echo "AI message was: $ai_output" >&2
+              exit $apply_exit_code
+            fi
+            echo "[AI-CI] Step 5/5: ✓ Commit message applied successfully"
+            echo "[AI-CI] ✓ AI commit process completed successfully!"
           ''
           ""
         ];

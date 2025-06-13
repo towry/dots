@@ -114,7 +114,7 @@
             pkgs-stable = pkgs-stable;
             pkgs-edge = pkgs-edge;
 
-            theme = pkgs.callPackage ./nix/lib/theme.nix { theme = "kanagawa"; };
+            theme = pkgs.callPackage ./nix/lib/theme.nix { theme = "dracula"; };
           };
           pkgs = pkgs;
           modules = [
