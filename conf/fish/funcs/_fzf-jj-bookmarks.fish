@@ -27,7 +27,7 @@ function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks or git br
         end
     # Fallback to jj if not in a git repo
     else if jj root --quiet &>/dev/null
-        set -f lines (jj bookmark list --sort committer-date- --quiet --no-pager --color always | grep -v '^[[:space:]]' | grep -v '\(deleted\)' | fzf --cycle --tmux 98% --ansi --layout=reverse \
+        set -f lines (jj bookmark list --ignore-working-copy --sort committer-date- --quiet --no-pager --color always | grep -v '^[[:space:]]' | grep -v '\(deleted\)' | fzf --cycle --tmux 98% --ansi --layout=reverse \
             --scheme=path \
             --query="$query" \
             --preview='jj log --color=always -r "stack($(echo {} | cut -d: -f2 | awk "{print \\$1}" | string trim))" --no-graph' \
