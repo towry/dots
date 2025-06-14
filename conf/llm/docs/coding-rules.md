@@ -90,6 +90,7 @@
 - Avoid making major changes to the patterns and architecture of how a feature works, after it has shown to work well, unless explicitly instructed
 - Always think about what other methods and areas of code might be affected by code changes
 - After each code change, commit the changes following conventional commit for the git message
+- Always provide absolute file paths to MCP tools to avoid permission errors
 
 ## Testing convention
 
