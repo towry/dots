@@ -334,7 +334,6 @@ in
         ];
         rb = [
           "rebase"
-          "--skip-emptied"
         ];
         ds = [
           "desc"
@@ -902,6 +901,9 @@ in
   home.file = {
     ".config/fish/functions/jj-mega-merge.fish" = {
       source = ../../conf/fish/funcs/jj-mega-merge.fish;
+    };
+    ".config/fish/functions/jj-fork.fish" = {
+      source = ../../conf/fish/funcs/jj-fork.fish;
     };
     ".config/fish/functions/jj-fork-main.fish" = {
       source = ../../conf/fish/funcs/jj-fork-main.fish;
