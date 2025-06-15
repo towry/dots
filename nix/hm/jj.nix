@@ -351,15 +351,11 @@ in
           "-n"
           "8"
         ];
-        sq = [
-          "squash"
-          "-u"
-        ];
         unsq = [
           "squash"
           "--restore-descendants"
         ];
-        mcon = [
+        split-on = [
           "split"
           "-i"
           "-d"
@@ -388,7 +384,7 @@ in
           ''
           ""
         ];
-        mvc = [
+        sq = [
           "squash"
           "-k"
           "-u"
