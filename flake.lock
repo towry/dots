@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "asdf-erlang": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1745851456,
+        "narHash": "sha256-RHBBmuHqYKNTOgeRA+AB/NGG8ahWHxJ4qRLODy3t+6A=",
+        "owner": "asdf-vm",
+        "repo": "asdf-erlang",
+        "rev": "5f27baa62864bb433be9c7f2f7d69b475f534376",
+        "type": "github"
+      },
+      "original": {
+        "owner": "asdf-vm",
+        "repo": "asdf-erlang",
+        "type": "github"
+      }
+    },
     "cl-nix-lite": {
       "locked": {
         "lastModified": 1728174978,
@@ -614,6 +630,7 @@
     "root": {
       "inputs": {
         "asdf-elixir": "asdf-elixir",
+        "asdf-erlang": "asdf-erlang",
         "darwin": "darwin",
         "fenix": "fenix",
         "git-smash": "git-smash",
