@@ -192,6 +192,12 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
   - **SRP Violation Detection**: Look for modules that mix concerns by searching for infrastructure + business logic patterns in the same files
   - **Interface Boundary Analysis**: Examine how different modules communicate to understand current layer boundaries and communication patterns
   - **Pure Function Identification**: Identify existing pure functions vs functions with side effects to understand current concern separation patterns
+- **MANDATORY MCP CONTEXT7 DOCUMENTATION TOOLS**: **CRITICAL** for accessing latest official documentation:
+  - **Library Documentation Lookup**: Use `mcp_context7_resolve-library-id` to find Context7-compatible library IDs for any frameworks or libraries identified in the codebase
+  - **Official Documentation Retrieval**: Use `mcp_context7_get-library-docs` to access up-to-date official documentation, API references, and best practices
+  - **Integration Pattern Research**: Use Context7 to understand official integration patterns, configuration examples, and recommended architectures
+  - **Version-Specific Guidance**: Access documentation for specific library versions to ensure compatibility with existing project dependencies
+  - **Security Best Practices**: Retrieve official security guidelines and recommended practices from library maintainers via Context7
 
 **Technical Research Requirements:**
 - Research and recommend current industry-standard technologies and frameworks **that are compatible with the existing project setup**
@@ -200,6 +206,12 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 - Consider modern development workflows, CI/CD practices, and deployment strategies **already in use or compatible with current setup**
 - **USE WEB SEARCH**: Search the web for latest trends, best practices, and technology comparisons
 - **USE GITHUB SEARCH**: Use GitHub MCP tools to find and evaluate suitable libraries, frameworks, and code examples
+- **USE MCP CONTEXT7**: **CRITICAL** - Use MCP Context7 to retrieve the latest official documentation for libraries and frameworks
+  - **Library Documentation Retrieval**: For any library or framework mentioned in the task, use Context7 to get the most up-to-date official documentation
+  - **API Reference Access**: Leverage Context7 to access current API references, best practices, and implementation guides
+  - **Framework Integration Guidance**: Use Context7 to understand proper integration patterns and recommended approaches from official sources
+  - **Version-Specific Documentation**: Access documentation for specific versions when needed to ensure compatibility
+  - **Official Best Practices**: Retrieve official guidelines and recommended patterns directly from library maintainers
 - **LIBRARY EVALUATION**: Research GitHub repositories for popularity, maintenance status, and community adoption
 
 **Expected Task Plan Structure:**
@@ -320,7 +332,7 @@ Use this markdown template for your task plan:
   - **Anti-Pattern Prevention**: [Prevent passing entire context objects, component instances (`this`), or stores when only specific values are needed]
   - **API Contract Documentation**: [Ensure each parameter has a clear, single purpose evident from parameter name and documentation]
 - **Tasks**:
-  1. [Research and evaluate libraries/frameworks using web search and GitHub tools]
+  1. [**CRITICAL: Documentation Research** - Use MCP Context7 to retrieve latest official documentation for all libraries/frameworks, then use web search and GitHub tools for additional evaluation]
   2. [Detailed task with clear acceptance criteria and specific file paths]
   3. [Next task with dependencies clearly noted and target locations specified]
 - **File Placement Strategy**: [**CRITICAL** - Specify exactly where new files will be created with explicit directory context]
@@ -334,14 +346,15 @@ Use this markdown template for your task plan:
 ### Phase N: [Continue for all phases]
 
 ## Technical Architecture
-- **Technology Stack**: [Modern, justified technology choices that integrate with existing project setup, with latest stable versions researched via web and GitHub]
+- **Technology Stack**: [Modern, justified technology choices that integrate with existing project setup, with latest stable versions researched via Context7, web, and GitHub]
+- **Documentation-Driven Design**: [**CRITICAL** - Use MCP Context7 to access official documentation for architectural decisions, ensuring all design choices follow latest official guidelines and best practices]
 - **System Design**: [High-level architecture using contemporary design patterns that complement existing codebase structure and follow proper data flow principles]
 - **Data Flow Architecture**: [Design explicit component interfaces with props down, events up pattern]
-- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows while maintaining proper data flow]
+- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows while maintaining proper data flow, guided by official documentation retrieved via Context7]
 - **Data Flow**: [Key data interactions and flow with modern protocols, respecting existing data patterns and preventing anti-patterns]
-- **Security Considerations**: [Current security best practices, auth, encryption, compliance that work with existing security model]
-- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns compatible with existing development workflow]
-- **Library Selection**: [Researched GitHub repositories with stars, maintenance status, community adoption metrics, and compatibility with existing dependencies]
+- **Security Considerations**: [Current security best practices, auth, encryption, compliance that work with existing security model, validated against official security documentation via Context7]
+- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns compatible with existing development workflow, informed by latest official documentation]
+- **Library Selection**: [Researched via Context7 for official documentation, GitHub repositories with stars, maintenance status, community adoption metrics, and compatibility with existing dependencies]
 
 ## Testing Strategy
 - **Unit Testing**: [Coverage approach and tools, including data flow testing]
@@ -425,7 +438,7 @@ Use this markdown template for your task plan:
 - **MODERN TECHNICAL RESEARCH**: Include current best practices, latest stable versions, and contemporary architectural patterns that are compatible with existing setup
 - **CURRENT TECH STACK**: Recommend modern, well-supported technologies and frameworks that integrate well with existing project infrastructure
 - **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns that complement existing codebase structure and enforce proper data flow
-- **RESEARCH-DRIVEN DECISIONS**: Use web search and GitHub tools to validate technology choices and find optimal libraries that work with existing dependencies
+- **RESEARCH-DRIVEN DECISIONS**: **MANDATORY** - Use MCP Context7 to retrieve official documentation first, then validate technology choices with web search and GitHub tools to find optimal libraries that work with existing dependencies
 - **EVIDENCE-BASED RECOMMENDATIONS**: Include GitHub stars, maintenance activity, community feedback, and compatibility analysis in technology selection
 
 **Output Format:**

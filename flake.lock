@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "asdf-elixir": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747660407,
+        "narHash": "sha256-EHNInilc3KSZ1T/L78m8lu/QiLHwnB0iBuqkrHgKWkQ=",
+        "owner": "asdf-vm",
+        "repo": "asdf-elixir",
+        "rev": "89098d5c31fd3a240a25b1dacf881a6eeed426c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "asdf-vm",
+        "repo": "asdf-elixir",
+        "type": "github"
+      }
+    },
     "cl-nix-lite": {
       "locked": {
         "lastModified": 1728174978,
@@ -597,6 +613,7 @@
     },
     "root": {
       "inputs": {
+        "asdf-elixir": "asdf-elixir",
         "darwin": "darwin",
         "fenix": "fenix",
         "git-smash": "git-smash",
