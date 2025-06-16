@@ -112,6 +112,12 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 [Technical, time, or resource limitations, including any specific constraints mentioned]
 
 **Codebase Analysis Requirements:**
+- **CRITICAL: WORKING DIRECTORY CONTEXT ESTABLISHMENT**: **MANDATORY FIRST STEP** - Establish correct directory context to prevent file placement errors
+  - **Working Directory vs Target Directory Confusion Prevention**: Address the common issue where agents run commands in wrong directory context
+    - **Example Problem**: If pwd is `/project/monorepo` (project root) but task involves Elixir work in `/project/monorepo/elixir-apps/`, agents often incorrectly run `mix test` from project root instead of navigating to `elixir-apps/` subdirectory
+    - **Solution**: Always identify current working directory, then determine the correct target directory for the specific technology/task, then specify required navigation commands
+  - **Directory Context Documentation**: Document both current working directory AND project root with their relationship
+  - **Target Context Validation**: Verify whether new code should be created in current working directory or elsewhere in project structure
 - **COMPREHENSIVE PROJECT STRUCTURE ANALYSIS**: Perform deep analysis of the project structure to understand its architecture and organization
   - **Identify Project Type**: Determine if this is a monorepo, umbrella project, multi-language workspace, or single application
   - **Elixir Umbrella Projects**: Look for `mix.exs` files and `apps/` directories to identify umbrella projects with multiple applications
@@ -156,25 +162,42 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 
 **Project Structure Analysis Tools:**
 - **MANDATORY STRUCTURE ANALYSIS**: Before writing any task plan, agents must use these tools to understand the project:
-  - **Directory Tree**: Use `tree -a -L 3` or `find . -type f -name "*.exs" -o -name "*.json" -o -name "*.toml" -o -name "*.yaml" -o -name "*.yml"` to map the project structure
-  - **Configuration Discovery**: Look for key files like `mix.exs`, `package.json`, `pyproject.toml`, `Cargo.toml`, `composer.json`, etc.
-  - **Umbrella Project Detection**: For Elixir projects, check for `apps/` directory and multiple `mix.exs` files
-  - **Workspace Detection**: Look for workspace configuration files and multiple project roots
-  - **Build System Analysis**: Identify build tools and their configurations across the project
-- **MANDATORY DATA FLOW ANALYSIS TOOLS**: Search for parent access anti-patterns: `grep -r "\$parent\|this\.\$parent\|useParent\|\.closest\|\.parent" --include="*.js" --include="*.ts" --include="*.vue"` and analyze component interfaces
+  - **CRITICAL: Working Directory Context Analysis**: **MANDATORY FIRST STEP** to establish correct directory context
+    - **Current Working Directory Identification**: Use `pwd` to identify the exact current working directory
+    - **Project Root Discovery**: Use `fd -t f -d 3 "mix.exs|package.json|pyproject.toml|Cargo.toml" . || fd -t d -d 3 ".git" .` to locate project root markers
+    - **Directory Relationship Mapping**: Establish the relationship between current working directory and project root, and identify the correct target directory for the specific task (e.g., if pwd is `/project/monorepo` (project root) but task involves Elixir work, the target directory should be `/project/monorepo/elixir-apps` where the Elixir project files are located)
+    - **Target Context Validation**: **CRITICAL** - Verify whether the task should be implemented in the current working directory or needs to navigate to a different part of the project structure. For example, if pwd is project root but task involves Elixir work, commands like `mix test` must be run from the Elixir subdirectory, not from project root
+    - **Path Resolution Strategy**: Document whether file paths should be relative to current working directory, project root, or specific sub-project directory
+  - **Directory Tree**: Use `tree -a -L 3` or `fd -t f -d 3 -e exs -e json -e toml -e yaml -e yml .` to map the project structure FROM THE CURRENT WORKING DIRECTORY
+  - **Configuration Discovery**: Look for key files like `mix.exs`, `package.json`, `pyproject.toml`, `Cargo.toml`, `composer.json`, etc. in both current directory and parent directories
+  - **Umbrella Project Detection**: For Elixir projects, check for `apps/` directory and multiple `mix.exs` files, considering both current directory and project root context
+  - **Workspace Detection**: Look for workspace configuration files and multiple project roots, checking parent directories if not found in current directory
+  - **Build System Analysis**: Identify build tools and their configurations across the project, understanding which build system applies to the current working directory context
+  - **Technology-Specific Directory Requirements**: **CRITICAL** - Identify where technology-specific commands must be run
+    - **Elixir Projects**: Commands like `mix test`, `mix deps.get`, `mix compile` must be run from directories containing `mix.exs` files, not from project root
+    - **Node.js Projects**: Commands like `npm test`, `npm install` must be run from directories containing `package.json` files
+    - **Python Projects**: Commands like `pytest`, `pip install` must be run from directories containing `pyproject.toml` or `requirements.txt`
+    - **Rust Projects**: Commands like `cargo test`, `cargo build` must be run from directories containing `Cargo.toml` files
+- **MANDATORY DATA FLOW ANALYSIS TOOLS**: Search for parent access anti-patterns: `rg "\$parent|this\.\$parent|useParent|\.closest|\.parent" -t js -t ts -t vue` and analyze component interfaces
 - **MANDATORY DEPENDENCY ANALYSIS TOOLS**: **CRITICAL** for preventing architectural violations:
-  - **Elixir Umbrella Dependency Mapping**: Use `grep -r "deps:" apps/*/mix.exs` and `grep -r "path:" apps/*/mix.exs` to map inter-app dependencies
+  - **Elixir Umbrella Dependency Mapping**: Use `rg "deps:" apps/*/mix.exs` and `rg "path:" apps/*/mix.exs` to map inter-app dependencies
   - **JavaScript/Node.js Workspace Dependencies**: Check `package.json` files for workspace dependencies and `pnpm-workspace.yaml` or `lerna.json` configs
   - **Dependency Visualization**: Use tools like `mix xref graph` for Elixir or `npm ls` for Node.js to visualize dependency trees
-  - **Import/Require Analysis**: Search for actual module imports/requires across the codebase to understand runtime dependencies
+  - **Import/Require Analysis**: Use `rg "import|require|from" -t js -t ts -t ex -t py` to search for actual module imports/requires across the codebase to understand runtime dependencies
   - **Dependency Validation Commands**: Use `mix compile` or equivalent to verify dependency integrity before recommending changes
 - **MANDATORY ARCHITECTURAL LAYER ANALYSIS TOOLS**: **CRITICAL** for enforcing Single Responsibility Principle and preventing layer boundary violations:
-  - **Module Responsibility Mapping**: Use `find . -name "*.ex" -o -name "*.js" -o -name "*.ts" -o -name "*.py" | head -20` and analyze file contents to understand current module responsibilities
-  - **Cross-Cutting Concern Discovery**: Search for cache, logging, metrics, and other infrastructure patterns: `grep -r "cache\|log\|metric\|http\|db" --include="*.ex" --include="*.js" --include="*.ts" --include="*.py" apps/ lib/ src/`
+  - **Module Responsibility Mapping**: Use `fd -t f -e ex -e js -e ts -e py . | head -20` and analyze file contents to understand current module responsibilities
+  - **Cross-Cutting Concern Discovery**: Search for cache, logging, metrics, and other infrastructure patterns: `rg "cache|log|metric|http|db" -t ex -t js -t ts -t py apps/ lib/ src/`
   - **Layer Pattern Analysis**: Identify existing architectural patterns by examining directory structure and module organization
   - **SRP Violation Detection**: Look for modules that mix concerns by searching for infrastructure + business logic patterns in the same files
   - **Interface Boundary Analysis**: Examine how different modules communicate to understand current layer boundaries and communication patterns
   - **Pure Function Identification**: Identify existing pure functions vs functions with side effects to understand current concern separation patterns
+- **MANDATORY MCP CONTEXT7 DOCUMENTATION TOOLS**: **CRITICAL** for accessing latest official documentation:
+  - **Library Documentation Lookup**: Use `mcp_context7_resolve-library-id` to find Context7-compatible library IDs for any frameworks or libraries identified in the codebase
+  - **Official Documentation Retrieval**: Use `mcp_context7_get-library-docs` to access up-to-date official documentation, API references, and best practices
+  - **Integration Pattern Research**: Use Context7 to understand official integration patterns, configuration examples, and recommended architectures
+  - **Version-Specific Guidance**: Access documentation for specific library versions to ensure compatibility with existing project dependencies
+  - **Security Best Practices**: Retrieve official security guidelines and recommended practices from library maintainers via Context7
 
 **Technical Research Requirements:**
 - Research and recommend current industry-standard technologies and frameworks **that are compatible with the existing project setup**
@@ -183,6 +206,12 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 - Consider modern development workflows, CI/CD practices, and deployment strategies **already in use or compatible with current setup**
 - **USE WEB SEARCH**: Search the web for latest trends, best practices, and technology comparisons
 - **USE GITHUB SEARCH**: Use GitHub MCP tools to find and evaluate suitable libraries, frameworks, and code examples
+- **USE MCP CONTEXT7**: **CRITICAL** - Use MCP Context7 to retrieve the latest official documentation for libraries and frameworks
+  - **Library Documentation Retrieval**: For any library or framework mentioned in the task, use Context7 to get the most up-to-date official documentation
+  - **API Reference Access**: Leverage Context7 to access current API references, best practices, and implementation guides
+  - **Framework Integration Guidance**: Use Context7 to understand proper integration patterns and recommended approaches from official sources
+  - **Version-Specific Documentation**: Access documentation for specific versions when needed to ensure compatibility
+  - **Official Best Practices**: Retrieve official guidelines and recommended patterns directly from library maintainers
 - **LIBRARY EVALUATION**: Research GitHub repositories for popularity, maintenance status, and community adoption
 
 **Expected Task Plan Structure:**
@@ -195,12 +224,19 @@ Use this markdown template for your task plan:
 [**MANDATORY SECTION** - Identify and document all user-provided information that is required for task implementation. Include any URLs, names, values, commands, paths, configurations, version numbers, or other details necessary to complete the task successfully.]
 
 ## Codebase Analysis
+- **CRITICAL: Working Directory Context**: [**MANDATORY FIRST SECTION** - Establish correct directory context before any other analysis]
+  - **Current Working Directory**: [Use `pwd` to document the exact current working directory path]
+  - **Project Root Location**: [Identify the actual project root directory and its relationship to current working directory]
+  - **Directory Relationship**: [Clearly document the relationship - e.g., "Current working directory `/project/monorepo` is the project root, but Elixir work must be done in `/project/monorepo/elixir-apps/` subdirectory"]
+  - **Target Implementation Context**: [**CRITICAL** - Specify the exact directory where work should be performed. If current working directory is project root but task involves specific technology (e.g., Elixir, Node.js), identify the correct subdirectory and specify navigation commands needed]
+  - **Path Resolution Strategy**: [Document whether file paths in the task plan should be relative to current working directory, project root, or absolute paths]
+  - **Navigation Requirements**: [**MANDATORY** - If the task requires working in a different directory than current, specify the exact navigation commands needed. For example, if pwd is `/project/monorepo` but Elixir work needs to be done, specify `cd elixir-apps` before running commands like `mix test`]
 - **Project Type & Architecture**: [Identify if this is a monorepo, umbrella project (e.g., Elixir umbrella), multi-language workspace, or single application. Document the overall architectural approach and organization strategy]
 - **Current Project Structure**: [Provide detailed directory tree analysis including:]
-  - **Root Level Structure**: [Document all top-level directories and their purposes]
-  - **Sub-projects/Applications**: [For umbrella projects or monorepos, list all individual applications/services with their locations (e.g., `apps/web_app`, `apps/api_service`)]
-  - **Shared Resources**: [Identify shared libraries, configurations, or utilities and their locations]
-  - **Key Files**: [Document important configuration files at root and sub-project levels]
+  - **Root Level Structure**: [Document all top-level directories and their purposes, clearly distinguishing between project root and current working directory structure]
+  - **Sub-projects/Applications**: [For umbrella projects or monorepos, list all individual applications/services with their locations (e.g., `apps/web_app`, `apps/api_service`), specifying paths relative to both project root AND current working directory]
+  - **Shared Resources**: [Identify shared libraries, configurations, or utilities and their locations relative to both project root and current working directory]
+  - **Key Files**: [Document important configuration files at root and sub-project levels, with paths clearly specified relative to current working directory]
 - **CRITICAL: Data Flow Analysis**: [**MANDATORY** section to prevent data flow anti-patterns]
   - **Anti-Pattern Audit**: [Search for `$parent`, `this.$parent`, `useParent()`, DOM traversal for state access]
   - **Component Interfaces**: [Document component props/parameters and events/callbacks]
@@ -271,7 +307,11 @@ Use this markdown template for your task plan:
 ### Phase 1: [Phase Name]
 - **Duration**: [Estimated time with justification]
 - **Deliverables**: [Specific outputs with exact file paths and locations]
-- **Target Directory**: [Specify exactly where in the project structure this phase's work will be done]
+- **CRITICAL: Working Directory Context Validation**: [**MANDATORY** - Verify correct directory context for this phase]
+  - **Target Directory**: [Specify exactly where in the project structure this phase's work will be done, with clear relationship to current working directory]
+  - **Directory Navigation**: [**CRITICAL** - If work needs to be done in a different directory than current working directory, specify the exact navigation commands needed. For example, if pwd is project root `/project/monorepo` but task involves Elixir work, specify `cd elixir-apps` before running any Elixir commands like `mix test`, `mix deps.get`, etc.]
+  - **File Path Strategy**: [Specify whether file paths in this phase are relative to current working directory, target directory, or project root]
+  - **Context Validation Commands**: [Include commands to verify correct directory context before starting work (e.g., `pwd` to confirm current location, `ls -la` to verify expected files exist, and navigation commands like `cd elixir-apps && pwd` to confirm correct target directory)]
 - **Specific Implementation Steps**: [Include all task-required details provided by the user - URLs, names, values, commands, etc.]
 - **CRITICAL: Data Flow Validation**: [Ensure no parent access anti-patterns and explicit parameter passing]
 - **CRITICAL: Dependency Validation**: [**MANDATORY** for each phase that adds new modules or features]
@@ -292,23 +332,29 @@ Use this markdown template for your task plan:
   - **Anti-Pattern Prevention**: [Prevent passing entire context objects, component instances (`this`), or stores when only specific values are needed]
   - **API Contract Documentation**: [Ensure each parameter has a clear, single purpose evident from parameter name and documentation]
 - **Tasks**:
-  1. [Research and evaluate libraries/frameworks using web search and GitHub tools]
+  1. [**CRITICAL: Documentation Research** - Use MCP Context7 to retrieve latest official documentation for all libraries/frameworks, then use web search and GitHub tools for additional evaluation]
   2. [Detailed task with clear acceptance criteria and specific file paths]
   3. [Next task with dependencies clearly noted and target locations specified]
-- **File Placement Strategy**: [Specify exactly where new files will be created relative to project root and existing structure, with dependency compliance verification]
+- **File Placement Strategy**: [**CRITICAL** - Specify exactly where new files will be created with explicit directory context]
+  - **File Creation Context**: [Specify whether files are created relative to current working directory, project root, or target directory]
+  - **Absolute vs Relative Paths**: [Document whether to use absolute paths or relative paths, and relative to which directory]
+  - **Directory Creation Requirements**: [If new directories need to be created, specify the exact commands and paths relative to current working directory]
+  - **Path Validation**: [Include commands to verify correct file placement (e.g., `ls -la target_directory/` to confirm files are in expected location)]
+  - **Dependency Compliance Verification**: [Ensure file placement respects dependency architecture and doesn't violate project structure rules]
 - **Risks**: [Potential blockers and mitigation strategies, including directory structure conflicts, dependency violations, and data flow anti-patterns]
 
 ### Phase N: [Continue for all phases]
 
 ## Technical Architecture
-- **Technology Stack**: [Modern, justified technology choices that integrate with existing project setup, with latest stable versions researched via web and GitHub]
+- **Technology Stack**: [Modern, justified technology choices that integrate with existing project setup, with latest stable versions researched via Context7, web, and GitHub]
+- **Documentation-Driven Design**: [**CRITICAL** - Use MCP Context7 to access official documentation for architectural decisions, ensuring all design choices follow latest official guidelines and best practices]
 - **System Design**: [High-level architecture using contemporary design patterns that complement existing codebase structure and follow proper data flow principles]
 - **Data Flow Architecture**: [Design explicit component interfaces with props down, events up pattern]
-- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows while maintaining proper data flow]
+- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows while maintaining proper data flow, guided by official documentation retrieved via Context7]
 - **Data Flow**: [Key data interactions and flow with modern protocols, respecting existing data patterns and preventing anti-patterns]
-- **Security Considerations**: [Current security best practices, auth, encryption, compliance that work with existing security model]
-- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns compatible with existing development workflow]
-- **Library Selection**: [Researched GitHub repositories with stars, maintenance status, community adoption metrics, and compatibility with existing dependencies]
+- **Security Considerations**: [Current security best practices, auth, encryption, compliance that work with existing security model, validated against official security documentation via Context7]
+- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns compatible with existing development workflow, informed by latest official documentation]
+- **Library Selection**: [Researched via Context7 for official documentation, GitHub repositories with stars, maintenance status, community adoption metrics, and compatibility with existing dependencies]
 
 ## Testing Strategy
 - **Unit Testing**: [Coverage approach and tools, including data flow testing]
@@ -362,11 +408,23 @@ Use this markdown template for your task plan:
   - **Primitive Argument Preference**: Prefer primitive arguments over complex objects when possible for better testability and clarity
   - **Complex Object Documentation**: When objects must be passed, require documentation of exactly which properties are used and why
   - **Anti-Pattern Detection**: Identify and prevent common API design anti-patterns like context object passing and unclear parameter purposes
-- **WORKING DIRECTORY AWARENESS**: Always understand and respect the current working directory context
-  - **Directory Structure Analysis**: Use tools like `tree`, `ls`, or `find` to understand the complete project structure
+- **WORKING DIRECTORY AWARENESS**: **CRITICAL** requirement to prevent directory context confusion and ensure correct file placement
+  - **MANDATORY WORKING DIRECTORY ANALYSIS**: **FIRST STEP** in every task plan - establish correct directory context before any other analysis
+    - **Current Directory Identification**: Use `pwd` to identify exact current working directory and document it clearly
+    - **Project Root Discovery**: Use directory traversal and file markers to identify actual project root location
+    - **Directory Relationship Mapping**: Document the relationship between current working directory and project root (e.g., subdirectory, sibling, parent)
+    - **Context Validation**: Verify whether the task should be implemented in current working directory or requires navigation to different location
+  - **Directory Structure Analysis**: Use tools like `tree`, `ls`, or `find` to understand the complete project structure FROM THE CURRENT WORKING DIRECTORY PERSPECTIVE
   - **Project Root Identification**: Identify the actual project root and understand the relationship between working directory and project structure
-  - **Target Location Specification**: Always specify exact file paths and directories relative to the project root for any new files or modifications
-  - **Multi-project Context**: For umbrella projects or monorepos, clearly identify which sub-project or application the task applies to
+  - **Target Location Specification**: **CRITICAL** - Always specify exact file paths with explicit context about which directory they are relative to
+    - **Path Context Documentation**: Clearly state whether paths are relative to current working directory, project root, or target directory
+    - **Navigation Requirements**: If task requires working in different directory, specify exact navigation commands needed
+    - **File Creation Context**: Document exactly where files will be created and how to verify correct placement
+  - **Multi-project Context**: For umbrella projects or monorepos, clearly identify which sub-project or application the task applies to and its relationship to current working directory
+  - **Directory Context Validation**: Include validation steps to ensure agents are working in correct directory context throughout task execution
+    - **Context Verification Commands**: Include `pwd`, `ls -la`, and other commands to verify correct directory context
+    - **Path Resolution Validation**: Verify that file paths resolve correctly from the intended directory context
+    - **Target Directory Confirmation**: Confirm that target directories exist and are accessible from current working directory
 - Each task must include specific acceptance criteria
 - Provide effort estimates in hours/days with justification
 - Identify all dependencies between tasks and phases
@@ -380,7 +438,7 @@ Use this markdown template for your task plan:
 - **MODERN TECHNICAL RESEARCH**: Include current best practices, latest stable versions, and contemporary architectural patterns that are compatible with existing setup
 - **CURRENT TECH STACK**: Recommend modern, well-supported technologies and frameworks that integrate well with existing project infrastructure
 - **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns that complement existing codebase structure and enforce proper data flow
-- **RESEARCH-DRIVEN DECISIONS**: Use web search and GitHub tools to validate technology choices and find optimal libraries that work with existing dependencies
+- **RESEARCH-DRIVEN DECISIONS**: **MANDATORY** - Use MCP Context7 to retrieve official documentation first, then validate technology choices with web search and GitHub tools to find optimal libraries that work with existing dependencies
 - **EVIDENCE-BASED RECOMMENDATIONS**: Include GitHub stars, maintenance activity, community feedback, and compatibility analysis in technology selection
 
 **Output Format:**
@@ -425,7 +483,11 @@ When generating prompts:
 7. **Enable Review**: Ensure the resulting plan will be reviewable by stakeholders
 8. **Focus on Action**: Generate prompts that lead to actionable, implementable plans
 9. **Enforce Data Flow**: Ensure proper data flow patterns and prevent anti-patterns in all recommendations
-10. **Clean Output**: Output ONLY the prompt itself without any introductory or explanatory text
+10. **CRITICAL: Working Directory Context**: **MANDATORY** - Always emphasize the need to establish correct working directory context to prevent file placement errors
+    - **Context Confusion Prevention**: Explicitly instruct agents to distinguish between current working directory and project root
+    - **Directory Relationship Documentation**: Require clear documentation of directory relationships and target implementation context
+    - **Path Resolution Clarity**: Ensure all file paths are specified with explicit context about which directory they are relative to
+11. **Clean Output**: Output ONLY the prompt itself without any introductory or explanatory text
 
 **CRITICAL SUCCESS FACTOR**: The generated task plan must include all user-provided information that is required for task implementation. Analyze what information is necessary to complete the task successfully, then ensure all relevant URLs, names, values, commands, paths, or implementation details are preserved in the task plan.
 

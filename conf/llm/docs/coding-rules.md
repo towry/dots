@@ -90,6 +90,10 @@
 - Avoid making major changes to the patterns and architecture of how a feature works, after it has shown to work well, unless explicitly instructed
 - Always think about what other methods and areas of code might be affected by code changes
 - After each code change, commit the changes following conventional commit for the git message
+- Always provide absolute file paths to MCP tools to avoid permission errors
+- Prefer to use `fd` to search for files and `rg` to search for content in files
+- Use MCP context7 to search for library and framework documentation
+- Use MCP github-mcp-server to search for code in the github repository
 
 ## Testing convention
 

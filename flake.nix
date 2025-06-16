@@ -47,6 +47,14 @@
       url = "git+ssh://git@github.com/pze/jj.git?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    asdf-elixir = {
+      url = "github:asdf-vm/asdf-elixir";
+      flake = false;
+    };
+    asdf-erlang = {
+      url = "github:asdf-vm/asdf-erlang";
+      flake = false;
+    };
   };
 
   outputs =

@@ -192,6 +192,20 @@
         -p _fifc_preview_process \
         -o _fifc_open_process \
         -e '^\\h*([0-9]+)'
+
+    # ASDF configuration code
+    if test -z $ASDF_DATA_DIR
+        set _asdf_shims "$HOME/.asdf/shims"
+    else
+        set _asdf_shims "$ASDF_DATA_DIR/shims"
+    end
+
+    # Do not use fish_add_path (added in Fish 3.2) because it
+    # potentially changes the order of items in PATH
+    if not contains $_asdf_shims $PATH
+        set -gx --prepend PATH $_asdf_shims
+    end
+    set --erase _asdf_shims
   '';
   ## do not forget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122
@@ -483,7 +497,7 @@
       '';
       description = "Cd into current opened finder";
     };
-        fstatus = {
+    fstatus = {
       body = ''
         # Ensure we are in a git repository
         set git_root (git rev-parse --show-toplevel)
@@ -510,8 +524,8 @@
                                  --bind "ctrl-d:preview-page-down"
       '';
       description = "Use fzf to browse current unstaged changes";
-      };
-     just-pick-status-file = {
+    };
+    just-pick-status-file = {
       body = ''
         # Ensure we are in a git repository
         if not git rev-parse --is-inside-work-tree >/dev/null 2>&1

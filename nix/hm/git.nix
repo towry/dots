@@ -11,7 +11,7 @@ let
 in
 {
   programs.fish.shellAliases = {
-    ai-commit = "${bashScriptsDir}/git-commit-context.sh | aichat --role git-commit -S | ${bashScriptsDir}/git-commit-chunk-text.sh";
+    ai-commit = "${bashScriptsDir}/ai-commit-wrapper.sh";
     gcd = "cd-gitroot";
     git-conflict-rm = "git status | grep 'deleted by us' | sed 's/deleted by us: //' | xargs git rm";
     g = "git";
@@ -311,6 +311,7 @@ in
       ".direnv/"
       "Session.vim"
       ".pyo"
+      ".goose/"
       "dist/"
       ".netrwhist"
       ".netrwhist~"

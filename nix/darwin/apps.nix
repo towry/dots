@@ -7,6 +7,8 @@
     # brave
     # ice-bar
     net-news-wire
+    # elixir
+    # elixir-ls
   ];
 
   homebrew = {
