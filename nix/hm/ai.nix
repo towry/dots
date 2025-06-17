@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
 let
   aichatConfigDir =
@@ -39,9 +39,20 @@ in
     };
   };
 
+  home.activation = {
+    setupGooseConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      cat ${config.xdg.configHome}/goose/config-source.yaml > ${config.xdg.configHome}/goose/config.yaml
+      chmod u+w ${config.xdg.configHome}/goose/config.yaml
+      echo "goose config setup done"
+    '';
+  };
+
   xdg.configFile = {
-    "goose/config.yaml" = {
-      source = ../../conf/llm/goose/config.yaml;
+    "goose/config-source.yaml" = {
+      source = pkgs.replaceVars ../../conf/llm/goose/config.yaml {
+        GITHUB_PERSONAL_ACCESS_TOKEN = pkgs.nix-priv.keys.github.accessToken;
+        BRAVE_API_KEY = pkgs.nix-priv.keys.braveSearch.apiKey;
+      };
     };
     "goose/.goosehint" = {
       source = ../../conf/llm/docs/coding-rules.md;
