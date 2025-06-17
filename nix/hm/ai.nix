@@ -14,7 +14,7 @@ in
     ollama
     aider-chat
     github-mcp-server
-    goose-cli
+    # goose-cli
   ];
 
   programs.fish = {
