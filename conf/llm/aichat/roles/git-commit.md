@@ -1,5 +1,5 @@
 ---
-model: deepseek:deepseek-chat
+model: openrouter:anthropic/claude-sonnet-4
 temperature: 0
 top_p: 0.3
 ---
