@@ -1,35 +1,24 @@
-# model: ollama:llama3.2:3b
-model: deepseek:deepseek-chat
+# model: deepseek:deepseek-chat
+model: openrouter:anthropic/claude-sonnet-4
 keybindings: vi
 function_calling: true
-rag_embedding_model: nomic-embed-text:latest
+stream: true
+save: true
+wrap: auto
+wrap_code: true
+save_shell_history: true
+compress_threshold: 256000
+save_session: true
+# Text prompt used for creating a concise summary of session message
+summarize_prompt: '<system>This conversation became quite long and we will run out of context. Please summarize this discussion to use as info for a future prompt. Include relevant information to help you continue the conversation.</system>'
+# Text prompt used for including the summary of the entire session
+summary_prompt: '<system>This is a summary of the previous conversation. It was cut off because it got too long. This is the summary. Please continue the conversation. If you have questions, feel free to ask!</system>'
+
 clients:
   - type: openai-compatible
-    name: ollama
-    api_base: http://127.0.0.1:11434/v1
-    models:
-      - name: llama3.2:3b
-        max_input_tokens: 128000
-        supports_function_calling: true
-
-      - name: phi4:14b
-        max_input_tokens: 16000
-        supports_function_calling: true
-
-      - name: dolphin3:8b
-        max_input_tokens: 130000
-        supports_function_calling: true
-
-      - name: smallthinker:3b
-        max_input_tokens: 16384
-        supports_function_calling: true
-
-      - name: qwq:32b
-        max_input_tokens: 33000
-        supports_function_calling: true
-
-      - name: nomic-embed-text:latest
-        type: embedding
+    name: openrouter
+    api_base: https://openrouter.ai/api/v1
+    api_key: @OPENROUTER_API_KEY@
 
   - type: openai-compatible
     name: deepseek

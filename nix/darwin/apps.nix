@@ -14,6 +14,7 @@
   homebrew = {
     brews = [
       "asdf"
+      "block-goose-cli"
     ];
     casks = [
       # "font-maple-mono"

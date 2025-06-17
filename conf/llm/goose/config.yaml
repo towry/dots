@@ -107,6 +107,9 @@ extensions:
     name: brave-search
     timeout: 300
     type: stdio
+GOOSE_MODEL: anthropic/claude-sonnet-4
+experiments:
+  GOOSE_SMART_APPROVE: true
+GOOSE_PLANNER_MODEL: anthropic/claude-opus-4
 GOOSE_MODE: auto
-GOOSE_PROVIDER: github_copilot
-GOOSE_MODEL: gpt-4o
+GOOSE_PROVIDER: openrouter

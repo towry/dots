@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 let
-  configDir =
+  aichatConfigDir =
     if pkgs.stdenv.isDarwin then
       "${config.home.homeDirectory}/Library/Application Support/aichat"
     else
@@ -14,7 +14,8 @@ in
     ollama
     aider-chat
     github-mcp-server
-    goose-cli
+    # goose-cli
+    opencode
   ];
 
   programs.fish = {
@@ -48,19 +49,25 @@ in
   };
 
   home.file = {
-    "${configDir}/roles" = {
+    "${aichatConfigDir}/roles" = {
       # link to ../../conf/llm/aichat/roles dir
       source = ../../conf/llm/aichat/roles;
       recursive = true;
     };
-    "${configDir}/config.yaml" = {
+    "${aichatConfigDir}/config.yaml" = {
       source = pkgs.replaceVars ../../conf/llm/aichat/config.yaml {
         DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apiKey;
+        OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
       };
     };
     ".aider.conf.yml" = {
       text = builtins.toJSON {
 
+      };
+    };
+    "${config.xdg.configHome}/opencode/.opencode.json" = {
+      source = pkgs.replaceVars ../../conf/llm/opencode/opencode.json {
+        OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
       };
     };
   };
