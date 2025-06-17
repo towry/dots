@@ -1,0 +1,65 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opencode-ai/opencode/refs/heads/main/opencode-schema.json",
+  "providers": {
+    "openrouter": {
+      "apiKey": "@OPENROUTER_API_KEY@",
+        "disabled": false
+    }
+  },
+  "agents": {
+    "coder": {
+      "model": "anthropic/claude-sonnet-4",
+      "maxTokens": 5000
+    },
+    "task": {
+      "model": "anthropic/claude-sonnet-4",
+      "maxTokens": 5000
+    },
+    "title": {
+      "model": "anthropic/claude-3.7-sonnet",
+      "maxTokens": 80
+    }
+  },
+  "mcpServers": {
+    "context7": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@upstash/context7-mcp"]
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@modelcontextprotocol/server-memory"]
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@executeautomation/playwright-mcp-server"]
+    },
+    "deepwiki": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["mcp-deepwiki@latest"]
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@modelcontextprotocol/server-filesystem", "/Users/towry/workspace"]
+    },
+    "github": {
+      "type": "stdio",
+      "command": "github-mcp-server",
+      "args": ["stdio", "--toolsets", "all"],
+      "env": ["GITHUB_PERSONAL_ACCESS_TOKEN"]
+    },
+    "brave-search": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@modelcontextprotocol/server-brave-search"],
+      "env": ["BRAVE_API_KEY"]
+    }
+  },
+  "debug": false,
+  "debugLSP": false,
+  "autoCompact": true
+}

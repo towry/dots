@@ -203,7 +203,9 @@ in
         default = "current";
         autoSetupRemote = true;
       };
-      sequence = { editor = "interactive-rebase-tool"; };
+      sequence = {
+        editor = "interactive-rebase-tool";
+      };
       merge = {
         autostash = false;
         tool = "nvim";
@@ -320,6 +322,7 @@ in
       "target/"
       ".aider.*"
       ".aider*"
+      ".opencode/"
     ];
   };
 }
