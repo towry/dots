@@ -16,6 +16,7 @@
 - Consolidate similar logic into reusable functions
 - Maintain a single source of truth for business rules
 - When you need to read the terminal history, read the terminal history from the file `~/workspace/term-buffer.txt` if you are in a terminal
+- When user request "learn from terminal history", read the terminal history, and analyze the history
 - Make function contracts clear
 - First, make the code correct, then make it efficient
 - When refactoring, validate behavior preservation
@@ -124,6 +125,18 @@
   - Context preserved so the note is useful when reviewed later
 - **No confirmation needed**: Execute the save operation immediately without asking for user confirmation to maintain workflow efficiency
 - **Success feedback**: After saving, provide the Notion page URL to the user
+
+### Terminal Output Analysis and Keynote Creation
+- When the user requests terminal output analysis or keynote creation:
+  1. Read the terminal output/history from `~/workspace/term-buffer.txt`
+  2. Analyze the session to identify the main topic or goal the user was working on
+  3. Track the progression from errors/attempts to successful solutions
+  4. Create a keynote summary that includes:
+     - The main topic/objective the user was working on
+     - Key errors or challenges encountered
+     - The correct/final working solution or command
+     - Important insights or learnings from the session
+  5. Include context about what didn't work and why the final solution worked
 
 ### Search Strategy
 - When searching for relevant modules or components in a directory, make sure your search is case insensitive to achieve broader results
