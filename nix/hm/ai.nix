@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 let
   aichatConfigDir =
@@ -11,11 +16,8 @@ in
 {
   home.packages = with pkgs; [
     aichat
-    ollama
-    aider-chat
+    # ollama
     github-mcp-server
-    # goose-cli
-    opencode
   ];
 
   programs.fish = {
@@ -68,16 +70,6 @@ in
     "${aichatConfigDir}/config.yaml" = {
       source = pkgs.replaceVars ../../conf/llm/aichat/config.yaml {
         DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apiKey;
-        OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
-      };
-    };
-    ".aider.conf.yml" = {
-      text = builtins.toJSON {
-
-      };
-    };
-    "${config.xdg.configHome}/opencode/.opencode.json" = {
-      source = pkgs.replaceVars ../../conf/llm/opencode/opencode.json {
         OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
       };
     };
