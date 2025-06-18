@@ -47,6 +47,16 @@ extensions:
     name: context7
     timeout: 300
     type: stdio
+  notion:
+    type: stdio
+    display_name: notion
+    name: notion
+    timeout: 900
+    enabled: true
+    cmd: bunx
+    args:
+      - "mcp-remote"
+      - "https://mcp.notion.com/sse"
   playwright:
     args:
       - "@executeautomation/playwright-mcp-server"
