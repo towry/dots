@@ -15,6 +15,7 @@
 - Avoid duplicating logic across abstraction boundaries
 - Consolidate similar logic into reusable functions
 - Maintain a single source of truth for business rules
+- When you need to read the terminal history, read the terminal history from the file `~/workspace/term-buffer.txt` if you are in a terminal
 - Make function contracts clear
 - First, make the code correct, then make it efficient
 - When refactoring, validate behavior preservation

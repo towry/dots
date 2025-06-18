@@ -10,6 +10,7 @@ font-feature = "+calt"
 # font-family = "Maple Mono"
 # font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"
 font-size = 17
+bold-is-bright = true
 font-thicken = false
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = no-cursor,sudo,no-title
@@ -42,8 +43,8 @@ auto-update = off
 
 quick-terminal-animation-duration = 0
 quick-terminal-position = bottom
-quick-terminal-autohide = true
-quick-terminal-space-behavior = remain
+quick-terminal-autohide = false
+quick-terminal-space-behavior = move
 
 
 # keybinds

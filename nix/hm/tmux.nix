@@ -167,7 +167,7 @@ in
       bind ! respawn-pane -k -c "#{pane_current_path}"
       ## rerun a pane
       bind @ command-prompt -p 'respawn a pane(I):' 'respawn-pane -k -t %%'
-      ## save current history to a buffer to ${config.home.homeDirectory}/local-tmux.history
+      ## save current history to a buffer to ${config.home.homeDirectory}/workspace/term-buffer.txt
       bind C-b command-prompt -p 'save history to filename:' -I '${config.home.homeDirectory}/local-tmux.history' 'capture-pane -S - ; save-buffer %1 ; delete-buffer'
       bind ? list-keys
 
