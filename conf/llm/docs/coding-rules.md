@@ -127,7 +127,7 @@
 - **Success feedback**: After saving, provide the Notion page URL to the user
 
 ### Terminal Output Analysis and Keynote Creation
-- When the user requests terminal output analysis or keynote creation:
+- When the user asks for terminal/term output analysis or keynote creation or similar requests:
   1. Read the terminal output/history from `~/workspace/term-buffer.txt`
   2. Analyze the session to identify the main topic or goal the user was working on
   3. Track the progression from errors/attempts to successful solutions
@@ -137,6 +137,8 @@
      - The correct/final working solution or command
      - Important insights or learnings from the session
   5. Include context about what didn't work and why the final solution worked
+  6. Save the keynote to the `~/workspace/terminal-keynote.md` file
+  7. If the user ask to save to notion, save the keynote to the notion too.
 
 ### Search Strategy
 - When searching for relevant modules or components in a directory, make sure your search is case insensitive to achieve broader results
