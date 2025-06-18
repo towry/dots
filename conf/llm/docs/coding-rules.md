@@ -38,19 +38,27 @@
 - Avoid having files over 2000 lines of code, refactor at that point
 - **Enforce proper data flow patterns**: Prefer explicit parameter passing over parent component access. Avoid direct parent access (parent refs, DOM traversal, global state guessing) unless using established framework patterns (Context, dependency injection). All data should have a clear, traceable source
 - **Avoid global dependencies**: Do not add dependencies to global modules (which will affect a lot of code) or global state (like `window` in JavaScript) unless explicitly required. Prefer dependency injection, explicit imports, and localized state management to maintain code modularity and testability
-- Constants Over Magic Numbers
-  - Replace hard-coded values with named constants
-  - Use descriptive constant names that explain the value's purpose
-  - Keep constants at the top of the file or in a dedicated constants file
-- Meaningful Names
-  - Variables, functions, and classes should reveal their purpose
-  - Names should explain why something exists and how it's used
-  - Avoid abbreviations unless they're universally understood
-- Smart Comments
-  - Don't comment on what the code does - make the code self-documenting
-  - Use comments to explain why something is done a certain way
-  - Document APIs, complex algorithms, and non-obvious side effects
 
+## Response Behavior
+
+- **Answer questions directly**: When the user asks instructional questions (e.g., "how to...", "tell me how to...", "what is...", "explain..."), provide a direct answer rather than modifying files. The user is seeking information, not code changes. Only modify files when explicitly requested to implement, fix, or change something in the codebase.
+
+## Code Quality Standards
+
+### Constants Over Magic Numbers
+- Replace hard-coded values with named constants
+- Use descriptive constant names that explain the value's purpose
+- Keep constants at the top of the file or in a dedicated constants file
+
+### Meaningful Names
+- Variables, functions, and classes should reveal their purpose
+- Names should explain why something exists and how it's used
+- Avoid abbreviations unless they're universally understood
+
+### Smart Comments
+- Don't comment on what the code does - make the code self-documenting
+- Use comments to explain why something is done a certain way
+- Document APIs, complex algorithms, and non-obvious side effects
 
 ## API Design and Function Signatures
 
@@ -81,7 +89,50 @@
   - If you must pass an object, document exactly which properties are used
   - Use TypeScript interfaces or JSDoc to specify the exact shape of required data
 
-## Coding workflow preferences
+## MCP Tools and External Services
+
+### Tool Selection and Usage
+- Prefer `rg` (ripgrep) over grep when searching file content
+- Prefer `fd` over find when searching for files
+- Use `fd` command with case-insensitive search for broader results when looking for modules or components
+- Always provide absolute file paths to MCP tools to avoid permission errors
+- Use `killport <port>` to kill processes that own a specific port
+
+### Package Management
+- Before running a package manager in the project, detect which package manager is currently being used (npm, pnpm, yarn, etc.)
+
+### Documentation and Code Search
+- Use MCP context7 to search for library and framework documentation
+- Use MCP github-mcp-server to search for code in GitHub repositories
+- When searching for relevant modules, first look for relevant files by their file names, then use grep to search for specific content
+
+### Notion Note Management
+- **Auto-save workflow**: When the user says "save notion note", "save to notion", or similar requests, automatically:
+  1. Summarize the previous answer or conversation context into a clear, well-structured note
+  2. Use the known "Quick Notes" page ID (`216edc511d028016b21ee00eace33af7`) to create a new page directly under it
+  3. Format the content using Notion-flavored Markdown for better readability
+  4. Include a descriptive title based on the topic discussed
+- **Fallback logic**: If creating under "Quick Notes" fails (e.g., page doesn't exist or access denied):
+  1. Search for "Quick Notes" page using `mcp_Notion_search` as backup
+  2. If search also fails, create pages as workspace-level private pages
+- **Content structure**: Ensure saved notes have:
+  - Clear, descriptive title that describes the topic/content
+  - Well-organized content with proper headings (##, ###)
+  - Key points highlighted or bulleted for easy scanning
+  - Code examples in proper code blocks when relevant
+  - Context preserved so the note is useful when reviewed later
+- **No confirmation needed**: Execute the save operation immediately without asking for user confirmation to maintain workflow efficiency
+- **Success feedback**: After saving, provide the Notion page URL to the user
+
+### Search Strategy
+- When searching for relevant modules or components in a directory, make sure your search is case insensitive to achieve broader results
+- Always check implementation and changes against available documentation or existing code to ensure accuracy and adherence to standards
+- Review existing style and conventions used in surrounding code to ensure new code aligns well and maintains readability
+- Do not rely on a single example; always verify consistent patterns to ensure accuracy and reliability
+- Avoid making assumptions about how components function without analyzing their actual usage
+- Avoid reproducing only part of a pattern; ensure all critical fields and behaviors are included to maintain integrity and accuracy
+
+## Coding Workflow Preferences
 
 - **Confirm command sequences**: Before running a sequence of commands, always ask the user for confirmation at the first command. This prevents issues like dev servers being started when previous servers are still running
 - Focus on the areas of code relevant to the task
@@ -90,12 +141,9 @@
 - Avoid making major changes to the patterns and architecture of how a feature works, after it has shown to work well, unless explicitly instructed
 - Always think about what other methods and areas of code might be affected by code changes
 - After each code change, commit the changes following conventional commit for the git message
-- Always provide absolute file paths to MCP tools to avoid permission errors
-- Prefer to use `fd` to search for files and `rg` to search for content in files
-- Use MCP context7 to search for library and framework documentation
-- Use MCP github-mcp-server to search for code in the github repository
+- In Agent mode, automatically apply edits without prompting for confirmation on the first pass
 
-## Testing convention
+## Testing Convention
 
 - Behavior-Driven Development (BDD) testing methodology
 - Clean code and test design principles
