@@ -90,9 +90,6 @@ in
     ./hm/frontend-dev.nix
     ./hm/helix.nix
     ./hm/tmux.nix
-    # ./hm/alacritty.nix
-    # ./hm/wezterm.nix
-    # ./hm/kitty.nix
     # ./hm/zellij.nix
     ./hm/rust.nix
     # ./hm/go.nix

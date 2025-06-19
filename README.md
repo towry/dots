@@ -25,8 +25,6 @@ This configuration includes setup for:
 - **Fish Shell** - Default shell with custom plugins and configurations
 - **Starship** - Cross-shell prompt with custom theme
 - **Tmux** - Terminal multiplexer with custom keybindings and plugins
-- **Kitty** - GPU-accelerated terminal emulator (primary)
-- **Wezterm** - Alternative terminal emulator (configured but disabled by default)
 - **Zellij** - Terminal workspace manager (configured but disabled by default)
 
 ### Development Tools

@@ -1,14 +1,11 @@
 import os
-import re
 import os.path
-import sys
-import subprocess
+import re
 import signal
+import subprocess
+import sys
 
 # author: https://github.com/olimorris/dotfiles/blob/main/commands/color_mode.py
-
-kitty_path = os.path.expandvars("$HOME/.config/kitty")
-# starship_path = "~/.config/starship"
 tmux_path = "~/.config/tmux"
 nvim_path = "~/.config/nvim"
 
@@ -22,12 +19,7 @@ ran_from_cmd_line = False
 # The order in which apps are changed
 apps = [
   "fish",
-  "kitty",
-  # "alacritty",
   "neovim",
-  # "tmux",
-  #"starship",
-  # tmux must come after neovim.
 ]
 
 def app_macos(mode):
@@ -53,113 +45,6 @@ def app_macos(mode):
 
     with open(os.path.expanduser(path_to_file), "w") as config_file:
         config_file.write(contents)
-
-
-def app_alacritty(mode):
-    print("Changing Alacritty theme to", mode)
-    """
-    Change the Alacritty terminal configuration based on the mode.
-    """
-    alacritty_file_path = os.path.expanduser("~/.config/alacritty/alacritty.toml")
-
-    # Read the contents of the file
-    with open(alacritty_file_path, 'r') as doc:
-        file_contents = doc.read()
-
-    # Define patterns for light and dark mode
-    light_pattern = r'_light\.toml'
-    dark_pattern = r'_dark\.toml'
-
-    # Determine if Alacritty is in light or dark mode based on the file contents
-    is_light = re.search(light_pattern, file_contents)
-    is_dark = re.search(dark_pattern, file_contents)
-
-    if mode == "light" and is_dark:
-        # Replace dark mode with light mode
-        new_contents = re.sub(dark_pattern, "_light.toml", file_contents, flags=re.M)
-    elif mode == "dark" and is_light:
-        # Replace light mode with dark mode
-        new_contents = re.sub(light_pattern, "_dark.toml", file_contents, flags=re.M)
-    else:
-        # If the current mode is already set, print a message and stop the function
-        print(f"Alacritty is already in {mode} mode.")
-        return
-
-    # Write the new configuration to the file
-    with open(alacritty_file_path, 'w') as doc:
-        doc.write(new_contents)
-
-    print(f"Alacritty theme changed to {mode} mode.")
-
-# Example usage:
-# app_alacritty("light")
-# app_alacritty("dark")
-
-def app_kitty(mode):
-    """
-    Change the Kitty terminal
-    """
-    kitty_file = kitty_path + "/theme/current-theme.conf"
-    kitty_theme_json = kitty_path + "/theme.json"
-
-    dark_theme = ""
-    light_theme = ""
-
-    import json
-    try:
-        with open(kitty_theme_json, 'r') as j:
-            theme_dict = json.loads(j.read())
-            dark_theme = theme_dict["dark"]
-            light_theme = theme_dict["light"]
-    except Exception as e:
-        print(e)
-        return
-
-    # Begin changing the modes
-    if mode == "dark":
-        contents = "include ./{}".format(dark_theme)
-
-    if mode == "light":
-        contents = "include ./{}".format(light_theme)
-
-    with open(os.path.expanduser(kitty_file), "w") as config_file:
-        config_file.write(contents)
-
-    # Reload the Kitty config
-    # Note: For Kitty 0.23.1, this breaks it
-    try:
-        pids = subprocess.run(["pgrep", "kitty"], stdout=subprocess.PIPE)
-        pids = pids.stdout.splitlines()
-        for pid in pids:
-            try:
-                subprocess.run(["kill", "-SIGUSR1", pid])
-            except:
-                continue
-    except IndexError:
-        pass
-
-
-def app_starship(mode):
-    """
-    Change the prompt in the terminal
-    """
-    if mode == "dark":
-        return subprocess.run(
-            [
-                "cp",
-                os.path.expanduser(starship_path + "/starship_dark.toml"),
-                os.path.expanduser(starship_path + "/starship.toml"),
-            ]
-        )
-
-    if mode == "light":
-        return subprocess.run(
-            [
-                "cp",
-                os.path.expanduser(starship_path + "/starship_light.toml"),
-                os.path.expanduser(starship_path + "/starship.toml"),
-            ]
-        )
 
 
 def app_tmux(mode):
