@@ -1,10 +1,6 @@
 { theme }:
 {
   kanagawa = {
-    kitty = {
-      light = "kanagawa_light.conf";
-      dark = "kanagawa.conf";
-    };
     fish = {
       light = "kanagawa_light";
       dark = "kanagawa_dragon";
@@ -22,10 +18,6 @@
     };
   };
   rosepine = {
-    kitty = {
-      light = "anysphere-dark.conf";
-      dark = "anysphere-dark.conf";
-    };
     fish = {
       light = "rose_pine_dawn";
       dark = "rose_pine_moon";
@@ -40,10 +32,6 @@
     };
   };
   nord = {
-    kitty = {
-      light = "kanagawa_light.conf";
-      dark = "nord.conf";
-    };
     fish = {
       light = "neovim_light";
       dark = "nord";
@@ -58,10 +46,6 @@
     };
   };
   nightfox = {
-    kitty = {
-      light = "kanagawa_light.conf";
-      dark = "nightfox.conf";
-    };
     fish = {
       light = "kanagawa_light";
       dark = "carbonfox";
@@ -75,29 +59,7 @@
       dark = "carbonfox";
     };
   };
-  modus = {
-    kitty = {
-      dark = "modus_dark.conf";
-      light = "modus_light.conf";
-    };
-    fish = {
-      dark = "modus_dark";
-      light = "modus_light";
-    };
-    bat = {
-      dark = "modus_dark";
-      light = "modus_light";
-    };
-    delta = {
-      dark = "modus_dark";
-      light = "modus_light";
-    };
-  };
   dracula = {
-    kitty = {
-      light = "kanagawa_light.conf";
-      dark = "kanagawa.conf";
-    };
     fish = {
       light = "dracula";
       dark = "dracula";
