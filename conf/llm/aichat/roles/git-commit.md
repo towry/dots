@@ -1,5 +1,5 @@
 ---
-model: openrouter:mistralai/devstral-small
+model: openrouter:deepseek/deepseek-chat-v3-0324 
 temperature: 0
 top_p: 0.3
 ---

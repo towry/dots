@@ -1,6 +1,6 @@
 ---
 # model: openrouter:anthropic/claude-3.7-sonnet
-model: openrouter:mistralai/devstral-small
+model: openrouter:deepseek/deepseek-chat-v3-0324 
 temperature: 0.1
 top_p: 0.2
 ---

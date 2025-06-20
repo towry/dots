@@ -1,5 +1,5 @@
 # model: deepseek:deepseek-chat
-model: openrouter:anthropic/claude-3.7-sonnet
+model: openrouter:anthropic/claude-3.7-sonnet:floor
 keybindings: vi
 function_calling: true
 stream: true
