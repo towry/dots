@@ -4,7 +4,7 @@ GOOSE_LEAD_MODEL: anthropic/claude-3.7-sonnet:floor
 GOOSE_MODE: auto
 GOOSE_PROVIDER: openrouter
 # GOOSE_MODEL: google/gemini-2.5-pro-preview-06-05
-GOOSE_MODEL: mistralai/codestral-2501
+GOOSE_MODEL: mistralai/mistral-medium-3
 GOOSE_TOOLSHIM: true
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
@@ -37,6 +37,13 @@ extensions:
     name: tutorial
     timeout: 500
     type: builtin
+  computercontroller:
+    bundled: true
+    display_name: Computer Controller
+    enabled: true
+    name: computercontroller
+    timeout: 600
+    type: builtin
   ## MCPs
   context7:
     args:
@@ -45,12 +52,13 @@ extensions:
     cmd: bunx
     description: Connects to Context7.com's documentation database to provide up-to-date library and framework documentation with intelligent project ranking and customizable token limits.
     enabled: true
+    display_name: Context7
     name: context7
     timeout: 300
     type: stdio
   notion:
     type: stdio
-    display_name: notion
+    display_name: Notion
     name: notion
     timeout: 900
     enabled: true
@@ -88,6 +96,7 @@ extensions:
     description: Access the local filesystem.
     enabled: true
     name: fs
+    display_name: FileSystem Tool
     timeout: 400
     type: stdio
   github-mcp-server:
@@ -113,5 +122,6 @@ extensions:
     envs:
       BRAVE_API_KEY: "@BRAVE_API_KEY@"
     name: brave-search
+    display_name: Brave Search
     timeout: 800
     type: stdio
