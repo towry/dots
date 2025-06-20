@@ -56,7 +56,7 @@ in
         BRAVE_API_KEY = pkgs.nix-priv.keys.braveSearch.apiKey;
       };
     };
-    "goose/.goosehint" = {
+    "goose/.goosehints" = {
       source = ../../conf/llm/docs/coding-rules.md;
     };
   };
