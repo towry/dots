@@ -5,7 +5,7 @@ GOOSE_MODE: auto
 GOOSE_PROVIDER: openrouter
 # GOOSE_MODEL: google/gemini-2.5-pro-preview-06-05
 ## Worker that supports tools
-GOOSE_MODEL: deepseek/deepseek-chat-v3-0324 
+GOOSE_MODEL: deepseek/deepseek-chat-v3-0324
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
@@ -92,6 +92,8 @@ extensions:
     args:
       - "@modelcontextprotocol/server-filesystem"
       - "/Users/towry/workspace"
+      - "/Users/towry/.dotfiles"
+      - "/Users/towry/.config/nvim"
     bundled: false
     cmd: bunx
     description: Access the local filesystem.
