@@ -31,7 +31,7 @@ This configuration includes setup for:
 
 - **Neovim** - Text editor with extensive configuration
 - **Git** - Version control with custom aliases and configuration
-- **Jj** - Modern version control system (alternative to Git)
+- **JJ** - Modern version control system (alternative to Git)
 - **Lazygit** - Terminal UI for Git
 - **Rust** - Rust programming language toolchain
 - **Node.js** - JavaScript runtime with fnm, pnpm, and other frontend tools
