@@ -1,16 +1,17 @@
 GOOSE_PLANNER_PROVIDER: openrouter
-GOOSE_PLANNER_MODEL: anthropic/claude-opus-4
-GOOSE_LEAD_MODEL: anthropic/claude-sonnet-4
+GOOSE_PLANNER_MODEL: anthropic/claude-sonnet-4
+GOOSE_LEAD_MODEL: anthropic/claude-3.7-sonnet:floor
 GOOSE_MODE: auto
 GOOSE_PROVIDER: openrouter
-GOOSE_MODEL: google/gemini-2.5-pro-preview-06-05
+# GOOSE_MODEL: google/gemini-2.5-pro-preview-06-05
+GOOSE_MODEL: mistralai/codestral-2501
 GOOSE_TOOLSHIM: true
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
-GOOSE_LEAD_FAILURE_THRESHOLD: 1
-GOOSE_LEAD_TURNS: 3
+GOOSE_LEAD_FAILURE_THRESHOLD: 3
+GOOSE_LEAD_TURNS: 2
 # how many turns to fallback to retry the worker model.
-GOOSE_LEAD_FALLBACK_TURNS: 2
+GOOSE_LEAD_FALLBACK_TURNS: 1
 ## Smart context management
 GOOSE_CONTEXT_STRATEGY: summarize
 GOOSE_CLI_MIN_PRIORITY: 0.4
