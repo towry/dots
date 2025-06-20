@@ -1,5 +1,5 @@
 ---
-model: openrouter:mistralai/mistral-nemo
+model: openrouter:google/gemini-2.5-flash-preview-05-20
 temperature: 0
 top_p: 0.1
 ---
