@@ -1,5 +1,5 @@
 ---
-model: openrouter:mistralai/codestral-2501
+model: openrouter:mistralai/devstral-small
 temperature: 0
 top_p: 0.3
 ---
