@@ -1,6 +1,5 @@
 ---
-# model: openrouter:anthropic/claude-3.7-sonnet
-model: openrouter:deepseek/deepseek-chat-v3-0324 
+model: openrouter:anthropic/claude-sonnet-4:floor
 temperature: 0.1
 top_p: 0.2
 ---
