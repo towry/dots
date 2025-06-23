@@ -320,4 +320,11 @@ in
       # ========== End UI
     '';
   };
+  programs.fish.interactiveShellInit = ''
+    # unset TMUX env if we are in vscode/zed terminal
+    # otherwise, the fzf --tmux will hang.
+    if test "$TERM_PROGRAM" = "vscode" -o "$TERM_PROGRAM" = "zed"
+        set -e TMUX
+    end
+  '';
 }
