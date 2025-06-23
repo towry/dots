@@ -1,5 +1,5 @@
 ---
-model: openrouter:anthropic/claude-3.7-sonnet
+model: openrouter:anthropic/claude-sonnet-4:floor
 temperature: 0.1
 top_p: 0.2
 ---

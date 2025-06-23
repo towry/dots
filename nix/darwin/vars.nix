@@ -8,6 +8,6 @@
     git-town = {
       enable = true;
     };
-    editor = "vim";
+    editor = "nvim";
   };
 }

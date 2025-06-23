@@ -56,7 +56,7 @@ in
         BRAVE_API_KEY = pkgs.nix-priv.keys.braveSearch.apiKey;
       };
     };
-    "goose/.goosehint" = {
+    "goose/.goosehints" = {
       source = ../../conf/llm/docs/coding-rules.md;
     };
   };
@@ -72,6 +72,12 @@ in
         DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apiKey;
         OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
       };
+    };
+    "goose-run-plan" = {
+      enable = true;
+      source = ../../conf/bash/scripts/goose-run-plan.sh;
+      target = ".local/bin/goose-run-plan";
+      executable = true;
     };
   };
 }

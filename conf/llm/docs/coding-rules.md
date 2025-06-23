@@ -110,11 +110,10 @@
 
 ### Notion Note Management
 - **Auto-save workflow**: When the user says "save notion note", "save to notion", or similar requests, automatically:
-  1. Check if you are able to access the notion mcp tools, if not, return an error message
-  2. Summarize the previous answer or conversation context into a clear, well-structured note
-  3. Use the known "Quick Notes" page ID (`216edc511d028016b21ee00eace33af7`) to create a new page directly under it
-  4. Format the content using Notion-flavored Markdown for better readability
-  5. Include a descriptive title based on the topic discussed
+  1. Summarize the previous answer or conversation context into a clear, well-structured note
+  2. Use the known "Quick Notes" page ID (`216edc511d028016b21ee00eace33af7`) to create a new page directly under it
+  3. Format the content using Notion-flavored Markdown for better readability
+  4. Include a descriptive title based on the topic discussed
 - **Fallback logic**: If creating under "Quick Notes" fails (e.g., page doesn't exist or access denied):
   1. Search for "Quick Notes" page using notion mcp tools as backup
   2. If search also fails, create pages as workspace-level private pages
