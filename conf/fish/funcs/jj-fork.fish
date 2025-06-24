@@ -11,7 +11,7 @@ function jj-fork --description "Fork from a bookmark or revision"
     set -l help_string "Usage: jj-fork -d <description> [-b <bookmark>|-r <revision>] [--no-new]
     -d, --description    Description for the new revision
     -b, --bookmark      Bookmark to fork from (will fetch from origin)
-    -r, --revision      Revision to fork from (local revision)
+    -r, --revision      Revision to fork from (local revision, implies --no-new by default)
     --no-new            Create bookmark on existing revision without creating new commit
     -h, --help          Show this help"
 
@@ -20,10 +20,31 @@ function jj-fork --description "Fork from a bookmark or revision"
         return 0
     end
 
+    # If revision is provided, set --no-new as default
+    if set -q _flag_revision
+        if not set -q _flag_no_new
+            set _flag_no_new true
+        end
+    end
+
     if not set -q _flag_description
-        echo "Error: Description is required"
-        echo $help_string
-        return 1
+        # If revision is provided, try to get commit message as description
+        if set -q _flag_revision
+            echo "No description provided, getting commit message from revision $_flag_revision..."
+            set -l commit_message (jj --ignore-working-copy log --quiet -r $_flag_revision -T 'description' 2>/dev/null)
+            if test $status -eq 0 -a -n "$commit_message"
+                set _flag_description $commit_message
+                echo "Using commit message as description: $commit_message"
+            else
+                echo "Error: Could not get commit message from revision $_flag_revision"
+                echo $help_string
+                return 1
+            end
+        else
+            echo "Error: Description is required"
+            echo $help_string
+            return 1
+        end
     end
 
     # Ensure either bookmark or revision is provided, but not both
