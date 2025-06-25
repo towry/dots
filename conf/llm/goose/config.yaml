@@ -34,7 +34,7 @@ extensions:
   tutorial:
     bundled: true
     display_name: Tutorial
-    enabled: true
+    enabled: false
     name: tutorial
     timeout: 500
     type: builtin
