@@ -215,238 +215,38 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 - **LIBRARY EVALUATION**: Research GitHub repositories for popularity, maintenance status, and community adoption
 
 **Expected Task Plan Structure:**
-Use this markdown template for your task plan:
+Use the following **top-level sections** in the given order. Items prefixed with (!) are mandatory and MUST appear exactly as written. Sub-headers (if any) should follow the same naming.
 
-```
+```markdown
 # Task Plan: [Project Name]
 
-## Specific Implementation Requirements
-[**MANDATORY SECTION** - Identify and document all user-provided information that is required for task implementation. Include any URLs, names, values, commands, paths, configurations, version numbers, or other details necessary to complete the task successfully.]
+## Specific Implementation Requirements (!)
 
-## Codebase Analysis
-- **CRITICAL: Working Directory Context**: [**MANDATORY FIRST SECTION** - Establish correct directory context before any other analysis]
-  - **Current Working Directory**: [Use `pwd` to document the exact current working directory path]
-  - **Project Root Location**: [Identify the actual project root directory and its relationship to current working directory]
-  - **Directory Relationship**: [Clearly document the relationship - e.g., "Current working directory `/project/monorepo` is the project root, but Elixir work must be done in `/project/monorepo/elixir-apps/` subdirectory"]
-  - **Target Implementation Context**: [**CRITICAL** - Specify the exact directory where work should be performed. If current working directory is project root but task involves specific technology (e.g., Elixir, Node.js), identify the correct subdirectory and specify navigation commands needed]
-  - **Path Resolution Strategy**: [Document whether file paths in the task plan should be relative to current working directory, project root, or absolute paths]
-  - **Navigation Requirements**: [**MANDATORY** - If the task requires working in a different directory than current, specify the exact navigation commands needed. For example, if pwd is `/project/monorepo` but Elixir work needs to be done, specify `cd elixir-apps` before running commands like `mix test`]
-- **Project Type & Architecture**: [Identify if this is a monorepo, umbrella project (e.g., Elixir umbrella), multi-language workspace, or single application. Document the overall architectural approach and organization strategy]
-- **Current Project Structure**: [Provide detailed directory tree analysis including:]
-  - **Root Level Structure**: [Document all top-level directories and their purposes, clearly distinguishing between project root and current working directory structure]
-  - **Sub-projects/Applications**: [For umbrella projects or monorepos, list all individual applications/services with their locations (e.g., `apps/web_app`, `apps/api_service`), specifying paths relative to both project root AND current working directory]
-  - **Shared Resources**: [Identify shared libraries, configurations, or utilities and their locations relative to both project root and current working directory]
-  - **Key Files**: [Document important configuration files at root and sub-project levels, with paths clearly specified relative to current working directory]
-- **CRITICAL: Data Flow Analysis**: [**MANDATORY** section to prevent data flow anti-patterns]
-  - **Anti-Pattern Audit**: [Search for `$parent`, `this.$parent`, `useParent()`, DOM traversal for state access]
-  - **Component Interfaces**: [Document component props/parameters and events/callbacks]
-  - **State Management**: [Identify existing patterns and ensure proper integration without bypassing them]
-- **CRITICAL: Dependency Architecture Analysis**: [**MANDATORY** section to prevent circular dependencies and architectural violations]
-  - **Dependency Graph Mapping**: [Create a visual or hierarchical representation of inter-app dependencies. Example: `snowflake` → `snowbt`, `snowspider` (meaning snowflake depends on the other two)]
-  - **Architectural Layers**: [Identify distinct layers like: Core/Infrastructure → Business Logic → Application/UI, with clear dependency direction rules]
-  - **Dependency Rules & Constraints**: [Document existing dependency patterns and rules (e.g., "apps in `core/` cannot depend on apps in `web/`")]
-  - **Forbidden Dependency Patterns**: [List dependency combinations that would create circular dependencies or violate architecture]
-  - **Module Ownership Matrix**: [Document which app owns which types of modules/functionality to guide new feature placement]
-- **CRITICAL: Architectural Layer Analysis & SRP Validation**: [**MANDATORY** section to enforce Single Responsibility Principle and prevent layer boundary violations]
-  - **Layer Identification & Mapping**: [Identify and document the current architectural layers in the codebase]
-    - **Core/Domain Layer**: [Pure business logic, data structures, domain rules - NO infrastructure concerns]
-    - **Service/Application Layer**: [Orchestration, caching strategies, transaction management, application workflows]
-    - **Infrastructure Layer**: [External system integrations, persistence, networking, technical cross-cutting concerns]
-    - **Presentation Layer**: [UI logic, request/response handling, user interaction concerns]
-  - **Current Layer Responsibility Audit**: [Document what each layer currently handles and identify any SRP violations]
-    - **Layer Purity Assessment**: [Check if layers contain only appropriate concerns for their level]
-    - **Mixed Concern Identification**: [Identify modules that violate SRP by mixing concerns from different layers]
-    - **Cross-Cutting Concern Implementation**: [Document how caching, logging, metrics, security are currently implemented and where they belong]
-  - **SRP Compliance Matrix**: [For each major module, document its primary responsibility and any mixed concerns]
-    - **Core Module Responsibilities**: [Ensure core modules have single, clear responsibilities (e.g., tick data access should ONLY handle data retrieval, not caching)]
-    - **Service Layer Boundaries**: [Identify where orchestration, caching, and workflow logic should be placed]
-    - **Infrastructure Isolation**: [Ensure infrastructure concerns are properly isolated from business logic]
-  - **Architectural Violation Prevention Rules**: [Establish clear rules to prevent common SRP violations]
-    - **Forbidden Concern Mixing**: [List specific combinations that should never be mixed (e.g., data access + caching logic)]
-    - **Layer Communication Protocols**: [Define how layers should interact without violating boundaries]
-    - **Responsibility Assignment Guidelines**: [Rules for determining which layer a new feature or concern belongs to]
-- **Existing Technology Stack**: [For each sub-project or the main project, identify:]
-  - **Languages & Frameworks**: [Specific versions and frameworks in use]
-  - **Build Tools**: [Mix, npm/pnpm, Poetry, Cargo, etc. and their configurations]
-  - **Runtime Environments**: [Elixir/OTP versions, Node.js versions, Python versions, etc.]
-  - **Databases & External Services**: [Databases, message queues, external APIs in use]
-- **Configuration Files**: [Document all configuration files and their relationships:]
-  - **Root Configurations**: [Workspace-level configs like root `mix.exs`, `package.json`, etc.]
-  - **Sub-project Configurations**: [Individual app configs and how they relate to root configs]
-  - **Environment Configurations**: [Development, testing, production configs]
-  - **Dependency Management**: [How dependencies are managed across the project structure]
-- **Development Workflow**: [Identify current development practices:]
-  - **Build Process**: [How to build individual apps vs entire project]
-  - **Testing Setup**: [Testing strategies for individual apps and integration testing]
-  - **Development Commands**: [Common commands for development, testing, deployment]
-  - **Deployment Processes**: [How different parts of the project are deployed]
-- **Integration Points**: [Note how new work should integrate with existing codebase:]
-  - **Target Location**: [Specify exactly where new code/features should be placed in the project structure]
-  - **Cross-project Dependencies**: [How different parts of the project interact]
-  - **Shared Interfaces**: [APIs, protocols, or contracts between different parts]
-  - **Conflict Avoidance**: [Potential conflicts with existing code and how to avoid them]
-  - **CRITICAL: Dependency Impact Analysis**: [**MANDATORY** before recommending any new module or feature placement]
-    - **New Module Placement Validation**: [Verify that proposed new modules won't create circular dependencies by checking against the dependency graph]
-    - **Dependency Direction Compliance**: [Ensure new features follow existing dependency direction rules (e.g., don't add modules to lower-level apps that higher-level apps would need to call)]
-    - **Alternative Placement Options**: [If the obvious placement would violate dependency rules, provide alternative locations that maintain architectural integrity]
-    - **Refactoring Requirements**: [If the desired functionality requires dependency restructuring, clearly identify what refactoring would be needed and the complexity involved]
-  - **CRITICAL: Data Flow Integration**: [Ensure new components follow proper data flow without parent access anti-patterns]
+## Codebase Analysis (!)
+### (!) Working Directory Context
 
 ## Project Overview
-- **Objective**: [Clear, measurable goal that builds upon existing project foundation and follows proper data flow patterns]
-- **Context**: [Background and rationale, considering current project state and data flow architecture]
-- **Success Criteria**: [Specific outcomes that align with existing project goals, architecture, and proper data flow principles]
 
 ## Requirements Analysis
-- **Functional Requirements**: [What the system must do, with explicit data flow requirements]
-- **Non-functional Requirements**: [Performance, security, usability, maintainability of data flow]
-- **Constraints**: [Technical, time, resource limitations, and data flow pattern constraints]
-- **Dependencies**: [External systems, APIs, services, and their data integration patterns]
 
 ## Implementation Plan
-### Phase 1: [Phase Name]
-- **Duration**: [Estimated time with justification]
-- **Deliverables**: [Specific outputs with exact file paths and locations]
-- **CRITICAL: Working Directory Context Validation**: [**MANDATORY** - Verify correct directory context for this phase]
-  - **Target Directory**: [Specify exactly where in the project structure this phase's work will be done, with clear relationship to current working directory]
-  - **Directory Navigation**: [**CRITICAL** - If work needs to be done in a different directory than current working directory, specify the exact navigation commands needed. For example, if pwd is project root `/project/monorepo` but task involves Elixir work, specify `cd elixir-apps` before running any Elixir commands like `mix test`, `mix deps.get`, etc.]
-  - **File Path Strategy**: [Specify whether file paths in this phase are relative to current working directory, target directory, or project root]
-  - **Context Validation Commands**: [Include commands to verify correct directory context before starting work (e.g., `pwd` to confirm current location, `ls -la` to verify expected files exist, and navigation commands like `cd elixir-apps && pwd` to confirm correct target directory)]
-- **Specific Implementation Steps**: [Include all task-required details provided by the user - URLs, names, values, commands, etc.]
-- **CRITICAL: Data Flow Validation**: [Ensure no parent access anti-patterns and explicit parameter passing]
-- **CRITICAL: Dependency Validation**: [**MANDATORY** for each phase that adds new modules or features]
-  - **Dependency Graph Check**: [Verify that all proposed changes comply with existing dependency architecture]
-  - **Circular Dependency Prevention**: [Confirm no circular dependencies will be introduced]
-  - **Module Placement Justification**: [Explain why the chosen location respects dependency rules and doesn't violate architectural principles]
-- **CRITICAL: SRP & Architectural Layer Validation**: [**MANDATORY** for each phase to prevent Single Responsibility Principle violations]
-  - **Layer Boundary Compliance**: [Verify that all new modules are placed in the correct architectural layer and contain only appropriate concerns]
-  - **Single Responsibility Verification**: [Confirm each new module has one clear, well-defined responsibility without mixing concerns from different layers]
-  - **Cross-Cutting Concern Placement**: [Ensure cross-cutting concerns (caching, logging, metrics) are implemented at appropriate architectural boundaries, not mixed into business logic]
-  - **Concern Separation Validation**: [Verify that infrastructure concerns are not mixed with business logic, and that pure functions remain side-effect free]
-  - **Layer Communication Validation**: [Ensure proposed inter-layer communication follows established patterns and doesn't violate architectural boundaries]
-- **CRITICAL: API Design & Function Signature Validation**: [**MANDATORY** for each phase to ensure clear, maintainable function contracts]
-  - **Clear Function Signatures**: [Verify that all function signatures clearly indicate required data without forcing callers to understand internal implementation]
-  - **Minimal Parameter Dependencies**: [Ensure functions accept only the minimal data they actually need - extract specific values from complex objects at call sites]
-  - **Primitive Argument Preference**: [Prefer primitive arguments (strings, numbers, booleans) over complex objects when possible]
-  - **Complex Object Passing Validation**: [When objects must be passed, document exactly which properties are used and consider using TypeScript interfaces or JSDoc]
-  - **Anti-Pattern Prevention**: [Prevent passing entire context objects, component instances (`this`), or stores when only specific values are needed]
-  - **API Contract Documentation**: [Ensure each parameter has a clear, single purpose evident from parameter name and documentation]
-- **Tasks**:
-  1. [**CRITICAL: Documentation Research** - Use MCP Context7 to retrieve latest official documentation for all libraries/frameworks, then use web search and GitHub tools for additional evaluation]
-  2. [Detailed task with clear acceptance criteria and specific file paths]
-  3. [Next task with dependencies clearly noted and target locations specified]
-- **File Placement Strategy**: [**CRITICAL** - Specify exactly where new files will be created with explicit directory context]
-  - **File Creation Context**: [Specify whether files are created relative to current working directory, project root, or target directory]
-  - **Absolute vs Relative Paths**: [Document whether to use absolute paths or relative paths, and relative to which directory]
-  - **Directory Creation Requirements**: [If new directories need to be created, specify the exact commands and paths relative to current working directory]
-  - **Path Validation**: [Include commands to verify correct file placement (e.g., `ls -la target_directory/` to confirm files are in expected location)]
-  - **Dependency Compliance Verification**: [Ensure file placement respects dependency architecture and doesn't violate project structure rules]
-- **Risks**: [Potential blockers and mitigation strategies, including directory structure conflicts, dependency violations, and data flow anti-patterns]
-
-### Phase N: [Continue for all phases]
+### Phase 1: …
+### Phase N: …
 
 ## Technical Architecture
-- **Technology Stack**: [Modern, justified technology choices that integrate with existing project setup, with latest stable versions researched via Context7, web, and GitHub]
-- **Documentation-Driven Design**: [**CRITICAL** - Use MCP Context7 to access official documentation for architectural decisions, ensuring all design choices follow latest official guidelines and best practices]
-- **System Design**: [High-level architecture using contemporary design patterns that complement existing codebase structure and follow proper data flow principles]
-- **Data Flow Architecture**: [Design explicit component interfaces with props down, events up pattern]
-- **Integration Strategy**: [How new components will integrate with existing systems, APIs, and workflows while maintaining proper data flow, guided by official documentation retrieved via Context7]
-- **Data Flow**: [Key data interactions and flow with modern protocols, respecting existing data patterns and preventing anti-patterns]
-- **Security Considerations**: [Current security best practices, auth, encryption, compliance that work with existing security model, validated against official security documentation via Context7]
-- **Modern Practices**: [Current industry standards, DevOps practices, and architectural patterns compatible with existing development workflow, informed by latest official documentation]
-- **Library Selection**: [Researched via Context7 for official documentation, GitHub repositories with stars, maintenance status, community adoption metrics, and compatibility with existing dependencies]
 
 ## Testing Strategy
-- **Unit Testing**: [Coverage approach and tools, including data flow testing]
-- **Integration Testing**: [Service interaction testing, including component communication testing]
-- **User Acceptance Testing**: [Validation criteria including proper data flow behavior]
-- **Data Flow Testing**: [Specific tests to verify proper data passing and prevent anti-patterns]
 
 ## Deployment Plan
-- **Environment Setup**: [Dev, staging, production configs]
-- **Deployment Process**: [Step-by-step deployment and rollback]
-- **Monitoring**: [Health checks, alerts, and observability including data flow monitoring]
 
 ## Timeline & Milestones
-- **Key Dates**: [Major deliverable dates]
-- **Dependencies**: [Critical path items including data flow refactoring if needed]
-- **Buffer Time**: [Risk mitigation time allocation]
 
 ## Resource Requirements
-- **Team**: [Roles, responsibilities, and skill requirements including data flow expertise]
-- **Tools**: [Development and deployment tools needed]
-- **Infrastructure**: [Hosting, services, and hardware needs]
 
 ## Review Checkpoints
-- **Phase Gates**: [Go/no-go decision points including data flow pattern reviews]
-- **Stakeholder Reviews**: [When and who needs to review including architecture reviews]
-- **Quality Gates**: [Code review, testing, security checkpoints including data flow pattern validation]
+```
 
-**Quality Requirements:**
-- **CODEBASE-FIRST APPROACH**: Always start by analyzing the existing project structure, technology stack, and development patterns before making any recommendations
-- **DATA-FLOW-FIRST ARCHITECTURE**: **CRITICAL** requirement to prevent data flow anti-patterns
-  - **No Parent Access**: Prevent `$parent`, `this.$parent`, `useParent()`, DOM traversal for state access
-  - **Explicit Parameters**: All data must be passed as explicit parameters, no implicit dependencies
-  - **Props Down, Events Up**: Enforce proper data flow direction with clear component interfaces
-- **DEPENDENCY-AWARE ARCHITECTURE**: **CRITICAL** requirement to prevent architectural violations
-  - **Mandatory Dependency Analysis**: Every task plan MUST include comprehensive dependency mapping before recommending any new code placement
-  - **Circular Dependency Prevention**: Verify that no proposed changes will create circular dependencies
-  - **Architectural Integrity**: Ensure all recommendations respect existing dependency direction and layering principles
-  - **Module Placement Validation**: Validate that new modules are placed in apps that can legitimately own that functionality without violating dependency rules
-- **SINGLE RESPONSIBILITY PRINCIPLE (SRP) ENFORCEMENT**: **CRITICAL** requirement to prevent mixing concerns from different architectural layers
-  - **Mandatory Layer Analysis**: Every task plan MUST include comprehensive architectural layer analysis to understand current layer boundaries and responsibilities
-  - **SRP Violation Prevention**: Prevent mixing concerns that belong at different architectural layers (e.g., never add cache logic to core data access modules)
-  - **Layer Boundary Respect**: Ensure all new code is placed in the appropriate architectural layer with only concerns appropriate to that layer
-  - **Cross-Cutting Concern Isolation**: Implement cross-cutting concerns (caching, logging, metrics, security) at appropriate architectural boundaries, not mixed into business logic
-  - **Pure Responsibility Assignment**: Each module should have one clear, well-defined responsibility without mixing infrastructure and business concerns
-  - **Architectural Layer Compliance**: Verify that Core/Domain layers contain only pure business logic, Service layers handle orchestration/caching, Infrastructure layers handle external concerns, and Presentation layers handle UI logic
-- **API DESIGN & FUNCTION SIGNATURE ENFORCEMENT**: **CRITICAL** requirement to ensure clear, maintainable function contracts
-  - **Mandatory API Contract Analysis**: Every task plan MUST include analysis of function signatures to ensure they follow clear contract principles
-  - **Unclear Parameter Prevention**: Prevent passing entire objects (context, stores, component instances) when only specific values are needed
-  - **Self-Documenting Signatures**: Ensure function signatures clearly indicate what data is required without forcing callers to understand internal implementation
-  - **Minimal Dependency Principle**: Functions should accept only the minimal data they actually need - extract specific values at call sites
-  - **Primitive Argument Preference**: Prefer primitive arguments over complex objects when possible for better testability and clarity
-  - **Complex Object Documentation**: When objects must be passed, require documentation of exactly which properties are used and why
-  - **Anti-Pattern Detection**: Identify and prevent common API design anti-patterns like context object passing and unclear parameter purposes
-- **WORKING DIRECTORY AWARENESS**: **CRITICAL** requirement to prevent directory context confusion and ensure correct file placement
-  - **MANDATORY WORKING DIRECTORY ANALYSIS**: **FIRST STEP** in every task plan - establish correct directory context before any other analysis
-    - **Current Directory Identification**: Use `pwd` to identify exact current working directory and document it clearly
-    - **Project Root Discovery**: Use directory traversal and file markers to identify actual project root location
-    - **Directory Relationship Mapping**: Document the relationship between current working directory and project root (e.g., subdirectory, sibling, parent)
-    - **Context Validation**: Verify whether the task should be implemented in current working directory or requires navigation to different location
-  - **Directory Structure Analysis**: Use tools like `tree`, `ls`, or `find` to understand the complete project structure FROM THE CURRENT WORKING DIRECTORY PERSPECTIVE
-  - **Project Root Identification**: Identify the actual project root and understand the relationship between working directory and project structure
-  - **Target Location Specification**: **CRITICAL** - Always specify exact file paths with explicit context about which directory they are relative to
-    - **Path Context Documentation**: Clearly state whether paths are relative to current working directory, project root, or target directory
-    - **Navigation Requirements**: If task requires working in different directory, specify exact navigation commands needed
-    - **File Creation Context**: Document exactly where files will be created and how to verify correct placement
-  - **Multi-project Context**: For umbrella projects or monorepos, clearly identify which sub-project or application the task applies to and its relationship to current working directory
-  - **Directory Context Validation**: Include validation steps to ensure agents are working in correct directory context throughout task execution
-    - **Context Verification Commands**: Include `pwd`, `ls -la`, and other commands to verify correct directory context
-    - **Path Resolution Validation**: Verify that file paths resolve correctly from the intended directory context
-    - **Target Directory Confirmation**: Confirm that target directories exist and are accessible from current working directory
-- Each task must include specific acceptance criteria
-- Provide effort estimates in hours/days with justification
-- Identify all dependencies between tasks and phases
-- Include comprehensive risk assessment with mitigation strategies
-- Create clear decision points for stakeholder involvement
-- Ensure all technical decisions are justified with alternatives and compatibility with existing setup
-- Make the plan actionable by a development team working within the existing codebase
-- **SCALE APPROPRIATELY**: Match plan complexity to actual project scope - simple tasks should have simple plans
-- **AVOID OVER-ENGINEERING**: Don't suggest enterprise-grade solutions for basic requirements
-- **RESPECT EXISTING INFRASTRUCTURE**: Build upon existing tools, configurations, and patterns rather than replacing them
-- **MODERN TECHNICAL RESEARCH**: Include current best practices, latest stable versions, and contemporary architectural patterns that are compatible with existing setup
-- **CURRENT TECH STACK**: Recommend modern, well-supported technologies and frameworks that integrate well with existing project infrastructure
-- **ARCHITECTURE DESIGN**: Provide detailed system architecture using current design patterns that complement existing codebase structure and enforce proper data flow
-- **RESEARCH-DRIVEN DECISIONS**: **MANDATORY** - Use MCP Context7 to retrieve official documentation first, then validate technology choices with web search and GitHub tools to find optimal libraries that work with existing dependencies
-- **EVIDENCE-BASED RECOMMENDATIONS**: Include GitHub stars, maintenance activity, community feedback, and compatibility analysis in technology selection
-
-**Output Format:**
-- Use markdown format
-- Include all sections from the template above
-- Be specific and detailed in all estimates and descriptions
-- Focus on actionability and reviewability
-- Emphasize proper data flow patterns and anti-pattern prevention
+_Reference_: Sub-bullet guidance and detailed explanations from the previous version remain authoritative; they are omitted here purely to save tokens.
 
 ## Prompt Writing Guidelines
 
