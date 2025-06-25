@@ -1,6 +1,6 @@
 GOOSE_PLANNER_PROVIDER: openrouter
-GOOSE_PLANNER_MODEL: anthropic/claude-sonnet-4:floor
-GOOSE_LEAD_MODEL: anthropic/claude-3.7-sonnet:floor
+GOOSE_PLANNER_MODEL: anthropic/claude-sonnet-4
+GOOSE_LEAD_MODEL: anthropic/claude-3.7-sonnet
 GOOSE_MODE: auto
 GOOSE_PROVIDER: openrouter
 # GOOSE_MODEL: google/gemini-2.5-pro-preview-06-05
@@ -57,16 +57,18 @@ extensions:
     name: context7
     timeout: 300
     type: stdio
-  notion:
+  anytype:
     type: stdio
-    display_name: Notion
-    name: notion
+    display_name: Anytype
+    name: anytype
     timeout: 900
     enabled: true
     cmd: bunx
     args:
-      - "mcp-remote"
-      - "https://mcp.notion.com/sse"
+      - "@anyproto/anytype-mcp@latest"
+    env_keys: ["OPENAPI_MCP_HEADERS"]
+    envs:
+      OPENAPI_MCP_HEADERS: "{\"Authorization\":\"Bearer @ANYTYPE_API_KEY@\", \"Anytype-Version\":\"2025-05-20\"}"
   playwright:
     args:
       - "@executeautomation/playwright-mcp-server"

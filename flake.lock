@@ -464,10 +464,10 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1750638421,
-        "narHash": "sha256-AvSzcirthitS9k4bv31HUMa8mGZLJd1M3bNgXV48YeE=",
+        "lastModified": 1750726885,
+        "narHash": "sha256-mKiRhaaL8g2p6sO/56rS0xDvXLKsGX6gHCXncAOmTiY=",
         "ref": "refs/heads/main",
-        "rev": "bc83eb0a4837bdec89792967dd28674141f4a364",
+        "rev": "6323764f6916ae404cbeef8f3d2cdbb7af0b981a",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/pze/jj.git"
@@ -531,10 +531,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1750136408,
-        "narHash": "sha256-bVm8iGIqR3eSMr5yR64nwAY0C7lvvRhpZuFgxN7HuL4=",
+        "lastModified": 1750867471,
+        "narHash": "sha256-kg4hpSgcku69Llej+Q+K7SZA7BPQrfVuBmJvTqlCN6M=",
         "ref": "refs/heads/main",
-        "rev": "7d8c0282073b9630360f9fc936de6de5d233259f",
+        "rev": "7e01ef4794d41b87fd4e2a61c6deb90fcb331011",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/towry/nix-priv.git"

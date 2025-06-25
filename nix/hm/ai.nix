@@ -54,6 +54,7 @@ in
       source = pkgs.replaceVars ../../conf/llm/goose/config.yaml {
         GITHUB_PERSONAL_ACCESS_TOKEN = pkgs.nix-priv.keys.github.accessToken;
         BRAVE_API_KEY = pkgs.nix-priv.keys.braveSearch.apiKey;
+        ANYTYPE_API_KEY = pkgs.nix-priv.keys.anytype.apiKey;
       };
     };
     "goose/.goosehints" = {
