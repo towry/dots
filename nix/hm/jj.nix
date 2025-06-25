@@ -385,8 +385,6 @@ in
         ];
         sq = [
           "squash"
-          "-k"
-          "-u"
         ];
         push = [
           "util"
@@ -517,7 +515,8 @@ in
         ];
         lo = [
           "log"
-          "--no-graph"
+          "-r"
+          "..@"
         ];
       };
       ui = {
