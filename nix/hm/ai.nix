@@ -25,18 +25,20 @@ in
     };
     functions = {
       gen-task-prompt = ''
-        set tmpfile (mktemp)
+        mkdir -p /tmp/llm-task-prompt
+        set timestamp (date +%Y-%m-%d-%H-%M-%S)
+        set tmpfile "/tmp/llm-task-prompt/$timestamp.md"
         $EDITOR $tmpfile
         if test -s $tmpfile
           mkdir -p llm/task-plan-prompts
-          set timestamp (date +%Y%m%d_%H%M%S)
           set output_file "llm/task-plan-prompts/task_plan_$timestamp.md"
           cat $tmpfile | aichat --role gen-prompt > $output_file
           echo "Task plan generated: $output_file"
+          echo "Original prompt saved: $tmpfile"
         else
           echo "No content provided, aborting."
+          rm -f $tmpfile
         end
-        rm $tmpfile
       '';
     };
   };

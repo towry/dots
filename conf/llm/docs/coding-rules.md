@@ -49,7 +49,7 @@
 
 ### Commands
 - Search: `rg` > grep, `fd` > find
-- Kill port: `killport <port>`
+- Kill port: `killport <port>` when you need to free a port
 - Package manager: Detect before use (npm/pnpm/yarn)
 
 ### MCP Services
