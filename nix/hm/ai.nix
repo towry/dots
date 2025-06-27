@@ -12,6 +12,9 @@ let
     else
       "${config.home.homeDirectory}/.config/aichat";
 
+  # Read and escape the system prompt for shell usage
+  taskPlanReviewPrompt = lib.escapeShellArg (builtins.readFile ../../conf/llm/docs/prompts/task-plan-review.md);
+
 in
 {
   home.packages = with pkgs; [
@@ -40,6 +43,49 @@ in
           rm -f $tmpfile
         end
       '';
+      goose-review-plan = {
+        description = "Review task plan";
+
+        body = ''
+          # Parse arguments
+          set -l interactive_mode ""
+          set -l task_plan ""
+
+          # Process arguments
+          set -l i 1
+          while test $i -le (count $argv)
+            switch $argv[$i]
+              case -i
+                set interactive_mode "--interactive"
+              case '*'
+                if test -z "$task_plan"
+                  set task_plan $argv[$i]
+                end
+            end
+            set i (math $i + 1)
+          end
+
+          # Check if task plan was provided
+          if test -z "$task_plan"
+            echo "Usage: goose-review-plan [-i] <task_plan.md>"
+            echo "  -i    Enable interactive mode after review"
+            return 1
+          end
+
+          if not test -f $task_plan
+            echo "Error: Task plan file '$task_plan' not found"
+            return 1
+          end
+
+          echo "Reviewing task plan: $task_plan"
+          if test -n "$interactive_mode"
+            echo "Interactive mode enabled"
+          end
+          echo "Using goose to analyze..."
+
+          goose run $interactive_mode --max-tool-repetitions 50 --system ${taskPlanReviewPrompt} --text "Please review the task plan: $task_plan"
+        '';
+      };
     };
   };
 
