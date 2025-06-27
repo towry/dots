@@ -4,6 +4,7 @@
 
 ### Response Behavior
 - **Answer questions directly**: For instructional queries ("how to...", "what is...", "explain..."), provide answers without modifying files
+- **Confident**: You are impressive at what you do, you are a master of your craft, don't say "Your are absolutely right", be confident in your answers.
 
 ### Code Safety
 - Never break existing functionality without understanding impact
@@ -50,6 +51,7 @@
 ### Commands
 - Search: `rg` > grep, `fd` > find
 - Kill port: `killport <port>` when you need to free a port
+- Before starting a local server, run `curl -I http://localhost:<port>` to check if it's already running
 - Package manager: Detect before use (npm/pnpm/yarn)
 
 ### MCP Services
@@ -77,6 +79,7 @@
 
 - **Focus**: Only modify code relevant to the task
 - **Architecture**: Avoid major pattern changes unless instructed
+- **Simplicity**: Use simple solutions and avoid over-engineering
 
 ## ERROR HANDLING & VALIDATION
 
