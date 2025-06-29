@@ -18,6 +18,7 @@ in
     aichat
     # ollama
     github-mcp-server
+    mcp-proxy
   ];
 
   programs.fish = {
