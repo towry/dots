@@ -1,7 +1,7 @@
 ---
-model: openrouter:anthropic/claude-3.7-sonnet:floor
-temperature: 0.1
-top_p: 0.2
+model: openrouter:google/gemini-2.5-flash-preview-05-20
+temperature: 1.0
+top_p: 0.9
 ---
 
 # Role: LLM Agent Prompt Generator
@@ -150,8 +150,7 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 - `rg "cache|log|metric|http|db"` - cross-cutting concerns
 
 **Documentation Access**
-- `mcp_context7_resolve-library-id` - find library IDs
-- `mcp_context7_get-library-docs` - retrieve documentation
+- use `context7` mcp tool to search for documentation
 - Web search for best practices
 - GitHub search for examples
 

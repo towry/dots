@@ -55,7 +55,7 @@
 - Package manager: Detect before use (npm/pnpm/yarn)
 
 ### MCP Services
-- **context7**: Library/framework documentation
+- **context7**: Latest library/framework documentation, useful to resolve api errors by reading the latest documentation
 - **github-mcp-server**: GitHub code search
 - **filesystem**: Use absolute paths
 

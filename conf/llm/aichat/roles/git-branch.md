@@ -1,7 +1,7 @@
 ---
 model: openrouter:google/gemini-2.5-flash-preview-05-20
-temperature: 0
-top_p: 0.1
+temperature: 0.8
+top_p: 0.9
 ---
 
 你是一个 Git 分支命名专家。你的任务是根据提供的 commit message，生成一个规范的 git branch 名称。
