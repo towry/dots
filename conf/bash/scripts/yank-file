@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# yank-file - Copy file content to clipboard
+# Usage: yank-file <file_path>
+
+set -euo pipefail
+
+# Function to display usage
+usage() {
+    echo "Usage: yank-file <file_path>"
+    echo "Copy the content of a file to the clipboard"
+    exit 1
+}
+
+# Function to detect clipboard command
+detect_clipboard_cmd() {
+    if command -v pbcopy >/dev/null 2>&1; then
+        echo "pbcopy"
+    elif command -v xclip >/dev/null 2>&1; then
+        echo "xclip -selection clipboard"
+    elif command -v xsel >/dev/null 2>&1; then
+        echo "xsel --clipboard --input"
+    elif command -v wl-copy >/dev/null 2>&1; then
+        echo "wl-copy"
+    else
+        echo ""
+    fi
+}
+
+# Check if file path is provided
+if [ $# -eq 0 ]; then
+    echo "Error: No file path provided" >&2
+    usage
+fi
+
+file_path="$1"
+
+# Check if file exists
+if [ ! -f "$file_path" ]; then
+    echo "Error: File '$file_path' does not exist or is not a regular file" >&2
+    exit 1
+fi
+
+# Check if file is readable
+if [ ! -r "$file_path" ]; then
+    echo "Error: File '$file_path' is not readable" >&2
+    exit 1
+fi
+
+# Detect clipboard command
+clipboard_cmd=$(detect_clipboard_cmd)
+
+if [ -z "$clipboard_cmd" ]; then
+    echo "Error: No clipboard utility found. Please install one of: pbcopy, xclip, xsel, or wl-copy" >&2
+    exit 1
+fi
+
+# Copy file content to clipboard
+if eval "cat '$file_path' | $clipboard_cmd"; then
+    echo "✓ Content of '$file_path' copied to clipboard"
+else
+    echo "Error: Failed to copy file content to clipboard" >&2
+    exit 1
+fi

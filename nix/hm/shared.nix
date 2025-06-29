@@ -89,6 +89,11 @@ in
     };
     ".ignore".source = ../../conf/.ignore;
     ".ripgreprc".source = ../../conf/.ripgreprc;
+    "yank-file" = {
+      target = ".local/bin/yank-file";
+      source = ../../conf/bash/scripts/yank-file;
+      executable = true;
+    };
   };
   programs = {
     carapace = {
