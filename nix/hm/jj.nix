@@ -385,8 +385,6 @@ in
         ];
         sq = [
           "squash"
-          "-k"
-          "-u"
         ];
         push = [
           "util"
@@ -517,7 +515,8 @@ in
         ];
         lo = [
           "log"
-          "--no-graph"
+          "-r"
+          "..@"
         ];
       };
       ui = {
@@ -823,7 +822,7 @@ in
       revset-aliases = {
         "m-m" = "description('private: megamerge')";
 
-        # Override immutable_heads to include pub/sandbox bookmark
+        # Override immutable_heads to include pub/sandbox bookmark and commits older than 1 day
         "immutable_heads()" = "builtin_immutable_heads() | present(pub/sandbox)";
 
         "new_visible_commits(op)" =

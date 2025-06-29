@@ -101,7 +101,7 @@ in
       {
         plugin = pkgs.tmuxPlugins.yank;
         extraConfig = ''
-        set -g @plugin 'tmux-plugins/tmux-yank'
+          set -g @plugin 'tmux-plugins/tmux-yank'
         '';
       }
     ];
@@ -168,7 +168,7 @@ in
       ## rerun a pane
       bind @ command-prompt -p 'respawn a pane(I):' 'respawn-pane -k -t %%'
       ## save current history to a buffer to ${config.home.homeDirectory}/workspace/term-buffer.txt
-      bind C-b command-prompt -p 'save history to filename:' -I '${config.home.homeDirectory}/local-tmux.history' 'capture-pane -S - ; save-buffer %1 ; delete-buffer'
+      bind C-b command-prompt -p 'save history to filename:' -I '${config.home.homeDirectory}/workspace/term-buffer.txt' 'capture-pane -S - ; save-buffer %1 ; delete-buffer'
       bind ? list-keys
 
       ## Split panes
@@ -320,4 +320,11 @@ in
       # ========== End UI
     '';
   };
+  programs.fish.interactiveShellInit = ''
+    # unset TMUX env if we are in vscode/zed terminal
+    # otherwise, the fzf --tmux will hang.
+    if test "$TERM_PROGRAM" = "vscode" -o "$TERM_PROGRAM" = "zed"
+        set -e TMUX
+    end
+  '';
 }
