@@ -1,0 +1,32 @@
+version: 1.0.0
+title: Elixir dev issue solver
+description: Solve Elixir programming development issues
+instructions: Please provide solutions for the error problems encountered during Elixir development. Specifically, this includes resolving errors related to Elixir itself, Elixir Ash Framework, and Elixir Phoenix Framework. Use web search tools to find relevant solutions and search for the latest interface documentation through the context7 tool to clarify the correct usage methods of these frameworks. Use stackoverflow mcp tool search for solutions on stackoverflow.
+author:
+  contact: towry
+extensions:
+- type: builtin
+  name: developer
+  display_name: Developer
+  timeout: 300
+  bundled: true
+- type: builtin
+  name: computercontroller
+  display_name: Computer Controller
+  timeout: 300
+  bundled: true
+- type: builtin
+  name: memory
+  display_name: Memory
+  timeout: 300
+  bundled: true
+- type: stdio
+  args:
+    - "@upstash/context7-mcp"
+  cmd: bunx
+  description: Connects to Context7.com's documentation database to provide up-to-date library and framework documentation with intelligent project ranking and customizable token limits.
+  bundled: false
+  enabled: true
+  display_name: Context7
+  name: context7
+  timeout: 300

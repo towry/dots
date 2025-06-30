@@ -148,6 +148,7 @@ After completing the review, save the review report to: $review_report_path"
         GITHUB_PERSONAL_ACCESS_TOKEN = pkgs.nix-priv.keys.github.accessToken;
         BRAVE_API_KEY = pkgs.nix-priv.keys.braveSearch.apiKey;
         ANYTYPE_API_KEY = pkgs.nix-priv.keys.anytype.apiKey;
+        STACKOVERFLOW_API_KEY = pkgs.nix-priv.keys.stackoverflow.apiKey;
       };
     };
     "goose/.goosehints" = {
@@ -159,6 +160,12 @@ After completing the review, save the review report to: $review_report_path"
   };
 
   home.file = {
+    "goose-recipes" = {
+      enable = true;
+      target = "${config.home.homeDirectory}/workspace/goose-recipes_";
+      source = ../../conf/llm/goose-recipes;
+      recursive = true;
+    };
     "${aichatConfigDir}/roles" = {
       # link to ../../conf/llm/aichat/roles dir
       source = ../../conf/llm/aichat/roles;
@@ -174,6 +181,11 @@ After completing the review, save the review report to: $review_report_path"
       enable = true;
       source = ../../conf/bash/scripts/goose-run-plan.sh;
       target = ".local/bin/goose-run-plan";
+      executable = true;
+    };
+    "goose-role" = {
+      source = ../../conf/bash/scripts/goose-role;
+      target = ".local/bin/goose-role";
       executable = true;
     };
   };

@@ -1,6 +1,6 @@
 GOOSE_PLANNER_PROVIDER: openrouter
 GOOSE_PLANNER_MODEL: anthropic/claude-sonnet-4
-GOOSE_LEAD_MODEL: anthropic/claude-3.7-sonnet
+GOOSE_LEAD_MODEL: anthropic/claude-sonnet-4
 GOOSE_MODE: auto
 GOOSE_PROVIDER: openrouter
 GOOSE_PROVIDER__TYPE: OpenRouter
@@ -11,7 +11,7 @@ GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
 ### Switch back to lead after n turns
-GOOSE_LEAD_FAILURE_THRESHOLD: 5
+GOOSE_LEAD_FAILURE_THRESHOLD: 3
 GOOSE_LEAD_TURNS: 1
 # how many turns to fallback to retry the worker model.
 GOOSE_LEAD_FALLBACK_TURNS: 1
@@ -81,6 +81,19 @@ extensions:
     # seems have issue
     enabled: false
     name: playwright
+    timeout: 300
+    type: stdio
+  stackoverflow:
+    cmd: bunx
+    args:
+      - "@gscalzo/stackoverflow-mcp"
+    env_keys: ["STACKOVERFLOW_API_KEY"]
+    envs:
+      STACKOVERFLOW_API_KEY: "@STACKOVERFLOW_API_KEY@"
+    name: stackoverflow
+    display_name: StackOverflow
+    enabled: false
+    bundled: false
     timeout: 300
     type: stdio
   mcp-deepwiki:
