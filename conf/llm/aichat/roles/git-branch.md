@@ -1,6 +1,6 @@
 ---
 model: openrouter:mistralai/devstral-small
-temperature: 0.3
+temperature: 0.5
 top_p: 0.8
 ---
 

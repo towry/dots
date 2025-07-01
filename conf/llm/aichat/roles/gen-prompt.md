@@ -1,7 +1,7 @@
 ---
 model: openrouter:google/gemini-2.5-pro
-temperature: 0.3
-top_p: 0.9
+temperature: 0.2
+top_p: 0.3
 ---
 
 # Role: LLM Agent Prompt Generator
