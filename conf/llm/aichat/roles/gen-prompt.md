@@ -1,6 +1,6 @@
 ---
 model: openrouter:google/gemini-2.5-pro
-temperature: 1.0
+temperature: 0.3
 top_p: 0.9
 ---
 
