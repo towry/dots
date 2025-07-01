@@ -5,8 +5,6 @@ GOOSE_MODE: auto
 GOOSE_PROVIDER: openrouter
 GOOSE_PROVIDER__TYPE: OpenRouter
 GOOSE_MODEL: google/gemini-2.5-pro
-## Worker that supports tools
-# GOOSE_MODEL: deepseek/deepseek-chat-v3-0324
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
