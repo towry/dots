@@ -225,7 +225,35 @@ in
 
             echo "[AI-CI] Starting AI commit process..."
 
-            if [[ $# -eq 0 ]]; then
+            # Parse arguments
+            extra_context=""
+            rev=""
+
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                -m)
+                  shift
+                  if [[ $# -eq 0 ]]; then
+                    echo "[AI-CI] ERROR: -m flag requires a message argument" >&2
+                    exit 1
+                  fi
+                  extra_context="$1"
+                  echo "[AI-CI] Extra context provided: $extra_context"
+                  ;;
+                *)
+                  if [[ -z "$rev" ]]; then
+                    rev="$1"
+                  else
+                    echo "[AI-CI] ERROR: Unexpected argument: $1" >&2
+                    echo "Usage: jj ai-ci [-m <extra_context>] [revision]" >&2
+                    exit 1
+                  fi
+                  ;;
+              esac
+              shift
+            done
+
+            if [[ -z "$rev" ]]; then
               # No revision provided - create interactive commit first
               echo "[AI-CI] Step 1/4: No revision provided. Creating interactive commit..."
 
@@ -254,7 +282,6 @@ in
               echo "[AI-CI] Step 2/4: ✓ Using rev: $rev"
             else
               # Revision provided as argument
-              rev="$1"
               echo "[AI-CI] Step 1/4: ✓ Using provided revision: $rev"
             fi
 
@@ -270,8 +297,16 @@ in
             fi
 
             echo "[AI-CI] Step 4/4: Generating AI commit message and applying..."
+
+            # Prepare input for aichat - combine context with extra context if provided
+            ai_input="$context_output"
+            if [[ -n "$extra_context" ]]; then
+              ai_input=$(printf "%s\n\nAdditional context: %s" "$context_output" "$extra_context")
+              echo "[AI-CI] Including extra context in AI generation"
+            fi
+
             # Generate commit message using aichat with jj context and apply it
-            if ! ai_output=$(echo "$context_output" | aichat --role git-commit -S -c 2>&1); then
+            if ! ai_output=$(echo "$ai_input" | aichat --role git-commit -S -c 2>&1); then
               aichat_exit_code=$?
               echo "[AI-CI] ERROR: Step 4/4 failed - aichat failed (exit code: $aichat_exit_code)" >&2
               echo "aichat output: $ai_output" >&2
