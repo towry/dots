@@ -1,5 +1,5 @@
 ---
-model: openrouter:google/gemini-2.5-flash-preview-05-20
+model: openrouter:google/gemini-2.5-pro
 temperature: 0.9
 top_p: 0.9
 ---
