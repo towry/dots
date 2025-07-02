@@ -352,6 +352,11 @@ in
           "push"
           "--allow-new"
         ];
+        merge = [
+          "new"
+          "-m"
+          "JJ: Merge branch"
+        ];
         blame = [
           "file"
           "annotate"
