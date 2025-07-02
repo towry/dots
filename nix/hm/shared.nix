@@ -30,6 +30,7 @@ in
       # bore-cli
       # termshark
       # inetutils
+      rsync
       moreutils
       watchman
       # skim
