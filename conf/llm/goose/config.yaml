@@ -154,3 +154,17 @@ extensions:
     display_name: Brave Search
     timeout: 800
     type: stdio
+  mastergo:
+    args:
+      - "--bun"
+      - "@mastergo/magic-mcp@0.0.4-beta.10"
+      - "--token=@MASTERGO_TOKEN@"
+      - "--url=https://mastergo.com"
+    bundled: false
+    cmd: bunx
+    description: MasterGo design collaboration and prototyping tool.
+    enabled: false
+    name: mastergo
+    display_name: MasterGo Magic
+    timeout: 800
+    type: stdio

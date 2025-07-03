@@ -149,6 +149,7 @@ After completing the review, save the review report to: $review_report_path"
         BRAVE_API_KEY = pkgs.nix-priv.keys.braveSearch.apiKey;
         ANYTYPE_API_KEY = pkgs.nix-priv.keys.anytype.apiKey;
         STACKOVERFLOW_API_KEY = pkgs.nix-priv.keys.stackoverflow.apiKey;
+        MASTERGO_TOKEN = pkgs.nix-priv.keys.mastergo.token;
       };
     };
     "goose/.goosehints" = {
