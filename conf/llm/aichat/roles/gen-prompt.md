@@ -1,5 +1,5 @@
 ---
-model: openrouter:google/gemini-2.5-pro
+model: openrouter:qwen/qwen3-235b-a22b
 temperature: 0.2
 top_p: 0.2
 ---

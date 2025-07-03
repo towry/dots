@@ -4,7 +4,7 @@ GOOSE_LEAD_MODEL: anthropic/claude-sonnet-4
 GOOSE_MODE: auto
 GOOSE_PROVIDER: openrouter
 GOOSE_PROVIDER__TYPE: OpenRouter
-GOOSE_MODEL: google/gemini-2.5-pro
+GOOSE_MODEL: qwen/qwen3-235b-a22b
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
