@@ -45,90 +45,90 @@ in
         description = "Review task plan";
 
         body = ''
-          # Parse arguments
-          set -l interactive_mode ""
-          set -l save_mode ""
-          set -l task_plan ""
+                    # Parse arguments
+                    set -l interactive_mode ""
+                    set -l save_mode ""
+                    set -l task_plan ""
 
-          # Process arguments
-          set -l i 1
-          while test $i -le (count $argv)
-            switch $argv[$i]
-              case -i
-                set interactive_mode "--interactive"
-              case --save
-                set save_mode "1"
-              case '*'
-                if test -z "$task_plan"
-                  set task_plan $argv[$i]
-                end
-            end
-            set i (math $i + 1)
-          end
+                    # Process arguments
+                    set -l i 1
+                    while test $i -le (count $argv)
+                      switch $argv[$i]
+                        case -i
+                          set interactive_mode "--interactive"
+                        case --save
+                          set save_mode "1"
+                        case '*'
+                          if test -z "$task_plan"
+                            set task_plan $argv[$i]
+                          end
+                      end
+                      set i (math $i + 1)
+                    end
 
-          # Check if task plan was provided
-          if test -z "$task_plan"
-            echo "Usage: goose-review-plan [-i] [--save] <task_plan.md>"
-            echo "  -i      Enable interactive mode after review"
-            echo "  --save  Save the review report to task plan directory"
-            return 1
-          end
+                    # Check if task plan was provided
+                    if test -z "$task_plan"
+                      echo "Usage: goose-review-plan [-i] [--save] <task_plan.md>"
+                      echo "  -i      Enable interactive mode after review"
+                      echo "  --save  Save the review report to task plan directory"
+                      return 1
+                    end
 
-          if not test -f $task_plan
-            echo "Error: Task plan file '$task_plan' not found"
-            return 1
-          end
+                    if not test -f $task_plan
+                      echo "Error: Task plan file '$task_plan' not found"
+                      return 1
+                    end
 
-          echo "Reviewing task plan: $task_plan"
-          if test -n "$interactive_mode"
-            echo "Interactive mode enabled"
-          end
-          if test -n "$save_mode"
-            echo "Save mode enabled - review report will be saved"
-          end
-          echo "Using goose to analyze..."
+                    echo "Reviewing task plan: $task_plan"
+                    if test -n "$interactive_mode"
+                      echo "Interactive mode enabled"
+                    end
+                    if test -n "$save_mode"
+                      echo "Save mode enabled - review report will be saved"
+                    end
+                    echo "Using goose to analyze..."
 
-          # Build the command
-          set -l goose_cmd "goose run"
-          if test -n "$interactive_mode"
-            set goose_cmd $goose_cmd "--interactive"
-          end
+                    # Build the command
+                    set -l goose_cmd "goose run"
+                    if test -n "$interactive_mode"
+                      set goose_cmd $goose_cmd "--interactive"
+                    end
 
-                    # Read the system prompt from the config file
-          set -l prompt_file "${config.xdg.configHome}/goose/task-plan-review-prompt.md"
-          if not test -f $prompt_file
-            echo "Error: Task plan review prompt not found at $prompt_file"
-            return 1
-          end
+                              # Read the system prompt from the config file
+                    set -l prompt_file "${config.xdg.configHome}/goose/task-plan-review-prompt.md"
+                    if not test -f $prompt_file
+                      echo "Error: Task plan review prompt not found at $prompt_file"
+                      return 1
+                    end
 
-          # Read the prompt content
-          set -l system_prompt (cat $prompt_file)
+                    # Read the prompt content
+                    set -l system_prompt (cat $prompt_file)
 
-          # Build the text instruction
-          set -l text_instruction "Please review the task plan in: $task_plan \n
-Read the task plan file directly without checking its existence first."
-          if test -n "$save_mode"
-            # Generate the review report filename
-            set -l task_plan_dir (dirname $task_plan)
-            set -l task_plan_basename (basename $task_plan)
-            set -l task_plan_name (string replace -r "\\.[^.]*\$" "" $task_plan_basename)
-            set -l review_report_path "$task_plan_dir/$task_plan_name-review-report.md"
-            set text_instruction "$text_instruction
+                    # Build the text instruction
+                    set -l text_instruction "Please review the task plan in: $task_plan \n
+          Read the task plan file directly without checking its existence first."
+                    if test -n "$save_mode"
+                      # Generate the review report filename
+                      set -l task_plan_dir (dirname $task_plan)
+                      set -l task_plan_basename (basename $task_plan)
+                      set -l task_plan_name (string replace -r "\\.[^.]*\$" "" $task_plan_basename)
+                      set -l review_report_path "$task_plan_dir/$task_plan_name-review-report.md"
+                      set text_instruction "$text_instruction
 
-After completing the review, save the review report to: $review_report_path"
-          end
+          After completing the review, save the review report to: $review_report_path"
+                    end
 
-          # Build the full command arguments
-          set -l goose_args
-          if test -n "$interactive_mode"
-            set goose_args $goose_args --interactive
-          end
-          set goose_args $goose_args --max-tool-repetitions 50
-          set goose_args $goose_args --system "$system_prompt"
-          set goose_args $goose_args --text "$text_instruction"
+                    # Build the full command arguments
+                    set -l goose_args
+                    if test -n "$interactive_mode"
+                      set goose_args $goose_args --interactive
+                    end
+                    set goose_args $goose_args --max-tool-repetitions 50
+                    set goose_args $goose_args --system "$system_prompt"
+                    set goose_args $goose_args --text "$text_instruction"
 
-          # Execute the command
-          goose run $goose_args
+                    # Execute the command
+                    goose run $goose_args
         '';
       };
     };
