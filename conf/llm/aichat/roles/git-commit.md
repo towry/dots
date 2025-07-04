@@ -1,5 +1,5 @@
 ---
-model: openrouter:openai/gpt-4o-mini
+model: openrouter:google/gemini-2.5-flash
 temperature: 0.2
 top_p: 0.2
 ---
