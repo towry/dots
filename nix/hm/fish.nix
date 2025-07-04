@@ -79,6 +79,7 @@
         "/user/bin/firefox --start-debugger-server";
     cls = "clear";
     vi = "nvim";
+    surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
     lazy = "NVIM_APPNAME=lazy nvim";
     # temporary for lazy branch dev
     astro = "NVIM_APPNAME=astro nvim";

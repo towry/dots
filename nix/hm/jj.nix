@@ -46,7 +46,6 @@ in
           "origin"
         ];
         push = "origin";
-        push-bookmark-prefix = "towry/jj-";
         private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'WIP:*')";
       };
       merge-tools = {
@@ -625,6 +624,7 @@ in
             )),
           )
         '';
+        git_push_bookmark = ''"towry/jj-" ++ change_id.short()'';
       };
       template-aliases = {
         "hyperlink(url, text)" = ''
