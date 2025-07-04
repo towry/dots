@@ -1,5 +1,5 @@
 ---
-model: openrouter:qwen/qwen3-235b-a22b
+model: openrouter:anthropic/claude-sonnet-4
 temperature: 0.2
 top_p: 0.2
 ---
@@ -44,6 +44,15 @@ Transform user requirements into structured prompts that guide LLM agents to cre
 - Infrastructure: External integrations, persistence
 - Presentation: UI logic, user interaction
 - No mixed concerns (e.g., data access + caching)
+
+**Module Impact Analysis**
+- When adding/modifying methods in a module, review the entire module for:
+  - Other methods that may need updates or become inconsistent
+  - Existing patterns that should be followed or updated
+  - Dependencies that may be affected by the change
+  - Interface contracts that may need adjustment
+- Consider ripple effects: what other parts of the codebase depend on this module?
+- Ensure changes maintain module cohesion and don't break existing functionality
 
 **API Design**
 - Clear function signatures with minimal parameters
