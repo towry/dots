@@ -43,7 +43,7 @@ extensions:
   computercontroller:
     bundled: true
     display_name: Computer Controller
-    enabled: true
+    enabled: false
     name: computercontroller
     timeout: 600
     type: builtin
@@ -59,50 +59,15 @@ extensions:
     name: context7
     timeout: 300
     type: stdio
-  anytype:
-    type: stdio
-    display_name: Anytype
-    name: anytype
-    timeout: 900
-    enabled: true
-    cmd: bunx
-    args:
-      - "@anyproto/anytype-mcp@latest"
-    env_keys: ["OPENAPI_MCP_HEADERS"]
-    envs:
-      OPENAPI_MCP_HEADERS: "{\"Authorization\":\"Bearer @ANYTYPE_API_KEY@\", \"Anytype-Version\":\"2025-05-20\"}"
   playwright:
     args:
-      - "@executeautomation/playwright-mcp-server"
+      - "@playwright/mcp@latest"
     bundled: false
     cmd: bunx
     description: Interact with web pages, take screenshots, generate test code, web scraps the page and execute JavaScript in a real browser environment.
-    # seems have issue
     enabled: false
     name: playwright
-    timeout: 300
-    type: stdio
-  stackoverflow:
-    cmd: bunx
-    args:
-      - "@gscalzo/stackoverflow-mcp"
-    env_keys: ["STACKOVERFLOW_API_KEY"]
-    envs:
-      STACKOVERFLOW_API_KEY: "@STACKOVERFLOW_API_KEY@"
-    name: stackoverflow
-    display_name: StackOverflow
-    enabled: false
-    bundled: false
-    timeout: 300
-    type: stdio
-  mcp-deepwiki:
-    args:
-      - mcp-deepwiki@latest
-    bundled: false
-    cmd: bunx
-    description: access deepwiki.com to retrieve github repository architecture information.
-    enabled: false
-    name: mcp-deepwiki
+    display_name: Playwright
     timeout: 300
     type: stdio
   tidewave:
