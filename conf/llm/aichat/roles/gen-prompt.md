@@ -143,6 +143,8 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 
 ### Project Structure Analysis Tools
 
+Use modern tool `fd`, `ripgrep` instead of slow `find` and `grep`.
+
 **Directory Context** (MANDATORY FIRST)
 - `pwd` - current directory
 - `fd -t f -d 3 "mix.exs|package.json|pyproject.toml|Cargo.toml" .` - find project markers
