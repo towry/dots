@@ -209,6 +209,66 @@ in
           ''
           ""
         ];
+        # descript existing commit, prefix with '[skip ci]' to skip gh CI.
+        ds-skip-ci = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            rev=""
+
+            # Parse arguments
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                *)
+                  rev="$1"
+                  ;;
+              esac
+              shift || true
+            done
+
+            # Default to current revision if none provided
+            if [[ -z "$rev" ]]; then
+              rev="@"
+            fi
+
+            echo "[ds-skip-ci] Processing revision: $rev"
+
+            # Get current description
+            current_desc=$(jj log -r "$rev" --no-graph --color=never --template 'description' 2>/dev/null)
+
+            if [[ -z "$current_desc" ]]; then
+              echo "[ds-skip-ci] ERROR: Could not get description for revision $rev" >&2
+              exit 1
+            fi
+
+            # Check if already has [skip ci] prefix
+            if [[ "$current_desc" =~ ^\[skip\ ci\] ]]; then
+              echo "[ds-skip-ci] Revision $rev already has [skip ci] prefix"
+              echo "Current description: $current_desc"
+              exit 0
+            fi
+
+            # Add [skip ci] prefix
+            new_desc="[skip ci] $current_desc"
+
+            echo "[ds-skip-ci] Updating description..."
+
+            # Update the description
+            if jj describe -r "$rev" -m "$new_desc" --color=never --no-pager; then
+              echo "[ds-skip-ci] ✓ Successfully updated description for revision $rev"
+            else
+              echo "[ds-skip-ci] ERROR: Failed to update description for revision $rev" >&2
+              exit 1
+            fi
+          ''
+          ""
+        ];
         ai-ci = [
           "util"
           "exec"
