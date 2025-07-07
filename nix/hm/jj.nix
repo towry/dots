@@ -102,6 +102,13 @@ in
         ];
         wk = [ "workspace" ];
         df = [ "diff" ];
+        df-names = [
+          "diff"
+          "--ignore-working-copy"
+          "--no-pager"
+          "--name-only"
+          "-r"
+        ];
         sync-delete-bookmarks = [
           "git"
           "push"
