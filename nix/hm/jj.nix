@@ -432,8 +432,18 @@ in
           "fetch"
         ];
         down = [
-          "git"
-          "fetch"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@)" --ignore-working-copy --no-pager
+          ''
+          ""
         ];
         abs = [
           "absorb"
