@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# This script runs a goose recipe after verifying the file exists
+# Usage: goose-role.sh <recipe-file-path>
+
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+    echo "Error: Recipe file path is required"
+    echo "Usage: $(basename "$0") <recipe-file-path>"
+    exit 1
+fi
+
+recipe_file="$1"
+
+# prepend with $HOME/workspace/goose-recipes_
+recipe_file="$HOME/workspace/goose-recipes_/$recipe_file"
+
+# Verify file exists
+if [ ! -f "$recipe_file" ]; then
+    echo "Error: Recipe file '$recipe_file' does not exist"
+    exit 1
+fi
+
+# Run goose with the recipe
+exec goose run  --interactive --recipe "$recipe_file"

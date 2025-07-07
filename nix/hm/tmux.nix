@@ -188,12 +188,14 @@ in
 
       ### is-vim ?
       is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
-      | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+      | grep -iqE '^[^TXZ ]+ +(\S+\/)?g?(view|n?vim?x?|diff)?$'"
+      is_goose="ps -o state= -o comm= -t '#{pane_tty}' \
+      | grep -iqE '^[^TXZ ]+ +(\S+\/)?goose'"
 
-      bind-key -n C-h if-shell "$is_vim" 'send-keys C-h'  'select-pane -LZ'
-      bind-key -n C-j if-shell "$is_vim" 'send-keys C-j'  'select-pane -DZ'
-      bind-key -n C-k if-shell "$is_vim" 'send-keys C-k'  'select-pane -UZ'
-      bind-key -n C-l if-shell "$is_vim" 'send-keys C-l'  'select-pane -RZ'
+      bind-key -n C-h if-shell "$is_vim || $is_goose" 'send-keys C-h'  'select-pane -LZ'
+      bind-key -n C-j if-shell "$is_vim || $is_goose" 'send-keys C-j'  'select-pane -DZ'
+      bind-key -n C-k if-shell "$is_vim || $is_goose" 'send-keys C-k'  'select-pane -UZ'
+      bind-key -n C-l if-shell "$is_vim || $is_goose" 'send-keys C-l'  'select-pane -RZ'
       bind -r C-h select-pane -LZ
       bind -r C-j select-pane -DZ
       bind -r C-k select-pane -UZ

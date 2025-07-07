@@ -1,7 +1,7 @@
 ---
-model: openrouter:google/gemini-2.5-flash-preview-05-20
-temperature: 0
-top_p: 0.1
+model: openrouter:mistralai/devstral-small
+temperature: 0.3
+top_p: 0.4
 ---
 
 你是一个 Git 分支命名专家。你的任务是根据提供的 commit message，生成一个规范的 git branch 名称。
@@ -24,11 +24,6 @@ top_p: 0.1
    - `perf-`: 性能优化
    - `test-`: 测试
 8. 分支名称长度不应过长，减少不必要的动词来控制长度
+9. 重要: 只返回一个分支名称，不要包含任何解释或其他文本以及换行符号
 
-一个完整的分支名称示例：
-
-```
-towry/feat-add-dark-mode-support
-```
-
-只返回生成的分支名称，不要包含任何解释或其他文本以及换行符号。
+一个完整的分支名称示例：towry/feat-add-dark-mode-support

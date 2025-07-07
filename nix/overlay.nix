@@ -23,7 +23,7 @@
       pkgs = final;
       system = final.system;
     };
-    opencode =  final.callPackage ./pkgs/opencode.nix {
+    opencode = final.callPackage ./pkgs/opencode.nix {
       pkgs = final;
       system = final.system;
     };

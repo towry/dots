@@ -1,7 +1,7 @@
 ---
-model: openrouter:google/gemini-2.5-flash-preview-05-20
-temperature: 0
-top_p: 0.3
+model: openrouter:google/gemini-2.5-flash
+temperature: 0.2
+top_p: 0.2
 ---
 
 You are a Git commit message expert and code reviewer. Generate conventional commit messages with optional review feedback based on git diff and context.

@@ -46,7 +46,6 @@ in
           "origin"
         ];
         push = "origin";
-        push-bookmark-prefix = "towry/jj-";
         private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'WIP:*')";
       };
       merge-tools = {
@@ -210,6 +209,66 @@ in
           ''
           ""
         ];
+        # descript existing commit, prefix with '[skip ci]' to skip gh CI.
+        ds-skip-ci = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            rev=""
+
+            # Parse arguments
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                *)
+                  rev="$1"
+                  ;;
+              esac
+              shift || true
+            done
+
+            # Default to current revision if none provided
+            if [[ -z "$rev" ]]; then
+              rev="@"
+            fi
+
+            echo "[ds-skip-ci] Processing revision: $rev"
+
+            # Get current description
+            current_desc=$(jj log -r "$rev" --no-graph --color=never --template 'description' 2>/dev/null)
+
+            if [[ -z "$current_desc" ]]; then
+              echo "[ds-skip-ci] ERROR: Could not get description for revision $rev" >&2
+              exit 1
+            fi
+
+            # Check if already has [skip ci] prefix
+            if [[ "$current_desc" =~ ^\[skip\ ci\] ]]; then
+              echo "[ds-skip-ci] Revision $rev already has [skip ci] prefix"
+              echo "Current description: $current_desc"
+              exit 0
+            fi
+
+            # Add [skip ci] prefix
+            new_desc="[skip ci] $current_desc"
+
+            echo "[ds-skip-ci] Updating description..."
+
+            # Update the description
+            if jj describe -r "$rev" -m "$new_desc" --color=never --no-pager; then
+              echo "[ds-skip-ci] ✓ Successfully updated description for revision $rev"
+            else
+              echo "[ds-skip-ci] ERROR: Failed to update description for revision $rev" >&2
+              exit 1
+            fi
+          ''
+          ""
+        ];
         ai-ci = [
           "util"
           "exec"
@@ -225,7 +284,35 @@ in
 
             echo "[AI-CI] Starting AI commit process..."
 
-            if [[ $# -eq 0 ]]; then
+            # Parse arguments
+            extra_context=""
+            rev=""
+
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                -m)
+                  shift
+                  if [[ $# -eq 0 ]]; then
+                    echo "[AI-CI] ERROR: -m flag requires a message argument" >&2
+                    exit 1
+                  fi
+                  extra_context="$1"
+                  echo "[AI-CI] Extra context provided: $extra_context"
+                  ;;
+                *)
+                  if [[ -z "$rev" ]]; then
+                    rev="$1"
+                  else
+                    echo "[AI-CI] ERROR: Unexpected argument: $1" >&2
+                    echo "Usage: jj ai-ci [-m <extra_context>] [revision]" >&2
+                    exit 1
+                  fi
+                  ;;
+              esac
+              shift
+            done
+
+            if [[ -z "$rev" ]]; then
               # No revision provided - create interactive commit first
               echo "[AI-CI] Step 1/4: No revision provided. Creating interactive commit..."
 
@@ -254,7 +341,6 @@ in
               echo "[AI-CI] Step 2/4: ✓ Using rev: $rev"
             else
               # Revision provided as argument
-              rev="$1"
               echo "[AI-CI] Step 1/4: ✓ Using provided revision: $rev"
             fi
 
@@ -270,8 +356,16 @@ in
             fi
 
             echo "[AI-CI] Step 4/4: Generating AI commit message and applying..."
+
+            # Prepare input for aichat - combine context with extra context if provided
+            ai_input="$context_output"
+            if [[ -n "$extra_context" ]]; then
+              ai_input=$(printf "%s\n\nAdditional context: %s" "$context_output" "$extra_context")
+              echo "[AI-CI] Including extra context in AI generation"
+            fi
+
             # Generate commit message using aichat with jj context and apply it
-            if ! ai_output=$(echo "$context_output" | aichat --role git-commit -S -c 2>&1); then
+            if ! ai_output=$(echo "$ai_input" | aichat --role git-commit -S -c 2>&1); then
               aichat_exit_code=$?
               echo "[AI-CI] ERROR: Step 4/4 failed - aichat failed (exit code: $aichat_exit_code)" >&2
               echo "aichat output: $ai_output" >&2
@@ -316,6 +410,11 @@ in
           "git"
           "push"
           "--allow-new"
+        ];
+        merge = [
+          "new"
+          "-m"
+          "JJ: Merge branch"
         ];
         blame = [
           "file"
@@ -585,6 +684,7 @@ in
             )),
           )
         '';
+        git_push_bookmark = ''"towry/jj-" ++ change_id.short()'';
       };
       template-aliases = {
         "hyperlink(url, text)" = ''

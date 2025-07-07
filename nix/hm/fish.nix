@@ -72,6 +72,7 @@
   # aliases
   programs.fish.shellAliases = {
     cd-home = "cd $HOME/workspace";
+     surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
     run-firefox-debugger =
       if pkgs.stdenv.isDarwin then
         "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
@@ -192,20 +193,6 @@
         -p _fifc_preview_process \
         -o _fifc_open_process \
         -e '^\\h*([0-9]+)'
-
-    # ASDF configuration code
-    if test -z $ASDF_DATA_DIR
-        set _asdf_shims "$HOME/.asdf/shims"
-    else
-        set _asdf_shims "$ASDF_DATA_DIR/shims"
-    end
-
-    # Do not use fish_add_path (added in Fish 3.2) because it
-    # potentially changes the order of items in PATH
-    if not contains $_asdf_shims $PATH
-        set -gx --prepend PATH $_asdf_shims
-    end
-    set --erase _asdf_shims
   '';
   ## do not forget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122
@@ -545,12 +532,7 @@
         set -l before_token (string sub -l (math $cursor_pos - $token_length) -- "$buffer")
         set -l after_token (string sub -s (math $cursor_pos + 1) -- "$buffer")
 
-        # First get the list of changed files
-        set -l git_status_files (git -c diff.relative=true diff --name-only HEAD)
-        set -l untracked_files (git ls-files --others --exclude-standard)
-
-        # Combine the lists and pipe to fzf
-        set -l selected_files (printf "%s\n" $git_status_files $untracked_files | sort | uniq | fzf \
+        set -l selected_files ((git -c diff.relative=true diff --name-only && git ls-files --others --exclude-standard) | sort | uniq | fzf \
             --reverse \
             --cycle \
             --multi \
@@ -579,7 +561,6 @@
 
         commandline -f repaint
       '';
-      description = "Use fzf to browse current unstaged changes";
     };
     fpick-status = {
       body = ''

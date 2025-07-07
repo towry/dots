@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   programs.helix = {
@@ -20,21 +25,35 @@
     languages.language = [
       {
         name = "typescript";
-        language-servers = [ "typescript-language-server" "typos" ];
+        language-servers = [
+          "typescript-language-server"
+          "typos"
+        ];
         formatter.command = "prettier";
-        formatter.args = [ "--parser" "typescript" ];
+        formatter.args = [
+          "--parser"
+          "typescript"
+        ];
         formatter.binary = "${lib.getExe pkgs.nodePackages.prettier}";
       }
       {
         name = "python";
         language-servers = [ "typos" ];
         formatter.command = "ruff";
-        formatter.args = [ "format" "--line-length" "88" "-" ];
+        formatter.args = [
+          "format"
+          "--line-length"
+          "88"
+          "-"
+        ];
         formatter.binary = "${lib.getExe pkgs.ruff}";
       }
       {
         name = "nix";
-        language-servers = [ "nixd" "typos" ];
+        language-servers = [
+          "nixd"
+          "typos"
+        ];
         formatter.binary = "${lib.getExe pkgs.nixfmt-classic}";
         formatter.command = "nixfmt";
       }
@@ -59,8 +78,15 @@
       editor.cursor-shape.insert = "bar";
 
       editor.statusline = {
-        left = [ "mode" "spinner" "version-control" ];
-        center = [ "file-name" "file-modification-indicator" ];
+        left = [
+          "mode"
+          "spinner"
+          "version-control"
+        ];
+        center = [
+          "file-name"
+          "file-modification-indicator"
+        ];
         right = [
           "diagnostics"
           "selections"
@@ -79,7 +105,10 @@
         H = [ "goto_line_start" ];
         L = [ "goto_line_end" ];
         G = [ "goto_last_line" ];
-        y = [ "yank" ":clipboard-yank" ];
+        y = [
+          "yank"
+          ":clipboard-yank"
+        ];
         ";" = [ "command_mode" ];
       };
       keys.insert.j = {

@@ -1,20 +1,22 @@
 GOOSE_PLANNER_PROVIDER: openrouter
 GOOSE_PLANNER_MODEL: anthropic/claude-sonnet-4
-GOOSE_LEAD_MODEL: anthropic/claude-3.7-sonnet
-GOOSE_MODE: auto
+# GOOSE_LEAD_MODEL: anthropic/claude-sonnet-4
 GOOSE_PROVIDER: openrouter
-# GOOSE_MODEL: google/gemini-2.5-pro-preview-06-05
-## Worker that supports tools
-GOOSE_MODEL: deepseek/deepseek-chat-v3-0324
+GOOSE_LEAD_MODEL: google/gemini-2.5-pro
+GOOSE_MODE: auto
+GOOSE_PROVIDER__TYPE: OpenRouter
+GOOSE_MODEL: qwen/qwen3-235b-a22b
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
+### Switch back to lead after n turns
 GOOSE_LEAD_FAILURE_THRESHOLD: 3
-GOOSE_LEAD_TURNS: 2
+GOOSE_LEAD_TURNS: 1
 # how many turns to fallback to retry the worker model.
 GOOSE_LEAD_FALLBACK_TURNS: 1
 ## Smart context management
 GOOSE_CONTEXT_STRATEGY: summarize
+GOOSE_TEMPERATURE: 0.2
 GOOSE_CLI_MIN_PRIORITY: 0.4
 extensions:
   developer:
@@ -41,7 +43,7 @@ extensions:
   computercontroller:
     bundled: true
     display_name: Computer Controller
-    enabled: true
+    enabled: false
     name: computercontroller
     timeout: 600
     type: builtin
@@ -57,37 +59,25 @@ extensions:
     name: context7
     timeout: 300
     type: stdio
-  anytype:
-    type: stdio
-    display_name: Anytype
-    name: anytype
-    timeout: 900
-    enabled: true
-    cmd: bunx
-    args:
-      - "@anyproto/anytype-mcp@latest"
-    env_keys: ["OPENAPI_MCP_HEADERS"]
-    envs:
-      OPENAPI_MCP_HEADERS: "{\"Authorization\":\"Bearer @ANYTYPE_API_KEY@\", \"Anytype-Version\":\"2025-05-20\"}"
   playwright:
     args:
-      - "@executeautomation/playwright-mcp-server"
+      - "@playwright/mcp@latest"
     bundled: false
     cmd: bunx
     description: Interact with web pages, take screenshots, generate test code, web scraps the page and execute JavaScript in a real browser environment.
-    # seems have issue
     enabled: false
     name: playwright
+    display_name: Playwright
     timeout: 300
     type: stdio
-  mcp-deepwiki:
+  tidewave:
+    cmd: mcp-proxy
     args:
-      - mcp-deepwiki@latest
+      - "http://localhost:4000/tidewave/mcp"
     bundled: false
-    cmd: bunx
-    description: access deepwiki.com to retrieve github repository architecture information.
     enabled: false
-    name: mcp-deepwiki
+    name: tidewave
+    display_name: Tidewave AI
     timeout: 300
     type: stdio
   filesystem:
@@ -128,5 +118,19 @@ extensions:
       BRAVE_API_KEY: "@BRAVE_API_KEY@"
     name: brave-search
     display_name: Brave Search
+    timeout: 800
+    type: stdio
+  mastergo:
+    args:
+      - "--bun"
+      - "@mastergo/magic-mcp@0.0.4-beta.10"
+      - "--token=@MASTERGO_TOKEN@"
+      - "--url=https://mastergo.com"
+    bundled: false
+    cmd: bunx
+    description: MasterGo design collaboration and prototyping tool.
+    enabled: false
+    name: mastergo
+    display_name: MasterGo Magic
     timeout: 800
     type: stdio

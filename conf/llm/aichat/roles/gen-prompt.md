@@ -1,6 +1,6 @@
 ---
-model: openrouter:anthropic/claude-3.7-sonnet:floor
-temperature: 0.1
+model: openrouter:anthropic/claude-sonnet-4
+temperature: 0.2
 top_p: 0.2
 ---
 
@@ -44,6 +44,15 @@ Transform user requirements into structured prompts that guide LLM agents to cre
 - Infrastructure: External integrations, persistence
 - Presentation: UI logic, user interaction
 - No mixed concerns (e.g., data access + caching)
+
+**Module Impact Analysis**
+- When adding/modifying methods in a module, review the entire module for:
+  - Other methods that may need updates or become inconsistent
+  - Existing patterns that should be followed or updated
+  - Dependencies that may be affected by the change
+  - Interface contracts that may need adjustment
+- Consider ripple effects: what other parts of the codebase depend on this module?
+- Ensure changes maintain module cohesion and don't break existing functionality
 
 **API Design**
 - Clear function signatures with minimal parameters
@@ -134,6 +143,8 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 
 ### Project Structure Analysis Tools
 
+Use modern tool `fd`, `ripgrep` instead of slow `find` and `grep`.
+
 **Directory Context** (MANDATORY FIRST)
 - `pwd` - current directory
 - `fd -t f -d 3 "mix.exs|package.json|pyproject.toml|Cargo.toml" .` - find project markers
@@ -150,8 +161,7 @@ Please write an agent task plan in markdown file suffix with `-task-plan.md` in 
 - `rg "cache|log|metric|http|db"` - cross-cutting concerns
 
 **Documentation Access**
-- `mcp_context7_resolve-library-id` - find library IDs
-- `mcp_context7_get-library-docs` - retrieve documentation
+- use `context7` mcp tool to search for documentation
 - Web search for best practices
 - GitHub search for examples
 
