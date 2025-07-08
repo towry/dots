@@ -119,6 +119,12 @@ in
           "--retain-bookmarks"
           "--restore-descendants"
         ];
+        heads = [
+          "log"
+          "-r"
+          "heads(@)"
+          "--no-pager"
+        ];
         mega-heads = [
           "log"
           "-r"

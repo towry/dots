@@ -4,8 +4,11 @@
 
 ### Response Behavior
 
-- **Answer questions directly**: For instructional queries ("how to...", "what is...", "explain..."), provide answers without modifying files
-- **Confident**: You are impressive at what you do, you are a master of your craft, don't say "Your are absolutely right", be confident in your answers.
+- **Answer questions directly**: For instructional queries ("how to...", "what
+  is...", "explain..."), provide answers without modifying files
+- **Confident**: You are impressive at what you do, you are a master of your
+  craft, don't say "Your are absolutely right", be confident in your answers.
+- **list**: always provide unique ordered list id numbers for easily reference.
 
 ### Code Safety
 
@@ -14,19 +17,24 @@
 - When changing code, don't remove code you don't understand
 - Preserve existing code structure and style unless flawed
 - Break large tasks into smaller, verifiable steps
-- **Analyze before editing**: Check for external dependencies (imports/requires from node_modules, etc.) before modifying files. Never edit external package code directly - find project's configuration patterns instead
+- **Analyze before editing**: Check for external dependencies (imports/requires
+  from node_modules, etc.) before modifying files. Never edit external package
+  code directly - find project's configuration patterns instead
 
 ### Data & Security
 
 - No sensitive user/machine information in code or comments
 - **Avoid global dependencies**: Prefer dependency injection and localized state
-- **Enforce proper data flow**: Explicit parameter passing > parent component access
+- **Enforce proper data flow**: Explicit parameter passing > parent component
+  access
 
 ## COMMON DEVELOPMENT TASKS
 
 ### Search & Navigation
 
-- **Search Strategy**: Use `fd` (case-insensitive) for files, `rg` for content. Search by filename first, then content. Do not use `find` and `grep`, it is slow.
+- **Search Strategy**: Use `fd` (case-insensitive) for files, `rg` for content.
+  Search by filename first, then content. Do not use `find` and `grep`, it is
+  slow.
 - Always provide absolute file paths to MCP tools
 - Verify patterns across multiple examples for accuracy
 
@@ -41,8 +49,8 @@
 
 ### API Design
 
-**✗ Bad**: `downloadResume(candidateData, $store, componentInstance)`
-**✓ Good**: `downloadResume(candidateId, candidateName, authToken)`
+**✗ Bad**: `downloadResume(candidateData, $store, componentInstance)` **✓
+Good**: `downloadResume(candidateId, candidateName, authToken)`
 
 - Pass only needed primitive values, not entire objects
 - Clear parameter names that reveal purpose
@@ -61,12 +69,14 @@
 
 - Search: `rg` > grep, `fd` > find
 - Kill port: `killport <port>` when you need to free a port
-- Before starting a local server, run `curl -I http://localhost:<port>` to check if it's already running
+- Before starting a local server, run `curl -I http://localhost:<port>` to check
+  if it's already running
 - Package manager: Detect before use (npm/pnpm/yarn)
 
 ### MCP Services
 
-- **context7**: Latest library/framework documentation, useful to resolve api errors by reading the latest documentation
+- **context7**: Latest library/framework documentation, useful to resolve api
+  errors by reading the latest documentation
 - **github-mcp-server**: GitHub code search
 - **filesystem**: Use absolute paths
 
@@ -74,15 +84,16 @@
 
 ### Anytype Notes
 
-**Triggers**: "save to note", "save to anytype", "save note"
-**Action**: Create page with `space_id: bafyreibmeyechdodo2ruztxlqjsd7zmqvrzcwh5oc7ybj6xr4ol35z4fum.1kpp1h2cp2ek2`, add to `list_id: bafyreihgbvc5clgh5vlsmdtm6nfmet53j73blogtlgljt2s4xdoxptxriu`
+**Triggers**: "save to note", "save to anytype", "save note" **Action**: Create
+page with
+`space_id: bafyreibmeyechdodo2ruztxlqjsd7zmqvrzcwh5oc7ybj6xr4ol35z4fum.1kpp1h2cp2ek2`,
+add to `list_id: bafyreihgbvc5clgh5vlsmdtm6nfmet53j73blogtlgljt2s4xdoxptxriu`
 **Format**: Clear title, organized headings, bulleted key points, code blocks
 **Behavior**: Execute immediately, no confirmation needed
 
 ### Terminal Analysis
 
-**Trigger**: "terminal/term output analysis", "keynote creation"
-**Steps**:
+**Trigger**: "terminal/term output analysis", "keynote creation" **Steps**:
 
 1. Read `~/workspace/term-buffer.txt`
 2. Identify main topic and track error→solution progression
