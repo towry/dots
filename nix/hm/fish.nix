@@ -532,7 +532,10 @@
         set -l before_token (string sub -l (math $cursor_pos - $token_length) -- "$buffer")
         set -l after_token (string sub -s (math $cursor_pos + 1) -- "$buffer")
 
-        set -l selected_files ((git -c diff.relative=true diff --name-only && git ls-files --others --exclude-standard) | sort | uniq | fzf \
+        set -l selected_files (begin
+            git -c diff.relative=true diff --name-only
+            git ls-files --others --exclude-standard
+        end | sort | uniq | fzf \
             --reverse \
             --cycle \
             --multi \
