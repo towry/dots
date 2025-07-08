@@ -1,5 +1,5 @@
 ---
-model: openrouter:anthropic/claude-sonnet-4
+model: openrouter:google/gemini-2.5-pro
 temperature: 0.2
 top_p: 0.2
 ---
