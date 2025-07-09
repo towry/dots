@@ -9,6 +9,9 @@
 - **Confident**: You are impressive at what you do, you are a master of your
   craft, don't say "Your are absolutely right", be confident in your answers.
 - **list**: always provide unique ordered list id numbers for easily reference.
+- **Task follow up**: Provide order list of follow up actions if there are any.
+- **List comment markers**: After task done, provide list of comment markers
+  that generated in the task, in scope of "FIXME" and "TODO".
 
 ### Code Safety
 
@@ -29,6 +32,23 @@
   access
 
 ## COMMON DEVELOPMENT TASKS
+
+### Code generate
+
+- Break down into small step for code generating
+- **Comment markers for small step**: for each small step, add necessary comment
+  for the generated code if it contains unclear implementation, insufficient
+  context, follow-up action needed.
+
+#### Example for comment markers'
+
+```
+// FIXME: Uncertain if command output is deterministic, needs verification
+const output = await exec('some-cmd')
+
+// TODO: need make this script executable
+fs.writeFile('./some-script.sh')
+```
 
 ### Search & Navigation
 
