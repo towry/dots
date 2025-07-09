@@ -13,35 +13,8 @@ in
     ".tmux/nix-bin/zoxide-projects.sh" = {
       text = ''
         #!/usr/bin/env bash
-
-        current_session=$(tmux display-message -p '#{session_name}')
-        if [[ $current_session == "FLOAT" ]]; then
-            exit
-        fi
-
-        if [[ $# -eq 1 ]]; then
-          selected=$1
-        else
-          selected=$(${pkgs.zoxide}/bin/zoxide query -l --exclude "$PWD" | ${pkgs.path-git-format}/bin/path-git-format --filter --no-bare -f"{path} [{branch}]" | awk -v home="$HOME" '{gsub(home, "~"); print}' | ${pkgs.fzf}/bin/fzf --tmux 95% --reverse --preview-window="down,30%,border-top" --tiebreak=index -1 -0 --exact --preview "echo {} | awk -F '[' '{print \$1}' | awk -v home=\"\$HOME\" '{sub(/^~/,home)};1' | xargs -I % ${pkgs.eza}/bin/eza --color=always --icons=auto --group-directories-first --git --no-user --no-quotes --git-repos %" | awk -v home="$HOME" '{sub(/^~/, home)};1')
-        fi
-
-        if [[ -z $selected ]]; then
-          exit 0
-        fi
-
-        selected=$(echo $selected | awk -F '[' '{print $1}' | awk '{$1=$1;print}')
-        selected_name="''${selected##*/}"
-
-        if [[ -z $TMUX ]]; then
-          tmux new-session -s $selected_name -c $selected
-          exit 0
-        fi
-
-        if ! tmux has-session -t "$selected_name" 2>/dev/null; then
-          tmux new-session -ds "$selected_name" -c $selected
-        fi
-
-        tmux switch-client -t "$selected_name"
+        # Wrapper that calls the main project switcher script
+        exec "${config.home.homeDirectory}/.local/bash/scripts/tmux-project-switcher.sh" "$@"
       '';
       executable = true;
     };

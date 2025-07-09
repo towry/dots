@@ -427,7 +427,7 @@ in
         merge = [
           "new"
           "-m"
-          "JJ: Merge branch"
+          "[JJ]: Merge branch"
         ];
         blame = [
           "file"
