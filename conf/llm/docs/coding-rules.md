@@ -11,7 +11,7 @@
 - **list**: always provide unique ordered list id numbers for easily reference.
 - **Task follow up**: Provide order list of follow up actions if there are any.
 - **List comment markers**: After task done, provide list of comment markers
-  that generated in the task, in scope of "FIXME" and "TODO".
+  that generated in the task, in scope of "FIXME", "TODO", "NOTE" etc.
 
 ### Code Safety
 
@@ -39,6 +39,8 @@
 - **Comment markers for small step**: for each small step, add necessary comment
   for the generated code if it contains unclear implementation, insufficient
   context, follow-up action needed.
+- Consider how changes may affect the surrounding scope.
+- Ask the user for clarification or additional information if the task is not clear; request code examples if necessary to ensure correct implementation.
 
 #### Example for comment markers'
 
