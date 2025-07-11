@@ -172,10 +172,20 @@ in
           "move"
         ];
         tug = [
-          "bookmark"
-          "move"
-          "--to"
-          "@-"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            # Source and run the jj-tug.sh script
+            source ${bashScriptsDir}/jj-tug.sh
+            main "$@"
+          ''
+          ""
         ];
         # move bookmark to next node.
         mv-next = [
@@ -954,19 +964,19 @@ in
           "at_operation(op, visible_heads())..at_operation(@-, at_operation(op, visible_heads()))";
 
         "base()" = "roots(roots(trunk()..@)-)";
-        "tree(x)" = "reachable(x, ~ ::trunk())";
+        "tree(x)" = "trunk()..x";
         "stack(x)" = "trunk()..x";
         "overview()" = "@ | ancestors(remote_bookmarks(), 2) | trunk() | root()";
-        "my_unmerged()" = "mine() ~ ::trunk()";
-        "my_unmerged_remote()" = "mine() ~ ::trunk() & remote_bookmarks()";
-        "not_pushed()" = "remote_bookmarks()..";
-        "archived()" = "(mine() & description(regex:'^archive($|:)'))::";
-        "unarchived(x)" = "x ~ archived()";
-        "diverge(x)" = "fork_point(x)::x";
+        "my_unmerged()" = "trunk()..mine()";
+        "my_unmerged_remote()" = "trunk()..mine() & remote_bookmarks()";
+        "not_pushed()" = "trunk()..remote_bookmarks()";
+        "archived()" = "trunk()..(mine() & description(regex:'^archive($|:)'))";
+        "unarchived(x)" = "trunk()..x ~ archived()";
+        "diverge(x)" = "trunk()..x";
         # "working()" = "visible_heads() | ancestors(visible_heads(), 2)";
-        "working()" = "ancestors(visible_heads() & mutable(), 2)";
-        "diff_xy(x, y)" = "..x & mutable() ~ ..y & mutable()";
-        "not_included(x, y)" = "x..ancestors(y, 1)";
+        "working()" = "trunk()..ancestors(visible_heads() & mutable(), 2)";
+        "diff_xy(x, y)" = "trunk()..x & mutable() ~ trunk()..y & mutable()";
+        "not_included(x, y)" = "trunk()..x..ancestors(y, 1)";
       };
       colors = {
         git_head = {
