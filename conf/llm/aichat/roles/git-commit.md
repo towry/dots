@@ -1,5 +1,5 @@
 ---
-model: openrouter:google/gemini-2.5-flash
+model: openrouter:meta-llama/llama-3.1-8b-instruct
 temperature: 0.2
 top_p: 0.2
 ---
