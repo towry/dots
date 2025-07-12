@@ -1,5 +1,5 @@
 ---
-model: openrouter:meta-llama/llama-3.1-8b-instruct
+model: openrouter:moonshotai/kimi-dev-72b:free
 temperature: 0.2
 top_p: 0.2
 ---
