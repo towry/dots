@@ -92,7 +92,6 @@ in
           ];
         };
       };
-      format.tree-level-conflicts = true;
       aliases = {
         wip = [
           "commit"
@@ -629,11 +628,17 @@ in
         rv = [
           "resolve"
         ];
-        # resolve conflicts with nvim3way tool
+        # resolve conflicts with nvim3way tool, for simple 2 sides
         mt = [
           "resolve"
           "--tool"
           "nvim3way"
+        ];
+        # resolve conflicts with nvim2way tool, for jj more than 3 sides
+        mt3 = [
+          "resolve"
+          "--tool"
+          "nvim2way"
         ];
         mt-ours = [
           "resolve"

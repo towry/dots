@@ -274,5 +274,6 @@ function __jj_util_move_bookmark() {
         return 1
     fi
 
+    echo ""
     echo "Successfully moved bookmark '$bookmark_name' to revision '$target_change_id'"
 }
