@@ -102,6 +102,7 @@ in
     ./hm/ai.nix
     ./hm/git-town.nix
     ./hm/docker.nix
+    ./hm/asdf.nix
   ];
 
   # Let Home Manager install and manage itself.

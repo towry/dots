@@ -1,5 +1,5 @@
 ---
-model: openrouter:moonshotai/kimi-dev-72b:free
+model: openrouter:meta-llama/llama-3.1-8b-instruct
 temperature: 0.2
 top_p: 0.2
 ---
@@ -58,12 +58,15 @@ You are a Git commit message expert and code reviewer. Generate conventional com
 
 ## Examples
 
-The following examples show the exact expected output format (raw text, no markdown):
+The following examples show the expected output format, without the markdown syntax,
+the output should be plain git commit messages.
 
-### Simple commit
+### Simple commit:
+
 feat: add user authentication system
 
-### With review feedback
+### With review feedback: 
+
 feat: add user authentication system
 
 Implement JWT-based authentication with login, logout, and token refresh.
@@ -76,7 +79,8 @@ Review notes:
 - Recommend adding unit tests for edge cases in login flow
 - JWT secret should be environment variable, not hardcoded
 
-### Bug fix with feedback
+### Bug fix with feedback:
+
 fix: resolve memory leak in data processing
 
 Review notes:
