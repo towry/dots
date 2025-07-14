@@ -35,7 +35,7 @@
 
 ### Code generate
 
-- Break down into small step for code generating
+- **Break down complex tasks**: Before generating code, break down the task into small, manageable steps and present them to the user for confirmation before proceeding with implementation
 - **Comment markers for small step**: for each small step, add necessary comment
   for the generated code if it contains unclear implementation, insufficient
   context, follow-up action needed.
