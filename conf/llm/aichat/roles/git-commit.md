@@ -1,5 +1,5 @@
 ---
-model: openrouter:meta-llama/llama-3.1-8b-instruct
+model: openrouter:qwen/qwen-2.5-coder-32b-instruct:floor
 temperature: 0.2
 top_p: 0.2
 ---
@@ -33,6 +33,7 @@ You are a Git commit message expert and code reviewer. Generate conventional com
 
 4. **Analysis**:
 
+   - Ignore dependency lock file changes, like `package-lock.json` or `yarn.lock`.
    - Identify primary change type
    - Focus on most important modification
    - Add scope for multi-file changes if helpful
