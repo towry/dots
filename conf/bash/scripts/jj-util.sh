@@ -118,9 +118,14 @@ function __jj_util_get_ancestor_bookmarks() {
     # Filter lines that have bookmarks (non-empty bookmark field)
     # Format: change_id \t bookmark_name(s)
     local filtered_bookmarks
-    filtered_bookmarks=$(echo -e "$log_output" | grep -E '^[a-z0-9]+\t.+$' | grep -v -E '\t$' | while read -r line; do
+    filtered_bookmarks=$(echo -e "$log_output" | grep -E $'^[a-z0-9]+\t.+$' | grep -v -E $'\t$' | while read -r line; do
         local change_id=$(echo "$line" | cut -f1)
         local bookmarks_field=$(echo "$line" | cut -f2)
+
+        # Skip lines where bookmarks field is empty or just whitespace
+        if [[ -z "$bookmarks_field" || "$bookmarks_field" =~ ^[[:space:]]*$ ]]; then
+            continue
+        fi
 
         # Handle multiple bookmarks (space-separated)
         for bookmark in $bookmarks_field; do
@@ -128,7 +133,10 @@ function __jj_util_get_ancestor_bookmarks() {
             if [[ -n "$bookmark" && "$bookmark" != " " ]]; then
                 # Remove the asterisk (*) marker that indicates the current bookmark
                 local clean_bookmark=$(echo "$bookmark" | sed 's/\*$//')
-                echo -e "${change_id}\t${clean_bookmark}"
+                # Only output if we have a real bookmark name (not just the change_id)
+                if [[ "$clean_bookmark" != "$change_id" && -n "$clean_bookmark" ]]; then
+                    echo -e "${change_id}\t${clean_bookmark}"
+                fi
             fi
         done
     done)
