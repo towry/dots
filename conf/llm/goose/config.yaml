@@ -1,11 +1,10 @@
 GOOSE_PLANNER_PROVIDER: openrouter
-GOOSE_PLANNER_MODEL: anthropic/claude-sonnet-4
-# GOOSE_LEAD_MODEL: anthropic/claude-sonnet-4
+GOOSE_PLANNER_MODEL: x-ai/grok-4
 GOOSE_PROVIDER: openrouter
-GOOSE_LEAD_MODEL: google/gemini-2.5-pro
+GOOSE_LEAD_MODEL: x-ai/grok-4
 GOOSE_MODE: auto
 GOOSE_PROVIDER__TYPE: OpenRouter
-GOOSE_MODEL: qwen/qwen3-235b-a22b
+GOOSE_MODEL: moonshotai/kimi-k2
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
