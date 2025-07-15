@@ -434,9 +434,19 @@ in
           "--allow-new"
         ];
         merge = [
-          "new"
-          "-m"
-          "[JJ]: Merge branch"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            # Source and run the jj-merge.sh script
+            exec bash ${bashScriptsDir}/jj-merge.sh "$@"
+          ''
+          ""
         ];
         blame = [
           "file"
