@@ -75,7 +75,7 @@ in
       pull-rebase = "pull --rebase";
       pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       down = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
-      pull-all-prune = ''pull --all --prune --no-tags'';
+      pap = ''pull --all --prune'';
       pp-theirs = ''!git pull -X theirs --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       pp-ours = ''!git pull -X ours --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
