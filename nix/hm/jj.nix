@@ -108,6 +108,11 @@ in
           "--name-only"
           "-r"
         ];
+        git-init = [
+          "git"
+          "init"
+          "--colocate"
+        ];
         git-diff = [
           "--no-pager"
           "diff"
