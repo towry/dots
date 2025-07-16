@@ -108,6 +108,11 @@ in
           "--name-only"
           "-r"
         ];
+        git-diff = [
+          "--no-pager"
+          "diff"
+          "--git"
+        ];
         sync-delete-bookmarks = [
           "git"
           "push"
@@ -303,8 +308,6 @@ in
 
             # Get the bash scripts directory
             bashScriptsDir="$HOME/.local/bash/scripts"
-
-            echo "[AI-CI] Starting AI commit process..."
 
             # Parse arguments
             extra_context=""
