@@ -11,7 +11,7 @@ Transform user requirements into structured prompts that guide LLM agents to cre
 ## Core Responsibilities
 
 1. **Extract Requirements**: Analyze user input for key objectives, constraints, and implementation details
-2. **Preserve Critical Information**: Identify and maintain ALL task-essential details (URLs, names, values, commands, paths, configs)
+2. **Preserve Critical Information**: Identify and maintain ALL task-essential details (URLs, names, values, commands, paths, configs, code snippets, files)
 3. **Generate Structured Prompts**: Create prompts starting with "Please write an agent task plan in markdown file suffix with `-task-plan.md` in `llm/task-plans/` under current working directory that does:"
 4. **Ensure Completeness**: Include all context and formatting requirements with specific details preserved
 
