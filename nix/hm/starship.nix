@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   enable_starship = true;
 in
@@ -7,6 +12,23 @@ in
   home.packages = [
     pkgs.starship-jj
   ];
+
+  xdg.configFile = {
+    "starship-jj/starship-jj.toml" = {
+      text = ''
+        [bookmarks]
+        search_depth = 10
+
+        [[module]]
+        type = "Bookmarks"
+        separator = " "
+        color = "Magenta"
+        max_bookmarks = 1
+        max_length = 50
+        surround_with_quotes = false
+      '';
+    };
+  };
 
   programs.starship = {
     enable = enable_starship;
@@ -40,6 +62,7 @@ in
         format = "\\[[$symbol$branch]($style)\\] ";
         style = "bold yellow";
         symbol = "";
+        disabled = true;
       };
       git_commit = {
         disabled = true;
@@ -47,10 +70,10 @@ in
         style = "bold white";
       };
       git_status = {
-        disabled = false;
+        disabled = true;
       };
       git_state = {
-        disabled = false;
+        disabled = true;
         format = "[\($state( $progress_current of $progress_total)\)]($style) ";
       };
       memory_usage = {
@@ -125,10 +148,17 @@ in
         gittown = {
           disabled = !config.vars.git-town.enable;
           description = "Git Town";
-          symbol = "🏘️";
+          symbol = "🛖";
           require_repo = true;
-          command = "git-town status --pending";
+          command = "prompt";
           format = "[$symbol ($output)]($style)";
+          use_stdin = false;
+          when = true;
+          shell = [
+            "git-town"
+            "status"
+            "--pending"
+          ];
         };
       };
     };
