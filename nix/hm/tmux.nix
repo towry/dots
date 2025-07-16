@@ -175,10 +175,10 @@ in
       bind -r C-l select-pane -RZ
       bind -n M-0 select-pane -lZ
 
-      bind-key -n M-h if-shell "$is_vim" 'send-keys M-h' 'resize-pane -L 15'
-      bind-key -n M-j if-shell "$is_vim" 'send-keys M-j' 'resize-pane -D 15'
-      bind-key -n M-k if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 15'
-      bind-key -n M-l if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 15'
+      bind-key -n M-h if-shell "$is_vim" 'send-keys M-h' 'resize-pane -L 5'
+      bind-key -n M-j if-shell "$is_vim" 'send-keys M-j' 'resize-pane -D 5'
+      bind-key -n M-k if-shell "$is_vim" 'send-keys M-k' 'resize-pane -U 5'
+      bind-key -n M-l if-shell "$is_vim" 'send-keys M-l' 'resize-pane -R 5'
 
       bind C-g run-shell "${tmuxdot}/nix-bin/commands.sh"
 
