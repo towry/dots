@@ -213,7 +213,7 @@ in
         prompt = true;
       };
       diff = {
-        colorMoved = "dimmed-zebra";
+        colorMoved = "no";
         algorithm = "histogram";
         compactionHeuristic = true;
         guitool = "code";
