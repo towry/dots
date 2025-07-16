@@ -1,8 +1,13 @@
-{ lib, config, ... }:
+{ lib, pkgs, config, ... }:
 let
   enable_starship = true;
 in
 {
+
+  home.packages = [
+    pkgs.starship-jj
+  ];
+
   programs.starship = {
     enable = enable_starship;
     enableTransience = false;
@@ -104,6 +109,19 @@ in
         disabled = true;
       };
       custom = {
+        jj = {
+          command = "prompt";
+          format = "$output";
+          ignore_timeout = true;
+          shell = [
+            "starship-jj"
+            "--ignore-working-copy"
+            "starship"
+          ];
+          use_stdin = false;
+          when = true;
+
+        };
         gittown = {
           disabled = !config.vars.git-town.enable;
           description = "Git Town";

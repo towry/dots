@@ -55,6 +55,10 @@
       url = "github:asdf-vm/asdf-erlang";
       flake = false;
     };
+    starship-jj = {
+      url = "gitlab:lanastara_foss/starship-jj";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
