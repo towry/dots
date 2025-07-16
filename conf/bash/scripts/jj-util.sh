@@ -273,15 +273,10 @@ function __jj_util_move_bookmark() {
     local bookmark_name="$1"
     local target_change_id="$2"
 
-    echo "Moving bookmark '$bookmark_name' to revision '$target_change_id'..."
-
     # Use jj bookmark move command with performance flags
     # The correct syntax is: jj bookmark move <bookmark_name> --to <target_revision>
     if ! jj bookmark move --no-pager "$bookmark_name" --to "$target_change_id"; then
         echo "Error: Failed to move bookmark '$bookmark_name' to '$target_change_id'" >&2
         return 1
     fi
-
-    echo ""
-    echo "Successfully moved bookmark '$bookmark_name' to revision '$target_change_id'"
 }

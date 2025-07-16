@@ -35,8 +35,6 @@ function main() {
         return 1
     fi
 
-    echo "Getting bookmarks from ancestors..."
-
     # Step 1: Get bookmarks from ancestors
     local ancestor_bookmarks
     if ! ancestor_bookmarks=$(__jj_util_get_ancestor_bookmarks); then
@@ -44,7 +42,6 @@ function main() {
     fi
 
     # Step 2: Select bookmark (interactive or automatic)
-    echo "Selecting bookmark..."
     local selected_bookmark
     if ! selected_bookmark=$(__jj_util_select_bookmark "$ancestor_bookmarks"); then
         return 1
@@ -53,7 +50,6 @@ function main() {
     echo "Selected bookmark: $selected_bookmark"
 
     # Step 3: Get target revision for the bookmark
-    echo "Getting target revision for bookmark '$selected_bookmark'..."
     local target_revision
     if ! target_revision=$(__jj_util_get_target_revision "$selected_bookmark"); then
         return 1
@@ -65,8 +61,6 @@ function main() {
     if ! __jj_util_move_bookmark "$selected_bookmark" "$target_revision"; then
         return 1
     fi
-
-    echo "✓ jj-tug completed successfully"
 }
 
 # Run main function if script is executed directly
