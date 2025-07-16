@@ -273,7 +273,8 @@ in
           darkgreen = "#6f894e";
           red = "#d9a594";
           darkred = "#e82424";
-          file-style = ''blue bold'';
+          file-style = ''blue bold italic'';
+          file-decoration-style = "blue box";
           minus-style = "kanagawa-dragon.red";
           minus-emph-style = "kanagawa-dragon.darkred bold italic";
           minus-non-emph-style = "normal";
@@ -302,7 +303,7 @@ in
         wrap-right-prefix-symbol = "󰇘";
         hunk-label = "󰡏 ";
         hunk-header-style = "file line-number syntax";
-        file-style = "omit";
+        file-style = "blue bold italic";
         wrap-max-lines = 3;
         wrap-right-percent = 1;
       };
