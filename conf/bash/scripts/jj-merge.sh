@@ -73,6 +73,7 @@ Merge: $branch"
 
     if "${jj_cmd[@]}"; then
         # Show the result
+        echo ""
         jj log -r @ --no-pager >&2
     else
         echo "ERROR: Failed to create merge commit" >&2
