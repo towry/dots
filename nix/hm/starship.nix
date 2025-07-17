@@ -146,7 +146,8 @@ in
 
         };
         gittown = {
-          disabled = !config.vars.git-town.enable;
+          # disabled = !config.vars.git-town.enable;
+          disabled = true;
           description = "Git Town";
           symbol = "🛖";
           require_repo = true;
