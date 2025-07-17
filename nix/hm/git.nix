@@ -75,7 +75,7 @@ in
       pull-rebase = "pull --rebase";
       pp = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       down = ''!git pull --no-tags --prune --ff origin $(git rev-parse --abbrev-ref HEAD)'';
-      pull-all-prune = ''pull --all --prune --no-tags'';
+      pap = ''pull --all --prune'';
       pp-theirs = ''!git pull -X theirs --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       pp-ours = ''!git pull -X ours --no-tags --ff origin $(git rev-parse --abbrev-ref HEAD)'';
       ps = ''!git pull --autostash --no-tags origin $(git rev-parse --abbrev-ref HEAD)'';
@@ -213,7 +213,7 @@ in
         prompt = true;
       };
       diff = {
-        colorMoved = "dimmed-zebra";
+        colorMoved = "no";
         algorithm = "histogram";
         compactionHeuristic = true;
         guitool = "code";
@@ -273,7 +273,8 @@ in
           darkgreen = "#6f894e";
           red = "#d9a594";
           darkred = "#e82424";
-          file-style = ''blue bold'';
+          file-style = ''blue bold italic'';
+          file-decoration-style = "blue box";
           minus-style = "kanagawa-dragon.red";
           minus-emph-style = "kanagawa-dragon.darkred bold italic";
           minus-non-emph-style = "normal";
@@ -302,7 +303,7 @@ in
         wrap-right-prefix-symbol = "󰇘";
         hunk-label = "󰡏 ";
         hunk-header-style = "file line-number syntax";
-        file-style = "omit";
+        file-style = "blue bold italic";
         wrap-max-lines = 3;
         wrap-right-percent = 1;
       };

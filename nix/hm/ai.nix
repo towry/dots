@@ -161,6 +161,11 @@ in
   };
 
   home.file = {
+    "kilocode-rule" = {
+      enable = true;
+      target = "${config.home.homeDirectory}/.kilocode/rules/coding_standards.md";
+      source = ../../conf/llm/docs/coding-rules.md;
+    };
     "goose-recipes" = {
       enable = true;
       target = "${config.home.homeDirectory}/workspace/goose-recipes_";

@@ -92,7 +92,6 @@ in
           ];
         };
       };
-      format.tree-level-conflicts = true;
       aliases = {
         wip = [
           "commit"
@@ -102,6 +101,23 @@ in
         ];
         wk = [ "workspace" ];
         df = [ "diff" ];
+        df-names = [
+          "diff"
+          "--ignore-working-copy"
+          "--no-pager"
+          "--name-only"
+          "-r"
+        ];
+        git-init = [
+          "git"
+          "init"
+          "--colocate"
+        ];
+        git-diff = [
+          "--no-pager"
+          "diff"
+          "--git"
+        ];
         sync-delete-bookmarks = [
           "git"
           "push"
@@ -111,6 +127,12 @@ in
           "abandon"
           "--retain-bookmarks"
           "--restore-descendants"
+        ];
+        heads = [
+          "log"
+          "-r"
+          "heads(@)"
+          "--no-pager"
         ];
         mega-heads = [
           "log"
@@ -158,11 +180,26 @@ in
           "bookmark"
           "move"
         ];
-        tug = [
-          "bookmark"
-          "move"
+        mv-staging-to = [
+          "mv"
+          "pub/sandbox"
           "--to"
-          "@-"
+        ];
+        tug = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            # Source and run the jj-tug.sh script
+            source ${bashScriptsDir}/jj-tug.sh
+            main "$@"
+          ''
+          ""
         ];
         # move bookmark to next node.
         mv-next = [
@@ -281,8 +318,6 @@ in
 
             # Get the bash scripts directory
             bashScriptsDir="$HOME/.local/bash/scripts"
-
-            echo "[AI-CI] Starting AI commit process..."
 
             # Parse arguments
             extra_context=""
@@ -412,9 +447,23 @@ in
           "--allow-new"
         ];
         merge = [
-          "new"
-          "-m"
-          "JJ: Merge branch"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            # Source and run the jj-merge.sh script
+            exec bash ${bashScriptsDir}/jj-merge.sh "$@"
+          ''
+          ""
+        ];
+        merge-staging = [
+          "merge"
+          "pub/sandbox"
         ];
         blame = [
           "file"
@@ -425,8 +474,18 @@ in
           "fetch"
         ];
         down = [
-          "git"
-          "fetch"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@)" --ignore-working-copy --no-pager
+          ''
+          ""
         ];
         abs = [
           "absorb"
@@ -510,6 +569,11 @@ in
             fi
           ''
           ""
+        ];
+        push-staging = [
+          "push"
+          # TODO: get staging bookmark from config
+          "pub/sandbox"
         ];
         # create new rev from bookmark and move the bookmark to the new rev.
         # 1 accept a bookmark name as argument
@@ -596,11 +660,17 @@ in
         rv = [
           "resolve"
         ];
-        # resolve conflicts with nvim3way tool
+        # resolve conflicts with nvim3way tool, for simple 2 sides
         mt = [
           "resolve"
           "--tool"
           "nvim3way"
+        ];
+        # resolve conflicts with nvim2way tool, for jj more than 3 sides
+        mt3 = [
+          "resolve"
+          "--tool"
+          "nvim2way"
         ];
         mt-ours = [
           "resolve"
@@ -931,19 +1001,19 @@ in
           "at_operation(op, visible_heads())..at_operation(@-, at_operation(op, visible_heads()))";
 
         "base()" = "roots(roots(trunk()..@)-)";
-        "tree(x)" = "reachable(x, ~ ::trunk())";
+        "tree(x)" = "trunk()..x";
         "stack(x)" = "trunk()..x";
         "overview()" = "@ | ancestors(remote_bookmarks(), 2) | trunk() | root()";
-        "my_unmerged()" = "mine() ~ ::trunk()";
-        "my_unmerged_remote()" = "mine() ~ ::trunk() & remote_bookmarks()";
-        "not_pushed()" = "remote_bookmarks()..";
-        "archived()" = "(mine() & description(regex:'^archive($|:)'))::";
-        "unarchived(x)" = "x ~ archived()";
-        "diverge(x)" = "fork_point(x)::x";
+        "my_unmerged()" = "trunk()..mine()";
+        "my_unmerged_remote()" = "trunk()..mine() & remote_bookmarks()";
+        "not_pushed()" = "trunk()..remote_bookmarks()";
+        "archived()" = "trunk()..(mine() & description(regex:'^archive($|:)'))";
+        "unarchived(x)" = "trunk()..x ~ archived()";
+        "diverge(x)" = "trunk()..x";
         # "working()" = "visible_heads() | ancestors(visible_heads(), 2)";
-        "working()" = "ancestors(visible_heads() & mutable(), 2)";
-        "diff_xy(x, y)" = "..x & mutable() ~ ..y & mutable()";
-        "not_included(x, y)" = "x..ancestors(y, 1)";
+        "working()" = "trunk()..ancestors(visible_heads() & mutable(), 2)";
+        "diff_xy(x, y)" = "trunk()..x & mutable() ~ trunk()..y & mutable()";
+        "not_included(x, y)" = "trunk()..x..ancestors(y, 1)";
       };
       colors = {
         git_head = {

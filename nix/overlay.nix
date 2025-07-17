@@ -32,6 +32,7 @@
       pkgs = final;
       system = final.system;
     };
+    starship-jj = inputs.starship-jj.packages.${prev.system}.default;
     # nerd-font-patcher =
     #   let
     #     nerdFontPatcherVersion = "3.2.1";
