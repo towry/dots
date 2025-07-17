@@ -180,6 +180,11 @@ in
           "bookmark"
           "move"
         ];
+        mv-staging-to = [
+          "mv"
+          "pub/sandbox"
+          "--to"
+        ];
         tug = [
           "util"
           "exec"
@@ -456,6 +461,10 @@ in
           ''
           ""
         ];
+        merge-staging = [
+          "merge"
+          "pub/sandbox"
+        ];
         blame = [
           "file"
           "annotate"
@@ -560,6 +569,11 @@ in
             fi
           ''
           ""
+        ];
+        push-staging = [
+          "push"
+          # TODO: get staging bookmark from config
+          "pub/sandbox"
         ];
         # create new rev from bookmark and move the bookmark to the new rev.
         # 1 accept a bookmark name as argument
