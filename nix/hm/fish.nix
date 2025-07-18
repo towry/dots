@@ -72,7 +72,7 @@
   # aliases
   programs.fish.shellAliases = {
     cd-home = "cd $HOME/workspace";
-     surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
+    surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
     run-firefox-debugger =
       if pkgs.stdenv.isDarwin then
         "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
