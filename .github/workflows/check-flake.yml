@@ -16,7 +16,7 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/flakehub-cache-action@main
       - name: Check Nix flake inputs
-        uses: DeterminateSystems/flake-checker-action@v11
+        uses: DeterminateSystems/flake-checker-action@v12
         with:
           fail-mode: true
           send-statistics: false
