@@ -219,6 +219,10 @@
 
     for mode in default insert
         bind --mode $mode $fifc_keybinding _fifc
+        # Bind ctrl-f to move forward one word (accepts autosuggestion word by word when at end)
+        bind --mode $mode ctrl-f forward-bigword
+        # Bind ctrl+shift+w to move backward one bigword
+        # bind --mode $mode ctrl-W backward-bigword
     end
 
     set fish_cursor_default block blink
