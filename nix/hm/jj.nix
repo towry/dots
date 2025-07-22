@@ -483,7 +483,7 @@ in
             #!/usr/bin/env bash
             set -euo pipefail
 
-            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@)" --ignore-working-copy --no-pager
+            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@-::) ~ empty()" --ignore-working-copy --no-pager
           ''
           ""
         ];
