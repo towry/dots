@@ -507,10 +507,10 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1752531991,
-        "narHash": "sha256-sm3txSjcJOB3wxvty4qaBv4cil2BzZz2SkLvII+hpwE=",
+        "lastModified": 1753146828,
+        "narHash": "sha256-cxWy3kiUd/U0nRsO6VwTfomGSXcXfPEAgYDUTXzU6Xg=",
         "ref": "refs/heads/main",
-        "rev": "4201af2107a8003e04ba81b68697eb6c577a5542",
+        "rev": "06d9960acbd62c083e6aef82aa6e8317876921f9",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/pze/jj.git"
@@ -767,11 +767,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747967795,
-        "narHash": "sha256-76s4jDRbQzxRO+5y8ilMp5V30qVgY9R6n8U7aOap8ig=",
+        "lastModified": 1752892850,
+        "narHash": "sha256-LLvDqLiK2+dr7bQqKTnZIZ8F1H67DLt3FUyVrGolGVw=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "f1d5bfa8c692cacd798a3e1fb93d54c1b9ac701a",
+        "rev": "742248f12aed0183a124637e8b27a238a47f46a2",
         "type": "github"
       },
       "original": {
