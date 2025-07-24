@@ -702,11 +702,11 @@ in
         };
 
         default-command = [
-          "status"
-          # "log"
-          # "--no-pager"
-          # "-n"
-          # "5"
+          # "status"
+          "log"
+          "--no-pager"
+          "-n"
+          "4"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
