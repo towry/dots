@@ -72,9 +72,7 @@ Merge: $branch"
     jj_cmd+=(-m "$commit_message")
 
     if "${jj_cmd[@]}"; then
-        # Show the result
-        echo ""
-        jj log -r @ --no-pager >&2
+        exit 0
     else
         echo "ERROR: Failed to create merge commit" >&2
         exit 1
