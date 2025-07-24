@@ -322,6 +322,7 @@ in
             # Parse arguments
             extra_context=""
             rev=""
+            debug_mode=false
 
             while [[ $# -gt 0 ]]; do
               case "$1" in
@@ -332,14 +333,18 @@ in
                     exit 1
                   fi
                   extra_context="$1"
-                  echo "[AI-CI] Extra context provided: $extra_context"
+                  [[ "$debug_mode" == true ]] && echo "[AI-CI] Extra context provided: $extra_context"
+                  ;;
+                --debug)
+                  debug_mode=true
+                  echo "[AI-CI] Debug mode enabled"
                   ;;
                 *)
                   if [[ -z "$rev" ]]; then
                     rev="$1"
                   else
                     echo "[AI-CI] ERROR: Unexpected argument: $1" >&2
-                    echo "Usage: jj ai-ci [-m <extra_context>] [revision]" >&2
+                    echo "Usage: jj ai-ci [--debug] [-m <extra_context>] [revision]" >&2
                     exit 1
                   fi
                   ;;
@@ -347,9 +352,14 @@ in
               shift
             done
 
+            # Helper function for debug logging
+            debug_log() {
+              [[ "$debug_mode" == true ]] && echo "$1"
+            }
+
             if [[ -z "$rev" ]]; then
               # No revision provided - create interactive commit first
-              echo "[AI-CI] Step 1/4: No revision provided. Creating interactive commit..."
+              debug_log "[AI-CI] Step 1/4: No revision provided. Creating interactive commit..."
 
               # Run interactive commit (let it be truly interactive)
               if ! jj commit -m 'WIP: empty message' --color=never --no-pager -i; then
@@ -357,9 +367,9 @@ in
                 echo "[AI-CI] ERROR: Step 1/4 failed - Interactive commit failed or was cancelled (exit code: $exit_code)" >&2
                 exit $exit_code
               fi
-              echo "[AI-CI] Step 1/4: ✓ Interactive commit successful"
+              debug_log "[AI-CI] Step 1/4: ✓ Interactive commit successful"
 
-              echo "[AI-CI] Step 2/4: Extracting parent commit ID..."
+              debug_log "[AI-CI] Step 2/4: Extracting parent commit ID..."
               # Now get the status output to extract parent commit ID
               output=$(jj status --color=never --no-pager 2>&1)
 
@@ -373,30 +383,30 @@ in
                 exit 1
               fi
 
-              echo "[AI-CI] Step 2/4: ✓ Using rev: $rev"
+              debug_log "[AI-CI] Step 2/4: ✓ Using rev: $rev"
             else
               # Revision provided as argument
-              echo "[AI-CI] Step 1/4: ✓ Using provided revision: $rev"
+              debug_log "[AI-CI] Step 1/4: ✓ Using provided revision: $rev"
             fi
 
-            echo "[AI-CI] Step 3/4: Generating commit context..."
+            debug_log "[AI-CI] Step 3/4: Generating commit context..."
             # Generate commit context and check if successful
             # Don't capture stderr so we can see debug messages
             if context_output=$("$bashScriptsDir/jj-commit-context.sh" "$rev"); then
-              echo "[AI-CI] Step 3/4: ✓ Commit context generated successfully"
+              debug_log "[AI-CI] Step 3/4: ✓ Commit context generated successfully"
             else
               context_exit_code=$?
               echo "[AI-CI] ERROR: Step 3/4 failed - jj-commit-context.sh failed (exit code: $context_exit_code)" >&2
               exit $context_exit_code
             fi
 
-            echo "[AI-CI] Step 4/4: Generating AI commit message and applying..."
+            debug_log "[AI-CI] Step 4/4: Generating AI commit message and applying..."
 
             # Prepare input for aichat - combine context with extra context if provided
             ai_input="$context_output"
             if [[ -n "$extra_context" ]]; then
               ai_input=$(printf "%s\n\nAdditional context: %s" "$context_output" "$extra_context")
-              echo "[AI-CI] Including extra context in AI generation"
+              debug_log "[AI-CI] Including extra context in AI generation"
             fi
 
             # Generate commit message using aichat with jj context and apply it
@@ -406,16 +416,16 @@ in
               echo "aichat output: $ai_output" >&2
               exit $aichat_exit_code
             fi
-            echo "[AI-CI] Step 4/4: ✓ AI commit message generated"
+            debug_log "[AI-CI] Step 4/4: ✓ AI commit message generated"
 
-            echo "[AI-CI] Step 5/5: Applying commit message..."
+            debug_log "[AI-CI] Step 5/5: Applying commit message..."
             if ! echo "$ai_output" | "$bashScriptsDir/jj-ai-commit.sh" "$rev"; then
               apply_exit_code=$?
               echo "[AI-CI] ERROR: Step 5/5 failed - jj-ai-commit.sh failed (exit code: $apply_exit_code)" >&2
               echo "AI message was: $ai_output" >&2
               exit $apply_exit_code
             fi
-            echo "[AI-CI] Step 5/5: ✓ Commit message applied successfully"
+            debug_log "[AI-CI] Step 5/5: ✓ Commit message applied successfully"
             echo "[AI-CI] ✓ AI commit process completed successfully!"
           ''
           ""
