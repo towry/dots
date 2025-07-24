@@ -31,8 +31,8 @@ in
         email = gitCfg.user.email;
       };
       repo.github-url = "";
-      core = {
-        fsmonitor = "watchman";
+      fsmonitor = {
+        backend = "watchman";
         watchman.register-snapshot-trigger = true;
       };
       snapshot = {
