@@ -578,12 +578,25 @@ in
           "--tool"
           "nvim2way"
         ];
+        # ours refer to first bookmark in the merge command.
+        # jj new b1 b2
+        # b1 is the ours, b2 is theirs, means merge theirs into ours.
         mt-ours = [
           "resolve"
           "--tool"
           ":ours"
         ];
+        mt-first = [
+          "resolve"
+          "--tool"
+          ":ours"
+        ];
         mt-theirs = [
+          "resolve"
+          "--tool"
+          ":theirs"
+        ];
+        mt-second = [
           "resolve"
           "--tool"
           ":theirs"
