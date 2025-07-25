@@ -1,3 +1,4 @@
+# for git branches
 function _fzf-jj-bookmarks-git --description "fzf for git branches"
     set -l query ""
     if status is-interactive
@@ -27,6 +28,7 @@ function _fzf-jj-bookmarks-git --description "fzf for git branches"
     return $fzf_status
 end
 
+# for jujutsu bookmarks
 function _fzf-jj-bookmarks-jj --description "fzf for jj bookmarks"
     set -l query ""
     if status is-interactive
@@ -56,6 +58,7 @@ function _fzf-jj-bookmarks-jj --description "fzf for jj bookmarks"
     return $fzf_status
 end
 
+# entry function
 function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks or git branches"
     # Change the order here to switch priority
     _fzf-jj-bookmarks-jj

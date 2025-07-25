@@ -4,6 +4,8 @@ applyTo: '**'
 
 # docs about jj
 
+Please use fetch mcptool or web search tool to read the latest doc.
+
 - revset doc: https://jj-vcs.github.io/jj/latest/revsets/
 - template lang doc: https://jj-vcs.github.io/jj/latest/templates/
 - jj command doc: https://jj-vcs.github.io/jj/latest/cli-reference/
@@ -51,3 +53,7 @@ implement all the utils function in `jj-util.sh` file.
 2. **Filter output reliably**: Use grep with specific patterns to avoid false matches
 3. **Handle edge cases**: Check for empty results, malformed data, and unexpected formats
 4. **Prefer structured data**: Use tab-separated or other structured formats for easier parsing
+
+# jj template usage
+
+run `jj --no-pager help -k templates` to understand how to use jj templates.
