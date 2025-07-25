@@ -35,12 +35,14 @@
 
 ### Code generate
 
+- **Request clarification**: Ask for additional information if the task is unclear; request code examples when necessary to ensure correct implementation
+- **Validate requirements**: Identify key requirements, check for potential edge cases or hidden logic, and confirm understanding with the user
 - **Break down complex tasks**: Before generating code, break down the task into small, manageable steps and present them to the user for confirmation before proceeding with implementation
 - **Comment markers for small step**: for each small step, add necessary comment
   for the generated code if it contains unclear implementation, insufficient
   context, follow-up action needed.
 - Consider how changes may affect the surrounding scope.
-- Ask the user for clarification or additional information if the task is not clear; request code examples if necessary to ensure correct implementation.
+
 
 #### Example for comment markers'
 
