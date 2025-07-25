@@ -164,7 +164,11 @@ in
     jq.enable = true;
     ripgrep.enable = true;
     fd.enable = true;
-    eza.enable = true;
+    eza = {
+      enable = true;
+      icons = "auto";
+      enableFishIntegration = true;
+    };
     ssh = {
       enable = true;
       serverAliveInterval = 240;

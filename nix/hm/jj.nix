@@ -108,6 +108,10 @@ in
           "--name-only"
           "-r"
         ];
+        df-names-all = [
+          "df-names"
+          "trunk()..@"
+        ];
         git-init = [
           "git"
           "init"
@@ -606,6 +610,8 @@ in
           # "status"
           "log"
           "--no-pager"
+          "-r"
+          "trunk()..@"
           "-n"
           "4"
         ];

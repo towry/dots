@@ -123,7 +123,7 @@
     set -g fish_prompt_pwd_dir_length 20
     set -x GPG_TTY (tty)
     set -x DARKMODE dark
-    set -g __fish_ls_command ${pkgs.eza}/bin/eza
+
     #########
     if test -e $HOME/.private.fish
         source $HOME/.private.fish
