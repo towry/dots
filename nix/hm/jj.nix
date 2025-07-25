@@ -351,6 +351,7 @@ in
           "push"
           "--allow-new"
         ];
+        # first bookmark matters, it should be current bookmark.
         merge = [
           "util"
           "exec"

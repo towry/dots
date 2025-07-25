@@ -12,6 +12,7 @@
 - **Task follow up**: Provide order list of follow up actions if there are any.
 - **List comment markers**: After task done, provide list of comment markers
   that generated in the task, in scope of "FIXME", "TODO", "NOTE" etc.
+- **Document requirements**: Summarize and clarify the user's key requirements in comments to ensure mutual understanding.
 
 ### Code Safety
 
