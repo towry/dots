@@ -34,7 +34,7 @@ in
     # github cli, manage repo, gists etc.
     gh
     # glab
-    git-smash
+    # git-smash
     gnupg
     # git-sim
     git-interactive-rebase-tool
