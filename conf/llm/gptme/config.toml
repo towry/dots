@@ -1,0 +1,12 @@
+[env]
+OPENROUTER_API_KEY = "@OPENROUTER_API_KEY@"
+GPTME_COSTS = true
+TOOL_ALLOWLIST = "subagent,save,append,patch,ipython,shell,browser,read"
+
+[rag]
+enabled = true
+post_process = false # Whether to post-process the context with an LLM to extract the most relevant information
+post_process_model = "openai/gpt-4o-mini" # Which model to use for post-processing
+post_process_prompt = "" # Optional prompt to use for post-processing (overrides default prompt)
+workspace_only = true # Whether to only search in the workspace directory, or the whole RAG index
+paths = [] # List of paths to include in the RAG index. Has no effect if workspace_only is true.
