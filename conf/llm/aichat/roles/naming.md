@@ -1,5 +1,5 @@
 ---
-model: openrouter:qwen/qwen-2.5-coder-32b-instruct
+model: openrouter:qwen/qwen3-coder:free
 temperature: 0.1
 top_p: 0.2
 ---
