@@ -1,10 +1,10 @@
 GOOSE_PLANNER_PROVIDER: openrouter
 GOOSE_PLANNER_MODEL: x-ai/grok-4
 GOOSE_PROVIDER: openrouter
-GOOSE_LEAD_MODEL: x-ai/grok-4
+GOOSE_LEAD_MODEL: moonshotai/kimi-k2
 GOOSE_MODE: auto
 GOOSE_PROVIDER__TYPE: OpenRouter
-GOOSE_MODEL: moonshotai/kimi-k2
+GOOSE_MODEL: qwen/qwen3-coder:free
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
@@ -17,7 +17,7 @@ GOOSE_LEAD_FALLBACK_TURNS: 1
 GOOSE_CONTEXT_STRATEGY: summarize
 GOOSE_TEMPERATURE: 0.2
 GOOSE_CLI_MIN_PRIORITY: 0.4
-GOOSE_MAX_TURNS: 10
+GOOSE_MAX_TURNS: 100
 extensions:
   developer:
     bundled: true
