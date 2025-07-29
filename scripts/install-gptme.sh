@@ -19,14 +19,14 @@ if ! command -v uv &> /dev/null; then
     exit 1
 fi
 
-# Install gptme with browser support and httpx[socks] dependency
+# Install gptme with browser support, httpx[socks] dependency, and audio dependencies
 if [ "$INSTALL_FROM_GIT" = true ]; then
     echo "Installing gptme from git (commit: $GPTME_COMMIT)..."
-    # When installing from git, we need to explicitly add browser dependencies
-    uv tool install --python "$PYTHON_VERSION" --with 'httpx[socks]' --with 'playwright' "${GPTME_GIT_URL}@${GPTME_COMMIT}" && echo "--- Install gptme from git done"
+    # When installing from git, we need to explicitly add browser and audio dependencies
+    uv tool install --python "$PYTHON_VERSION" --with 'httpx[socks]' --with 'playwright' --with 'numpy' --with 'scipy' --with 'sounddevice' "${GPTME_GIT_URL}@${GPTME_COMMIT}" && echo "--- Install gptme from git done"
 else
     echo "Installing gptme from PyPI (version: $GPTME_PYPI_VERSION)..."
-    uv tool install --python "$PYTHON_VERSION" --with 'httpx[socks]' "$GPTME_PYPI_VERSION" && echo "--- Install gptme from PyPI done"
+    uv tool install --python "$PYTHON_VERSION" --with 'httpx[socks]' --with 'numpy' --with 'scipy' --with 'sounddevice' "$GPTME_PYPI_VERSION" && echo "--- Install gptme from PyPI done"
 fi
 
 # NOTE: Using Python 3.12 due to _opcode module missing in Python 3.13.5 ARM64 builds

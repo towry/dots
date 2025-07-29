@@ -13,6 +13,8 @@
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
     STARSHIP_LOG = "error";
+    HTTP_PROXY = "http://127.0.0.1:1080";
+    HTTPS_PROXY = "http://127.0.0.1:1080";
   };
   programs = {
     carapace.enableFishIntegration = true;
