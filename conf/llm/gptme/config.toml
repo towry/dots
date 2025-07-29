@@ -6,5 +6,5 @@ response_preference = "Don't explain basic concepts, use perplexity search engin
 MODEL = "openrouter/qwen/qwen3-coder:free"
 OPENROUTER_API_KEY = "@OPENROUTER_API_KEY@"
 PERPLEXITY_API_KEY = "@PERPLEXITY_API_KEY@"
-GPTME_COSTS = true
+GPTME_COSTS = "true"
 TOOL_ALLOWLIST = "subagent,save,append,patch,ipython,shell,computer,read,browser"
