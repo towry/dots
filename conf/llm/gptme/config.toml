@@ -6,4 +6,4 @@
 MODEL = "openrouter/qwen/qwen3-coder:free"
 OPENROUTER_API_KEY = "@OPENROUTER_API_KEY@"
 GPTME_COSTS = true
-TOOL_ALLOWLIST = "subagent,save,append,patch,ipython,shell,computer,read"
+TOOL_ALLOWLIST = "subagent,save,append,patch,ipython,shell,computer,read,browser"
