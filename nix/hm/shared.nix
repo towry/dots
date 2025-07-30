@@ -51,13 +51,11 @@ in
       # ocamlPackages.ocaml-lsp
       # harper
       pre-commit
-      pipx
-      uv
       ## kill process by port
       killport
     ])
     ++ [
-      python3
+      # python3
     ];
   xdg.configFile = {
     tig = {
@@ -183,15 +181,6 @@ in
       includes = [
         "config.d/*"
       ];
-    };
-    poetry = {
-      # https://python-poetry.org/docs/configuration/
-      enable = false;
-      settings = {
-        # need make sure no local .venv or {cache-dir}/virtualenvs exists
-        virtualenvs.create = false;
-        virtualenvs.in-project = true;
-      };
     };
   };
 }
