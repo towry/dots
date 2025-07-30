@@ -50,6 +50,8 @@ in
       # ocamlPackages.utop
       # ocamlPackages.ocaml-lsp
       # harper
+      pre-commit
+      pipx
       uv
       ## kill process by port
       killport
