@@ -36,7 +36,7 @@ pkgs.stdenv.mkDerivation {
         lib.makeBinPath [
           coreutils
           bash
-          python3
+          python312
         ]
       }
   '';
