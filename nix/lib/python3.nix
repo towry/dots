@@ -4,7 +4,7 @@
   ...
 }:
 
-pkgs.python312.withPackages (
+pkgs.python3.withPackages (
   pp:
   (with pp; [
     pynvim
