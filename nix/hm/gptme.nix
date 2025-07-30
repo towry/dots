@@ -15,4 +15,8 @@
       };
     };
   };
+
+  home.packages = with pkgs; [
+    tree
+  ];
 }
