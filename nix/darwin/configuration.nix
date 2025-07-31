@@ -98,7 +98,7 @@
         "towry.cachix.org-1:7wS4ROZkLQMG6TZPt4K6kSwzbRJZf6OiyR9tWgUg3hY="
       ];
     };
-    package = pkgs.nix;
+    # package = pkgs.nix;
     optimise = {
       automatic = true;
     };

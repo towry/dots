@@ -21,17 +21,16 @@
   # Set up Python environment variables
   home.sessionVariables = {
     # Ensure uv uses the pinned Python version globally
-    UV_PYTHON = "3.11.13";
+    UV_PYTHON = "3.13.5";
   };
 
   # Optional: Set up uv configuration
   xdg.configFile."uv/uv.toml" = {
     text = ''
-      [tool.uv]
       # Global Python version preference
       python-preference = "only-managed"
 
-      [tool.uv.pip]
+      [pip]
       # Use system certificates
       trusted-host = []
     '';
