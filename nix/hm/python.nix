@@ -29,10 +29,6 @@
     text = ''
       # Global Python version preference
       python-preference = "only-managed"
-
-      [pip]
-      # Use system certificates
-      trusted-host = []
     '';
   };
 }

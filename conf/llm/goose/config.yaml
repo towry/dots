@@ -4,7 +4,7 @@ GOOSE_PROVIDER: openrouter
 GOOSE_LEAD_MODEL: qwen/qwen3-235b-a22b-thinking-2507
 GOOSE_MODE: auto
 GOOSE_PROVIDER__TYPE: OpenRouter
-GOOSE_MODEL: qwen/qwen3-coder:free
+GOOSE_MODEL: qwen/qwen3-235b-a22b-2507
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 ## lead-worker
