@@ -140,6 +140,14 @@ in
       chmod u+w ${config.xdg.configHome}/goose/config.yaml
       echo "goose config setup done"
     '';
+
+    updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/memories/
+      # write the conf/llm/coding-rules.md content to the global_rules.md file in above dir.
+      echo "Updating windsurf global rules..."
+      cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.codeium/windsurf/memories/global_rules.md
+      echo "Windsurf global rules updated"
+    '';
   };
 
   xdg.configFile = {
