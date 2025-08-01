@@ -73,7 +73,7 @@ in
       source = ../../conf/yabai;
     };
     karabiner = {
-      enable = true;
+      enable = false;
       recursive = true;
       source = ../../conf/karabiner;
     };
