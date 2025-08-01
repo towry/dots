@@ -50,12 +50,12 @@ in
       # ocamlPackages.utop
       # ocamlPackages.ocaml-lsp
       # harper
-      uv
+      pre-commit
       ## kill process by port
       killport
     ])
     ++ [
-      python3
+      # python3
     ];
   xdg.configFile = {
     tig = {
@@ -73,7 +73,7 @@ in
       source = ../../conf/yabai;
     };
     karabiner = {
-      enable = true;
+      enable = false;
       recursive = true;
       source = ../../conf/karabiner;
     };
@@ -164,7 +164,11 @@ in
     jq.enable = true;
     ripgrep.enable = true;
     fd.enable = true;
-    eza.enable = true;
+    eza = {
+      enable = true;
+      icons = "auto";
+      enableFishIntegration = true;
+    };
     ssh = {
       enable = true;
       serverAliveInterval = 240;
@@ -177,15 +181,6 @@ in
       includes = [
         "config.d/*"
       ];
-    };
-    poetry = {
-      # https://python-poetry.org/docs/configuration/
-      enable = false;
-      settings = {
-        # need make sure no local .venv or {cache-dir}/virtualenvs exists
-        virtualenvs.create = false;
-        virtualenvs.in-project = true;
-      };
     };
   };
 }

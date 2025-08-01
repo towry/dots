@@ -13,6 +13,9 @@
     LC_ALL = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
     STARSHIP_LOG = "error";
+    # DO NOT add proxy, some github api have limits error
+    # HTTP_PROXY = "http://127.0.0.1:1080";
+    # HTTPS_PROXY = "http://127.0.0.1:1080";
   };
   programs = {
     carapace.enableFishIntegration = true;
@@ -72,7 +75,7 @@
   # aliases
   programs.fish.shellAliases = {
     cd-home = "cd $HOME/workspace";
-     surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
+    surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
     run-firefox-debugger =
       if pkgs.stdenv.isDarwin then
         "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
@@ -123,7 +126,7 @@
     set -g fish_prompt_pwd_dir_length 20
     set -x GPG_TTY (tty)
     set -x DARKMODE dark
-    set -g __fish_ls_command ${pkgs.eza}/bin/eza
+
     #########
     if test -e $HOME/.private.fish
         source $HOME/.private.fish
@@ -219,6 +222,10 @@
 
     for mode in default insert
         bind --mode $mode $fifc_keybinding _fifc
+        # Bind ctrl-f to move forward one word (accepts autosuggestion word by word when at end)
+        bind --mode $mode ctrl-f forward-bigword
+        # Bind ctrl+shift+w to move backward one bigword
+        # bind --mode $mode ctrl-W backward-bigword
     end
 
     set fish_cursor_default block blink

@@ -22,7 +22,7 @@
           (lib.makeBinPath [
             pkgs.dark-notify
             pkgs.neovim-remote
-            pkgs.python3
+            pkgs.python312
             pkgs.bash
           ])
           + ":/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin";

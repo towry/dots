@@ -101,7 +101,7 @@ function jj-fork --description "Fork from a bookmark or revision"
     else
         # Create new revision
         echo "Creating new revision from $source_ref..."
-        set -l output (jj new --ignore-working-copy --no-pager --no-edit -r $source_ref -m "$description" 2>&1)
+        set -l output (jj new --ignore-working-copy --no-pager --no-edit -r $source_ref -m "[JJ]: $description" 2>&1)
         if test $status -ne 0
             echo "Failed to create new revision"
             echo $output

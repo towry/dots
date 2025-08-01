@@ -31,8 +31,8 @@ in
         email = gitCfg.user.email;
       };
       repo.github-url = "";
-      core = {
-        fsmonitor = "watchman";
+      fsmonitor = {
+        backend = "watchman";
         watchman.register-snapshot-trigger = true;
       };
       snapshot = {
@@ -107,6 +107,10 @@ in
           "--no-pager"
           "--name-only"
           "-r"
+        ];
+        df-names-all = [
+          "df-names"
+          "trunk()..@"
         ];
         git-init = [
           "git"
@@ -316,107 +320,8 @@ in
             #!/usr/bin/env bash
             set -euo pipefail
 
-            # Get the bash scripts directory
-            bashScriptsDir="$HOME/.local/bash/scripts"
-
-            # Parse arguments
-            extra_context=""
-            rev=""
-
-            while [[ $# -gt 0 ]]; do
-              case "$1" in
-                -m)
-                  shift
-                  if [[ $# -eq 0 ]]; then
-                    echo "[AI-CI] ERROR: -m flag requires a message argument" >&2
-                    exit 1
-                  fi
-                  extra_context="$1"
-                  echo "[AI-CI] Extra context provided: $extra_context"
-                  ;;
-                *)
-                  if [[ -z "$rev" ]]; then
-                    rev="$1"
-                  else
-                    echo "[AI-CI] ERROR: Unexpected argument: $1" >&2
-                    echo "Usage: jj ai-ci [-m <extra_context>] [revision]" >&2
-                    exit 1
-                  fi
-                  ;;
-              esac
-              shift
-            done
-
-            if [[ -z "$rev" ]]; then
-              # No revision provided - create interactive commit first
-              echo "[AI-CI] Step 1/4: No revision provided. Creating interactive commit..."
-
-              # Run interactive commit (let it be truly interactive)
-              if ! jj commit -m 'WIP: empty message' --color=never --no-pager -i; then
-                exit_code=$?
-                echo "[AI-CI] ERROR: Step 1/4 failed - Interactive commit failed or was cancelled (exit code: $exit_code)" >&2
-                exit $exit_code
-              fi
-              echo "[AI-CI] Step 1/4: ✓ Interactive commit successful"
-
-              echo "[AI-CI] Step 2/4: Extracting parent commit ID..."
-              # Now get the status output to extract parent commit ID
-              output=$(jj status --color=never --no-pager 2>&1)
-
-              # Extract the parent commit ID from the output
-              # Looking for pattern like: "Parent commit (@-): pknnznu 1c577a2 (empty) WIP: empty message"
-              rev=$(echo "$output" | grep -E "Parent commit.*:" | sed -E 's/Parent commit \(@-\): ([a-z0-9]+) .*/\1/')
-
-              if [[ -z "$rev" ]]; then
-                echo "[AI-CI] ERROR: Step 2/4 failed - Could not extract parent commit ID from jj output" >&2
-                echo "Output was: $output" >&2
-                exit 1
-              fi
-
-              echo "[AI-CI] Step 2/4: ✓ Using rev: $rev"
-            else
-              # Revision provided as argument
-              echo "[AI-CI] Step 1/4: ✓ Using provided revision: $rev"
-            fi
-
-            echo "[AI-CI] Step 3/4: Generating commit context..."
-            # Generate commit context and check if successful
-            # Don't capture stderr so we can see debug messages
-            if context_output=$("$bashScriptsDir/jj-commit-context.sh" "$rev"); then
-              echo "[AI-CI] Step 3/4: ✓ Commit context generated successfully"
-            else
-              context_exit_code=$?
-              echo "[AI-CI] ERROR: Step 3/4 failed - jj-commit-context.sh failed (exit code: $context_exit_code)" >&2
-              exit $context_exit_code
-            fi
-
-            echo "[AI-CI] Step 4/4: Generating AI commit message and applying..."
-
-            # Prepare input for aichat - combine context with extra context if provided
-            ai_input="$context_output"
-            if [[ -n "$extra_context" ]]; then
-              ai_input=$(printf "%s\n\nAdditional context: %s" "$context_output" "$extra_context")
-              echo "[AI-CI] Including extra context in AI generation"
-            fi
-
-            # Generate commit message using aichat with jj context and apply it
-            if ! ai_output=$(echo "$ai_input" | aichat --role git-commit -S -c 2>&1); then
-              aichat_exit_code=$?
-              echo "[AI-CI] ERROR: Step 4/4 failed - aichat failed (exit code: $aichat_exit_code)" >&2
-              echo "aichat output: $ai_output" >&2
-              exit $aichat_exit_code
-            fi
-            echo "[AI-CI] Step 4/4: ✓ AI commit message generated"
-
-            echo "[AI-CI] Step 5/5: Applying commit message..."
-            if ! echo "$ai_output" | "$bashScriptsDir/jj-ai-commit.sh" "$rev"; then
-              apply_exit_code=$?
-              echo "[AI-CI] ERROR: Step 5/5 failed - jj-ai-commit.sh failed (exit code: $apply_exit_code)" >&2
-              echo "AI message was: $ai_output" >&2
-              exit $apply_exit_code
-            fi
-            echo "[AI-CI] Step 5/5: ✓ Commit message applied successfully"
-            echo "[AI-CI] ✓ AI commit process completed successfully!"
+            # Source and run the jj-ai-ci.sh script
+            exec bash ${bashScriptsDir}/jj-ai-ci.sh "$@"
           ''
           ""
         ];
@@ -446,6 +351,7 @@ in
           "push"
           "--allow-new"
         ];
+        # first bookmark matters, it should be current bookmark.
         merge = [
           "util"
           "exec"
@@ -483,7 +389,7 @@ in
             #!/usr/bin/env bash
             set -euo pipefail
 
-            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@)" --ignore-working-copy --no-pager
+            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@-::) ~ empty()" --ignore-working-copy --no-pager
           ''
           ""
         ];
@@ -672,12 +578,25 @@ in
           "--tool"
           "nvim2way"
         ];
+        # ours refer to first bookmark in the merge command.
+        # jj new b1 b2
+        # b1 is the ours, b2 is theirs, means merge theirs into ours.
         mt-ours = [
           "resolve"
           "--tool"
           ":ours"
         ];
+        mt-first = [
+          "resolve"
+          "--tool"
+          ":ours"
+        ];
         mt-theirs = [
+          "resolve"
+          "--tool"
+          ":theirs"
+        ];
+        mt-second = [
           "resolve"
           "--tool"
           ":theirs"
@@ -702,11 +621,13 @@ in
         };
 
         default-command = [
-          "status"
-          # "log"
-          # "--no-pager"
-          # "-n"
-          # "5"
+          # "status"
+          "log"
+          "--no-pager"
+          "-r"
+          "trunk()..@"
+          "-n"
+          "4"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
@@ -993,6 +914,8 @@ in
         "m-m" = "description('private: megamerge')";
 
         # Override immutable_heads to include pub/sandbox bookmark and commits older than 1 day
+        ## description(regex:'^\\[JJ\\]:')
+        ## added above make it slow
         "immutable_heads()" = "builtin_immutable_heads() | present(pub/sandbox)";
 
         "new_visible_commits(op)" =

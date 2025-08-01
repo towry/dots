@@ -100,9 +100,11 @@ in
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai.nix
+    ./hm/gptme.nix
     ./hm/git-town.nix
     ./hm/docker.nix
     ./hm/asdf.nix
+    ./hm/python.nix
   ];
 
   # Let Home Manager install and manage itself.

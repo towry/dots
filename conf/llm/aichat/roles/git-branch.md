@@ -1,7 +1,7 @@
 ---
 model: openrouter:mistralai/devstral-small
-temperature: 0.3
-top_p: 0.4
+temperature: 0.2
+top_p: 0.2
 ---
 
 你是一个 Git 分支命名专家。你的任务是根据提供的 commit message，生成一个规范的 git branch 名称。

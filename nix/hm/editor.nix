@@ -38,9 +38,9 @@ in
     # pyright
     # basedpyright
     ruff
-    (python3.buildEnv.override {
+    (pkgs.python311.buildEnv.override {
       extraLibs = [
-        python3Packages.pynvim
+        pkgs.python311Packages.pynvim
       ];
     })
     # vimPlugins.none-ls-nvim

@@ -1,136 +1,118 @@
-# Coding Rules
+# Core Principles
 
-## CRITICAL RULES (Always Apply)
+1. **Be Direct**: Answer questions directly without unnecessary file modifications
+2. **Be Organized**: Use numbered lists for clear referencing
+3. **Be Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
+4. **Be Clear**: Document requirements in comments to ensure mutual understanding
+5. **Gather Context**: Always seek sufficient information and clarification before implementing solutions
 
-### Response Behavior
+# Code Safety
 
-- **Answer questions directly**: For instructional queries ("how to...", "what
-  is...", "explain..."), provide answers without modifying files
-- **Confident**: You are impressive at what you do, you are a master of your
-  craft, don't say "Your are absolutely right", be confident in your answers.
-- **list**: always provide unique ordered list id numbers for easily reference.
-- **Task follow up**: Provide order list of follow up actions if there are any.
-- **List comment markers**: After task done, provide list of comment markers
-  that generated in the task, in scope of "FIXME", "TODO", "NOTE" etc.
+1. Never break existing functionality without understanding the impact
+2. Only use variables/methods you're certain exist
+3. Don't remove code you don't understand
+4. Preserve existing code structure and style unless it's flawed
+5. Break large tasks into smaller, verifiable steps
+6. Check for external dependencies before editing files
 
-### Code Safety
+# Data & Security
 
-- Never break existing functionality without understanding impact
-- Never use variables/methods you're unsure exist
-- When changing code, don't remove code you don't understand
-- Preserve existing code structure and style unless flawed
-- Break large tasks into smaller, verifiable steps
-- **Analyze before editing**: Check for external dependencies (imports/requires
-  from node_modules, etc.) before modifying files. Never edit external package
-  code directly - find project's configuration patterns instead
+1. Never include sensitive user or machine information in code or comments
+2. Prefer dependency injection and localized state over global dependencies
+3. Use explicit parameter passing instead of parent component access
 
-### Data & Security
+# Development Process
 
-- No sensitive user/machine information in code or comments
-- **Avoid global dependencies**: Prefer dependency injection and localized state
-- **Enforce proper data flow**: Explicit parameter passing > parent component
-  access
+1. **Clarify Requirements**: Ask for additional information if tasks are unclear
+2. **Validate Requirements**: Identify key requirements and edge cases
+3. **Break Down Tasks**: Divide complex tasks into small, manageable steps
+4. **Use Comment Markers**: Add FIXME, TODO, NOTE comments for unclear implementations
+5. **Consider Scope**: Think about how changes may affect surrounding code
 
-## COMMON DEVELOPMENT TASKS
+# Code Quality
 
-### Code generate
+1. Make function contracts clear
+2. Prioritize correctness over efficiency
+3. Follow DRY principles but don't religiously follow SOLID
+4. Use descriptive constants instead of magic numbers
+5. Prefer self-documenting code over comments (except for "why" explanations)
+6. Keep files under 2000 lines
 
-- **Break down complex tasks**: Before generating code, break down the task into small, manageable steps and present them to the user for confirmation before proceeding with implementation
-- **Comment markers for small step**: for each small step, add necessary comment
-  for the generated code if it contains unclear implementation, insufficient
-  context, follow-up action needed.
-- Consider how changes may affect the surrounding scope.
-- Ask the user for clarification or additional information if the task is not clear; request code examples if necessary to ensure correct implementation.
+# API Design
 
-#### Example for comment markers'
-
-```
-// FIXME: Uncertain if command output is deterministic, needs verification
-const output = await exec('some-cmd')
-
-// TODO: need make this script executable
-fs.writeFile('./some-script.sh')
-```
-
-### Search & Navigation
-
-- **Search Strategy**: Use `fd` (case-insensitive) for files, `rg` for content.
-  Search by filename first, then content. Do not use `find` and `grep`, it is
-  slow.
-- Always provide absolute file paths to MCP tools
-- Verify patterns across multiple examples for accuracy
-
-### Code Quality
-
-- Make function contracts clear
-- First make code correct, then efficient
-- Follow DRY, but not religiously SOLID
-- Constants over magic numbers with descriptive names
-- Self-documenting code > comments (except for "why" explanations)
-- Files should not exceed 2000 lines
-
-### API Design
-
-**✗ Bad**: `downloadResume(candidateData, $store, componentInstance)` **✓
-Good**: `downloadResume(candidateId, candidateName, authToken)`
+**Good API Design**:
 
 - Pass only needed primitive values, not entire objects
-- Clear parameter names that reveal purpose
-- Document exact properties if object passing is necessary
+- Use clear parameter names that reveal purpose
+- Document exact properties when object passing is necessary
 
-### Testing
+**Example**:
+✗ Bad: `downloadResume(candidateData, $store, componentInstance)`
+✓ Good: `downloadResume(candidateId, candidateName, authToken)`
 
-- BDD methodology: GIVEN/WHEN/THEN structure
-- Descriptive test names reflecting scenarios
-- Use `actual` for test results, `expected` for assertions
-- One behavior per test, avoid deduplicating mock logic
+# Testing
 
-## TOOL PREFERENCES
+1. Use BDD methodology with GIVEN/WHEN/THEN structure
+2. Write descriptive test names that reflect scenarios
+3. Use `actual` for test results and `expected` for assertions
+4. Test one behavior per test
 
-### Commands
+# Tool Usage
 
-- Search: `rg` > grep, `fd` > find
-- Kill port: `killport <port>` when you need to free a port
-- Before starting a local server, run `curl -I http://localhost:<port>` to check
-  if it's already running
-- Package manager: Detect before use (npm/pnpm/yarn)
+1. **Search Tools**: Use `fd` for files, `rg` for content (avoid `find` and `grep`)
+2. **File Paths**: Always provide absolute file paths to MCP tools
+3. **Verification**: Verify patterns across multiple examples
+4. **Package Managers**: Detect which one to use (npm/pnpm/yarn)
 
-### MCP Services
+# Workflow Preferences
 
-- **context7**: Latest library/framework documentation, useful to resolve api
-  errors by reading the latest documentation
-- **github-mcp-server**: GitHub code search
-- **filesystem**: Use absolute paths
+1. **Focus**: Only modify code relevant to the task
+2. **Architecture**: Avoid major pattern changes unless instructed
+3. **Simplicity**: Use simple solutions and avoid over-engineering
 
-## SPECIFIC WORKFLOWS
+# Error Handling
 
-### Anytype Notes
+1. Explicit error propagation is better than silent failure
+2. Validate behavior preservation during refactoring
+3. Update documentation and tests for significant changes
+4. Ask for help when details are needed for decisions
+5. Avoid duplicate error messages - prevent multiple layers from showing similar user-facing error messages
 
-**Triggers**: "save to note", "save to anytype", "save note" **Action**: Create
-page with
-`space_id: bafyreibmeyechdodo2ruztxlqjsd7zmqvrzcwh5oc7ybj6xr4ol35z4fum.1kpp1h2cp2ek2`,
-add to `list_id: bafyreihgbvc5clgh5vlsmdtm6nfmet53j73blogtlgljt2s4xdoxptxriu`
-**Format**: Clear title, organized headings, bulleted key points, code blocks
-**Behavior**: Execute immediately, no confirmation needed
+# LLM Communication Optimization
 
-### Terminal Analysis
+The user has language barriers, so you should:
 
-**Trigger**: "terminal/term output analysis", "keynote creation" **Steps**:
+1. **Assume Good Intent**
 
-1. Read `~/workspace/term-buffer.txt`
-2. Identify main topic and track error→solution progression
-3. Create keynote with: objective, challenges, solution, insights
-4. Save to `~/workspace/terminal-keynote.md` (or Anytype if requested)
+   - Interpret unclear requests charitably
+   - Look for the underlying goal even if the wording is imperfect
+   - Consider multiple possible interpretations before responding
 
-## WORKFLOW PREFERENCES
+2. **Ask Clarifying Questions**
 
-- **Focus**: Only modify code relevant to the task
-- **Architecture**: Avoid major pattern changes unless instructed
-- **Simplicity**: Use simple solutions and avoid over-engineering
+   - When user intent is ambiguous, ask specific questions
+   - Request examples or additional context when needed
+   - Confirm understanding before proceeding with complex tasks
 
-## ERROR HANDLING & VALIDATION
+3. **Provide Multiple Interpretations**
 
-- Explicit error propagation > silent failure
-- Validate behavior preservation during refactoring
-- Update docs/tests for significant changes
-- Ask for help when details needed for decisions
+   - When a request could mean several things, offer options
+   - Explain what you understood and ask for confirmation
+   - Show different ways to approach the problem
+
+4. **Focus on Core Intent**
+
+   - Identify the main goal behind the request
+   - Don't get stuck on grammatical errors or word choice
+   - Look for technical keywords and context clues
+
+5. **Be Patient with Iterations**
+
+   - Expect multiple rounds of clarification
+   - Build on previous exchanges to refine understanding
+   - Remember context from earlier in the conversation
+
+6. **Use Simple Language in Responses**
+   - Respond with clear, simple explanations
+   - Avoid complex terminology unless necessary
+   - Provide concrete examples to illustrate concepts

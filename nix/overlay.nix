@@ -64,6 +64,10 @@
     nodePackages = prev.nodePackages.override {
       nodejs = prev.nodejs_22;
     };
+    # Python 3.11.13 override to match system uv installation
+    # python3 = prev.python311;
+    # python311 = prev.python311;
+    # python3Packages = prev.python311Packages;
     nix-priv = inputs.nix-priv.packages.${prev.system}.default;
   }
   // (import ./pkgs {

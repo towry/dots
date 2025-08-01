@@ -1,3 +1,4 @@
+# for git branches
 function _fzf-jj-bookmarks-git --description "fzf for git branches"
     set -l query ""
     if status is-interactive
@@ -6,7 +7,7 @@ function _fzf-jj-bookmarks-git --description "fzf for git branches"
     if not git rev-parse --git-dir &>/dev/null
         return 1
     end
-    set -f lines (git branch --sort=-committerdate --color=always | sed 's/^[* ] //' | fzf --cycle --tmux 98% --ansi --layout=reverse \
+    set -f lines (git branch --sort=-committerdate --color=always | sed 's/^[* ] //' | fzf +i -e --cycle --tmux 98% --ansi --layout=reverse \
         --scheme=path \
         --query="$query" \
         --preview='git log --color=always --oneline -10 {}' \
@@ -27,6 +28,7 @@ function _fzf-jj-bookmarks-git --description "fzf for git branches"
     return $fzf_status
 end
 
+# for jujutsu bookmarks
 function _fzf-jj-bookmarks-jj --description "fzf for jj bookmarks"
     set -l query ""
     if status is-interactive
@@ -35,7 +37,7 @@ function _fzf-jj-bookmarks-jj --description "fzf for jj bookmarks"
     if not jj root --ignore-working-copy --quiet &>/dev/null
         return 1
     end
-    set -f lines (jj bookmark list --ignore-working-copy --sort committer-date- --quiet --no-pager --color always | grep -v '^[[:space:]]' | grep -v '\(deleted\)' | fzf --cycle --tmux 98% --ansi --layout=reverse \
+    set -f lines (jj bookmark list --ignore-working-copy --sort committer-date- --quiet --no-pager --color always | grep -v '^[[:space:]]' | grep -v '\(deleted\)' | fzf +i -e --no-sort --cycle --tmux 98% --ansi --layout=reverse \
         --scheme=path \
         --query="$query" \
         --preview='jj log --color=always -r "stack($(echo {} | cut -d: -f2 | awk "{print \\$1}" | string trim))" --no-graph' \
@@ -56,6 +58,7 @@ function _fzf-jj-bookmarks-jj --description "fzf for jj bookmarks"
     return $fzf_status
 end
 
+# entry function
 function _fzf-jj-bookmarks --description "Search for jujutsu bookmarks or git branches"
     # Change the order here to switch priority
     _fzf-jj-bookmarks-jj
