@@ -4,7 +4,7 @@ response_preference = "Don't explain basic concepts; use perplexity search engin
 
 [env]
 # MODEL = "openrouter/qwen/qwen3-coder:free"
-MODEL = "openrouter/qwen/qwen3-235b-a22b-2507"
+MODEL = "openrouter/qwen/qwen3-coder"
 OPENROUTER_API_KEY = "@OPENROUTER_API_KEY@"
 PERPLEXITY_API_KEY = "@PERPLEXITY_API_KEY@"
 GPTME_COSTS = "true"
