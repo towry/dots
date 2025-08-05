@@ -919,7 +919,7 @@ in
         # Override immutable_heads to include pub/sandbox bookmark and commits older than 1 day
         ## description(regex:'^\\[JJ\\]:')
         ## added above make it slow
-        "immutable_heads()" = "builtin_immutable_heads() | present(pub/sandbox)";
+        "immutable_heads()" = "builtin_immutable_heads() | present(bookmarks(\"pub/sandbox\"))";
 
         "new_visible_commits(op)" =
           "at_operation(@-, at_operation(op, visible_heads()))..at_operation(op, visible_heads())";
