@@ -93,6 +93,9 @@ in
         };
       };
       aliases = {
+        e = [
+          "edit"
+        ];
         wip = [
           "commit"
           "-i"
