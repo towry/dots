@@ -35,7 +35,8 @@ parameters:
 
 settings:
   goose_provider: "openrouter"
-  goose_model: "meta-llama/llama-4-maverick"
+  # goose_model: "meta-llama/llama-4-maverick"
+  goose_model: "google/gemini-2.5-flash"
   temperature: 0.1
 
 extensions:

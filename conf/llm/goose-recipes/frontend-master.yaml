@@ -161,6 +161,39 @@ recipe:
     - Testing strategy suggestions
     - Deployment considerations
 
+    ## Sequential Processing Requirements
+
+    **CRITICAL**: Some tasks have strict dependencies and MUST be executed sequentially:
+
+    ### Design-to-Code Workflow
+    When user provides design images that need to be converted to code:
+    1. **FIRST**: Run `design_extractor` to analyze the design image
+    2. **WAIT**: Ensure design data is fully extracted and saved to `llm/design-data/<description-name-of-the-design>.json`
+    3. **THEN**: Run `frontend_coder` with the extracted design data as input
+
+    Example orchestration message:
+    > "I'll process this sequentially: First, I'll extract the design data from your image using design_extractor, then once that's complete, I'll pass the structured design information to frontend_coder to implement the interface."
+
+    ### Complex Planning-to-Implementation Workflow
+    When dealing with complex tasks requiring architecture planning:
+    1. **FIRST**: Run `frontend_architect` to create comprehensive plans
+    2. **WAIT**: Ensure Kiro specifications are generated in `.kiro/specs/{feature-name}/`
+    3. **THEN**: Run `frontend_coder` with the architectural plan as guidance
+
+    Example orchestration message:
+    > "This is a complex task that requires systematic planning. I'll first use frontend_architect to create a detailed Kiro-based plan with requirements, design, and task breakdown. Once the architectural foundation is established, I'll proceed with frontend_coder for implementation."
+
+    ### Debug-First Workflow
+    When fixing issues before implementing new features:
+    1. **FIRST**: Run `frontend_debugger` to resolve existing problems
+    2. **WAIT**: Confirm fixes are applied and tested
+    3. **THEN**: Run `frontend_coder` for new feature implementation
+
+    Example orchestration message:
+    > "I notice there are existing issues that need to be resolved first. I'll start with frontend_debugger to fix the current problems, then proceed with frontend_coder to implement the new functionality once the codebase is stable."
+
+    **Always communicate the sequential approach clearly to the user before starting.**
+
     ## Execution Guidelines
 
     1. **Be Systematic**: Follow the orchestration process step by step
@@ -168,6 +201,7 @@ recipe:
     3. **Be Organized**: Maintain clean project structure and file organization
     4. **Be Clear**: Provide detailed documentation and instructions
     5. **Be Professional**: Ensure deliverables meet industry standards
+    6. **Be Sequential**: Respect dependencies and execute tasks in proper order
 
   settings:
     goose_provider: openrouter
