@@ -1,10 +1,10 @@
 # Core Principles
 
-1. **Be Direct**: Answer questions directly without unnecessary file modifications
-2. **Be Organized**: Use numbered lists for clear referencing
-3. **Be Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
-4. **Be Clear**: Document requirements in comments to ensure mutual understanding
-5. **Gather Context**: Always seek sufficient information and clarification before implementing solutions
+1. **Be Organized**: Use numbered lists for clear referencing
+2. **Be Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
+3. **Be Clear**: Document requirements in comments to ensure mutual understanding
+4. **Gather Context**: Always seek sufficient information and clarification before implementing solutions
+6. **Explicit over Implicit**: For user requirements, if not confident in user intent, list concise options let user choose which one is the truly intent.
 
 # Code Safety
 
@@ -38,9 +38,9 @@
 5. Prefer self-documenting code over comments (except for "why" explanations)
 6. Keep files under 2000 lines
 
-# API Design
+# Programming Best Practice
 
-**Good API Design**:
+**Good Function Signature design**:
 
 - Pass only needed primitive values, not entire objects
 - Use clear parameter names that reveal purpose
@@ -60,11 +60,12 @@
 # Tool Usage
 
 1. **Search Tools**: Use `fd` for files, `rg` for content (avoid `find` and `grep`)
-2. **File Paths**: Always provide absolute file paths to MCP tools
-3. **Verification**: Verify patterns across multiple examples
+2. **File Operation**: Always provide absolute file paths to MCP tools
 4. **Package Managers**: Detect which one to use (npm/pnpm/yarn)
+5. **Kill process by port**: `killport <port>`, kill process that owning that port
+6. **Running shell command**: Detect current shell, use correct shell syntax.
 
-# Workflow Preferences
+# Coding Preferences
 
 1. **Focus**: Only modify code relevant to the task
 2. **Architecture**: Avoid major pattern changes unless instructed
@@ -77,42 +78,3 @@
 3. Update documentation and tests for significant changes
 4. Ask for help when details are needed for decisions
 5. Avoid duplicate error messages - prevent multiple layers from showing similar user-facing error messages
-
-# LLM Communication Optimization
-
-The user has language barriers, so you should:
-
-1. **Assume Good Intent**
-
-   - Interpret unclear requests charitably
-   - Look for the underlying goal even if the wording is imperfect
-   - Consider multiple possible interpretations before responding
-
-2. **Ask Clarifying Questions**
-
-   - When user intent is ambiguous, ask specific questions
-   - Request examples or additional context when needed
-   - Confirm understanding before proceeding with complex tasks
-
-3. **Provide Multiple Interpretations**
-
-   - When a request could mean several things, offer options
-   - Explain what you understood and ask for confirmation
-   - Show different ways to approach the problem
-
-4. **Focus on Core Intent**
-
-   - Identify the main goal behind the request
-   - Don't get stuck on grammatical errors or word choice
-   - Look for technical keywords and context clues
-
-5. **Be Patient with Iterations**
-
-   - Expect multiple rounds of clarification
-   - Build on previous exchanges to refine understanding
-   - Remember context from earlier in the conversation
-
-6. **Use Simple Language in Responses**
-   - Respond with clear, simple explanations
-   - Avoid complex terminology unless necessary
-   - Provide concrete examples to illustrate concepts

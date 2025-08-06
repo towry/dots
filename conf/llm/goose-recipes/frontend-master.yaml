@@ -1,0 +1,458 @@
+name: frontend-master
+isGlobal: true
+lastModified: 2025-08-06T04:39:00.000Z
+isArchived: false
+recipe:
+  version: "1.0.0"
+  title: "Frontend Master"
+  description: "Advanced frontend development orchestrator that manages design extraction and code implementation"
+  instructions: |
+    You are a senior frontend development project manager with expertise in coordinating complex frontend development tasks.
+    Your role is to analyze user requirements, extract design information, plan implementation strategies, and delegate tasks to specialized agents.
+
+    Your primary responsibilities:
+    1. **Project Analysis**: Assess task complexity and break down requirements
+    2. **Design Processing**: Extract design data from images and cache results
+    3. **Task Orchestration**: Delegate coding tasks to appropriate specialists
+    4. **Project Management**: Create and track implementation plans for complex tasks
+    5. **Quality Assurance**: Ensure deliverables meet requirements and standards
+
+    ## Task Complexity Assessment
+
+    **Simple Tasks** (no plan needed):
+    - Single component implementation
+    - Minor style adjustments
+    - Basic responsive fixes
+    - Small bug fixes
+
+    **Complex Tasks** (require planning):
+    - Multi-component systems
+    - Complete page implementations
+    - Design system creation
+    - Integration with multiple APIs
+    - Full application development
+    - Performance optimization projects
+    - Architecture refactoring
+    - Cross-cutting concerns implementation
+
+    For complex tasks, use the **frontend_architect** sub-recipe to create comprehensive plans using the Kiro workflow methodology before delegating implementation.
+
+    ## File Organization
+
+    - Design data: `<project-root>/llm/design-data/`
+    - Task plans: `<project-root>/llm/task-plans/`
+    - Kiro specifications: `<project-root>/.kiro/specs/{feature-name}/`
+    - Implementation files: Suggested by frontend-coder
+
+    Always ensure proper project structure and file organization.
+
+  parameters:
+    - key: task_description
+      input_type: string
+      requirement: user_prompt
+      description: "Detailed description of the frontend development task"
+
+    - key: project_root
+      input_type: string
+      requirement: optional
+      default: "."
+      description: "Absolute path to the project root directory (defaults to current directory)"
+
+    - key: framework
+      input_type: string
+      requirement: optional
+      default: "vue"
+      description: "Preferred frontend framework (vue, react, html-css, next, nuxt)"
+
+    - key: styling_approach
+      input_type: string
+      requirement: optional
+      default: "tailwind"
+      description: "Preferred styling approach (tailwind, css-modules, styled-components, scss, vanilla-css)"
+
+    - key: design_image_path
+      input_type: string
+      requirement: optional
+      default: ""
+      description: "Path to design image file (if provided)"
+
+    - key: component_type
+      input_type: string
+      requirement: optional
+      default: "component"
+      description: "Type of implementation (component, page, layout, full-app)"
+
+    - key: responsive_requirements
+      input_type: string
+      requirement: optional
+      default: "mobile-first"
+      description: "Responsive design requirements (mobile-first, desktop-first, specific-breakpoints)"
+
+    - key: additional_requirements
+      input_type: string
+      requirement: optional
+      default: ""
+      description: "Any additional requirements, constraints, or project-specific needs"
+
+    - key: task_type
+      input_type: string
+      requirement: optional
+      default: "auto"
+      description: "Task type hint (auto, new-implementation, debugging, design-conversion, optimization)"
+
+  settings:
+    goose_provider: "openrouter"
+    goose_model: "anthropic/claude-3.5-sonnet:beta"
+    temperature: 0.1
+
+  sub_recipes:
+    - name: "frontend_architect"
+      path: "./sub-recipes/frontend-architect.yaml"
+
+    - name: "design_extractor"
+      path: "./sub-recipes/design-extractor.yaml"
+
+    - name: "frontend_coder"
+      path: "./sub-recipes/frontend-coder.yaml"
+
+    - name: "frontend_debugger"
+      path: "./sub-recipes/frontend-debugger.yaml"
+
+  extensions:
+    - type: builtin
+      name: developer
+      timeout: 600
+      bundled: true
+      description: "Core development tools for file operations and code editing"
+    - type: builtin
+      name: memory
+      timeout: 500
+      bundled: true
+      description: "Memory extension for context persistence"
+    - type: stdio
+      name: fetch
+      timeout: 500
+      bundled: false
+      description: "Web fetch"
+      cmd: uvx
+      args:
+        - "mcp-server-fetch"
+
+  response:
+    json_schema:
+      type: object
+      properties:
+        orchestration_summary:
+          type: object
+          properties:
+            task_complexity:
+              type: string
+              enum: ["simple", "moderate", "complex"]
+              description: "Assessed complexity level of the task"
+            task_type_determined:
+              type: string
+              enum: ["new_implementation", "debugging", "design_conversion", "optimization"]
+              description: "Determined type of task for proper sub-recipe selection"
+            sub_recipe_used:
+              type: string
+              enum: ["frontend_architect", "frontend_coder", "frontend_debugger", "design_extractor"]
+              description: "Which sub-recipe was used for the main task"
+            requires_planning:
+              type: boolean
+              description: "Whether the task requires a detailed implementation plan"
+            design_processing_needed:
+              type: boolean
+              description: "Whether design extraction was needed"
+            estimated_duration:
+              type: string
+              description: "Estimated time to complete the task"
+            main_deliverables:
+              type: array
+              items:
+                type: string
+              description: "List of main deliverables expected"
+          description: "Summary of the orchestration analysis and approach"
+
+        design_extraction_results:
+          type: object
+          properties:
+            processed:
+              type: boolean
+              description: "Whether design extraction was performed"
+            cache_file_path:
+              type: string
+              description: "Path where design data was cached"
+            design_summary:
+              type: string
+              description: "Brief summary of the extracted design"
+            extraction_success:
+              type: boolean
+              description: "Whether design extraction was successful"
+          description: "Results of design extraction process"
+
+        architectural_planning:
+          type: object
+          properties:
+            kiro_workflow_applied:
+              type: boolean
+              description: "Whether Kiro workflow methodology was used"
+            kiro_stage_completed:
+              type: string
+              enum: ["requirements", "design", "tasks", "implementation_guidance", "none"]
+              description: "Highest Kiro stage completed"
+            specifications_created:
+              type: array
+              items:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                  stage:
+                    type: string
+                  content_summary:
+                    type: string
+              description: "Kiro specification documents created"
+            architectural_analysis:
+              type: object
+              properties:
+                complexity_justified:
+                  type: string
+                risk_factors:
+                  type: array
+                  items:
+                    type: string
+                strategic_approach:
+                  type: string
+              description: "Architectural analysis results"
+          description: "Results from frontend_architect sub-recipe execution"
+
+        task_plan:
+          type: object
+          properties:
+            created:
+              type: boolean
+              description: "Whether a task plan was created"
+            plan_file_path:
+              type: string
+              description: "Path to the created task plan file"
+            implementation_phases:
+              type: array
+              items:
+                type: object
+                properties:
+                  phase_number:
+                    type: number
+                  phase_name:
+                    type: string
+                  description:
+                    type: string
+                  estimated_effort:
+                    type: string
+                  dependencies:
+                    type: array
+                    items:
+                      type: string
+              description: "Breakdown of implementation phases"
+            success_criteria:
+              type: array
+              items:
+                type: string
+              description: "Criteria for successful completion"
+          description: "Task planning results"
+
+        implementation_results:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: ["completed", "partial", "delegated", "failed"]
+              description: "Status of the implementation"
+            files_created:
+              type: array
+              items:
+                type: object
+                properties:
+                  file_path:
+                    type: string
+                  file_type:
+                    type: string
+                  description:
+                    type: string
+              description: "Files created during implementation"
+            setup_instructions:
+              type: array
+              items:
+                type: string
+              description: "Setup instructions for the implementation"
+            next_steps:
+              type: array
+              items:
+                type: string
+              description: "Recommended next steps"
+          description: "Implementation execution results"
+
+        project_structure:
+          type: object
+          properties:
+            directories_created:
+              type: array
+              items:
+                type: string
+              description: "Project directories that were created"
+            file_organization:
+              type: object
+              properties:
+                design_data_location:
+                  type: string
+                task_plans_location:
+                  type: string
+                kiro_specs_location:
+                  type: string
+                implementation_location:
+                  type: string
+              description: "Organization of project files"
+          description: "Project structure and organization"
+
+        recommendations:
+          type: object
+          properties:
+            development_workflow:
+              type: array
+              items:
+                type: string
+              description: "Recommended development workflow steps"
+            testing_strategy:
+              type: array
+              items:
+                type: string
+              description: "Suggested testing approach"
+            deployment_considerations:
+              type: array
+              items:
+                type: string
+              description: "Deployment and production considerations"
+          description: "Professional recommendations"
+
+      required:
+        - orchestration_summary
+        - implementation_results
+        - project_structure
+
+  prompt: |
+    # Frontend Development Task Orchestration
+
+    **Task**: {{ task_description }}
+    **Project Root**: {{ project_root }}
+    **Framework**: {{ framework }}
+    **Styling**: {{ styling_approach }}
+    **Component Type**: {{ component_type }}
+    **Responsive**: {{ responsive_requirements }}
+    **Task Type Hint**: {{ task_type }}
+
+    {% if design_image_path %}
+    **Design Image**: {{ design_image_path }}
+    {% endif %}
+
+    {% if additional_requirements %}
+    **Additional Requirements**: {{ additional_requirements }}
+    {% endif %}
+
+    ## Orchestration Process
+
+    Execute the following workflow systematically:
+
+    ### 1. Task Analysis & Complexity Assessment
+
+    Analyze the task requirements and determine:
+    - Task complexity level (simple/moderate/complex)
+    - Whether this is a new implementation or debugging task
+    - Whether detailed planning is needed
+    - Required deliverables and timeline
+    - Potential challenges or dependencies
+
+    ### 2. Design Processing (if image provided)
+
+    {% if design_image_path %}
+    Use the design_extractor sub-recipe to process the design image:
+    - Extract comprehensive design data from {{ design_image_path }}
+    - Cache the results to: `{{ project_root }}/llm/design-data/design-data.json`
+    - Create the directory structure if it doesn't exist
+    {% endif %}
+
+    ### 3. Project Planning (for complex tasks)
+
+    **For Complex Tasks - Use frontend_architect:**
+    If the task is assessed as complex, use the frontend_architect sub-recipe to create comprehensive plans using the Kiro workflow methodology:
+    - Apply systematic 4-stage Kiro planning process (Requirements → Design → Tasks → Implementation Guidance)
+    - Use code-index-mcp to analyze existing codebase structure and patterns
+    - Create detailed specifications in `.kiro/specs/{feature-name}/` directory
+    - Generate requirements.md, design.md, and tasks.md documents
+    - Provide strategic architectural guidance and risk assessment
+    - Wait for user approval at each stage before proceeding
+
+    **For Simple to Moderate Tasks:**
+    - Create a basic implementation plan
+    - Save to: `{{ project_root }}/llm/task-plans/`
+    - Include phases, dependencies, and success criteria
+    - Break down the work into manageable components
+
+    ### 4. Task Type Determination & Delegation
+
+    Determine the appropriate sub-recipe based on the task type and complexity:
+
+    **Use frontend_architect for:**
+    - Complex system architecture requiring systematic planning
+    - Multi-component feature development
+    - Cross-cutting concerns implementation
+    - Architecture refactoring projects
+    - Integration with existing complex codebases
+    - Features requiring comprehensive requirement analysis
+    - Tasks with high technical risk or uncertainty
+
+    **Use frontend_coder for:**
+    - New feature implementation from scratch
+    - Converting design files to code
+    - Creating new components or pages
+    - Building complete applications
+    - Implementing fresh functionality (simple to moderate complexity)
+
+    **Use frontend_debugger for:**
+    - Fixing bugs in existing code
+    - Resolving design mismatches between spec and implementation
+    - Performance optimization issues
+    - Cross-browser compatibility problems
+    - Accessibility compliance fixes
+    - Code quality improvements and refactoring
+    - Visual inconsistencies or layout problems
+
+    **Implementation Process:**
+    - Pass all relevant parameters and requirements to the chosen sub-recipe
+    - Include extracted design data (if available)
+    - Specify framework and styling preferences
+    - Provide clear task description and constraints
+    - For debugging tasks, include specific error descriptions and expected vs. current behavior
+
+    ### 5. Project Structure Management
+
+    Ensure proper project organization:
+    - Create necessary directories for llm/, design-data/, task-plans/
+    - Organize implementation files as recommended by frontend_coder
+    - Document file locations and structure
+
+    ### 6. Quality Assurance & Next Steps
+
+    Review the implementation and provide:
+    - Setup and installation instructions
+    - Development workflow recommendations
+    - Testing strategy suggestions
+    - Deployment considerations
+
+    ## Execution Guidelines
+
+    1. **Be Systematic**: Follow the orchestration process step by step
+    2. **Be Thorough**: Don't skip analysis or planning phases
+    3. **Be Organized**: Maintain clean project structure and file organization
+    4. **Be Clear**: Provide detailed documentation and instructions
+    5. **Be Professional**: Ensure deliverables meet industry standards
+
+    Execute this orchestration workflow and provide comprehensive results including all created files, plans, and recommendations.
