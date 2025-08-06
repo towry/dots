@@ -88,8 +88,8 @@ in
     ./hm/fzf.nix
     ./hm/editor.nix
     ./hm/frontend-dev.nix
-    ./hm/helix.nix
-    ./hm/tmux.nix
+    # ./hm/helix.nix
+    # ./hm/tmux.nix
     ./hm/zellij.nix
     ./hm/rust.nix
     # ./hm/go.nix
@@ -100,8 +100,8 @@ in
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai.nix
-    ./hm/gptme.nix
-    ./hm/git-town.nix
+    # ./hm/gptme.nix
+    # ./hm/git-town.nix
     ./hm/docker.nix
     ./hm/asdf.nix
     ./hm/python.nix
