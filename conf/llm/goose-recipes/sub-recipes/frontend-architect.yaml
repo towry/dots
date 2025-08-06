@@ -120,7 +120,7 @@ parameters:
 
 settings:
   goose_provider: "openrouter"
-  goose_model: "z-ai/glm-4.5"
+  goose_model: "qwen/qwen3-coder"
   temperature: 0.1
 
 extensions:

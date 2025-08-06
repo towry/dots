@@ -81,7 +81,7 @@ parameters:
 
 settings:
   goose_provider: "openrouter"
-  goose_model: "anthropic/claude-3.5-sonnet:beta"
+  goose_model: "z-ai/glm-4.5"
   temperature: 0.2
 
 extensions:

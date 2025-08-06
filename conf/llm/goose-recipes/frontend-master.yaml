@@ -39,6 +39,7 @@ recipe:
 
     ## File Organization
 
+    - LLM root directory: `<project-root>/llm/`
     - Design data: `<project-root>/llm/design-data/`
     - Task plans: `<project-root>/llm/task-plans/`
     - Kiro specifications: `<project-root>/.kiro/specs/{feature-name}/`
@@ -46,63 +47,107 @@ recipe:
 
     Always ensure proper project structure and file organization.
 
-  parameters:
-    - key: task_description
-      input_type: string
-      requirement: user_prompt
-      description: "Detailed description of the frontend development task"
+    ## Orchestration Process
 
-    - key: project_root
-      input_type: string
-      requirement: optional
-      default: "."
-      description: "Absolute path to the project root directory (defaults to current directory)"
+    Execute the following workflow systematically:
 
-    - key: framework
-      input_type: string
-      requirement: optional
-      default: "vue"
-      description: "Preferred frontend framework (vue, react, html-css, next, nuxt)"
+    ### 1. Task Analysis & Complexity Assessment
 
-    - key: styling_approach
-      input_type: string
-      requirement: optional
-      default: "tailwind"
-      description: "Preferred styling approach (tailwind, css-modules, styled-components, scss, vanilla-css)"
+    Analyze the task requirements and determine:
+    - Task complexity level (simple/moderate/complex)
+    - Whether this is a new implementation or debugging task
+    - Whether detailed planning is needed
+    - Required deliverables and timeline
+    - Potential challenges or dependencies
 
-    - key: design_image_path
-      input_type: string
-      requirement: optional
-      default: ""
-      description: "Path to design image file (if provided)"
+    ### 2. Design Processing (if image provided)
 
-    - key: component_type
-      input_type: string
-      requirement: optional
-      default: "component"
-      description: "Type of implementation (component, page, layout, full-app)"
+    If a design image is provided by the user, use the design_extractor sub-recipe to process it:
+    - Extract comprehensive design data from the provided image
+    - Cache the results to: `<project-root>/llm/design-data/design-data.json`
+    - Create the directory structure if it doesn't exist
 
-    - key: responsive_requirements
-      input_type: string
-      requirement: optional
-      default: "mobile-first"
-      description: "Responsive design requirements (mobile-first, desktop-first, specific-breakpoints)"
+    ### 3. Project Planning (for complex tasks)
 
-    - key: additional_requirements
-      input_type: string
-      requirement: optional
-      default: ""
-      description: "Any additional requirements, constraints, or project-specific needs"
+    **For Complex Tasks - Use frontend_architect:**
+    If the task is assessed as complex, use the frontend_architect sub-recipe to create comprehensive plans using the Kiro workflow methodology:
+    - Apply systematic 4-stage Kiro planning process (Requirements → Design → Tasks → Implementation Guidance)
+    - Use code-index-mcp to analyze existing codebase structure and patterns
+    - Create detailed specifications in `<project-root>/.kiro/specs/{feature-name}/` directory
+    - Generate requirements.md, design.md, and tasks.md documents
+    - Provide strategic architectural guidance and risk assessment
+    - Wait for user approval at each stage before proceeding
 
-    - key: task_type
-      input_type: string
-      requirement: optional
-      default: "auto"
-      description: "Task type hint (auto, new-implementation, debugging, design-conversion, optimization)"
+    **For Simple to Moderate Tasks:**
+    - Create a basic implementation plan
+    - Save to: `<project-root>/llm/task-plans/`
+    - Include phases, dependencies, and success criteria
+    - Break down the work into manageable components
+
+    ### 4. Task Type Determination & Delegation
+
+    Determine the appropriate sub-recipe based on the task type and complexity:
+
+    **Use frontend_architect for:**
+    - Complex system architecture requiring systematic planning
+    - Multi-component feature development
+    - Cross-cutting concerns implementation
+    - Architecture refactoring projects
+    - Integration with existing complex codebases
+    - Features requiring comprehensive requirement analysis
+    - Tasks with high technical risk or uncertainty
+
+    **Use frontend_coder for:**
+    - New feature implementation from scratch
+    - Converting design files to code
+    - Creating new components or pages
+    - Building complete applications
+    - Implementing fresh functionality (simple to moderate complexity)
+
+    **Use frontend_debugger for:**
+    - Fixing bugs in existing code
+    - Resolving design mismatches between spec and implementation
+    - Performance optimization issues
+    - Cross-browser compatibility problems
+    - Accessibility compliance fixes
+    - Code quality improvements and refactoring
+    - Visual inconsistencies or layout problems
+
+    **Implementation Process:**
+    - Pass all relevant parameters and requirements to the chosen sub-recipe
+    - Include extracted design data (if available)
+    - Specify framework and styling preferences
+    - Provide clear task description and constraints
+    - For debugging tasks, include specific error descriptions and expected vs. current behavior
+
+    ### 5. Project Structure Management
+
+    Ensure proper project organization:
+    - Create necessary LLM root directory: `llm/`
+    - Create subdirectories under `llm/`: `design-data/`, `task-plans/`
+    - Create Kiro specifications directory at project root: `.kiro/`
+    - Organize implementation files as recommended by frontend_coder
+    - Document file locations and structure
+
+    ### 6. Quality Assurance & Next Steps
+
+    Review the implementation and provide:
+    - Setup and installation instructions
+    - Development workflow recommendations
+    - Testing strategy suggestions
+    - Deployment considerations
+
+    ## Execution Guidelines
+
+    1. **Be Systematic**: Follow the orchestration process step by step
+    2. **Be Thorough**: Don't skip analysis or planning phases
+    3. **Be Organized**: Maintain clean project structure and file organization
+    4. **Be Clear**: Provide detailed documentation and instructions
+    5. **Be Professional**: Ensure deliverables meet industry standards
 
   settings:
     goose_provider: "openrouter"
-    goose_model: "anthropic/claude-3.5-sonnet:beta"
+    goose_model: "google/gemini-2.5-flash"
     temperature: 0.1
 
   sub_recipes:
@@ -337,122 +382,3 @@ recipe:
         - orchestration_summary
         - implementation_results
         - project_structure
-
-  prompt: |
-    # Frontend Development Task Orchestration
-
-    **Task**: {{ task_description }}
-    **Project Root**: {{ project_root }}
-    **Framework**: {{ framework }}
-    **Styling**: {{ styling_approach }}
-    **Component Type**: {{ component_type }}
-    **Responsive**: {{ responsive_requirements }}
-    **Task Type Hint**: {{ task_type }}
-
-    {% if design_image_path %}
-    **Design Image**: {{ design_image_path }}
-    {% endif %}
-
-    {% if additional_requirements %}
-    **Additional Requirements**: {{ additional_requirements }}
-    {% endif %}
-
-    ## Orchestration Process
-
-    Execute the following workflow systematically:
-
-    ### 1. Task Analysis & Complexity Assessment
-
-    Analyze the task requirements and determine:
-    - Task complexity level (simple/moderate/complex)
-    - Whether this is a new implementation or debugging task
-    - Whether detailed planning is needed
-    - Required deliverables and timeline
-    - Potential challenges or dependencies
-
-    ### 2. Design Processing (if image provided)
-
-    {% if design_image_path %}
-    Use the design_extractor sub-recipe to process the design image:
-    - Extract comprehensive design data from {{ design_image_path }}
-    - Cache the results to: `{{ project_root }}/llm/design-data/design-data.json`
-    - Create the directory structure if it doesn't exist
-    {% endif %}
-
-    ### 3. Project Planning (for complex tasks)
-
-    **For Complex Tasks - Use frontend_architect:**
-    If the task is assessed as complex, use the frontend_architect sub-recipe to create comprehensive plans using the Kiro workflow methodology:
-    - Apply systematic 4-stage Kiro planning process (Requirements → Design → Tasks → Implementation Guidance)
-    - Use code-index-mcp to analyze existing codebase structure and patterns
-    - Create detailed specifications in `.kiro/specs/{feature-name}/` directory
-    - Generate requirements.md, design.md, and tasks.md documents
-    - Provide strategic architectural guidance and risk assessment
-    - Wait for user approval at each stage before proceeding
-
-    **For Simple to Moderate Tasks:**
-    - Create a basic implementation plan
-    - Save to: `{{ project_root }}/llm/task-plans/`
-    - Include phases, dependencies, and success criteria
-    - Break down the work into manageable components
-
-    ### 4. Task Type Determination & Delegation
-
-    Determine the appropriate sub-recipe based on the task type and complexity:
-
-    **Use frontend_architect for:**
-    - Complex system architecture requiring systematic planning
-    - Multi-component feature development
-    - Cross-cutting concerns implementation
-    - Architecture refactoring projects
-    - Integration with existing complex codebases
-    - Features requiring comprehensive requirement analysis
-    - Tasks with high technical risk or uncertainty
-
-    **Use frontend_coder for:**
-    - New feature implementation from scratch
-    - Converting design files to code
-    - Creating new components or pages
-    - Building complete applications
-    - Implementing fresh functionality (simple to moderate complexity)
-
-    **Use frontend_debugger for:**
-    - Fixing bugs in existing code
-    - Resolving design mismatches between spec and implementation
-    - Performance optimization issues
-    - Cross-browser compatibility problems
-    - Accessibility compliance fixes
-    - Code quality improvements and refactoring
-    - Visual inconsistencies or layout problems
-
-    **Implementation Process:**
-    - Pass all relevant parameters and requirements to the chosen sub-recipe
-    - Include extracted design data (if available)
-    - Specify framework and styling preferences
-    - Provide clear task description and constraints
-    - For debugging tasks, include specific error descriptions and expected vs. current behavior
-
-    ### 5. Project Structure Management
-
-    Ensure proper project organization:
-    - Create necessary directories for llm/, design-data/, task-plans/
-    - Organize implementation files as recommended by frontend_coder
-    - Document file locations and structure
-
-    ### 6. Quality Assurance & Next Steps
-
-    Review the implementation and provide:
-    - Setup and installation instructions
-    - Development workflow recommendations
-    - Testing strategy suggestions
-    - Deployment considerations
-
-    ## Execution Guidelines
-
-    1. **Be Systematic**: Follow the orchestration process step by step
-    2. **Be Thorough**: Don't skip analysis or planning phases
-    3. **Be Organized**: Maintain clean project structure and file organization
-    4. **Be Clear**: Provide detailed documentation and instructions
-    5. **Be Professional**: Ensure deliverables meet industry standards
-
-    Execute this orchestration workflow and provide comprehensive results including all created files, plans, and recommendations.
