@@ -23,7 +23,7 @@ let
       # zls
       # vim-zellij-navigator
       path-git-format
-      uclanr
+      # uclanr
       nix-prefetch-github
       # nerd-font-patcher
       lxgw-wenkai
@@ -90,7 +90,7 @@ in
     ./hm/frontend-dev.nix
     ./hm/helix.nix
     ./hm/tmux.nix
-    # ./hm/zellij.nix
+    ./hm/zellij.nix
     ./hm/rust.nix
     # ./hm/go.nix
     # ./hm/skhd.nix
