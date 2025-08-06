@@ -139,6 +139,10 @@ in
       cat ${config.xdg.configHome}/goose/config-source.yaml > ${config.xdg.configHome}/goose/config.yaml
       chmod u+w ${config.xdg.configHome}/goose/config.yaml
       echo "goose config setup done"
+      # copy the goose recipes to the goose recipes directory
+      mkdir -p ${config.xdg.configHome}/goose/recipes
+      cp -rf ${config.xdg.configHome}/goose/goose-recipes_/* ${config.xdg.configHome}/goose/recipes/
+      echo "goose recipes copied to ${config.xdg.configHome}/goose/recipes"
     '';
 
     updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -165,6 +169,10 @@ in
     };
     "goose/task-plan-review-prompt.md" = {
       source = ../../conf/llm/docs/prompts/task-plan-review.md;
+    };
+    "goose/goose-recipes_" = {
+      source = ../../conf/llm/goose-recipes;
+      recursive = true;
     };
   };
 
