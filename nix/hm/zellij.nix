@@ -112,32 +112,6 @@ in
       }
 
       themes {
-          modus_dark {
-            fg "#ffffff"
-            bg "#7030af"
-            black "#131e1e"
-            red "#ff5f5f"
-            green "#7030af"
-            yellow "#fec43f"
-            blue "#3548cf"
-            magenta "#feacd0"
-            cyan "#00eff0"
-            white "#ffffff"
-            orange "#ff9580"
-          }
-          leaf {
-            fg "#fcfff6"
-            bg "#2e2c2f"
-            black "#1e1c1f"
-            red "#d6797a"
-            green "#729B79"
-            yellow "#e3c882"
-            blue "#005078"
-            magenta "#b798e6"
-            cyan "#77c5da"
-            white "#fcfff6"
-            orange "#d68c67"
-          }
           kanagawa_wave {
               bg "#223249"
               fg "#54546D"
@@ -164,22 +138,9 @@ in
               white "#C8C093"
               orange "#FFA066"
           }
-          neovim {
-            fg "#9b9fa3"
-            bg "#2e2c2f"
-            black "#000000"
-            red "#de6e7c"
-            green "#60bff0"
-            yellow "#d68c67"
-            blue "#3c89b0"
-            magenta "#b798e6"
-            cyan "#65b8c1"
-            white "#fcfff6"
-            orange "#d68c67"
-          }
       }
 
-      theme "kanagawa_dragon"
+      theme "kanagawa_wave"
       default_mode "normal"
       copy_command "pbcopy"
       default_shell "fish"
@@ -188,7 +149,7 @@ in
       copy_on_select true
       show_release_notes false
       styled_underlines true
-      show_startup_tips false
+      show_startup_tips true
     '';
   };
 }
