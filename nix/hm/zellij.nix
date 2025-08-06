@@ -62,6 +62,11 @@ in
               bind "Super g" { SwitchToMode "Normal"; }
           }
 
+          tab {
+            // unbind default tab active sync
+            unbind "s"
+          }
+
           tmux {
               bind "Ctrl b" { DumpScreen "${config.home.homeDirectory}/workspace/zellij-buffer.txt"; }
           }
