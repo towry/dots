@@ -35,8 +35,8 @@ parameters:
 
 settings:
   goose_provider: "openrouter"
-  goose_model: "meta-llama/llama-4-scout"
-  temperature: 0.3
+  goose_model: "meta-llama/llama-4-maverick"
+  temperature: 0.1
 
 extensions:
   - type: builtin
@@ -62,4 +62,4 @@ prompt: |
   Be extremely thorough in documenting spacing, alignment, colors, typography, shadows, borders, and all visual properties.
   Extract exact measurements, positions, and styling properties that would enable precise reconstruction.
 
-  Return the analysis as comprehensive JSON data following the specified schema.
+  Return the analysis as comprehensive JSON data, only JSON data, without any additional text or explanations.
