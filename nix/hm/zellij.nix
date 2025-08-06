@@ -58,6 +58,20 @@ in
           unbind "Ctrl g"
           unbind "Ctrl q"
 
+          normal {
+              bind "Super [" { GoToPreviousTab; }
+              bind "Super ]" { GoToNextTab; }
+              bind "Super 1" { GoToTab 1; SwitchToMode "Normal"; }
+              bind "Super 2" { GoToTab 2; SwitchToMode "Normal"; }
+              bind "Super 3" { GoToTab 3; SwitchToMode "Normal"; }
+              bind "Super 4" { GoToTab 4; SwitchToMode "Normal"; }
+              bind "Super 5" { GoToTab 5; SwitchToMode "Normal"; }
+              bind "Super 6" { GoToTab 6; SwitchToMode "Normal"; }
+              bind "Super 7" { GoToTab 7; SwitchToMode "Normal"; }
+              bind "Super 8" { GoToTab 8; SwitchToMode "Normal"; }
+              bind "Super 9" { GoToTab 9; SwitchToMode "Normal"; }
+          }
+
           locked {
               bind "Super g" { SwitchToMode "Normal"; }
           }
