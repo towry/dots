@@ -146,8 +146,8 @@ recipe:
     5. **Be Professional**: Ensure deliverables meet industry standards
 
   settings:
-    goose_provider: "openrouter"
-    goose_model: "google/gemini-2.5-flash"
+    goose_provider: openrouter
+    goose_model: google/gemini-2.5-flash
     temperature: 0.1
 
   sub_recipes:

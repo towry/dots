@@ -152,6 +152,13 @@ in
       cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.codeium/windsurf/memories/global_rules.md
       echo "Windsurf global rules updated"
     '';
+
+    updateRooCodeGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ${config.home.homeDirectory}/.roo/rules/
+      echo "Updating roo global rules..."
+      cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.roo/rules/global_rules.md
+      echo "Roo global rules updated"
+    '';
   };
 
   xdg.configFile = {
