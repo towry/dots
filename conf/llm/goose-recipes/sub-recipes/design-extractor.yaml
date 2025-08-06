@@ -1,0 +1,287 @@
+version: "1.0.0"
+title: "Design Extractor"
+description: "Extract Figma-like JSON data from design images"
+instructions: |
+  You are an expert UI/UX designer with deep knowledge of design systems, visual hierarchy,
+  and component structures. Your task is to analyze design images and extract comprehensive
+  structural data that captures all design elements, their properties, and relationships.
+
+  When analyzing design images:
+  1. Identify the overall layout structure and visual hierarchy
+  2. Break down the design into logical components and atomic elements
+  3. Extract precise text content, styling information, and positioning data
+  4. Identify all interactive elements and their visual states
+  5. Capture complete color schemes, typography, spacing, and visual properties
+  6. Document component relationships and layout patterns
+  7. Structure the output as comprehensive, framework-agnostic JSON data
+
+parameters:
+  - key: image_path
+    input_type: string
+    requirement: required
+    description: "Absolute Path to the design image file to analyze"
+
+  - key: design_type
+    input_type: string
+    requirement: optional
+    default: "webpage"
+    description: "Type of design (webpage, mobile-app, component, landing-page, etc.)"
+
+  - key: extraction_detail
+    input_type: string
+    requirement: optional
+    default: "detailed"
+    description: "Level of detail (basic, comprehensive, detailed)"
+
+settings:
+  goose_provider: "openrouter"
+  goose_model: "meta-llama/llama-4-scout"
+  temperature: 0.3
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300
+    bundled: true
+
+response:
+  json_schema:
+    type: object
+    properties:
+      design_metadata:
+        type: object
+        properties:
+          design_type:
+            type: string
+            description: "Type of design analyzed"
+          dimensions:
+            type: object
+            properties:
+              width:
+                type: number
+              height:
+                type: number
+            description: "Design dimensions"
+          color_palette:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                hex:
+                  type: string
+                usage:
+                  type: string
+            description: "Extracted color palette"
+          typography:
+            type: object
+            properties:
+              primary_font:
+                type: string
+              secondary_font:
+                type: string
+              font_sizes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    label:
+                      type: string
+                    size:
+                      type: string
+                    weight:
+                      type: string
+            description: "Typography information"
+        description: "Metadata about the design"
+
+      layout_structure:
+        type: object
+        properties:
+          type:
+            type: string
+            description: "Layout type (grid, flexbox, absolute, etc.)"
+          sections:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                type:
+                  type: string
+                position:
+                  type: object
+                  properties:
+                    x:
+                      type: number
+                    y:
+                      type: number
+                    width:
+                      type: number
+                    height:
+                      type: number
+                styles:
+                  type: object
+                  description: "CSS-like styling properties"
+                children:
+                  type: array
+                  items:
+                    type: string
+                  description: "IDs of child components"
+            description: "Main layout sections"
+        description: "Overall layout structure"
+
+      components:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              description: "Unique component identifier"
+            name:
+              type: string
+              description: "Component name/label"
+            type:
+              type: string
+              description: "Component type (button, text, image, form, etc.)"
+            content:
+              type: string
+              description: "Text content if applicable"
+            position:
+              type: object
+              properties:
+                x:
+                  type: number
+                y:
+                  type: number
+                width:
+                  type: number
+                height:
+                  type: number
+              description: "Position and size information"
+            styles:
+              type: object
+              description: "Styling properties (colors, fonts, borders, etc.)"
+            properties:
+              type: object
+              description: "Component-specific properties"
+            interactions:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  trigger:
+                    type: string
+                  action:
+                    type: string
+              description: "Interactive behaviors"
+            responsive:
+              type: object
+              properties:
+                breakpoints:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      size:
+                        type: string
+                      changes:
+                        type: object
+              description: "Responsive design considerations"
+        description: "Individual components and elements"
+
+      relationships:
+        type: array
+        items:
+          type: object
+          properties:
+            parent:
+              type: string
+              description: "Parent component ID"
+            child:
+              type: string
+              description: "Child component ID"
+            relationship_type:
+              type: string
+              description: "Type of relationship (contains, adjacent, overlaps, etc.)"
+        description: "Relationships between components"
+
+      generation_hints:
+        type: object
+        properties:
+          design_patterns:
+            type: array
+            items:
+              type: string
+            description: "Identified design patterns and conventions"
+          layout_approach:
+            type: string
+            description: "Recommended layout approach based on design structure"
+          complexity_level:
+            type: string
+            description: "Overall complexity level of the design"
+          implementation_priorities:
+            type: array
+            items:
+              type: string
+            description: "Priority order for implementing components"
+          accessibility_considerations:
+            type: array
+            items:
+              type: string
+            description: "Accessibility considerations found in the design"
+          responsive_strategy:
+            type: string
+            description: "Suggested approach for responsive behavior"
+        description: "Design analysis and implementation guidance"
+
+      extracted_assets:
+        type: array
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              description: "Asset type (image, icon, logo, etc.)"
+            description:
+              type: string
+              description: "Asset description"
+            properties:
+              type: object
+              description: "Asset properties (size, format, etc.)"
+            replacement_suggestion:
+              type: string
+              description: "Suggestion for asset replacement in code"
+        description: "Assets that would need to be provided separately"
+
+    required:
+      - design_metadata
+      - layout_structure
+      - components
+      - generation_hints
+
+prompt: |
+  Analyze the design image at {{ image_path }} and extract comprehensive structural data for {{ design_type }}.
+
+  Extraction detail level: {{ extraction_detail }}
+
+  Please carefully examine the image and provide a detailed, framework-agnostic analysis that includes:
+
+  1. **Design Metadata**: Extract complete design information including exact dimensions, comprehensive color palette, and detailed typography
+  2. **Layout Structure**: Identify all layout sections, their arrangement, and structural relationships
+  3. **Components**: Break down every UI element with precise properties, styling, positioning, and content
+  4. **Relationships**: Map complete hierarchical and spatial relationships between all components
+  5. **Design Analysis**: Provide insights on design patterns, complexity, and implementation guidance
+  6. **Assets**: Catalog all visual assets with detailed properties and specifications
+
+  Focus on creating high-quality, complete design data that captures every visual detail.
+  Be extremely thorough in documenting spacing, alignment, colors, typography, shadows, borders, and all visual properties.
+  Extract exact measurements, positions, and styling properties that would enable precise reconstruction.
+
+  Return the analysis as comprehensive JSON data following the specified schema.
