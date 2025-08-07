@@ -11,6 +11,7 @@ let
       "${config.home.homeDirectory}/Library/Application Support/aichat"
     else
       "${config.home.homeDirectory}/.config/aichat";
+  xdg = config.xdg;
 
 in
 {
@@ -23,6 +24,7 @@ in
 
   programs.fish = {
     shellAliases = {
+      goose-webdev = "goose run -s --recipe ${xdg.configHome}/goose/recipes/frontend-master.yaml";
     };
     functions = {
       gen-task-prompt = ''
