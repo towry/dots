@@ -1,6 +1,5 @@
 ---
-# model: openrouter:qwen/qwen3-coder:free
-model: openrouter:z-ai/glm-4-32b
+model: openrouter:openai/gpt-oss-20b
 temperature: 0.2
 top_p: 0.2
 ---
