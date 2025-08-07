@@ -54,6 +54,11 @@ in
       load_plugins {
       }
 
+      ///======
+      /// Keybinds
+      /// 1. Put all functional keybind in the tmux mode.
+      ///======
+
       keybinds {
           unbind "Ctrl g"
           unbind "Ctrl q"
@@ -82,7 +87,7 @@ in
           }
 
           tmux {
-              bind "Ctrl b" { DumpScreen "${config.home.homeDirectory}/workspace/zellij-buffer.txt"; }
+              bind "Ctrl b" { DumpScreen "${config.home.homeDirectory}/workspace/zellij-buffer.txt"; SwitchToMode "Normal"; }
           }
 
           // ====

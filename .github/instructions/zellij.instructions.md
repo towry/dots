@@ -30,7 +30,7 @@ Zellij is a terminal workspace manager written in Rust. It uses KDL (KubeDoc Lan
 
 ### Modal System
 
-Zellij operates with different modes, each having its own keybindings:
+Zellij operates with different input modes, each having its own keybindings:
 
 - `normal` - Default mode for general operations
 - `locked` - Prevents accidental key presses
@@ -40,22 +40,186 @@ Zellij operates with different modes, each having its own keybindings:
 - `tab` - Tab management
 - `scroll` - Scrolling through pane history
 - `search` - Searching within scrollback
+- `entersearch` - Entering search mode
+- `renametab` - Renaming tabs
+- `renamepane` - Renaming panes
 - `session` - Session management
 - `tmux` - Tmux-compatible bindings
+
+### Key Syntax
+
+Keys are defined in single quoted strings with space-delimited modifiers:
+
+```kdl
+bind "a"           // Individual character
+bind "Ctrl a"      // With ctrl modifier
+bind "Alt a"       // With alt modifier
+bind "Ctrl Alt a"  // Multiple modifiers
+bind "F8"          // Function key
+bind "Left"        // Arrow key
+```
+
+#### Supported Keys
+
+**Basic Keys:**
+- Digits and lowercase characters (e.g., `a`, `1`)
+- Function keys `F1` through `F12`
+- Arrow keys: `Left`, `Right`, `Up`, `Down`
+- Special keys: `Backspace`, `Home`, `End`, `PageUp`, `PageDown`, `Tab`, `Delete`, `Insert`, `Space`, `Enter`, `Esc`
+
+**Modifiers:**
+- `Ctrl` - Control key
+- `Alt` - Alt/Option key
+- `Shift` - Shift key
+- `Super` - Windows/Cmd key (requires terminal support)
+
+**Note:** Multiple modifiers and special keys like `Super` require terminal emulator support (Alacritty, WezTerm, foot).
+
+### Shared Binding Types
+
+Zellij provides three special binding scopes:
+
+```kdl
+keybinds {
+    shared {
+        // Available in ALL modes
+        bind "Ctrl g" { SwitchToMode "locked"; }
+    }
+    shared_except "resize" "locked" {
+        // Available in all modes EXCEPT "resize" and "locked"
+        bind "Ctrl q" { Quit; }
+    }
+    shared_among "resize" "locked" {
+        // Available ONLY in "resize" and "locked" modes
+        bind "Esc" { SwitchToMode "normal"; }
+    }
+}
+```
+
+### Complete Action Reference
+
+#### Navigation Actions
+```kdl
+MoveFocus "Left" | "Right" | "Up" | "Down"        // Move focus between panes
+MoveFocusOrTab "Left" | "Right"                   // Move focus or switch tabs at edge
+FocusNextPane                                     // Focus next pane (order not guaranteed)
+FocusPreviousPane                                 // Focus previous pane
+GoToNextTab                                       // Switch to next tab
+GoToPreviousTab                                   // Switch to previous tab
+GoToTab 1                                         // Switch to specific tab by index
+ToggleTab                                         // Toggle between current and previous tab
+```
+
+#### Pane Management Actions
+```kdl
+NewPane "Down" | "Right" | "Stacked"              // Create new pane in direction
+CloseFocus                                        // Close focused pane
+ToggleFocusFullscreen                             // Toggle pane fullscreen
+ToggleFloatingPanes                               // Show/hide floating panes
+TogglePaneEmbedOrFloating                         // Float embedded or embed floating pane
+MovePane "Left" | "Right" | "Up" | "Down"         // Move pane position
+Resize "Left" | "Right" | "Up" | "Down" | "Increase" | "Decrease"  // Resize pane
+TogglePaneFrames                                  // Show/hide pane borders
+```
+
+#### Tab Management Actions
+```kdl
+NewTab                                            // Create new tab
+NewTab {                                          // Create tab with options
+    cwd "/tmp"
+    name "My tab name"
+    layout "/path/to/layout.kdl"
+}
+CloseTab                                          // Close current tab
+MoveTab "Left" | "Right"                          // Move tab position
+ToggleActiveSyncTab                               // Sync input between all panes in tab
+```
+
+#### Scrolling and Search Actions
+```kdl
+ScrollUp                                          // Scroll up 1 line
+ScrollDown                                        // Scroll down 1 line
+ScrollToTop                                       // Scroll to top
+ScrollToBottom                                    // Scroll to bottom
+HalfPageScrollUp                                  // Scroll up half page
+HalfPageScrollDown                                // Scroll down half page
+PageScrollUp                                      // Scroll up full page
+PageScrollDown                                    // Scroll down full page
+Search "up" | "down"                              // Move to next/previous search result
+SearchToggleOption "CaseSensitivity" | "Wrap" | "WholeWord"  // Toggle search options
+```
+
+#### Session and System Actions
+```kdl
+SwitchToMode "normal" | "locked" | "resize" | "pane" | "tab" | "scroll" | "search"
+Quit                                              // Exit Zellij
+Detach                                            // Detach from session
+Clear                                             // Clear scrollback buffer
+EditScrollback                                    // Edit scrollback with default editor
+ToggleMouseMode                                   // Toggle mouse support
+```
+
+#### Layout and View Actions
+```kdl
+NextSwapLayout                                    // Switch to next layout
+PreviousSwapLayout                                // Switch to previous layout
+```
+
+#### Command Execution Actions
+```kdl
+Run "command" "arg1" "arg2" {                     // Run command in new pane
+    cwd "/working/directory"
+    direction "Down" | "Right"
+}
+WriteChars "text to write"                        // Write text to active pane
+Write 102 111 111                                 // Write bytes to active pane (ASCII codes)
+```
+
+#### Plugin Actions
+```kdl
+LaunchOrFocusPlugin "zellij:strider" {            // Launch or focus plugin
+    floating true
+}
+MessagePlugin "file:/path/to/plugin.wasm" {       // Send message to plugin
+    name "message_name"
+    payload "message_payload"
+    cwd "/working/directory"
+    launch_new true
+    skip_cache false
+    floating false
+}
+```
+
+#### File Operations
+```kdl
+DumpScreen "/tmp/screen-dump.txt"                 // Dump pane contents to file
+```
+
+#### Rename Operations
+```kdl
+UndoRenamePane                                    // Undo pane rename
+UndoRenameTab                                     // Undo tab rename
+```
 
 ### Example Keybind Configuration
 
 ```kdl
 keybinds {
     normal {
-        // Uncomment if using copy_on_select=false
-        // bind "Alt c" { Copy; }
+        // Quick actions in normal mode
+        bind "Alt n" { NewPane; }
+        bind "Alt f" { ToggleFocusFullscreen; }
+        bind "Alt t" { NewTab; }
     }
+
     locked {
-        bind "Ctrl g" { SwitchToMode "Normal"; }
+        // Only way out of locked mode
+        bind "Ctrl g" { SwitchToMode "normal"; }
     }
+
     resize {
-        bind "Ctrl n" { SwitchToMode "Normal"; }
+        bind "Ctrl r" { SwitchToMode "normal"; }
+        // Vim-like navigation for resizing
         bind "h" "Left" { Resize "Left"; }
         bind "j" "Down" { Resize "Down"; }
         bind "k" "Up" { Resize "Up"; }
@@ -63,34 +227,147 @@ keybinds {
         bind "=" "+" { Resize "Increase"; }
         bind "-" { Resize "Decrease"; }
     }
+
     pane {
-        bind "Ctrl p" { SwitchToMode "Normal"; }
+        bind "Ctrl p" { SwitchToMode "normal"; }
+        // Navigation
         bind "h" "Left" { MoveFocus "Left"; }
         bind "l" "Right" { MoveFocus "Right"; }
         bind "j" "Down" { MoveFocus "Down"; }
         bind "k" "Up" { MoveFocus "Up"; }
-        bind "n" { NewPane; SwitchToMode "Normal"; }
-        bind "d" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "r" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "x" { CloseFocus; SwitchToMode "Normal"; }
-        bind "f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-        bind "c" { SwitchToMode "RenamePane"; PaneNameInput 0; }
+        // Pane creation
+        bind "n" { NewPane; SwitchToMode "normal"; }
+        bind "d" { NewPane "Down"; SwitchToMode "normal"; }
+        bind "r" { NewPane "Right"; SwitchToMode "normal"; }
+        bind "s" { NewPane "Stacked"; SwitchToMode "normal"; }
+        // Pane management
+        bind "x" { CloseFocus; SwitchToMode "normal"; }
+        bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+        bind "z" { ToggleFloatingPanes; SwitchToMode "normal"; }
+        bind "c" { SwitchToMode "renamepane"; }
     }
+
+    move {
+        bind "Ctrl m" { SwitchToMode "normal"; }
+        bind "h" "Left" { MovePane "Left"; }
+        bind "j" "Down" { MovePane "Down"; }
+        bind "k" "Up" { MovePane "Up"; }
+        bind "l" "Right" { MovePane "Right"; }
+    }
+
+    tab {
+        bind "Ctrl t" { SwitchToMode "normal"; }
+        bind "h" "Left" { GoToPreviousTab; }
+        bind "l" "Right" { GoToNextTab; }
+        bind "n" { NewTab; SwitchToMode "normal"; }
+        bind "x" { CloseTab; SwitchToMode "normal"; }
+        bind "c" { SwitchToMode "renametab"; }
+        bind "1" { GoToTab 1; SwitchToMode "normal"; }
+        bind "2" { GoToTab 2; SwitchToMode "normal"; }
+        bind "3" { GoToTab 3; SwitchToMode "normal"; }
+        bind "[" { MoveTab "Left"; }
+        bind "]" { MoveTab "Right"; }
+    }
+
+    scroll {
+        bind "Ctrl s" { SwitchToMode "normal"; }
+        bind "e" { EditScrollback; SwitchToMode "normal"; }
+        bind "s" { SwitchToMode "entersearch"; }
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "Ctrl f" "PageDown" { PageScrollDown; }
+        bind "Ctrl b" "PageUp" { PageScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+        bind "g" { ScrollToTop; }
+        bind "G" { ScrollToBottom; }
+    }
+
+    search {
+        bind "Ctrl s" { SwitchToMode "normal"; }
+        bind "j" "Down" { Search "down"; }
+        bind "k" "Up" { Search "up"; }
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "w" { SearchToggleOption "Wrap"; }
+        bind "o" { SearchToggleOption "WholeWord"; }
+    }
+
+    session {
+        bind "Ctrl o" { SwitchToMode "normal"; }
+        bind "d" { Detach; }
+        bind "w" {
+            LaunchOrFocusPlugin "zellij:session-manager" {
+                floating true
+            }
+        }
+    }
+
+    // Global bindings available in most modes
     shared_except "locked" {
-        bind "Ctrl g" { SwitchToMode "Locked"; }
+        bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Ctrl q" { Quit; }
-        bind "Alt n" { NewPane; }
         bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
         bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
     }
+
+    // Mode switching bindings
+    shared_except "locked" "normal" {
+        bind "Enter" "Esc" { SwitchToMode "normal"; }
+    }
+}
+```
+
+### Advanced Keybinding Patterns
+
+#### Command Runner Bindings
+```kdl
+normal {
+    bind "Alt r" {
+        Run "htop" {
+            cwd "/tmp"
+            direction "Down"
+        }
+    }
+    bind "Alt g" {
+        Run "lazygit" {
+            direction "Right"
+        }
+    }
+}
+```
+
+#### Plugin Integration
+```kdl
+normal {
+    bind "Ctrl f" {
+        LaunchOrFocusPlugin "zellij:strider" {
+            floating true
+        }
+    }
+    bind "Ctrl p" {
+        LaunchOrFocusPlugin "file:/path/to/plugin.wasm"
+    }
+}
+```
+
+#### Text Input Shortcuts
+```kdl
+normal {
+    bind "Alt c" { WriteChars "clear"; WriteChars "\n"; }
+    bind "Alt l" { WriteChars "ls -la"; WriteChars "\n"; }
 }
 ```
 
 ### Special Keybind Notes
 
-- Use double quotes for newline characters: `"Ctrl \"\n\""` instead of `'Ctrl \'\n\'`
-- `shared_except` defines bindings available in all modes except specified ones
+- Use double quotes for special characters: `"Ctrl \"\n\""` instead of `'Ctrl \'\n\'`
 - Multiple keys can be bound to the same action: `bind "h" "Left" { MoveFocus "Left"; }`
+- Actions can be chained: `bind "n" { NewPane; SwitchToMode "normal"; }`
+- Case sensitivity matters for action names
+- String arguments must be quoted: `MoveFocus "Left"`
+- Numeric arguments don't need quotes: `GoToTab 1`
 
 ## Plugins Configuration
 
@@ -318,10 +595,16 @@ web_client {
 
 ### 2. Keybinding Design
 
-- **Consistency**: Use vim-like navigation (h/j/k/l)
-- **Modal efficiency**: Group related actions in appropriate modes
+- **Consistency**: Use vim-like navigation (h/j/k/l) across all modes
+- **Modal efficiency**: Group related actions in appropriate modes (pane operations in `pane` mode, etc.)
 - **Conflict avoidance**: Be careful not to override essential terminal shortcuts
-- **Documentation**: Comment complex keybindings
+- **Documentation**: Comment complex keybindings for future reference
+- **Logical grouping**: Place similar actions on nearby keys (e.g., `n` for new, `x` for close)
+- **Mode switching**: Provide clear entry and exit bindings for each mode
+- **Shared bindings**: Use `shared_except` for frequently used actions available across modes
+- **Action chaining**: Combine actions for efficient workflows (e.g., `NewPane; SwitchToMode "normal"`)
+- **Terminal compatibility**: Test special keys and modifiers with your terminal emulator
+- **Escape routes**: Always provide a way to return to normal mode from any mode
 
 ### 3. Layout Organization
 
