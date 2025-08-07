@@ -88,6 +88,17 @@ in
 
           tmux {
               bind "Ctrl b" { DumpScreen "${config.home.homeDirectory}/workspace/zellij-buffer.txt"; SwitchToMode "Normal"; }
+              bind "y" {
+                  Run "yazi" {
+                      floating true
+                      close_on_exit true
+                      width "80%"
+                      height "80%"
+                      x "10"
+                      y "5%"
+                  }
+                  SwitchToMode "Normal";
+              }
           }
 
           // ====

@@ -1,5 +1,5 @@
 ---
-applyTo: '**'
+applyTo: 'zellij.nix'
 description: Comprehensive guide for configuring Zellij terminal multiplexer
 ---
 
