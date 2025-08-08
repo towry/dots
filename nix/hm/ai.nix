@@ -20,7 +20,9 @@ in
     # ollama
     github-mcp-server
     mcp-proxy
-  ];
+  ] ++ (with pkgs.nix-ai-tools; [
+    opencode
+  ]);
 
   programs.fish = {
     shellAliases = {
@@ -147,12 +149,11 @@ in
       echo "goose recipes copied to ${config.xdg.configHome}/goose/recipes"
     '';
 
-    updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/memories/
-      # write the conf/llm/coding-rules.md content to the global_rules.md file in above dir.
-      echo "Updating windsurf global rules..."
-      cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.codeium/windsurf/memories/global_rules.md
-      echo "Windsurf global rules updated"
+    setupOpencodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ${config.xdg.configHome}/opencode/
+      cat ${../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
+      cat ${../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/instructions.md
+      echo "Opencode config setup done"
     '';
 
     updateRooCodeGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

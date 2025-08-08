@@ -1,0 +1,113 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "theme": "kanagawa",
+    "model": "z-ai/glm-4.5",
+    "autoupdate": false,
+    "instructions": [
+        "~/.config/opencode/instructions.md"
+    ],
+    "provider": {
+        "openrouter": {
+            "name": "OpenRouter",
+            "options": {
+                "apiKey": "{env:OPENROUTER_API_KEY}"
+            },
+            "models": {
+                /// Claude
+                "anthropic/claude-sonnet-4": {
+                    "name": "Claude Sonnet 4"
+                },
+                "anthropic/claude-3.7-sonnet:thinking": {
+                    "name": "Claude 3.7 Sonnet: Thinking"
+                },
+                /// z-ai
+                "z-ai/glm-4.5": {
+                    "name": "Z-AI GLM 4.5"
+                },
+                "z-ai/glm-4.5-air": {
+                    "name": "Z-AI GLM 4.5 Air"
+                },
+                /// openai
+                "openai/gpt-oss-120b": {
+                    "name": "OpenAI GPT-OSS 120B"
+                },
+                "openai/gpt-oss-20b": {
+                    "name": "OpenAI GPT-OSS 20B"
+                },
+                /// qwen
+                "qwen/qwen3-235b-a22b-thinking-2507": {
+                    "name": "Qwen 3 235B A22B Thinking"
+                },
+                "qwen/qwen3-coder": {
+                    "name": "Qwen 3 Coder"
+                },
+                /// moonshot-ai
+                "moonshotai/kimi-k2": {
+                    "name": "Kimi K2"
+                },
+                /// Google
+                "google/gemini-2.5-pro": {
+                    "name": "Google Gemini 2.5 Pro"
+                },
+                "google/gemini-2.5-flash": {
+                    "name": "Google Gemini 2.5 Flash"
+                }
+            }
+        }
+    },
+    "permission": {
+        "bash": {
+            "git commit": "ask",
+            "git add": "ask"
+        }
+    },
+    "mcp": {
+        "context7": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "@upstash/context7-mcp"
+            ],
+            "enabled": true,
+            "environment": {}
+        },
+        "playwright": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "@playwright/mcp@latest"
+            ],
+            "enabled": false
+        },
+        "tidewave": {
+            "type": "remote",
+            "url": "http://localhost:4000/tidewave/mcp",
+            "enabled": false
+        },
+        "github-mcp-server": {
+            "type": "local",
+            "command": [
+                "github-mcp-server",
+                "stdio",
+                "--toolsets",
+                "all"
+            ],
+            "enabled": false,
+            "environment": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+            }
+        },
+        "brave-search": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "@modelcontextprotocol/server-brave-search"
+            ],
+            "enabled": false,
+            "environment": {
+                "BRAVE_API_KEY": "{env:BRAVE_API_KEY}"
+            }
+        }
+    },
+    "lsp": {}
+}
