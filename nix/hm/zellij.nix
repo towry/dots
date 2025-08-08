@@ -99,6 +99,18 @@ in
                   }
                   SwitchToMode "Normal";
               }
+
+              bind "i" {
+                    Run "opencode" {
+                        floating true
+                        close_on_exit true
+                        width "90%"
+                        height "90%"
+                        x "10"
+                        y "5%"
+                    }
+                    SwitchToMode "Normal";
+              }
           }
 
           // ====
