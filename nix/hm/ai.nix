@@ -184,6 +184,10 @@ in
       source = ../../conf/llm/goose-recipes;
       recursive = true;
     };
+    "opencode/agent" = {
+      source = ../../conf/llm/opencode/agent;
+      recursive = true;
+    };
   };
 
   home.file = {

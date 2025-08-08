@@ -1,56 +1,34 @@
 {
     "$schema": "https://opencode.ai/config.json",
     "theme": "kanagawa",
-    "model": "z-ai/glm-4.5",
+    "model": "openrouter/openai/gpt-oss-120b",
     "autoupdate": false,
     "instructions": [
         "~/.config/opencode/instructions.md"
     ],
     "provider": {
+        /// if use tab change the MODE, but model not changing,
+        /// that means the model is not recognized, you must list it in
+        /// the provider.models.
+        /// openrouter is builtin provider in opencode, but not all models
+        /// is loaded.
         "openrouter": {
             "name": "OpenRouter",
             "options": {
                 "apiKey": "{env:OPENROUTER_API_KEY}"
             },
             "models": {
-                /// Claude
-                "anthropic/claude-sonnet-4": {
-                    "name": "Claude Sonnet 4"
+                "mistralai/mistral-small-24b-instruct-2501": {
+                    "name": "Mistral Small 24B Instruct"
                 },
-                "anthropic/claude-3.7-sonnet:thinking": {
-                    "name": "Claude 3.7 Sonnet: Thinking"
+                "meta-llama/llama-4-maverick": {
+                    "name": "Llama 4 Maverick"
                 },
-                /// z-ai
+                "meta-llama/llama-3.3-70b-instruct": {
+                    "name": "Llama 3.3 70B Instruct"
+                },
                 "z-ai/glm-4.5": {
-                    "name": "Z-AI GLM 4.5"
-                },
-                "z-ai/glm-4.5-air": {
-                    "name": "Z-AI GLM 4.5 Air"
-                },
-                /// openai
-                "openai/gpt-oss-120b": {
-                    "name": "OpenAI GPT-OSS 120B"
-                },
-                "openai/gpt-oss-20b": {
-                    "name": "OpenAI GPT-OSS 20B"
-                },
-                /// qwen
-                "qwen/qwen3-235b-a22b-thinking-2507": {
-                    "name": "Qwen 3 235B A22B Thinking"
-                },
-                "qwen/qwen3-coder": {
-                    "name": "Qwen 3 Coder"
-                },
-                /// moonshot-ai
-                "moonshotai/kimi-k2": {
-                    "name": "Kimi K2"
-                },
-                /// Google
-                "google/gemini-2.5-pro": {
-                    "name": "Google Gemini 2.5 Pro"
-                },
-                "google/gemini-2.5-flash": {
-                    "name": "Google Gemini 2.5 Flash"
+                    "name": "GLM 4.5"
                 }
             }
         }
