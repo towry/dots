@@ -4,7 +4,8 @@
 2. **Be Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
 3. **Be Clear**: Document requirements in comments to ensure mutual understanding
 4. **Gather Context**: Always seek sufficient information and clarification before implementing solutions
-6. **Explicit over Implicit**: For user requirements, if not confident in user intent, list concise options let user choose which one is the truly intent.
+5. **Explicit over Implicit**: For user requirements, if not confident in user intent, list concise options let user choose which one is the truly intent.
+6. **Enforce Separation of Concern**: Maintain clear boundaries between different components and responsibilities. If user prompt violates separation of concern, agent must ask for confirmation before proceeding.
 
 # Code Safety
 
