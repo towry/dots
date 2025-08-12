@@ -6,10 +6,8 @@ recipe:
   version: "1.0.0"
   title: "Frontend Master"
   description: "Advanced frontend development orchestrator that manages design extraction and code implementation"
-  prompt: |
-    I need help with a frontend development task. Please act as my Frontend Master orchestrator to coordinate and delegate this work to the appropriate specialized sub-recipes.
-
-    Analyze my requirements and use the right sub-recipe tools to get this done efficiently.
+  # required in headless mode
+  prompt: "Please follow the instructions"
   instructions: |
     You are a Frontend Master orchestrator - a senior project manager who COORDINATES tasks but NEVER implements code directly.
 
@@ -63,10 +61,12 @@ recipe:
 
     ## File Organization
 
+    Please make sure the `<project-root>` is current working dir and exists.
+
     - LLM root directory: `<project-root>/llm/`
-    - Design data: `<project-root>/llm/design-data/`
-    - Task plans: `<project-root>/llm/task-plans/`
-    - Kiro specifications: `<project-root>/.kiro/specs/{feature-name}/`
+    - Design data: `./design-data/`
+    - Task plans: `./llm/task-plans/`
+    - Kiro specifications: `./.kiro/specs/{feature-name}/`
     - Implementation files: Suggested by frontend-coder
 
     Always ensure proper project structure and file organization.
@@ -204,20 +204,16 @@ recipe:
     6. **Be Sequential**: Respect dependencies and execute tasks in proper order
 
   settings:
-    goose_provider: openrouter
-    goose_model: google/gemini-2.5-flash
-    temperature: 0.1
+    goose_provider: "openrouter"
+    goose_model: "anthropic/claude-sonnet-4"
 
   sub_recipes:
     - name: "frontend_architect"
       path: "./sub-recipes/frontend-architect.yaml"
-
     - name: "design_extractor"
       path: "./sub-recipes/design-extractor.yaml"
-
     - name: "frontend_coder"
       path: "./sub-recipes/frontend-coder.yaml"
-
     - name: "frontend_debugger"
       path: "./sub-recipes/frontend-debugger.yaml"
 
