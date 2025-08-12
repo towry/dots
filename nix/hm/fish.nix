@@ -260,7 +260,7 @@
         sudo nix-store --verify --repair
         nix-env --delete-generations old
         sudo nix-store --gc
-        sudo nix-collect-garbage -d --delete-older-than 5h
+        sudo nix-collect-garbage -d --delete-older-than 1d
         sudo nix-collect-garbage -d
       '';
     };
