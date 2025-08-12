@@ -11,14 +11,12 @@ let
 in
 {
   home.sessionVariables = {
-    GOPATH = "$HOME/workspace/goenv";
     HOMEBREW_NO_ANALYTICS = "1";
     HOMEBREW_NO_AUTO_UPDATE = "1";
   };
   home.activation = {
     ensureWorkspaceDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       run mkdir -p ${config.home.homeDirectory}/workspace
-      run mkdir -p ${config.home.homeDirectory}/workspace/goenv
       run mkdir -p ${config.home.homeDirectory}/.local/bin
       run mkdir -p ${config.home.homeDirectory}/Pictures/Screenshots
     '';
