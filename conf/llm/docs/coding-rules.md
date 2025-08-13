@@ -65,6 +65,7 @@
 4. **Package Managers**: Detect which one to use (npm/pnpm/yarn)
 5. **Kill process by port**: `killport <port>`, kill process that owning that port
 6. **Running shell command**: Detect current shell, use correct shell syntax.
+7. **File Changed Between Master/Main**: `jj df-file-base <file-path>`
 
 # Coding Preferences
 

@@ -115,6 +115,14 @@ in
           "df-names"
           "trunk()..first_ancestors(@)"
         ];
+        # file changes from trunk()
+        df-file-base = [
+          "diff"
+          "--no-pager"
+          "--git"
+          "-f"
+          "trunk()"
+        ];
         git-init = [
           "git"
           "init"
