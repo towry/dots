@@ -123,6 +123,15 @@ in
           "-f"
           "trunk()"
         ];
+        # file changes from prev commit
+        df-file-prev = [
+          "diff"
+          "--no-pager"
+          "--git"
+          "-f"
+          "@-"
+        ];
+
         git-init = [
           "git"
           "init"

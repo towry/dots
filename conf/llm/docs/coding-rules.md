@@ -66,6 +66,7 @@
 5. **Kill process by port**: `killport <port>`, kill process that owning that port
 6. **Running shell command**: Detect current shell, use correct shell syntax.
 7. **File Changed Between Master/Main**: `jj df-file-base <file-path>`
+8. **File Changed Between Prev commit**: `jj df-file-prev <file-path>`
 
 # Coding Preferences
 
