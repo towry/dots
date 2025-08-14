@@ -15,14 +15,17 @@ let
 
 in
 {
-  home.packages = with pkgs; [
-    aichat
-    # ollama
-    github-mcp-server
-    mcp-proxy
-  ] ++ (with pkgs.nix-ai-tools; [
-    opencode
-  ]);
+  home.packages =
+    with pkgs;
+    [
+      aichat
+      # ollama
+      github-mcp-server
+      mcp-proxy
+    ]
+    ++ (with pkgs.nix-ai-tools; [
+      opencode
+    ]);
 
   programs.fish = {
     shellAliases = {
@@ -162,6 +165,13 @@ in
       cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.roo/rules/global_rules.md
       echo "Roo global rules updated"
     '';
+
+    updateForgeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ${config.home.homeDirectory}/forge/
+      echo "Updating forge config..."
+      cat ${../../conf/llm/forge/forge.yaml} > ${config.home.homeDirectory}/forge.yaml
+      echo "Forge config updated"
+    '';
   };
 
   xdg.configFile = {
@@ -195,6 +205,12 @@ in
       enable = true;
       target = "${config.home.homeDirectory}/.kilocode/rules/coding_standards.md";
       source = ../../conf/llm/docs/coding-rules.md;
+    };
+    "forge-agents" = {
+      enable = true;
+      target = "${config.home.homeDirectory}/forge/agents";
+      source = ../../conf/llm/forge/agents;
+      recursive = true;
     };
     "goose-recipes" = {
       enable = true;
