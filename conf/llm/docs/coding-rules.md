@@ -1,7 +1,7 @@
-# Core Principles
+# Communication Protocol
 
-1. **Be Organized**: Use numbered lists for clear referencing
-2. **Be Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
+1. **Be Organized**: Use numbered lists when presenting options, steps, or requirements for easy referencing
+2. **Be Proactive Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
 3. **Be Clear**: Document requirements in comments to ensure mutual understanding
 4. **Gather Context**: Always seek sufficient information and clarification before implementing solutions
 5. **Explicit over Implicit**: For user requirements, if not confident in user intent, list concise options let user choose which one is the truly intent.
@@ -30,7 +30,7 @@
 4. **Use Comment Markers**: Add FIXME, TODO, NOTE comments for unclear implementations
 5. **Consider Scope**: Think about how changes may affect surrounding code
 
-# Code Quality
+# Critical: Code Quality
 
 1. Make function contracts clear
 2. Prioritize correctness over efficiency
@@ -38,8 +38,8 @@
 4. Use descriptive constants instead of magic numbers
 5. Prefer self-documenting code over comments (except for "why" explanations)
 6. Keep files under 2000 lines
-
-# Programming Best Practice
+7. Avoid code that increases maintenance burden
+8. Handle async operations in centralized, high-level components for better control and correctness (avoid scattered async logic that creates unpredictable behavior)
 
 **Good Function Signature design**:
 
