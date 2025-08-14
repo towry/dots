@@ -112,8 +112,12 @@ in
           "-r"
         ];
         df-names-all = [
-          "df-names"
-          "trunk()..first_ancestors(@)"
+          "diff"
+          "--ignore-working-copy"
+          "--no-pager"
+          "--name-only"
+          "--from"
+          "trunk()"
         ];
         # file changes from trunk()
         df-file-base = [
