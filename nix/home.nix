@@ -23,7 +23,7 @@ let
       # zls
       # vim-zellij-navigator
       path-git-format
-      uclanr
+      # uclanr
       nix-prefetch-github
       # nerd-font-patcher
       lxgw-wenkai
@@ -88,11 +88,11 @@ in
     ./hm/fzf.nix
     ./hm/editor.nix
     ./hm/frontend-dev.nix
-    ./hm/helix.nix
-    ./hm/tmux.nix
-    # ./hm/zellij.nix
+    # ./hm/helix.nix
+    # ./hm/tmux.nix
+    ./hm/zellij.nix
     ./hm/rust.nix
-    # ./hm/go.nix
+    ./hm/go.nix
     # ./hm/skhd.nix
     # ./hm/yabai.nix
     ./hm/dark-mode-notify.nix
@@ -100,8 +100,8 @@ in
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai.nix
-    ./hm/gptme.nix
-    ./hm/git-town.nix
+    # ./hm/gptme.nix
+    # ./hm/git-town.nix
     ./hm/docker.nix
     ./hm/asdf.nix
     ./hm/python.nix

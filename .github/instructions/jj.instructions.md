@@ -1,5 +1,5 @@
 ---
-applyTo: '**'
+applyTo: 'jj.nix'
 ---
 
 # docs about jj

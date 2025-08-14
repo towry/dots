@@ -324,6 +324,7 @@ in
       ".aider.*"
       ".aider*"
       ".opencode/"
+      ".roo/"
     ];
   };
 }

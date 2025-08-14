@@ -1,0 +1,70 @@
+name: design_extractor
+isGlobal: true
+isArchived: false
+recipe:
+  version: "1.0.0"
+  title: "Design Extractor"
+  description: "Extract Figma-like JSON data from design images"
+  instructions: |
+    You are an expert UI/UX designer with deep knowledge of design systems, visual hierarchy,
+    and component structures. Your task is to analyze design images and extract comprehensive
+    structural data that captures all design elements, their properties, and relationships.
+
+    When analyzing design images:
+    1. Identify the overall layout structure and visual hierarchy
+    2. Break down the design into logical components and atomic elements
+    3. Extract precise text content, styling information, and positioning data
+    4. Identify all interactive elements and their visual states
+    5. Capture complete color schemes, typography, spacing, and visual properties
+    6. Document component relationships and layout patterns
+    7. Structure the output as comprehensive, framework-agnostic JSON data
+
+  parameters:
+    - key: image_path
+      input_type: string
+      requirement: required
+      description: "Absolute Path to the design image file to analyze"
+
+    - key: design_type
+      input_type: string
+      requirement: optional
+      default: "webpage"
+      description: "Type of design (webpage, mobile-app, component, landing-page, etc.)"
+
+    - key: extraction_detail
+      input_type: string
+      requirement: optional
+      default: "detailed"
+      description: "Level of detail (basic, comprehensive, detailed)"
+
+  settings:
+    goose_provider: "openrouter"
+    # goose_model: "meta-llama/llama-4-maverick"
+    goose_model: "google/gemini-2.5-flash"
+    temperature: 0.1
+
+  extensions:
+    - type: builtin
+      name: developer
+      timeout: 300
+      bundled: true
+
+  prompt: |
+    Analyze the design image at {{ image_path }} and extract comprehensive structural data for {{ design_type }}.
+
+    Extraction detail level: {{ extraction_detail }}
+
+    Please carefully examine the image and provide a detailed, framework-agnostic analysis that includes:
+
+    1. **Design Metadata**: Extract complete design information including exact dimensions, comprehensive color palette, and detailed typography
+    2. **Layout Structure**: Identify all layout sections, their arrangement, and structural relationships
+    3. **Components**: Break down every UI element with precise properties, styling, positioning, and content
+    4. **Relationships**: Map complete hierarchical and spatial relationships between all components
+    5. **Design Analysis**: Provide insights on design patterns, complexity, and implementation guidance
+    6. **Assets**: Catalog all visual assets with detailed properties and specifications
+
+    Focus on creating high-quality, complete design data that captures every visual detail.
+    Be extremely thorough in documenting spacing, alignment, colors, typography, shadows, borders, and all visual properties.
+    Extract exact measurements, positions, and styling properties that would enable precise reconstruction.
+
+    Return the analysis as comprehensive JSON data, only JSON data, without any additional text or explanations.

@@ -117,7 +117,7 @@
     tm-rw = "tmux rename-window";
     tm-rs = "tmux rename-session";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
-    random-name = "uclanr";
+    # random-name = "uclanr";
     tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
     nix-shell-run-nix-info = "nix-shell -p nix-info --run \"nix-info -m\"";
   };
@@ -260,7 +260,7 @@
         sudo nix-store --verify --repair
         nix-env --delete-generations old
         sudo nix-store --gc
-        sudo nix-collect-garbage -d --delete-older-than 5h
+        sudo nix-collect-garbage -d --delete-older-than 1d
         sudo nix-collect-garbage -d
       '';
     };

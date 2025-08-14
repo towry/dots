@@ -23,10 +23,6 @@
       pkgs = final;
       system = final.system;
     };
-    opencode = final.callPackage ./pkgs/opencode.nix {
-      pkgs = final;
-      system = final.system;
-    };
     # git-fuzzy = final.callPackage ./pkgs/git-fuzzy.nix {};
     uclanr = final.callPackage ./pkgs/uclanr.nix {
       pkgs = final;
@@ -69,6 +65,7 @@
     # python311 = prev.python311;
     # python3Packages = prev.python311Packages;
     nix-priv = inputs.nix-priv.packages.${prev.system}.default;
+    nix-ai-tools = inputs.nix-ai-tools.packages.${prev.system};
   }
   // (import ./pkgs {
     inherit inputs;

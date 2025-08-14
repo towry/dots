@@ -93,6 +93,9 @@ in
         };
       };
       aliases = {
+        e = [
+          "edit"
+        ];
         wip = [
           "commit"
           "-i"
@@ -110,8 +113,25 @@ in
         ];
         df-names-all = [
           "df-names"
-          "trunk()..@"
+          "trunk()..first_ancestors(@)"
         ];
+        # file changes from trunk()
+        df-file-base = [
+          "diff"
+          "--no-pager"
+          "--git"
+          "-f"
+          "trunk()"
+        ];
+        # file changes from prev commit
+        df-file-prev = [
+          "diff"
+          "--no-pager"
+          "--git"
+          "-f"
+          "@-"
+        ];
+
         git-init = [
           "git"
           "init"
@@ -608,7 +628,7 @@ in
         ];
       };
       ui = {
-        conflict-marker-style = "git";
+        conflict-marker-style = "diff";
         log-word-wrap = false;
         editor = [
           "nvim"
@@ -916,7 +936,7 @@ in
         # Override immutable_heads to include pub/sandbox bookmark and commits older than 1 day
         ## description(regex:'^\\[JJ\\]:')
         ## added above make it slow
-        "immutable_heads()" = "builtin_immutable_heads() | present(pub/sandbox)";
+        "immutable_heads()" = "builtin_immutable_heads() | present(remote_bookmarks(exact:pub/sandbox))";
 
         "new_visible_commits(op)" =
           "at_operation(@-, at_operation(op, visible_heads()))..at_operation(op, visible_heads())";

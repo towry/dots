@@ -11,6 +11,7 @@ let
       "${config.home.homeDirectory}/Library/Application Support/aichat"
     else
       "${config.home.homeDirectory}/.config/aichat";
+  xdg = config.xdg;
 
 in
 {
@@ -19,10 +20,13 @@ in
     # ollama
     github-mcp-server
     mcp-proxy
-  ];
+  ] ++ (with pkgs.nix-ai-tools; [
+    opencode
+  ]);
 
   programs.fish = {
     shellAliases = {
+      goose-webdev = "goose run -s --recipe ${xdg.configHome}/goose/recipes/frontend-master.yaml";
     };
     functions = {
       gen-task-prompt = ''
@@ -139,14 +143,24 @@ in
       cat ${config.xdg.configHome}/goose/config-source.yaml > ${config.xdg.configHome}/goose/config.yaml
       chmod u+w ${config.xdg.configHome}/goose/config.yaml
       echo "goose config setup done"
+      # copy the goose recipes to the goose recipes directory
+      mkdir -p ${config.xdg.configHome}/goose/recipes
+      cp -rf ${config.xdg.configHome}/goose/goose-recipes_/* ${config.xdg.configHome}/goose/recipes/
+      echo "goose recipes copied to ${config.xdg.configHome}/goose/recipes"
     '';
 
-    updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/memories/
-      # write the conf/llm/coding-rules.md content to the global_rules.md file in above dir.
-      echo "Updating windsurf global rules..."
-      cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.codeium/windsurf/memories/global_rules.md
-      echo "Windsurf global rules updated"
+    setupOpencodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ${config.xdg.configHome}/opencode/
+      cat ${../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
+      cat ${../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/instructions.md
+      echo "Opencode config setup done"
+    '';
+
+    updateRooCodeGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ${config.home.homeDirectory}/.roo/rules/
+      echo "Updating roo global rules..."
+      cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.roo/rules/global_rules.md
+      echo "Roo global rules updated"
     '';
   };
 
@@ -165,6 +179,14 @@ in
     };
     "goose/task-plan-review-prompt.md" = {
       source = ../../conf/llm/docs/prompts/task-plan-review.md;
+    };
+    "goose/goose-recipes_" = {
+      source = ../../conf/llm/goose-recipes;
+      recursive = true;
+    };
+    "opencode/agent" = {
+      source = ../../conf/llm/opencode/agent;
+      recursive = true;
     };
   };
 

@@ -1,5 +1,5 @@
 ---
-model: openrouter:qwen/qwen3-coder:free
+model: openrouter:z-ai/glm-4-32b
 temperature: 0.1
 top_p: 0.2
 ---
