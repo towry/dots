@@ -4,13 +4,15 @@ isArchived: false
 recipe:
   version: "1.0.0"
   title: "Design Extractor"
+  sequential_when_repeated: true
   description: "Extract Figma-like JSON data from design images"
   instructions: |
     You are an expert UI/UX designer with deep knowledge of design systems, visual hierarchy,
     and component structures. Your task is to analyze design images and extract comprehensive
     structural data that captures all design elements, their properties, and relationships.
 
-    When analyzing design images:
+    When analyzing design images for PIXEL-PERFECT extraction:
+
     1. Identify the overall layout structure and visual hierarchy
     2. Break down the design into logical components and atomic elements
     3. Extract precise text content, styling information, and positioning data
@@ -18,6 +20,23 @@ recipe:
     5. Capture complete color schemes, typography, spacing, and visual properties
     6. Document component relationships and layout patterns
     7. Structure the output as comprehensive, framework-agnostic JSON data
+    8. Save the output JSON data to the specified file path
+
+    CRITICAL PIXEL-PERFECT REQUIREMENTS:
+    - Measure ALL dimensions in exact pixels (width, height, margins, padding)
+    - Extract precise RGB/HEX color values for every element
+    - Record exact font sizes, line heights, letter spacing in pixels
+    - Capture precise positioning coordinates (x, y) for all elements
+    - Document exact border widths, radius values, shadow offsets and blur
+    - Record exact spacing between elements (gaps, gutters)
+    - Identify exact image dimensions and aspect ratios
+    - Extract precise opacity/transparency values
+    - Document exact text alignment and positioning within containers
+
+    The image_path may contains non-ASCII characters, ensure it is properly encoded before read it.
+
+    If you have failed, please provide helpful message about why you failed.
+
 
   parameters:
     - key: image_path
@@ -37,24 +56,34 @@ recipe:
       default: "detailed"
       description: "Level of detail (basic, comprehensive, detailed)"
 
+    - key: output_file_path
+      input_type: string
+      requirement: optional
+      default: "llm/design-data/default.jsonc"
+      description: "Design data jsonc output file path"
+
   settings:
     goose_provider: "openrouter"
-    # goose_model: "meta-llama/llama-4-maverick"
-    goose_model: "google/gemini-2.5-flash"
-    temperature: 0.1
+    goose_model: "meta-llama/llama-4-maverick"
+    # goose_model: "google/gemini-2.5-flash"
+    GOOSE_MAX_TURNS: 1000
+    goose_max_turns: 1000
 
   extensions:
     - type: builtin
       name: developer
-      timeout: 300
+      timeout: 400
       bundled: true
+      description: "Core development tools for file operations, code editing and shell command running"
 
   prompt: |
-    Analyze the design image at {{ image_path }} and extract comprehensive structural data for {{ design_type }}.
+    Analyze the design image at {{ image_path }} and extract structural data for {{ design_type }} .
 
     Extraction detail level: {{ extraction_detail }}
 
-    Please carefully examine the image and provide a detailed, framework-agnostic analysis that includes:
+    You must save the design data in file: {{ output_file_path }}
+
+    Please carefully examine the image and generate a detailed, framework-agnostic analysis that includes:
 
     1. **Design Metadata**: Extract complete design information including exact dimensions, comprehensive color palette, and detailed typography
     2. **Layout Structure**: Identify all layout sections, their arrangement, and structural relationships
@@ -62,9 +91,6 @@ recipe:
     4. **Relationships**: Map complete hierarchical and spatial relationships between all components
     5. **Design Analysis**: Provide insights on design patterns, complexity, and implementation guidance
     6. **Assets**: Catalog all visual assets with detailed properties and specifications
+    7. **Description**: Add description about the design image, what it is.
 
-    Focus on creating high-quality, complete design data that captures every visual detail.
-    Be extremely thorough in documenting spacing, alignment, colors, typography, shadows, borders, and all visual properties.
-    Extract exact measurements, positions, and styling properties that would enable precise reconstruction.
-
-    Return the analysis as comprehensive JSON data, only JSON data, without any additional text or explanations.
+    After you done, please say: "I have successfully extracted the design data in {{ output_file_path }}, please continue with this file"
