@@ -83,7 +83,7 @@
         "/user/bin/firefox --start-debugger-server";
     cls = "clear";
     vi = "nvim";
-    lazy = "NVIM_APPNAME=lazy nvim";
+    lazy = "NVIM_APPNAME=neonvim nvim";
     # temporary for lazy branch dev
     astro = "NVIM_APPNAME=astro nvim";
     q = "exit";
