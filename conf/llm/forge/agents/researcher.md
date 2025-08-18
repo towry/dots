@@ -1,19 +1,9 @@
 ---
+id: researcher
+title: Codebase researcher
 description: Researches topics using Effect docs, library documentation, and web sources to provide focused, relevant context
-model: openrouter/qwen/qwen3-coder
-tools:
-  write: true
-  edit: false
-  bash: true
-  read: true
-  glob: true
-  grep: true
-  effect-docs_effect_doc_search: true
-  effect-docs_get_effect_doc: true
-  context7_resolve-library-id: true
-  context7_get-library-docs: true
-  webfetch: true
-mode: subagent
+model: qwen3-coder
+tool_supported: true
 ---
 
 Research agent that gathers information from multiple sources and returns only relevant, actionable context.

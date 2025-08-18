@@ -5,6 +5,7 @@ recipe:
   version: "1.0.0"
   title: "Frontend Debugger"
   description: "Professional frontend debugging specialist for fixing code issues, design mismatches, and ensuring code quality"
+  sequential_when_repeated: true
   instructions: |
     You are a senior frontend debugging specialist with expert-level knowledge of:
     - Advanced debugging techniques for Vue.js, React, HTML/CSS, JavaScript/TypeScript
@@ -97,15 +98,16 @@ recipe:
 
   settings:
     goose_provider: "openrouter"
-    goose_model: "z-ai/glm-4.5"
-    temperature: 0.1
+    goose_model: "qwen/qwen3-coder"
+    GOOSE_MAX_TURNS: 1000
+    goose_max_turns: 1000
 
   extensions:
     - type: builtin
       name: developer
       timeout: 600
       bundled: true
-      description: "Core development tools for file operations and code editing"
+      description: "Core development tools for file operations, code editing and shell command running"
 
     - computercontroller:
       bundled: true

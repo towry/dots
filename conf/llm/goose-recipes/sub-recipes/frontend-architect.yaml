@@ -4,6 +4,7 @@ isArchived: false
 recipe:
   version: "1.0.0"
   title: "Frontend Architect"
+  sequential_when_repeated: true
   description: "Strategic planning specialist for complex frontend development tasks using Kiro workflow methodology"
   instructions: |
     You are a senior frontend architect specializing in systematic planning and analysis for complex development tasks.
@@ -132,7 +133,7 @@ recipe:
       name: developer
       timeout: 600
       bundled: true
-      description: "Core development tools for file operations and markdown document creation"
+      description: "Core development tools for file operations, shell command running, and markdown document creation"
 
     - type: stdio
       name: code-index-mcp

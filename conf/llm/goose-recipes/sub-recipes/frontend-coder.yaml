@@ -4,6 +4,7 @@ isArchived: false
 recipe:
   version: "1.0.0"
   title: "Frontend Coder"
+  sequential_when_repeated: true
   description: "Professional frontend developer specializing in Vue, React, HTML/CSS implementation from design data"
   instructions: |
     You are a professional frontend developer with expert-level knowledge of:
@@ -26,14 +27,14 @@ recipe:
     5. **Performance**: Write optimized code with proper lazy loading and code splitting
     6. **Component Architecture**: Create reusable, well-structured components
 
-    When you encounter situations requiring delegation:
+    When you encounter situations requiring help or delegation:
     - Design clarifications or missing design specifications
     - API integration requirements or backend data structures
     - Complex business logic that needs domain expertise
     - Performance optimization beyond frontend scope
     - Security considerations requiring specialized knowledge
 
-    Always provide clear, actionable requirements when delegating to the parent agent.
+    Always provide clear, actionable requirements when delegating to the parent recipe.
 
   parameters:
     - key: task_description
@@ -51,7 +52,7 @@ recipe:
       input_type: string
       requirement: optional
       default: ""
-      description: "JSON design data from design-extractor or other design source"
+      description: "json file path or json string containing design data to inform implementation"
 
     - key: styling_approach
       input_type: string
@@ -85,15 +86,16 @@ recipe:
 
   settings:
     goose_provider: "openrouter"
-    goose_model: "z-ai/glm-4.5"
-    temperature: 0.2
+    goose_model: "qwen/qwen3-coder"
+    GOOSE_MAX_TURNS: 1000
+    goose_max_turns: 1000
 
   extensions:
     - type: builtin
       name: developer
-      timeout: 300
+      timeout: 400
       bundled: true
-      description: "Core development tools for file operations and code editing"
+      description: "Core development tools for file operations, code editing and shell command running"
     - type: stdio
       name: context7
       cmd: bunx
@@ -113,10 +115,12 @@ recipe:
     **Accessibility Level**: {{ accessibility_level }}
 
     {% if design_data %}
-    **Design Data**:
-    ```json
+    **Design Data (json string or json file)**:
+    ```
     {{ design_data | indent(2) }}
     ```
+
+    If the design_data is file path, read it first.
 
     Use this design data to inform your implementation. Extract all relevant information including:
     - Layout structure and component hierarchy
@@ -128,34 +132,3 @@ recipe:
     {% if additional_requirements %}
     **Additional Requirements**: {{ additional_requirements }}
     {% endif %}
-
-    ## Your Task
-
-    Implement the requested frontend functionality following these guidelines:
-
-    1. **Code Quality**: Write clean, maintainable, and well-documented code
-    2. **Modern Patterns**: Use current best practices for the chosen framework
-    3. **Responsive Design**: Ensure the implementation works across different screen sizes
-    4. **Accessibility**: Implement proper semantic HTML and ARIA attributes
-    5. **Performance**: Optimize for loading speed and runtime performance
-    6. **Reusability**: Create modular, reusable components when appropriate
-
-    ## Implementation Steps
-
-    1. Analyze the requirements and design data (if provided)
-    2. Plan the component structure and file organization
-    3. Implement the core functionality using the specified framework
-    4. Apply styling using the specified approach
-    5. Add responsive behavior and accessibility features
-    6. Include any necessary setup instructions and dependencies
-
-    ## When to Delegate
-
-    If you encounter any of the following, create delegation requirements:
-    - Missing or unclear design specifications
-    - API integration requirements not specified
-    - Complex business logic needing domain expertise
-    - Security considerations beyond frontend scope
-    - Performance requirements needing backend optimization
-
-    Provide a comprehensive implementation with all necessary files, setup instructions, and clear documentation. If delegation is needed, specify exactly what information or assistance is required from the parent agent.
