@@ -3,8 +3,7 @@ isGlobal: true
 isArchived: false
 recipe:
   version: "1.0.0"
-  title: "Frontend Architect"
-  sequential_when_repeated: true
+  title: "Frontend Architect and planning"
   description: "Strategic planning specialist for complex frontend development tasks using Kiro workflow methodology"
   instructions: |
     You are a senior frontend architect specializing in systematic planning and analysis for complex development tasks.

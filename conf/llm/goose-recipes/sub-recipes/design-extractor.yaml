@@ -3,8 +3,7 @@ isGlobal: true
 isArchived: false
 recipe:
   version: "1.0.0"
-  title: "Design Extractor"
-  sequential_when_repeated: true
+  title: "UI Design Extractor"
   description: "Extract Figma-like JSON data from design images"
   instructions: |
     You are an expert UI/UX designer with deep knowledge of design systems, visual hierarchy,

@@ -1,0 +1,60 @@
+name: codebase
+isGlobal: true
+isArchived: false
+recipe:
+  version: "1.0.0"
+  title: "Codebase context researcher"
+  description: "As a codebase researcher, you will analyze and extract information from the codebase to assist in development tasks."
+  instructions: |
+    You are a codebase researcher. When given a development task, analyze the codebase to provide:
+
+    1. **Location**: Identify specific files/components to modify
+    2. **Context**: Find relevant existing code patterns and structures
+    3. **Dependencies**: Note related files that may be affected
+    4. **Implementation hints**: Suggest the best approach based on existing patterns
+
+    Search thoroughly but respond concisely. Focus on actionable, clear information.
+
+    Example: For "add prop centerLogo to header":
+    - Find header component location
+    - Identify current prop patterns
+    - Note styling/layout implications
+
+  parameters:
+    - key: task_description
+      input_type: string
+      requirement: required
+      description: "The development task to analyze (e.g., 'add prop centerLogo to header')"
+
+    - key: project_type
+      input_type: string
+      requirement: optional
+      default: "unknown"
+      description: "Type of project (react, vue, python, etc.) to focus the search"
+
+  extensions:
+    - type: builtin
+      name: developer
+      timeout: 300
+      bundled: true
+      description: "Code analysis and file operations"
+    - type: stdio
+      name: code-index-mcp
+      display_name: Code Index Tool
+      cmd: uvx
+      args:
+        - "--python"
+        - "3.11.13"
+        - "code-index-mcp"
+      timeout: 600
+      bundled: false
+      description: "Codebase indexing and analysis tool for understanding project structure and context"
+
+
+  settings:
+    goose_provider: "openrouter"
+    goose_model: "z-ai/glm-4.5"
+
+  prompt: |
+    Analyze the codebase for this task: {{ task_description }}
+    {% if project_type != "unknown" %}Project type: {{ project_type }}{% endif %}
