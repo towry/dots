@@ -32,7 +32,7 @@
         magnification = true;
         mineffect = "scale";
         # minimize-to-application = true;
-        orientation = "left";
+        orientation = "bottom";
         showhidden = true;
         show-recents = true;
         tilesize = 32;
@@ -50,6 +50,7 @@
         MouseButtonMode = "TwoButton";
       };
 
+      # https://mynixos.com/nix-darwin/options/system.defaults.dock
       CustomUserPreferences = {
         # Settings of plist in ~/Library/Preferences/
         "com.apple.finder" = {

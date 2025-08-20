@@ -16,8 +16,9 @@
       "block-goose-cli"
     ];
     casks = [
+      "amethyst"
       "raycast"
-      "sublime-merge"
+      # "sublime-merge"
       # "font-maple-mono"
       "postico"
       # "spaceid"

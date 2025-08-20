@@ -22,7 +22,8 @@
                 },
                 "meta-llama/llama-4-maverick": {
                     "name": "Llama 4 Maverick",
-                    "tool_call": true
+                    "tool_call": true,
+                    "attachment": true
                 },
                 "meta-llama/llama-3.3-70b-instruct": {
                     "name": "Llama 3.3 70B Instruct",
@@ -38,6 +39,11 @@
                     "attachment": true,
                     "reasoning": false,
                     "temperature": false
+                },
+                "mistralai/mistral-medium-3.1": {
+                    "name": "Mistral Medium 3.1",
+                    "tool_call": true,
+                    "attachment": false
                 },
                 "moonshotai/kimi-vl-a3b-thinking": {
                     "name": "Kimi VL A3B Thinking",
