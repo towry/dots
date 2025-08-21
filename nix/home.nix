@@ -100,7 +100,7 @@ in
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai.nix
-    # ./hm/gptme.nix
+    ./hm/gptme.nix
     # ./hm/git-town.nix
     ./hm/docker.nix
     ./hm/asdf.nix
