@@ -58,6 +58,11 @@
 3. Use `actual` for test results and `expected` for assertions
 4. Test one behavior per test
 
+# Debug
+
+1. Make sure no existing debug command is running.
+2. Use `curl -I <dev-server-address>` to test if the dev server is running, before you start a new one.
+
 # Tool Usage
 
 1. **Search Tools**: Use `fd` for files, `rg` for content (avoid `find` and `grep`)

@@ -11,24 +11,17 @@
     pipx
   ];
 
-  # Create global Python version pin for uv
-  # This writes .python-version to the uv config directory
-  # On macOS/Linux: $XDG_CONFIG_HOME/uv or ~/.config/uv
-  xdg.configFile."uv/.python-version" = {
-    text = "3.11.13\n";
-  };
-
   # Set up Python environment variables
   home.sessionVariables = {
-    # Ensure uv uses the pinned Python version globally
-    UV_PYTHON = "3.13.5";
+    # Force uv to use system Python instead of downloading its own
+    UV_PYTHON = "${pkgs.python3}/bin/python3";
   };
 
-  # Optional: Set up uv configuration
+  # Configure uv to prefer system Python
   xdg.configFile."uv/uv.toml" = {
     text = ''
-      # Global Python version preference
-      python-preference = "only-managed"
+      # Use system Python instead of downloading managed versions
+      python-preference = "system"
     '';
   };
 }

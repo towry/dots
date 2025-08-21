@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    raycast
     # vscode
     # logseq
     # brave
@@ -17,7 +16,9 @@
       "block-goose-cli"
     ];
     casks = [
-      "sublime-merge"
+      "amethyst"
+      "raycast"
+      # "sublime-merge"
       # "font-maple-mono"
       "postico"
       # "spaceid"
