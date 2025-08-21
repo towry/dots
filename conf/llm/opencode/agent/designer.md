@@ -1,6 +1,6 @@
 ---
 description: Designer, converts images to Figma-compatible design data in JSONC format for webpage and UI element creation, return the generated file path
-model: openrouter/meta-llama/llama-4-maverick
+model: "openrouter/meta-llama/llama-4-maverick"
 permission:
   edit: allow
   bash: allow
