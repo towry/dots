@@ -18,6 +18,9 @@ in
     pkgs.iconv
     pkgs.libiconv
     pkgs.gettext
+    pkgs.sqlite
+    pkgs.sqlite.out
+    pkgs.sqlite.dev
     # pkgs.vscode-extensions.vadimcn.vscode-lldb
     pkgs.openssl
     pkgs.readline
@@ -35,8 +38,8 @@ in
 
     # Runtime library paths
     LD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/usr/local/lib:/usr/lib";
-    DYLD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/usr/local/lib:/usr/lib";
-    DYLD_FALLBACK_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/usr/local/lib:/usr/lib";
+    DYLD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
+    DYLD_FALLBACK_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
 
     # Linker flags with rpath
     LIBS = "-L${path-prefix}/lib -Wl,-rpath,${path-prefix}/lib -L/opt/homebrew/lib -Wl,-rpath,/opt/homebrew/lib";
