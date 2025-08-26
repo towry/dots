@@ -552,10 +552,10 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1755822572,
-        "narHash": "sha256-rfB2uVrxP1BQ/kY+t58RKPcxzyy/8DKqzgJAZ1OmvjY=",
+        "lastModified": 1756195644,
+        "narHash": "sha256-sVtZvP4SfPt+/0BuAg2lnhtOO4YwA8wIgj+cN0chgdE=",
         "ref": "refs/heads/main",
-        "rev": "cd673311d0e8515f59a78a6ab67239e8a70fe4fa",
+        "rev": "5911efc98e4c24d607e4c0b8828bb5d156cf49c1",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/pze/jj.git"

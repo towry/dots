@@ -1,11 +1,24 @@
-# Communication Protocol
+# Critical rules
 
-1. **Be Organized**: Use numbered lists when presenting options, steps, or requirements for easy referencing
-2. **Be Proactive Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
-3. **Be Clear**: Document requirements in comments to ensure mutual understanding
-4. **Gather Context**: Always seek sufficient information and clarification before implementing solutions
-5. **Explicit over Implicit**: For user requirements, if not confident in user intent, list concise options let user choose which one is the truly intent.
-6. **Enforce Separation of Concern**: Maintain clear boundaries between different components and responsibilities. If user prompt violates separation of concern, agent must ask for confirmation before proceeding.
+1. **Be Organized**: Use numbered lists when presenting options, steps, or
+   requirements for easy referencing
+2. **Be Proactive Transparent**: List follow-up actions and comment markers
+   (FIXME, TODO, NOTE) when relevant
+3. **Be Clear**: Document requirements in comments to ensure mutual
+   understanding
+4. **Gather Context**: Always seek sufficient information and clarification
+   before implementing solutions
+5. **Explicit over Implicit**: For user requirements, if not confident in user
+   intent, list concise options let user choose which one is the truly intent.
+6. **Enforce Separation of Concern**: Maintain clear boundaries between
+   different components and responsibilities. If user prompt violates separation
+   of concern, agent must ask for confirmation before proceeding.
+7. **Be Humble**: Acknowledge limitations and assist users with problems that
+   you don't fully understand or are stuck on.
+8. **Collaborative Debugging**: Provide clear debug steps, ask users for
+   results, and iteratively solve problems together.
+9. **Server Status Verification**: Before initiating server commands, verify
+   current server status with the user to prevent conflicts.
 
 # Code Safety
 
@@ -27,7 +40,8 @@
 1. **Clarify Requirements**: Ask for additional information if tasks are unclear
 2. **Validate Requirements**: Identify key requirements and edge cases
 3. **Break Down Tasks**: Divide complex tasks into small, manageable steps
-4. **Use Comment Markers**: Add FIXME, TODO, NOTE comments for unclear implementations
+4. **Use Comment Markers**: Add FIXME, TODO, NOTE comments for unclear
+   implementations
 5. **Consider Scope**: Think about how changes may affect surrounding code
 
 # Critical: Code Quality
@@ -39,7 +53,9 @@
 5. Prefer self-documenting code over comments (except for "why" explanations)
 6. Keep files under 2000 lines
 7. Avoid code that increases maintenance burden
-8. Handle async operations in centralized, high-level components for better control and correctness (avoid scattered async logic that creates unpredictable behavior)
+8. Handle async operations in centralized, high-level components for better
+   control and correctness (avoid scattered async logic that creates
+   unpredictable behavior)
 
 **Good Function Signature design**:
 
@@ -47,9 +63,8 @@
 - Use clear parameter names that reveal purpose
 - Document exact properties when object passing is necessary
 
-**Example**:
-✗ Bad: `downloadResume(candidateData, $store, componentInstance)`
-✓ Good: `downloadResume(candidateId, candidateName, authToken)`
+**Example**: ✗ Bad: `downloadResume(candidateData, $store, componentInstance)` ✓
+Good: `downloadResume(candidateId, candidateName, authToken)`
 
 # Testing
 
@@ -61,17 +76,22 @@
 # Debug
 
 1. Make sure no existing debug command is running.
-2. Use `curl -I <dev-server-address>` to test if the dev server is running, before you start a new one.
+2. Use `curl -I <dev-server-address>` to test if the dev server is running,
+   before you start a new one.
+3. Make sure ask user to commit current changes before you run lint or format
+   command, avoid making a lot of unexpected changes.
 
 # Tool Usage
 
-1. **Search Tools**: Use `fd` for files, `rg` for content (avoid `find` and `grep`)
+1. **Search Tools**: Use `fd` for files, `rg` for content (avoid `find` and
+   `grep`)
 2. **File Operation**: Always provide absolute file paths to MCP tools
-4. **Package Managers**: Detect which one to use (npm/pnpm/yarn)
-5. **Kill process by port**: `killport <port>`, kill process that owning that port
-6. **Running shell command**: Detect current shell, use correct shell syntax.
-7. **File Changed Between Master/Main**: `jj df-file-base <file-path>`
-8. **File Changed Between Prev commit**: `jj df-file-prev <file-path>`
+3. **Package Managers**: Detect which one to use (npm/pnpm/yarn)
+4. **Kill process by port**: `killport <port>`, kill process that owning that
+   port
+5. **Running shell command**: Detect current shell, use correct shell syntax.
+6. **File Changed Between Master/Main**: `jj df-file-base <file-path>`
+7. **File Changed Between Prev commit**: `jj df-file-prev <file-path>`
 
 # Coding Preferences
 
@@ -85,4 +105,5 @@
 2. Validate behavior preservation during refactoring
 3. Update documentation and tests for significant changes
 4. Ask for help when details are needed for decisions
-5. Avoid duplicate error messages - prevent multiple layers from showing similar user-facing error messages
+5. Avoid duplicate error messages - prevent multiple layers from showing similar
+   user-facing error messages

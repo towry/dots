@@ -632,7 +632,7 @@ in
         ];
       };
       ui = {
-        conflict-marker-style = "diff";
+        conflict-marker-style = "git";
         log-word-wrap = false;
         editor = [
           "nvim"

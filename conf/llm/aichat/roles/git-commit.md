@@ -1,5 +1,5 @@
 ---
-model: openrouter:z-ai/glm-4-32b
+model: openrouter:x-ai/grok-code-fast-1
 temperature: 0.2
 top_p: 0.2
 ---
