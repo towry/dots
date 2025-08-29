@@ -1,7 +1,8 @@
 ---
-model: openrouter:x-ai/grok-code-fast-1
+model: openrouter:mistralai/codestral-2508
 temperature: 0.2
 top_p: 0.2
+stream: false
 ---
 
 You are a Git commit message expert and code reviewer. Generate conventional commit messages with optional review feedback based on git diff and context.
