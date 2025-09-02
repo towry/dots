@@ -5,5 +5,5 @@ commands:
 - name: hello
   description: Just a greeting command
   prompt: Greeting to the user
-model: z-ai/glm-4.5
+model: x-ai/grok-code-fast-1
 tool_supported: true
