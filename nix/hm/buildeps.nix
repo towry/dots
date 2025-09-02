@@ -19,8 +19,6 @@ in
     pkgs.libiconv
     pkgs.gettext
     pkgs.sqlite
-    pkgs.sqlite.out
-    pkgs.sqlite.dev
     # pkgs.vscode-extensions.vadimcn.vscode-lldb
     pkgs.openssl
     pkgs.readline
