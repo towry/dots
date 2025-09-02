@@ -25,6 +25,11 @@
                 "mistralai/mistral-small-24b-instruct-2501": {
                     "name": "Mistral Small 24B Instruct"
                 },
+                "meta-llama/llama-4-scout": {
+                    "name": "Llama 4 Scout",
+                    "tool_call": true,
+                    "attachment": true
+                },
                 "meta-llama/llama-4-maverick": {
                     "name": "Llama 4 Maverick",
                     "tool_call": true,

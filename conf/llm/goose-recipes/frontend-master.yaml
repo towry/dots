@@ -27,7 +27,7 @@ recipe:
 
   settings:
     goose_provider: "openrouter"
-    goose_model: "meta-llama/llama-4-scout"
+    goose_model: "x-ai/grok-4"
     GOOSE_MAX_TURNS: 1000
     goose_max_turns: 1000
 
