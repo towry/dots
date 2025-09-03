@@ -97,10 +97,40 @@ in
           "edit"
         ];
         wip = [
-          "commit"
-          "-i"
-          "--message"
-          "WIP: empty message"
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            msg=""
+
+            # Parse arguments
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                -m|--message)
+                  shift
+                  msg="$1"
+                  ;;
+                *)
+                  # If it's not a flag, treat it as the message
+                  msg="$1"
+                  ;;
+              esac
+              shift || true
+            done
+
+            # Use custom message if provided, otherwise use default
+            if [[ -n "$msg" ]]; then
+              jj commit -i --message "WIP: $msg"
+            else
+              jj commit -i --message "WIP: empty message"
+            fi
+          ''
+          ""
         ];
         wk = [ "workspace" ];
         df = [ "diff" ];
