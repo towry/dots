@@ -17,23 +17,10 @@
    you don't fully understand or are stuck on.
 8. **Collaborative Debugging**: Provide clear debug steps, ask users for
    results, and iteratively solve problems together.
-9. **Server Status Verification**: Before initiating server commands, verify
-   current server status with the user to prevent conflicts.
-
-# Code Safety
-
-1. Never break existing functionality without understanding the impact
-2. Only use variables/methods you're certain exist
-3. Don't remove code you don't understand
-4. Preserve existing code structure and style unless it's flawed
-5. Break large tasks into smaller, verifiable steps
-6. Check for external dependencies before editing files
-
-# Data & Security
-
-1. Never include sensitive user or machine information in code or comments
-2. Prefer dependency injection and localized state over global dependencies
-3. Use explicit parameter passing instead of parent component access
+9. **Process Conflict Prevention**: Before running commands that start
+   long-running processes, verify no conflicting processes are already running.
+   For example, starting multiple instances of `npm run dev` can break existing
+   tasks and cause unexpected behavior.
 
 # Development Process
 
@@ -46,16 +33,32 @@
 
 # Critical: Code Quality
 
-1. Make function contracts clear
-2. Prioritize correctness over efficiency
-3. Follow DRY principles but don't religiously follow SOLID
-4. Use descriptive constants instead of magic numbers
-5. Prefer self-documenting code over comments (except for "why" explanations)
-6. Keep files under 2000 lines
-7. Avoid code that increases maintenance burden
-8. Handle async operations in centralized, high-level components for better
-   control and correctness (avoid scattered async logic that creates
-   unpredictable behavior)
+- Make function contracts clear
+- Prioritize correctness over efficiency
+- Follow DRY principles but don't religiously follow SOLID
+- Use descriptive constants instead of magic numbers
+- Prefer self-documenting code over comments (except for "why" explanations)
+- Keep files under 2000 lines
+- Avoid code that increases maintenance burden
+- Handle async operations in centralized, high-level components for better
+  control and correctness (avoid scattered async logic that creates
+  unpredictable behavior)
+- Improves readability
+- Reduces verbosity
+- Minimize property lookup overhead for better performance
+- Write code that's easy to refactor
+- Never include sensitive user or machine information in code or comments
+- Prefer dependency injection and localized state over global dependencies
+- Use explicit parameter passing instead of parent component access
+- Never break existing functionality without understanding the impact
+- Only use variables/methods you're certain exist, otherwise ask the user
+- Don't remove code you don't understand
+- Preserve existing code structure and style unless it's flawed
+- Break large tasks into smaller, verifiable steps
+- Check for external dependencies before editing files
+- Only modify code relevant to the task
+- Avoid major pattern changes unless necessary
+- Avoid over-engineering
 
 **Good Function Signature design**:
 
@@ -81,7 +84,7 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 3. Make sure ask user to commit current changes before you run lint or format
    command, avoid making a lot of unexpected changes.
 
-# Tool Usage
+# Shell commands
 
 1. **Search Tools**: Use `fd` for files, `rg` for content (avoid `find` and
    `grep`)
@@ -92,12 +95,6 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 5. **Running shell command**: Detect current shell, use correct shell syntax.
 6. **File Changed Between Master/Main**: `jj df-file-base <file-path>`
 7. **File Changed Between Prev commit**: `jj df-file-prev <file-path>`
-
-# Coding Preferences
-
-1. **Focus**: Only modify code relevant to the task
-2. **Architecture**: Avoid major pattern changes unless instructed
-3. **Simplicity**: Use simple solutions and avoid over-engineering
 
 # Error Handling
 
