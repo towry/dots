@@ -29,9 +29,7 @@
 1. **Clarify Requirements**: Ask for additional information if tasks are unclear
 2. **Validate Requirements**: Identify key requirements and edge cases
 3. **Break Down Tasks**: Divide complex tasks into small, manageable steps
-4. **Use Comment Markers**: Add FIXME, TODO, NOTE comments for unclear
-   implementations
-5. **Consider Scope**: Think about how changes may affect surrounding code
+4. **Consider Scope**: Think about how changes may affect surrounding code
 
 # Critical: Code Quality
 
