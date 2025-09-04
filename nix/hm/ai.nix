@@ -29,6 +29,7 @@ in
 
   programs.fish = {
     shellAliases = {
+      gen-copilot-spec = "uvx --from git+https://github.com/github/spec-kit.git specify init";
       goose-webdev = "goose run -s --recipe ${xdg.configHome}/goose/recipes/frontend-master.yaml";
     };
     functions = {
