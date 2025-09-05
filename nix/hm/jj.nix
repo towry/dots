@@ -226,6 +226,37 @@ in
           "-r"
           "stack(@)"
         ];
+        # useful to show diverge changeids.
+        log-changeid = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            changeid=""
+
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                *)
+                  changeid="$1"
+                  ;;
+              esac
+              shift || true
+            done
+
+            if [[ -z "$changeid" ]]; then
+              echo "Missing changeid argument"
+              exit 1
+            fi
+
+            jj log -r "change_id($changeid)"
+          ''
+          ""
+        ];
         lmain = [
           "log"
           "-r"
@@ -764,7 +795,7 @@ in
                 format_short_change_id(commit.change_id()) ++ " hidden"
               ),
               label(if(commit.divergent(), "divergent"),
-                format_short_change_id(commit.change_id()) ++ if(commit.divergent(), "??")
+                format_short_change_id(commit.change_id()) ++ if(commit.divergent(), "")
               )
             )
           )
