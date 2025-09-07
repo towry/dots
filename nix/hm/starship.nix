@@ -10,11 +10,12 @@ in
 {
 
   home.packages = [
-    pkgs.starship-jj
+    # pkgs.starship-jj
   ];
 
   xdg.configFile = {
     "starship-jj/starship-jj.toml" = {
+      enable = false;
       text = ''
         [bookmarks]
         search_depth = 10
@@ -133,6 +134,7 @@ in
       };
       custom = {
         jj = {
+          disabled = true;
           command = "prompt";
           format = "$output";
           ignore_timeout = true;
