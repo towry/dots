@@ -1,7 +1,7 @@
 ---
 description: Expert frontend coder focused on precise coding implementation with Vue, React, and modern UI frameworks
 mode: subagent
-model: openrouter/z-ai/glm-4.5
+model: openrouter/qwen/qwen3-max
 tools:
   write: true
   edit: true

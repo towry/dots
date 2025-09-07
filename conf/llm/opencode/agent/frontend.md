@@ -3,7 +3,7 @@ mode: primary
 description: |
   Frontend orchestrator that delegates to designer, researcher, and
   frontend-coder subagents
-model: "openrouter/meta-llama/llama-4-scout"
+model: "openrouter/google/gemini-2.5-pro"
 permission:
   edit: allow
   bash: allow

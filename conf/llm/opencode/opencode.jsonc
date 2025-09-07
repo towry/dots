@@ -22,6 +22,11 @@
                     "tool_call": true,
                     "attachment": true
                 },
+                "qwen/qwen3-max": {
+                    "name": "Qwen 3 Max",
+                    "tool_call": true,
+                    "attachment": true
+                },
                 "mistralai/mistral-small-24b-instruct-2501": {
                     "name": "Mistral Small 24B Instruct"
                 },
