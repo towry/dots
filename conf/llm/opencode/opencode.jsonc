@@ -17,8 +17,23 @@
                 "apiKey": "{env:OPENROUTER_API_KEY}"
             },
             "models": {
+                "deepseek/deepseek-chat-v3.1": {
+                    "name": "DeepSeek Chat V3.1",
+                    "tool_call": true,
+                    "attachment": true
+                },
+                "qwen/qwen3-max": {
+                    "name": "Qwen 3 Max",
+                    "tool_call": true,
+                    "attachment": true
+                },
                 "mistralai/mistral-small-24b-instruct-2501": {
                     "name": "Mistral Small 24B Instruct"
+                },
+                "meta-llama/llama-4-scout": {
+                    "name": "Llama 4 Scout",
+                    "tool_call": true,
+                    "attachment": true
                 },
                 "meta-llama/llama-4-maverick": {
                     "name": "Llama 4 Maverick",
@@ -36,9 +51,7 @@
                 "z-ai/glm-4.5v": {
                     "name": "GLM 4.5V",
                     "tool_call": true,
-                    "attachment": true,
-                    "reasoning": false,
-                    "temperature": false
+                    "attachment": true
                 },
                 "mistralai/mistral-medium-3.1": {
                     "name": "Mistral Medium 3.1",

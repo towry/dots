@@ -1,88 +1,90 @@
-# Communication Protocol
+# Critical and general rules
 
-1. **Be Organized**: Use numbered lists when presenting options, steps, or requirements for easy referencing
-2. **Be Proactive Transparent**: List follow-up actions and comment markers (FIXME, TODO, NOTE) when relevant
-3. **Be Clear**: Document requirements in comments to ensure mutual understanding
-4. **Gather Context**: Always seek sufficient information and clarification before implementing solutions
-5. **Explicit over Implicit**: For user requirements, if not confident in user intent, list concise options let user choose which one is the truly intent.
-6. **Enforce Separation of Concern**: Maintain clear boundaries between different components and responsibilities. If user prompt violates separation of concern, agent must ask for confirmation before proceeding.
+Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 
-# Code Safety
+1. Be Organized: Use numbered lists for options, steps, or requirements
+2. Be Transparent: Use FIXME, TODO, NOTE when relevant
+3. Be Clear: Document assumptions and requirements briefly in comments
+4. Gather Context: Ask for missing info before implementing
+5. Explicit over Implicit: If intent is unclear, list concise options and let
+   the user choose
+6. Separation of Concerns: Keep boundaries clear; confirm before crossing layers
+7. Be Humble: Acknowledge limitations and ask for help when stuck
+8. If you encounter a port conflict, it usually means the service is already
+   running, or you can use the `killport <port>` shell command to terminate the
+   process.
+9. Iteratively refine your solution by applying the guidelines below.
 
-1. Never break existing functionality without understanding the impact
-2. Only use variables/methods you're certain exist
-3. Don't remove code you don't understand
-4. Preserve existing code structure and style unless it's flawed
-5. Break large tasks into smaller, verifiable steps
-6. Check for external dependencies before editing files
+# When implementing and fixing
 
-# Data & Security
+- Clarify Requirements: Ask questions when tasks are unclear
+- Validate: Identify key requirements and edge cases
+- Break Down: Split into small, verifiable steps
+- Consider Scope: Check impact on surrounding code
+- Do not place _mock code_ within intermediate layers. Ensure the lower-level
+  implementation is complete, and keep all mocking behavior in the topmost
+  layer.
+- Add FIXME, TODO, NOTE for important notices
+- Write helpful comments for “why”, prefer self-documenting code for “what”
+- Prioritize correctness and clarity over micro-optimizations
+- Follow DRY pragmatically: apply SOLID principles when they improve readability
+  and maintainability; avoid unnecessary abstractions that do not solve a clear
+  problem.
+- Use descriptive constants instead of magic numbers (e.g., const MAX_RETRIES =
+  3).
+- Preserve existing structure and style unless they contradict project standards
+  or cause readability/maintainability issues.
+- Prefer dependency injection and localized state over globals: allow direct
+  access in small standalone scripts or configuration files where DI overhead
+  outweighs its benefit.
+- Use explicit parameter passing instead of parent/ambient access
+- Don’t break existing functionality without understanding impact
+- Only use APIs/variables you are certain exist; otherwise confirm or guard
+- Only modify code relevant to the task: any cross-module or cross-layer changes
+  must be documented and justified.
+- Prefer simple solutions that minimize side effects and blast radius
 
-1. Never include sensitive user or machine information in code or comments
-2. Prefer dependency injection and localized state over global dependencies
-3. Use explicit parameter passing instead of parent component access
+**Good function signature design**
 
-# Development Process
-
-1. **Clarify Requirements**: Ask for additional information if tasks are unclear
-2. **Validate Requirements**: Identify key requirements and edge cases
-3. **Break Down Tasks**: Divide complex tasks into small, manageable steps
-4. **Use Comment Markers**: Add FIXME, TODO, NOTE comments for unclear implementations
-5. **Consider Scope**: Think about how changes may affect surrounding code
-
-# Critical: Code Quality
-
-1. Make function contracts clear
-2. Prioritize correctness over efficiency
-3. Follow DRY principles but don't religiously follow SOLID
-4. Use descriptive constants instead of magic numbers
-5. Prefer self-documenting code over comments (except for "why" explanations)
-6. Keep files under 2000 lines
-7. Avoid code that increases maintenance burden
-8. Handle async operations in centralized, high-level components for better control and correctness (avoid scattered async logic that creates unpredictable behavior)
-
-**Good Function Signature design**:
-
-- Pass only needed primitive values, not entire objects
+- Pass only needed primitives, not entire objects
 - Use clear parameter names that reveal purpose
-- Document exact properties when object passing is necessary
+- When passing objects, document exact properties used
 
-**Example**:
-✗ Bad: `downloadResume(candidateData, $store, componentInstance)`
-✓ Good: `downloadResume(candidateId, candidateName, authToken)`
+Example: ✗ Bad: `downloadResume(candidateData, $store, componentInstance)` ✓
+Good: `downloadResume(candidateId, candidateName, authToken)`
 
-# Testing
+**Error Handling**
 
-1. Use BDD methodology with GIVEN/WHEN/THEN structure
-2. Write descriptive test names that reflect scenarios
-3. Use `actual` for test results and `expected` for assertions
-4. Test one behavior per test
-
-# Debug
-
-1. Make sure no existing debug command is running.
-2. Use `curl -I <dev-server-address>` to test if the dev server is running, before you start a new one.
-
-# Tool Usage
-
-1. **Search Tools**: Use `fd` for files, `rg` for content (avoid `find` and `grep`)
-2. **File Operation**: Always provide absolute file paths to MCP tools
-4. **Package Managers**: Detect which one to use (npm/pnpm/yarn)
-5. **Kill process by port**: `killport <port>`, kill process that owning that port
-6. **Running shell command**: Detect current shell, use correct shell syntax.
-7. **File Changed Between Master/Main**: `jj df-file-base <file-path>`
-8. **File Changed Between Prev commit**: `jj df-file-prev <file-path>`
-
-# Coding Preferences
-
-1. **Focus**: Only modify code relevant to the task
-2. **Architecture**: Avoid major pattern changes unless instructed
-3. **Simplicity**: Use simple solutions and avoid over-engineering
-
-# Error Handling
-
-1. Explicit error propagation is better than silent failure
+1. Prefer explicit error propagation over silent failures
 2. Validate behavior preservation during refactoring
 3. Update documentation and tests for significant changes
 4. Ask for help when details are needed for decisions
-5. Avoid duplicate error messages - prevent multiple layers from showing similar user-facing error messages
+5. Avoid duplicate user-facing error messages across layers
+
+# When testing
+
+1. Use BDD: GIVEN/WHEN/THEN
+2. Write descriptive test names by scenario
+3. Use `actual` for results and `expected` for assertions
+4. Test one behavior per test
+
+# When debugging
+
+1. Ensure no existing debug/dev process is running
+2. Run shell command `curl -I <dev-server-address>` to check dev server before
+   starting a new one
+3. Ask to commit current changes before running lint/format to avoid unexpected
+   diffs
+4. Avoid inserting mock or debug code directly into implementation modules;
+   instead, use top-level scaffolding or dedicated debug modules to manage test
+   data and keep core logic clear.
+
+# When researching
+
+1. Search Tools: Use `fd` for files, `rg` for content
+2. File Operations: Provide absolute file paths to MCP tools
+3. Package Managers: Detect the correct one (npm/pnpm/yarn)
+4. Kill by port: `killport <port>`
+5. Running shell commands: Detect current shell and use correct syntax
+6. File changed vs main: `jj df-file-base <file-path>`
+7. File changed vs previous commit: `jj df-file-prev <file-path>`

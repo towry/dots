@@ -86,7 +86,7 @@ recipe:
 
   settings:
     goose_provider: "openrouter"
-    goose_model: "qwen/qwen3-coder"
+    goose_model: "x-ai/grok-code-fast-1"
     GOOSE_MAX_TURNS: 1000
     goose_max_turns: 1000
 

@@ -27,7 +27,7 @@ recipe:
 
   settings:
     goose_provider: "openrouter"
-    goose_model: "anthropic/claude-sonnet-4"
+    goose_model: "x-ai/grok-4"
     GOOSE_MAX_TURNS: 1000
     goose_max_turns: 1000
 

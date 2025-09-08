@@ -53,7 +53,7 @@ recipe:
 
   settings:
     goose_provider: "openrouter"
-    goose_model: "z-ai/glm-4.5"
+    goose_model: "x-ai/grok-code-fast-1"
 
   prompt: |
     Analyze the codebase for this task: {{ task_description }}

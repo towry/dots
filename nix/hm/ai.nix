@@ -29,6 +29,7 @@ in
 
   programs.fish = {
     shellAliases = {
+      gen-copilot-spec = "uvx --from git+https://github.com/github/spec-kit.git specify init";
       goose-webdev = "goose run -s --recipe ${xdg.configHome}/goose/recipes/frontend-master.yaml";
     };
     functions = {
@@ -171,6 +172,17 @@ in
       echo "Updating forge config..."
       cat ${../../conf/llm/forge/forge.yaml} > ${config.home.homeDirectory}/forge.yaml
       echo "Forge config updated"
+    '';
+
+    updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/memories/
+      # write the conf/llm/coding-rules.md content to the global_rules.md file in above dir.
+      echo "Updating windsurf global rules..."
+      cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.codeium/windsurf/memories/global_rules.md
+      echo "Windsurf global rules updated"
+
+      echo "Updating AGENTS.md in xdg config dir..."
+      cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.config/AGENTS.md
     '';
   };
 

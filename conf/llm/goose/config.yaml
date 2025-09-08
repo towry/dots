@@ -4,7 +4,7 @@ GOOSE_PROVIDER: openrouter
 # GOOSE_LEAD_MODEL: qwen/qwen3-235b-a22b-thinking-2507
 GOOSE_MODE: auto
 GOOSE_PROVIDER__TYPE: OpenRouter
-GOOSE_MODEL:  z-ai/glm-4.5
+GOOSE_MODEL:  x-ai/grok-code-fast-1
 GOOSE_TOOLSHIM: false
 GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 GOOSE_CLI_MIN_PRIORITY: 0.0

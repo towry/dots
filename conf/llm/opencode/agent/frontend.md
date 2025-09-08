@@ -3,18 +3,18 @@ mode: primary
 description: |
   Frontend orchestrator that delegates to designer, researcher, and
   frontend-coder subagents
-model: "openrouter/z-ai/glm-4.5v"
+model: "openrouter/google/gemini-2.5-pro"
 permission:
   edit: allow
   bash: allow
   write: allow
 tools:
   write: true
-  edit: true
+  edit: false
   bash: true
   read: true
   glob: true
-  grep: true
+  grep: false
 ---
 
 You are a **Frontend Manager**. You excel at orchestration and delegation but
