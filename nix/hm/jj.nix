@@ -410,6 +410,11 @@ in
           ''
           ""
         ];
+        # resolve duplicate changeid issue
+        renew-change-id = [
+          "metaedit"
+          "--update-change-id"
+        ];
         mv-back = [
           "bookmark"
           "move"
