@@ -1,4 +1,4 @@
-# Critical rules
+# Critical and general rules
 
 Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 
@@ -13,16 +13,17 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 8. If you encounter a port conflict, it usually means the service is already
    running, or you can use the `killport <port>` shell command to terminate the
    process.
+9. Iteratively refine your solution by applying the guidelines below.
 
-# Development Process
+# When implementing and fixing
 
-1. Clarify Requirements: Ask questions when tasks are unclear
-2. Validate: Identify key requirements and edge cases
-3. Break Down: Split into small, verifiable steps
-4. Consider Scope: Check impact on surrounding code
-
-# Critical: Code Quality
-
+- Clarify Requirements: Ask questions when tasks are unclear
+- Validate: Identify key requirements and edge cases
+- Break Down: Split into small, verifiable steps
+- Consider Scope: Check impact on surrounding code
+- Do not place _mock code_ within intermediate layers. Ensure the lower-level
+  implementation is complete, and keep all mocking behavior in the topmost
+  layer.
 - Add FIXME, TODO, NOTE for important notices
 - Write helpful comments for “why”, prefer self-documenting code for “what”
 - Prioritize correctness and clarity over micro-optimizations
@@ -52,14 +53,22 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 Example: ✗ Bad: `downloadResume(candidateData, $store, componentInstance)` ✓
 Good: `downloadResume(candidateId, candidateName, authToken)`
 
-# Testing
+**Error Handling**
+
+1. Prefer explicit error propagation over silent failures
+2. Validate behavior preservation during refactoring
+3. Update documentation and tests for significant changes
+4. Ask for help when details are needed for decisions
+5. Avoid duplicate user-facing error messages across layers
+
+# When testing
 
 1. Use BDD: GIVEN/WHEN/THEN
 2. Write descriptive test names by scenario
 3. Use `actual` for results and `expected` for assertions
 4. Test one behavior per test
 
-# Debug
+# When debugging
 
 1. Ensure no existing debug/dev process is running
 2. Run shell command `curl -I <dev-server-address>` to check dev server before
@@ -70,7 +79,7 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
    instead, use top-level scaffolding or dedicated debug modules to manage test
    data and keep core logic clear.
 
-# Shell commands
+# When researching
 
 1. Search Tools: Use `fd` for files, `rg` for content
 2. File Operations: Provide absolute file paths to MCP tools
@@ -79,11 +88,3 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 5. Running shell commands: Detect current shell and use correct syntax
 6. File changed vs main: `jj df-file-base <file-path>`
 7. File changed vs previous commit: `jj df-file-prev <file-path>`
-
-# Error Handling
-
-1. Prefer explicit error propagation over silent failures
-2. Validate behavior preservation during refactoring
-3. Update documentation and tests for significant changes
-4. Ask for help when details are needed for decisions
-5. Avoid duplicate user-facing error messages across layers
