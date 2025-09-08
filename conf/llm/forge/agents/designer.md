@@ -2,12 +2,12 @@
 id: designer
 title: Web designer
 description: Converts images to Figma-compatible design data in JSONC format for webpage and UI element creation
-model: llama-4-maverick
+model: meta-llama/llama-4-maverick
 tools:
-  - forge_tool_fs_read
-  - forge_tool_fs_create
-  - forge_tool_fs_patch
-  - forge_tool_process_shell
+  - read
+  - write
+  - patch
+  - shell
 max_turns: 50
 temperature: 0.1
 tool_supported: true
