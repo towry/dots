@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "context7": { "command": "bunx", "args": ["@upstash/context7-mcp"] },
+    "playwright": {
+      "command": "bunx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "fs": {
+      "command": "bunx",
+      "args": ["@modelcontextprotocol/server-filesystem", "~/workspace"]
+    },
+    "memory": {
+      "command": "bunx",
+      "args": ["@modelcontextprotocol/server-memory"],
+      "alwaysAllow": [
+        "read_graph",
+        "create_entities",
+        "create_relations",
+        "add_observations"
+      ]
+    }
+  }
+}
