@@ -40,7 +40,7 @@ describe_with_text() {
 
     # Use stdin to pass the commit message to avoid issues with messages starting with dashes
     # This is more robust than using multiple -m arguments
-    echo "$input_text" | jj describe --stdin --no-edit -r "$rev"
+    echo "$input_text" | jj describe --stdin -r "$rev"
 }
 
 # Main script logic
