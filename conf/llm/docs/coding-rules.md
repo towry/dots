@@ -14,6 +14,8 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
    running, or you can use the `killport <port>` shell command to terminate the
    process.
 9. Iteratively refine your solution by applying the guidelines below.
+10. DO NOT RUN commands without first explaining the purpose and expected
+    outcome
 
 # When implementing and fixing
 
