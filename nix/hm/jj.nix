@@ -211,11 +211,6 @@ in
           "--sort"
           "committer-date-"
         ];
-        lmaster = [
-          "log"
-          "-r"
-          "(master..@):: | (master..@)-"
-        ];
         lr = [
           "log"
           "-r"
@@ -225,6 +220,11 @@ in
           "log"
           "-r"
           "stack(@)"
+        ];
+        ls-wip = [
+          "log"
+          "-r"
+          "description(glob:'wip:*') | description(glob:'WIP:*')"
         ];
         # useful to show diverge changeids.
         log-changeid = [
@@ -256,11 +256,6 @@ in
             jj log -r "change_id($changeid)"
           ''
           ""
-        ];
-        lmain = [
-          "log"
-          "-r"
-          "(main..@):: | (main..@)-"
         ];
         dup = [
           "duplicate"
