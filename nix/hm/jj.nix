@@ -474,7 +474,33 @@ in
             #!/usr/bin/env bash
             set -euo pipefail
 
-            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@-::) ~ empty()" --ignore-working-copy --no-pager
+            remote=""
+            fetch_args=()
+
+            # Parse arguments
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                --remote)
+                  shift
+                  remote="$1"
+                  ;;
+                *)
+                  # Pass through other arguments to git fetch
+                  fetch_args+=("$1")
+                  ;;
+              esac
+              shift || true
+            done
+
+            # Build fetch command
+            cmd=(jj git fetch --ignore-working-copy)
+            if [[ -n "$remote" ]]; then
+              cmd+=("--remote" "$remote")
+            fi
+            cmd+=("''${fetch_args[@]}")
+
+            # Execute fetch and show log
+            "''${cmd[@]}" && echo "" && jj log -r "heads(@-::) ~ empty()" --ignore-working-copy --no-pager
           ''
           ""
         ];
