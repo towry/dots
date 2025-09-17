@@ -1,5 +1,5 @@
 ---
-model: openrouter:mistralai/devstral-small
+model: openrouter:qwen/qwen3-coder-flash
 temperature: 0.2
 top_p: 0.2
 ---
