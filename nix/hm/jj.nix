@@ -390,6 +390,12 @@ in
           ''
           ""
         ];
+        ci-deps = [
+          "commit"
+          "-m"
+          "chore: deps"
+          "-i"
+        ];
         ai-ci = [
           "util"
           "exec"
