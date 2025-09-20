@@ -182,6 +182,9 @@ in
       cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.codeium/windsurf/memories/global_rules.md
       echo "Windsurf global rules updated"
 
+      cp -rf ${../../conf/llm/windsurf/workflows}/*.md ${config.home.homeDirectory}/.codeium/windsurf/windsurf/workflows/
+      echo "Windsurf workflows updated"
+
       echo "Updating AGENTS.md in xdg config dir..."
       cat ${../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.config/AGENTS.md
     '';
