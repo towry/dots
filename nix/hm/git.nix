@@ -325,6 +325,7 @@ in
       ".aider*"
       ".opencode/"
       ".roo/"
+      ".expert/"
     ];
   };
 }

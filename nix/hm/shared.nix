@@ -169,8 +169,11 @@ in
     };
     ssh = {
       enable = true;
-      serverAliveInterval = 240;
+      enableDefaultConfig = false;
       matchBlocks = {
+        "*" = {
+          serverAliveInterval = 240;
+        };
         "github.com" = {
           hostname = "ssh.github.com";
           port = 443;

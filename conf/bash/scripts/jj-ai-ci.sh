@@ -86,9 +86,9 @@ fi
 debug_log "[AI-CI] Step 3/4: Generating commit context..."
 # Generate commit context and check if successful
 if ! context_output=$("$bashScriptsDir/jj-commit-context.sh" "$rev" 2>&1); then
-  context_exit_code=$?
-  echo "[AI-CI] ERROR: Failed to generate commit context (exit code: $context_exit_code)" >&2
-  exit $context_exit_code
+  echo "[AI-CI] ERROR: Failed to generate commit context:" >&2
+  echo "$context_output" >&2
+  exit 1
 fi
 debug_log "[AI-CI] Step 3/4: ✓ Commit context generated successfully"
 debug_log "[AI-CI] Context output length: ${#context_output}"

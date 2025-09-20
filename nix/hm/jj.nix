@@ -211,11 +211,6 @@ in
           "--sort"
           "committer-date-"
         ];
-        lmaster = [
-          "log"
-          "-r"
-          "(master..@):: | (master..@)-"
-        ];
         lr = [
           "log"
           "-r"
@@ -225,6 +220,11 @@ in
           "log"
           "-r"
           "stack(@)"
+        ];
+        ls-wip = [
+          "log"
+          "-r"
+          "description(glob:'wip:*') | description(glob:'WIP:*')"
         ];
         # useful to show diverge changeids.
         log-changeid = [
@@ -256,11 +256,6 @@ in
             jj log -r "change_id($changeid)"
           ''
           ""
-        ];
-        lmain = [
-          "log"
-          "-r"
-          "(main..@):: | (main..@)-"
         ];
         dup = [
           "duplicate"
@@ -395,6 +390,12 @@ in
           ''
           ""
         ];
+        ci-deps = [
+          "commit"
+          "-m"
+          "chore: deps"
+          "-i"
+        ];
         ai-ci = [
           "util"
           "exec"
@@ -409,6 +410,11 @@ in
             exec bash ${bashScriptsDir}/jj-ai-ci.sh "$@"
           ''
           ""
+        ];
+        # resolve duplicate changeid issue
+        renew-change-id = [
+          "metaedit"
+          "--update-change-id"
         ];
         mv-back = [
           "bookmark"
@@ -474,7 +480,33 @@ in
             #!/usr/bin/env bash
             set -euo pipefail
 
-            jj git fetch --ignore-working-copy && echo "" && jj log -r "heads(@-::) ~ empty()" --ignore-working-copy --no-pager
+            remote=""
+            fetch_args=()
+
+            # Parse arguments
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                --remote)
+                  shift
+                  remote="$1"
+                  ;;
+                *)
+                  # Pass through other arguments to git fetch
+                  fetch_args+=("$1")
+                  ;;
+              esac
+              shift || true
+            done
+
+            # Build fetch command
+            cmd=(jj git fetch --ignore-working-copy)
+            if [[ -n "$remote" ]]; then
+              cmd+=("--remote" "$remote")
+            fi
+            cmd+=("''${fetch_args[@]}")
+
+            # Execute fetch and show log
+            "''${cmd[@]}" && echo "" && jj log -r "heads(@-::) ~ empty()" --ignore-working-copy --no-pager
           ''
           ""
         ];
@@ -544,19 +576,55 @@ in
           ''
             #!/usr/bin/env bash
             set -euo pipefail
-            if [[ $# -eq 0 ]]; then
-              echo "jj git push"
-              jj git push
-            elif [[ $# -eq 1 ]]; then
-              echo "jj git push --allow-new -b $1"
-              jj git push --allow-new -b "$1"
+
+            remote=""
+            bookmarks=()
+            push_args=()
+
+            # Parse arguments
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                --remote)
+                  shift
+                  remote="$1"
+                  ;;
+                --allow-new|--deleted|--dry-run)
+                  # Pass through push-specific flags
+                  push_args+=("$1")
+                  ;;
+                *)
+                  # Treat remaining args as bookmarks
+                  bookmarks+=("$1")
+                  ;;
+              esac
+              shift || true
+            done
+
+            # Build push command
+            cmd=(jj git push)
+
+            # Add remote if specified
+            if [[ -n "$remote" ]]; then
+              cmd+=("--remote" "$remote")
+            fi
+
+            # Add other push arguments
+            cmd+=("''${push_args[@]}")
+
+            # Handle bookmark logic
+            if [[ ''${#bookmarks[@]} -eq 0 ]]; then
+              echo "''${cmd[*]}"
+              "''${cmd[@]}"
+            elif [[ ''${#bookmarks[@]} -eq 1 ]]; then
+              cmd+=("--allow-new" "-b" "''${bookmarks[0]}")
+              echo "''${cmd[*]}"
+              "''${cmd[@]}"
             else
-              cmd=(jj git push)
-              for b in "$@"; do
-                cmd+=("-b" "''$b")
+              for b in "''${bookmarks[@]}"; do
+                cmd+=("-b" "$b")
               done
-              echo "$cmd"
-              eval "$cmd"
+              echo "''${cmd[*]}"
+              "''${cmd[@]}"
             fi
           ''
           ""

@@ -1,7 +1,7 @@
 ---
-model: openrouter:mistralai/codestral-2508
-temperature: 0.2
-top_p: 0.2
+model: openrouter:qwen/qwen3-next-80b-a3b-instruct
+temperature: 0.1
+top_p: 0.1
 stream: false
 ---
 

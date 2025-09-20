@@ -1,9 +1,3 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/antinomyhq/forge/refs/heads/main/forge.schema.json
-variables:
-  operating_agent: muse
-commands:
-- name: hello
-  description: Just a greeting command
-  prompt: Greeting to the user
-model: x-ai/grok-code-fast-1
+model: deepseek/deepseek-chat-v3.1
 tool_supported: true

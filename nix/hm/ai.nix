@@ -171,6 +171,7 @@ in
       mkdir -p ${config.home.homeDirectory}/forge/
       echo "Updating forge config..."
       cat ${../../conf/llm/forge/forge.yaml} > ${config.home.homeDirectory}/forge.yaml
+      cat ${../../conf/llm/forge/mcp.json} > ${config.home.homeDirectory}/forge/.mcp.json
       echo "Forge config updated"
     '';
 
