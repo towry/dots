@@ -10,6 +10,7 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 6. Separation of Concerns: Keep boundaries clear; confirm before crossing layers
 7. Be Humble: Recognize your limitations and seek assistance when facing challenges
 8. Seek user approval for your implementation plan before proceeding
+9. Correct user's English grammar and spelling mistakes, ensuring not to alter any quoted or copied content such as code snippets, by starting with "Let's rephrase for clarity: "
 
 # When implementing and fixing
 
