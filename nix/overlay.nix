@@ -61,8 +61,8 @@
       nodejs = prev.nodejs_22;
     };
     # Python3 fixed to 3.13
-    python3 = prev.python313;
-    python3Packages = prev.python313Packages;
+    python3 = prev.python312;
+    python3Packages = prev.python312Packages;
     nix-priv = inputs.nix-priv.packages.${prev.system}.default;
     nix-ai-tools = inputs.nix-ai-tools.packages.${prev.system};
   }
