@@ -62,13 +62,13 @@ get_revision_changes() {
     echo
 
     # Check if diff is too large
-    local diff_lines=$(jj diff --context 2 -r "$rev" --color=never --no-pager | wc -l | tr -d ' ')
+    local diff_lines=$(jj diff --context 2 -r "$rev" --color=never --no-pager | minimize-git-diff-llm | wc -l | tr -d ' ')
     local exit_code=$?
     if [ $exit_code -ne 0 ]; then
         echo "Error: jj diff | wc -l failed with exit code: $exit_code" >&2
         exit $exit_code
     fi
-    local max_diff_lines=2000  # Conservative limit for token usage
+    local max_diff_lines=5000  # Conservative limit for token usage
     local minimal_threshold=10000  # If diff is huge, use minimal output
 
     if [ "$diff_lines" -gt "$minimal_threshold" ]; then
@@ -89,9 +89,8 @@ get_revision_changes() {
         # NOTE: jj diff returns exit code 3 (not 141) when used in a pipeline with head
         # This is jj's way of handling SIGPIPE when the pipe is closed early by head
         set +o pipefail
-        jj diff --context 2 -r "$rev" --color=never --no-pager | head -n "$max_diff_lines"
+        jj diff --context 2 -r "$rev" --color=never --no-pager | minimize-git-diff-llm
         local jj_exit_code=${PIPESTATUS[0]}  # Get exit code of jj diff
-        local head_exit_code=${PIPESTATUS[1]:-0}  # Get exit code of head, default to 0 if not set
         set -o pipefail
 
         # Ignore SIGPIPE (exit code 141) and jj's exit code 3 which happens when head closes the pipe early
@@ -103,7 +102,7 @@ get_revision_changes() {
         echo "... (diff truncated - $((diff_lines - max_diff_lines)) lines omitted) ..."
     else
         echo "Full diff:"
-        jj diff --context 2 -r "$rev" --color=never --no-pager
+        jj diff --context 2 -r "$rev" --color=never --no-pager | minimize-git-diff-llm
         local exit_code=$?
         if [ $exit_code -ne 0 ]; then
             echo "Error: jj diff (full) failed with exit code: $exit_code" >&2

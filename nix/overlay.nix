@@ -13,7 +13,7 @@
       pkgs = final;
       system = final.system;
     };
-    jujutsu = inputs.jj-repo.packages.${prev.system}.default;
+    # jujutsu = inputs.jj-repo.packages.${prev.system}.default;
     code-assistant = final.callPackage ./pkgs/code-assistant.nix {
       version = "0.1.6";
       pkgs = final;
@@ -61,8 +61,8 @@
       nodejs = prev.nodejs_22;
     };
     # Python3 fixed to 3.13
-    python3 = prev.python312;
-    python3Packages = prev.python312Packages;
+    python3 = prev.python313;
+    python3Packages = prev.python313Packages;
     nix-priv = inputs.nix-priv.packages.${prev.system}.default;
     nix-ai-tools = inputs.nix-ai-tools.packages.${prev.system};
   }
