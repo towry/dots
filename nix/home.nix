@@ -30,8 +30,6 @@ let
       # utils
       ## man page tldr
       tlrc
-      sd
-      difftastic
       ## image view support
       imagemagick
       luajitPackages.magick
@@ -96,11 +94,11 @@ in
     # ./hm/skhd.nix
     # ./hm/yabai.nix
     ./hm/dark-mode-notify.nix
-    ./hm/lazygit.nix
+    # ./hm/lazygit.nix
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai.nix
-    ./hm/gptme.nix
+    # ./hm/gptme.nix
     # ./hm/git-town.nix
     ./hm/docker.nix
     ./hm/asdf.nix
