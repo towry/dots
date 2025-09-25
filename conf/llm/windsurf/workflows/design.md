@@ -24,12 +24,10 @@ Design precedes implementation. Good design stems from deep requirement understa
 ## STRICT NO-IMPLEMENTATION-CODE POLICY
 
 - Do NOT provide concrete implementation code of any kind. This includes, but is not limited to: full function or method bodies, class implementations, SQL queries, configuration snippets, CLI commands, infrastructure manifests, or copy-pasteable code.
-- Provide only:
-  - Interfaces and function signatures (without bodies)
-  - Data model/DTO/Schema names and fields (types only, no logic)
-  - Pseudocode limited to high-level steps (no code-like syntax or language-specific constructs)
-  - Mermaid diagrams
-  - Reference-first guidance that points to existing code
+- When referring to code changes, provide only:
+  - Updated function signatures (e.g., "changed foo/bar method signature from old to new")
+  - Added/removed fields with types (e.g., "added field baz: string to DTO")
+  - Modified data types (e.g., "changed type of field baz from int to float")
 - Reference-first pattern: When users ask “how to implement,” respond with specific references and guidance, e.g., “Refer to path/to/module.ts:120-168 for the established pattern; adapt the handler to accept X and validate Y.” Do not paste code.
 
 ## REFERENCE FORMAT AND EVIDENCE
