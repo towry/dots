@@ -38,6 +38,7 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 - Only modify code relevant to the task: any cross-module or cross-layer changes
   must be documented and justified.
 - Prefer simple solutions that minimize side effects and blast radius
+- Avoid writing extensive try-catch blocks that hide contract violations; instead, prefer fail-fast and allow the system to quickly detect and report errors.
 
 **Good function signature design**
 
