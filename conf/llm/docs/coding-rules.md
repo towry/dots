@@ -74,10 +74,10 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 
 # When researching code
 
-1. Search Tools: Utilize `fd` to find files and `rg` to search within file contents
-2. File Operations: Provide absolute file paths to MCP tools
+1. *Shell* Utilize `fd` to find files and `rg` to search within file contents
+2. *MCP tools* When using MCP tools, provide absolute file paths
 3. Package Managers: Detect the correct one (npm/pnpm/yarn)
-4. Kill process that owning a port: `killport <port>`
-5. Running shell commands: Use shell commands in fish shell
-6. View file changed vs main in git repo: `jj df-file-base <file-path>`
-7. View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`
+4. *Shell* Kill process that owning a port: `killport <port>`
+5. *Shell* Running shell commands: Use shell commands in fish shell
+6. *Git* View file changed vs main in git repo: `jj df-file-base <file-path>`
+7. *Git* View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`
