@@ -98,7 +98,7 @@ debug_log "[AI-CI] Step 4/4: Generating AI commit message and applying..."
 # Prepare input for aichat - combine context with extra context if provided
 ai_input="$context_output"
 if [[ -n "$extra_context" ]]; then
-  ai_input=$(printf "%s\n\nAdditional context: %s" "$context_output" "$extra_context")
+  ai_input=$(printf "%s\nUser provided message (do not use directly): %s" "$context_output" "$extra_context")
   debug_log "[AI-CI] Including extra context in AI generation"
 fi
 

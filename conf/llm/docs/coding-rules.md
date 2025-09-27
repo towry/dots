@@ -6,27 +6,20 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 2. Be Transparent: Use FIXME, TODO, NOTE when relevant
 3. Be Clear: Document assumptions and requirements briefly in comments
 4. Gather Context: Ask for missing info before implementing
-5. Explicit over Implicit: If intent is unclear, list concise options and let
-   the user choose
+5. Explicit over Implicit: If the intent is unclear, provide a list of guessed options and allow the user to make a selection
 6. Separation of Concerns: Keep boundaries clear; confirm before crossing layers
-7. Be Humble: Acknowledge limitations and ask for help when stuck
-8. If you encounter a port conflict, it usually means the service is already
-   running, or you can use the `killport <port>` shell command to terminate the
-   process.
-9. Iteratively refine your solution by applying the guidelines below.
-10. DO NOT RUN commands without first explaining the purpose and expected
-    outcome
+7. Be Humble: Recognize your limitations and seek assistance when facing challenges
+8. Seek user approval for your implementation plan before proceeding
+9. Correct user's English grammar and spelling mistakes, ensuring not to alter any quoted or copied content such as code snippets, by starting with "Let's rephrase for clarity: "
 
 # When implementing and fixing
 
 - Clarify Requirements: Ask questions when tasks are unclear
-- Validate: Identify key requirements and edge cases
-- Break Down: Split into small, verifiable steps
+- Validate Requirements: Identify key specifications and edge cases
+- Break Down Tasks: Split complex tasks into small, verifiable steps for better clarity and manageability
 - Consider Scope: Check impact on surrounding code
-- Do not place _mock code_ within intermediate layers. Ensure the lower-level
-  implementation is complete, and keep all mocking behavior in the topmost
-  layer.
-- Add FIXME, TODO, NOTE for important notices
+- Avoid integrating _mock code_ into intermediate layers. Ensure that the foundational implementation is finalized, and contain all mocking behavior in the highest layer.
+- Use annotations like FIXME, TODO, and NOTE to highlight areas that require attention, further improvement, or documentation for future reference
 - Write helpful comments for “why”, prefer self-documenting code for “what”
 - Prioritize correctness and clarity over micro-optimizations
 - Follow DRY pragmatically: apply SOLID principles when they improve readability
@@ -45,6 +38,7 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 - Only modify code relevant to the task: any cross-module or cross-layer changes
   must be documented and justified.
 - Prefer simple solutions that minimize side effects and blast radius
+- Avoid writing extensive try-catch blocks that hide contract violations; instead, prefer fail-fast and allow the system to quickly detect and report errors.
 
 **Good function signature design**
 
@@ -72,21 +66,18 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 
 # When debugging
 
-1. Ensure no existing debug/dev process is running
+1. Verify that no existing debug or development processes are running
 2. Run shell command `curl -I <dev-server-address>` to check dev server before
    starting a new one
-3. Ask to commit current changes before running lint/format to avoid unexpected
+3. Ask user to commit current changes before running lint/format to avoid unexpected
    diffs
-4. Avoid inserting mock or debug code directly into implementation modules;
-   instead, use top-level scaffolding or dedicated debug modules to manage test
-   data and keep core logic clear.
 
-# When researching
+# When researching code
 
-1. Search Tools: Use `fd` for files, `rg` for content
-2. File Operations: Provide absolute file paths to MCP tools
+1. *Shell* Utilize `fd` to find files and `rg` to search within file contents
+2. *MCP tools* When using MCP tools, provide absolute file paths
 3. Package Managers: Detect the correct one (npm/pnpm/yarn)
-4. Kill by port: `killport <port>`
-5. Running shell commands: Detect current shell and use correct syntax
-6. File changed vs main: `jj df-file-base <file-path>`
-7. File changed vs previous commit: `jj df-file-prev <file-path>`
+4. *Shell* Kill process that owning a port: `killport <port>`
+5. *Shell* Running shell commands: Use shell commands in fish shell
+6. *Git* View file changed vs main in git repo: `jj df-file-base <file-path>`
+7. *Git* View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`

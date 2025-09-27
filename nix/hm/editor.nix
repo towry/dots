@@ -25,7 +25,7 @@ in
     # for nix language lsp support.
     nil
     deadnix
-    ast-grep
+    # ast-grep
     # markdown
     # marksman
     # yaml

@@ -13,7 +13,7 @@
       pkgs = final;
       system = final.system;
     };
-    jujutsu = inputs.jj-repo.packages.${prev.system}.default;
+    # jujutsu = inputs.jj-repo.packages.${prev.system}.default;
     code-assistant = final.callPackage ./pkgs/code-assistant.nix {
       version = "0.1.6";
       pkgs = final;

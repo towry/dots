@@ -83,31 +83,17 @@ else
     exit 1
 fi
 
-# URL encode function for special characters
-url_encode() {
-    local string="$1"
-    # Handle common characters that need encoding
-    string=$(echo "$string" | sed 's/ /%20/g')  # space
-    string=$(echo "$string" | sed 's/:/%3A/g')  # colon
-    string=$(echo "$string" | sed 's/\//%2F/g') # forward slash
-    string=$(echo "$string" | sed 's/+/%2B/g')  # plus
-    string=$(echo "$string" | sed 's/&/%26/g')  # ampersand
-    string=$(echo "$string" | sed 's/?/%3F/g')  # question mark
-    string=$(echo "$string" | sed 's/#/%23/g')  # hash
-    echo "$string"
-}
-
-# URL encode the parameters
-ENCODED_BRANCH=$(url_encode "$BRANCH")
-ENCODED_TITLE=$(url_encode "$PR_TITLE")
-ENCODED_TARGET=$(url_encode "$TARGET_BRANCH")
+# NOTE: Avoid manual URL encoding to prevent double-encoding by macOS `open` or browsers
+# Previously we encoded parameter names (merge_request%5B...%5D) and values, which resulted
+# in sequences like %255B and %252F. Use raw bracketed keys and raw values instead and let
+# the system handle proper escaping.
 
 # Construct the PR creation URL
 PR_URL="${WEB_BASE_URL}/merge_requests/new"
-PR_URL="${PR_URL}?merge_request%5Bdescription%5D="
-PR_URL="${PR_URL}&merge_request%5Bsource_branch%5D=${ENCODED_BRANCH}"
-PR_URL="${PR_URL}&merge_request%5Btarget_branch%5D=${ENCODED_TARGET}"
-PR_URL="${PR_URL}&merge_request%5Btitle%5D=${ENCODED_TITLE}"
+PR_URL="${PR_URL}?merge_request[description]="
+PR_URL="${PR_URL}&merge_request[source_branch]=${BRANCH}"
+PR_URL="${PR_URL}&merge_request[target_branch]=${TARGET_BRANCH}"
+PR_URL="${PR_URL}&merge_request[title]=${PR_TITLE}"
 
 # Debug output
 echo "Parsed web URL: $WEB_BASE_URL"

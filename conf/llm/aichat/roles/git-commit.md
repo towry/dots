@@ -1,7 +1,7 @@
 ---
-model: openrouter:qwen/qwen3-next-80b-a3b-instruct
+model: openrouter:x-ai/grok-4-fast
 temperature: 0.1
-top_p: 0.1
+top_p: 0.2
 stream: false
 ---
 
