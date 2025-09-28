@@ -19,6 +19,14 @@ clients:
     name: openrouter
     api_base: https://openrouter.ai/api/v1
     api_key: @OPENROUTER_API_KEY@
+    models:
+      - name: grok-4-fast-non-reasoning
+        real_name: x-ai/grok-4-fast
+        patch:
+          body:
+            reasoning:
+              enabled: false
+
 
   - type: openai-compatible
     name: deepseek

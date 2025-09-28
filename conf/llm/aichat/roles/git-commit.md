@@ -1,5 +1,5 @@
 ---
-model: openrouter:x-ai/grok-4-fast
+model: openrouter:grok-4-fast-non-reasoning
 temperature: 0.1
 top_p: 0.2
 stream: false
