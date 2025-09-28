@@ -394,7 +394,6 @@ in
           "commit"
           "-m"
           "chore: deps"
-          "-i"
         ];
         ai-ci = [
           "util"
