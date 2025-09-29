@@ -26,6 +26,12 @@ clients:
           body:
             reasoning:
               enabled: false
+      - name: glm-4.5-air-non-reasoning
+        real_name: z-ai/glm-4.5-air
+        patch:
+          body:
+            reasoning:
+              enabled: false
 
 
   - type: openai-compatible
