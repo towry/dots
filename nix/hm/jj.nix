@@ -420,6 +420,20 @@ in
           "move"
           "--allow-backwards"
         ];
+        go-back = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            exec bash ${bashScriptsDir}/jj-go-back.sh "$@"
+          ''
+          ""
+        ];
         discard-changes = [
           "restore"
         ];
