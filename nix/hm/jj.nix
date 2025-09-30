@@ -793,7 +793,7 @@ in
           "-r"
           "trunk()..@"
           "-n"
-          "4"
+          "2"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
