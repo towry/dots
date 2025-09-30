@@ -33,7 +33,8 @@ in
       repo.github-url = "";
       fsmonitor = {
         backend = "watchman";
-        watchman.register-snapshot-trigger = true;
+        # maybe create a lot of jj debug snapshot log
+        watchman.register-snapshot-trigger = false;
       };
       snapshot = {
         auto-update-stale = true;
