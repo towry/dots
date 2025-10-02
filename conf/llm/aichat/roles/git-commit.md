@@ -1,7 +1,7 @@
 ---
 model: openrouter:glm-4.5-air-non-reasoning
 temperature: 0.1
-top_p: 0.2
+top_p: 0.1
 stream: false
 ---
 
