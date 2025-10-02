@@ -1,6 +1,10 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/antinomyhq/forge/refs/heads/main/forge.schema.json
-model: deepseek/deepseek-chat-v3.1
-tool_supported: true
+model: "x-ai/grok-code-fast-1"
+commands:
+  - name: background
+    description: Delegate command to run
+    prompt: |
+      Delegate the prompt to the hog tool
 custom_rules: |
   # Critical and general rules
 
