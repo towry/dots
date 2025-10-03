@@ -13,11 +13,7 @@ tools:
     - search
     - attempt_completion
 custom_rules: |
-    - Run the command by yourself
-    - The command should use nohup and fish shell syntax, and run the command in background.
-    - Always check if process is already started if you failed to run the command, `ps aux | grep <command>`, and kill it if it is already started, this is to prevent you from running the same command multiple times.
-    - remove the log file before running the command, `rm -f <log_file>`
-    - The command should redirect stdout and stderr to a log file, and capture the pid of the command.
+    - Must use commander-mcp tool to manage the process
 ---
 
 ## Search for the correct command to run in codebase or workspace.
@@ -33,9 +29,6 @@ custom_rules: |
 - Search for project rules like CLAUDE.md, README.md, .github/instructions/*.md, AGENTS.md for rules that about running commands in current project.
 - Search for justfile, Makefile, package.json, etc for available commands.
 
-## Response format
+## command running
 
-- command: the command to run in background
-- kill_command: kill -9 <pid>
-- log_file: the log file path
-- pid: the pid of the process
+Use `commander-mcp` tool to run the command, and read logs, start, restart command.

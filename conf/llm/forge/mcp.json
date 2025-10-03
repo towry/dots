@@ -2,21 +2,18 @@
   "mcpServers": {
     "context7": {
       "command": "bunx",
-      "args": [
-        "@upstash/context7-mcp"
-      ]
+      "args": ["@upstash/context7-mcp"]
     },
     "playwright": {
       "command": "bunx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
+      "args": ["@playwright/mcp@latest"]
+    },
+    "commander-mcp": {
+      "command": "commander-mcp"
     },
     "memory": {
       "command": "bunx",
-      "args": [
-        "@modelcontextprotocol/server-memory"
-      ],
+      "args": ["@modelcontextprotocol/server-memory"],
       "alwaysAllow": [
         "read_graph",
         "create_entities",
