@@ -69,6 +69,10 @@ in
   };
 
   home.file = {
+    "kilocode-rule" = {
+      target = "${config.home.homeDirectory}/.kilocode/rules/agents.md";
+      source = ../../../conf/llm/docs/coding-rules.md;
+    };
     "forge-agents" = {
       enable = true;
       target = "${config.home.homeDirectory}/forge/agents";
