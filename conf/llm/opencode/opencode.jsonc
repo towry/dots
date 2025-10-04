@@ -1,6 +1,6 @@
 {
     "$schema": "https://opencode.ai/config.json",
-    "model": "openrouter/z-ai/glm-4.6",
+    "model": "glm-4.6",
     "autoupdate": false,
     "instructions": [
         "~/.config/opencode/instructions.md"
@@ -93,6 +93,13 @@
         "webfetch": "ask"
     },
     "mcp": {
+        "commander": {
+            "type": "local",
+            "command": [
+                "commander-mcp"
+            ],
+            "enabled": true
+        },
         "context7": {
             "type": "local",
             "command": [
