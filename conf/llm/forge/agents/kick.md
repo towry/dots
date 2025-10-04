@@ -5,8 +5,7 @@ model: "z-ai/glm-4.6"
 description: "Start coding with a plan and track file"
 tool_supported: true
 custom_rules: |
-  - Always use hog tool to seek project specific commands, such as dev, build, test, etc
-  - Always use hog tool to fetch the command to run for long running tasks, such as dev, watch, etc
+  - Use commander mcp tool to start and manage long-lived commands like dev, watch, etc
   - Use wise tool to seek better solutions
   - Use sage tool to seek codebase context
   - When using playwright tool multiple times to open pages, please close browser and open it again
@@ -16,13 +15,16 @@ tools:
     - read
     - write
     - patch
-    - hog
     - shell
     - fetch
     - remove
     - search
     - undo
     - wise
+    - mcp_commander-mcp_*
+    - mcp_playwright_*
+    - mcp_context7_*
+    - mcp_memory_*
 ---
 
 读取并遵循 PLAN.md 与 TRACK.md，按步骤推进实现与迭代。
@@ -55,7 +57,4 @@ tools:
 
 
 当运行命令时：
-- hog 工具可以返回完整的命令，包括 log 文件路径，使用 shell 工具运行
-- long running 命令应该在后台运行，所以必须使用 hog 工具获取正确的命令
-- 使用 memory 工具记录命令的 pid
-- 使用 `kill <pid>` 停止命令，从 memory 工具中检索要停止的命令的 pid
+- long running 命令应该在后台运行，所以必须使用 mcp_commander-* 工具运行和管理

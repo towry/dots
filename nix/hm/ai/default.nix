@@ -2,7 +2,6 @@
 {
   imports = [
     ./legacy.nix
-    ./goose.nix
+    # ./goose.nix
   ];
 }
-

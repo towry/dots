@@ -9,6 +9,7 @@ tools:
     - read
     - write
     - patch
+    - wise
     - shell
     - fetch
     - remove
