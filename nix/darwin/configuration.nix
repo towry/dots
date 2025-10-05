@@ -25,19 +25,6 @@
       EDITOR = "${config.vars.editor}";
       VISUAL = "${config.vars.editor}";
       # build env
-      CPATH = "/etc/profiles/per-user/${username}/include";
-      CMAKE_INCLUDE_PATH = "/etc/profiles/per-user/${username}/include";
-      CMAKE_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
-      C_INCLUDE_PATH = "/etc/profiles/per-user/${username}/include";
-      CPLUS_INCLUDE_PATH = "/etc/profiles/per-user/${username}/include";
-      LDFLAGS = "-L/etc/profiles/per-user/${username}/lib";
-      CFLAGS = "-I/etc/profiles/per-user/${username}/include";
-      CPPFLAGS = "-I/etc/profiles/per-user/${username}/include";
-      LD_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
-      DYLD_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
-      LIBS = "-L/etc/profiles/per-user/${username}/lib -Wl,-rpath,/etc/profiles/per-user/${username}/lib";
-      PKG_CONFIG_PATH = "/etc/profiles/per-user/${username}/lib/pkgconfig";
-      DYLD_FALLBACK_LIBRARY_PATH = "/etc/profiles/per-user/${username}/lib";
     };
     shells = [
       pkgs.bashInteractive
