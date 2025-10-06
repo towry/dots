@@ -53,8 +53,8 @@
     };
     zig = inputs.zig.packages.${prev.system}."0.14.0";
     zls = inputs.zls.packages.${prev.system}.zls;
-    git-smash = inputs.git-smash.packages.${prev.system}.default;
-    gitu = inputs.gitu.packages.${prev.system}.default;
+    # git-smash = inputs.git-smash.packages.${prev.system}.default;
+    # gitu = inputs.gitu.packages.${prev.system}.default;
     nodejs = prev.nodejs_22;
     nodejs_22 = prev.nodejs_22;
     nodePackages = prev.nodePackages.override {
@@ -64,7 +64,7 @@
     python3 = prev.python313;
     python3Packages = prev.python313Packages;
     nix-priv = inputs.nix-priv.packages.${prev.system}.default;
-    nix-ai-tools = inputs.nix-ai-tools.packages.${prev.system};
+    # nix-ai-tools = inputs.nix-ai-tools.packages.${prev.system};
   }
   // (import ./pkgs {
     inherit inputs;

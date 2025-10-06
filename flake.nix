@@ -18,10 +18,10 @@
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    git-smash = {
-      url = "github:towry/nix-flakes?dir=git-smash";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # git-smash = {
+    #   url = "github:towry/nix-flakes?dir=git-smash";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     zig = {
       url = "github:mitchellh/zig-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,7 +59,7 @@
       url = "gitlab:lanastara_foss/starship-jj";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-ai-tools.url = "github:numtide/nix-ai-tools";
+    # nix-ai-tools.url = "github:numtide/nix-ai-tools";
   };
 
   outputs =
