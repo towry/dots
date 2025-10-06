@@ -35,9 +35,9 @@ in
     CPPFLAGS = "-I${path-prefix}/include -I/opt/homebrew/include -I/usr/local/include -I/usr/include";
 
     # Runtime library paths
-    LD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/opt/homebrew/Cellar/libiconv/1.18/lib:/usr/local/lib:/usr/lib";
-    DYLD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/opt/homebrew/Cellar/libiconv/1.18/lib";
-    DYLD_FALLBACK_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/opt/homebrew/Cellar/libiconv/1.18/lib";
+    LD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/usr/local/lib:/usr/lib";
+    DYLD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
+    DYLD_FALLBACK_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
 
     # Linker flags with rpath
     LIBS = "-L${path-prefix}/lib -Wl,-rpath,${path-prefix}/lib -L/opt/homebrew/lib -Wl,-rpath,/opt/homebrew/lib";

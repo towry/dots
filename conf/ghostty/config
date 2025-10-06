@@ -61,4 +61,4 @@ keybind = super+f12=toggle_fullscreen
 ### custom
 
 # config-file = ?config-tmux
-# config-file = ?config-default-keybind
+config-file = ?config-default-keybind
