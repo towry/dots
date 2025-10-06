@@ -97,7 +97,7 @@ in
     # ./hm/lazygit.nix
     ./hm/jj.nix
     # ./hm/autoraise.nix
-    ./hm/ai.nix
+    ./hm/ai
     # ./hm/gptme.nix
     # ./hm/git-town.nix
     ./hm/docker.nix

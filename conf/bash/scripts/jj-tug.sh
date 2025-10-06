@@ -47,7 +47,7 @@ function main() {
         return 1
     fi
 
-    echo "Selected bookmark: $selected_bookmark"
+    echo "Selected bookmark: $(tput setaf 6)$selected_bookmark$(tput sgr0)"
 
     # Step 3: Get target revision for the bookmark
     local target_revision

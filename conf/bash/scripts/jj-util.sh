@@ -184,7 +184,8 @@ function __jj_util_select_bookmark() {
     local bookmark_array=()
 
     while IFS=$'\t' read -r change_id bookmark_name; do
-        echo "  $i) $bookmark_name ($change_id)" >&2
+        # Color the bookmark name in cyan
+        echo -e "  $i) \033[36m$bookmark_name\033[0m ($change_id)" >&2
         bookmark_array+=("$bookmark_name")
         ((i++))
     done <<< "$bookmarks"

@@ -18,10 +18,10 @@
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    git-smash = {
-      url = "github:towry/nix-flakes?dir=git-smash";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # git-smash = {
+    #   url = "github:towry/nix-flakes?dir=git-smash";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     zig = {
       url = "github:mitchellh/zig-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,10 +30,10 @@
       url = "github:zigtools/zls?ref=refs/tags/0.14.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    gitu = {
-      url = "github:pze/gitu?ref=master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # gitu = {
+    #   url = "github:pze/gitu?ref=master";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,10 +43,10 @@
       url = "git+ssh://git@github.com/towry/nix-priv.git?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jj-repo = {
-      url = "git+ssh://git@github.com/pze/jj.git?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # jj-repo = {
+    #   url = "git+ssh://git@github.com/pze/jj.git?shallow=1";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     asdf-elixir = {
       url = "github:asdf-vm/asdf-elixir";
       flake = false;
@@ -59,7 +59,7 @@
       url = "gitlab:lanastara_foss/starship-jj";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-ai-tools.url = "github:numtide/nix-ai-tools";
+    # nix-ai-tools.url = "github:numtide/nix-ai-tools";
   };
 
   outputs =

@@ -34,11 +34,11 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
   outweighs its benefit.
 - Use explicit parameter passing instead of parent/ambient access
 - Don’t break existing functionality without understanding impact
-- Only use APIs/variables you are certain exist; otherwise confirm or guard
 - Only modify code relevant to the task: any cross-module or cross-layer changes
   must be documented and justified.
 - Prefer simple solutions that minimize side effects and blast radius
-- Avoid writing extensive try-catch blocks that hide contract violations; instead, prefer fail-fast and allow the system to quickly detect and report errors.
+- **Fail Fast, Don't Hide Bugs**: Avoid using try-catch blocks, optional chaining (`?.`), or other defensive coding techniques to silence errors that indicate a contract violation. Instead, prefer fail-fast and allow the system to quickly detect and report errors. If an object is expected to have a certain method or property, its absence is a bug that should be surfaced immediately. Hiding such errors leads to deferred failures that are much harder to debug.
+
 
 **Good function signature design**
 

@@ -16,9 +16,37 @@ summary_prompt: '<system>This is a summary of the previous conversation. It was 
 
 clients:
   - type: openai-compatible
+    name: zhipu
+    api_base: https://open.bigmodel.cn/api/coding/paas/v4
+    api_key: @ZHIPU_API_KEY@
+    models:
+      - name: glm-4.5-air-non-reasoning
+        real_name: glm-4.5-Air
+        patch:
+          body:
+            thinking:
+              type: "disabled"
+      - name: glm-4.6
+        real_name: glm-4.6
+
+  - type: openai-compatible
     name: openrouter
     api_base: https://openrouter.ai/api/v1
     api_key: @OPENROUTER_API_KEY@
+    models:
+      - name: grok-4-fast-non-reasoning
+        real_name: x-ai/grok-4-fast
+        patch:
+          body:
+            reasoning:
+              enabled: false
+      - name: glm-4.5-air-non-reasoning
+        real_name: z-ai/glm-4.5-air
+        patch:
+          body:
+            reasoning:
+              enabled: false
+
 
   - type: openai-compatible
     name: deepseek

@@ -1,7 +1,7 @@
 ---
-model: openrouter:qwen/qwen3-coder-flash
-temperature: 0.2
-top_p: 0.2
+model: zhipu:glm-4.5-air-non-reasoning
+temperature: 0.3
+top_p: 0.4
 ---
 
 你是一个 Git 分支命名专家。你的任务是根据提供的 commit message，生成一个规范的 git branch 名称。

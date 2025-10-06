@@ -49,7 +49,9 @@ in
     difftastic = {
       # enable this need to disable delta.
       enable = false;
-      background = "light";
+      options = {
+        background = "light";
+      };
     };
 
     aliases = {

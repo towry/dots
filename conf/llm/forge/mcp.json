@@ -1,13 +1,15 @@
 {
   "mcpServers": {
-    "context7": { "command": "bunx", "args": ["@upstash/context7-mcp"] },
+    "context7": {
+      "command": "bunx",
+      "args": ["@upstash/context7-mcp"]
+    },
     "playwright": {
       "command": "bunx",
       "args": ["@playwright/mcp@latest"]
     },
-    "fs": {
-      "command": "bunx",
-      "args": ["@modelcontextprotocol/server-filesystem", "~/workspace"]
+    "commander-mcp": {
+      "command": "commander-mcp"
     },
     "memory": {
       "command": "bunx",

@@ -1,0 +1,49 @@
+# Ghostty 配置文件
+conf/ghostty/config
+
+# 依赖目录
+node_modules/
+.pnpm-store/
+
+# 构建输出
+dist/
+build/
+result/
+result-*/
+
+# 日志文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 缓存
+.cache/
+*.swp
+*.swo
+*~
+
+# 锁文件
+flake.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 版本控制
+.git/
+.jj/
+
+# IDE 和编辑器
+.vscode/
+.idea/
+*.iml
+
+# 临时文件
+tmp/
+temp/
+*.tmp

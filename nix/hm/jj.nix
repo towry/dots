@@ -33,7 +33,8 @@ in
       repo.github-url = "";
       fsmonitor = {
         backend = "watchman";
-        watchman.register-snapshot-trigger = true;
+        # maybe create a lot of jj debug snapshot log
+        watchman.register-snapshot-trigger = false;
       };
       snapshot = {
         auto-update-stale = true;
@@ -394,7 +395,6 @@ in
           "commit"
           "-m"
           "chore: deps"
-          "-i"
         ];
         ai-ci = [
           "util"
@@ -420,6 +420,20 @@ in
           "bookmark"
           "move"
           "--allow-backwards"
+        ];
+        go-back = [
+          "util"
+          "exec"
+          "--"
+          "bash"
+          "-c"
+          ''
+            #!/usr/bin/env bash
+            set -euo pipefail
+
+            exec bash ${bashScriptsDir}/jj-go-back.sh "$@"
+          ''
+          ""
         ];
         discard-changes = [
           "restore"
@@ -780,7 +794,7 @@ in
           "-r"
           "trunk()..@"
           "-n"
-          "4"
+          "2"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
