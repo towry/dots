@@ -1,10 +1,10 @@
 ---
 description: "Research and analyze codebases"
-model: "glm-4.6"
+model: "openrouter/x-ai/grok-code-fast-1"
 permission:
-  edit: allow
-  bash: allow
-  write: allow
+  edit: "deny"
+  bash: "deny"
+  write: "deny"
 tools:
   write: false
   edit: false
@@ -12,6 +12,7 @@ tools:
   read: true
   glob: true
   grep: true
+  mermaid*: true
 mode: subagent
 ---
 

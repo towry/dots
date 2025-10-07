@@ -16,7 +16,10 @@ tools:
   patch: true
   todowrite: true
   todoread: true
-  webfetch: true
+  webfetch: false
+  playwright*: true
+  brightdata*: true
+  grep-code*: true
 mode: primary
 ---
 

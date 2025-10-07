@@ -81,3 +81,4 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 5. *Shell* Running shell commands: Use shell commands in fish shell
 6. *Git* View file changed vs main in git repo: `jj df-file-base <file-path>`
 7. *Git* View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`
+8. Use brightdata mcp tool to fetch latest context from the web, like version, framework tools, documentation.

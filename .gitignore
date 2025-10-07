@@ -16,3 +16,4 @@ nix/foo.nix
 .aider*
 .opencode/
 .roo/
+.pmdaemon/

@@ -20,9 +20,6 @@ in
     github-mcp-server
     # mcp-proxy
   ];
-  # ++ (with pkgs.nix-ai-tools; [
-  #   opencode
-  # ]);
 
   programs.fish = {
     shellAliases = { };
@@ -30,13 +27,6 @@ in
   };
 
   home.activation = {
-    setupOpencodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      mkdir -p ${config.xdg.configHome}/opencode/
-      cat ${../../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
-      cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/instructions.md
-      echo "Opencode config setup done"
-    '';
-
     updateForgeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p ${config.home.homeDirectory}/forge/
       echo "Updating forge config..."
@@ -61,12 +51,7 @@ in
     '';
   };
 
-  xdg.configFile = {
-    "opencode/agent" = {
-      source = ../../../conf/llm/opencode/agent;
-      recursive = true;
-    };
-  };
+  # xdg.configFile configurations moved to specific modules
 
   home.file = {
     "kilocode-rule" = {

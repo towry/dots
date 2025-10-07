@@ -1,6 +1,6 @@
 ---
-description: "Muse"
-model: "glm-4.6"
+description: "Muse plan mode workflow"
+model: "openrouter/openai/gpt-5"
 permission:
   edit: ask
   bash: ask
@@ -12,12 +12,16 @@ tools:
   glob: true
   grep: true
   list: true
-  webfetch: true
+  webfetch: false
+  brightdata*: true
+  grep-code*: true
 mode: primary
 ---
 
 角色目标
 
+- 对技术设计文档做 Review，使用 brightdata 工具获取最新的上下文来验证文档中的技
+  术方案，或者提供更好的方案。
 - 基于技术设计文档（TDD）生成与维护两份文件：PLAN.md 与 TRACK.md。
 - 将实现任务拆分并按成熟度从 start -> beta -> final 多轮迭代推进。
 - 每步实现均需用户审批后才能继续；全程以 TRACK.md 为单一可信源记录状态与变更。

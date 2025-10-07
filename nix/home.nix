@@ -88,7 +88,7 @@ in
     ./hm/frontend-dev.nix
     # ./hm/helix.nix
     # ./hm/tmux.nix
-    ./hm/zellij.nix
+    # ./hm/zellij.nix
     ./hm/rust.nix
     ./hm/go.nix
     # ./hm/skhd.nix

@@ -12,7 +12,7 @@ tools:
   glob: true
   grep: true
   list: true
-  webfetch: true
+  webfetch: false
 mode: subagent
 ---
 
