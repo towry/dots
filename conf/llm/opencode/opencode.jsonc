@@ -117,11 +117,11 @@
             ],
             "enabled": false
         },
-        "tidewave": {
-            "type": "remote",
-            "url": "http://localhost:4000/tidewave/mcp",
-            "enabled": false
-        },
+        // "tidewave": {
+        //     "type": "remote",
+        //     "url": "http://localhost:4000/tidewave/mcp",
+        //     "enabled": false
+        // },
         "github-mcp-server": {
             "type": "local",
             "command": [
@@ -135,17 +135,25 @@
                 "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
             }
         },
-        "brave-search": {
-            "type": "local",
-            "command": [
-                "bunx",
-                "@modelcontextprotocol/server-brave-search"
-            ],
-            "enabled": false,
-            "environment": {
-                "BRAVE_API_KEY": "{env:BRAVE_API_KEY}"
+        "exa-search": {
+            "type": "remote",
+            "url": "https://mcp.exa.ai/mcp",
+            "enabled": true,
+            "headers": {
+                "Authorization": "Bearer {env:EXA_API_KEY}"
             }
         }
+        // "brave-search": {
+        //     "type": "local",
+        //     "command": [
+        //         "bunx",
+        //         "@modelcontextprotocol/server-brave-search"
+        //     ],
+        //     "enabled": false,
+        //     "environment": {
+        //         "BRAVE_API_KEY": "{env:BRAVE_API_KEY}"
+        //     }
+        // }
     },
     "lsp": {}
 }
