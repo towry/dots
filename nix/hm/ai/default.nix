@@ -4,5 +4,6 @@
     ./opencode.nix
     ./legacy.nix
     ./goose.nix
+    ./droid
   ];
 }

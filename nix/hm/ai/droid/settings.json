@@ -1,0 +1,54 @@
+{
+    "model": "glm-4.6",
+    "reasoningEffort": "low",
+    "cloudSessionSync": true,
+    "diffMode": "github",
+    "ideExtensionPromptedAt": {
+        "vscode": 1759932859860
+    },
+    "autonomyLevel": "normal",
+    "ideActivationNudgedForVersion": {
+        "vscode": "0.1.9"
+    },
+    "enableCompletionBell": true,
+    "commandAllowlist": [
+        "ls",
+        "pwd",
+        "dir"
+    ],
+    "commandDenylist": [
+        "rm -rf /",
+        "rm -rf /*",
+        "rm -rf .",
+        "rm -rf ~",
+        "rm -rf ~/*",
+        "rm -rf $HOME",
+        "rm -r /",
+        "rm -r /*",
+        "rm -r ~",
+        "rm -r ~/*",
+        "mkfs",
+        "mkfs.ext4",
+        "mkfs.ext3",
+        "mkfs.vfat",
+        "mkfs.ntfs",
+        "dd if=/dev/zero of=/dev",
+        "dd of=/dev",
+        "shutdown",
+        "reboot",
+        "halt",
+        "poweroff",
+        "init 0",
+        "init 6",
+        ":(){ :|: & };:",
+        ":() { :|:& };:",
+        "chmod -R 777 /",
+        "chmod -R 000 /",
+        "chown -R",
+        "format",
+        "powershell Remove-Item -Recurse -Force"
+    ],
+    "enableCustomDroids": true,
+    "includeCoAuthoredByDroid": true,
+    "specSaveEnabled": true
+}
