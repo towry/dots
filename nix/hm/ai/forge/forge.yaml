@@ -14,6 +14,15 @@ commands:
     description: Save important context to memory for future reference
     prompt: >-
       Use memory tool save current important context to memory for future reference
+  - name: commit
+    description: Commit changes to version control
+    prompt: >-
+      Ask jj_git subagent to commit changes to version control with a clear, concise, and conventional commit message.
+  - name: review
+    description: Review code changes
+    prompt: >-
+      Ask jj_git subagent to provide the git diff of rev or the working copy if rev is not provided.
+      then ask oracle subagent to review the code changes and provide feedback.
 custom_rules: >-
   # Critical and general rules
 

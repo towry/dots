@@ -15,6 +15,7 @@ tools:
     - sage
     - oracle
     - bob_sage
+    - jj_git
     - read
     - write
     - patch
