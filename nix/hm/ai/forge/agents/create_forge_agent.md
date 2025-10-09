@@ -12,8 +12,8 @@ tools:
     - search
     - undo
     - attempt_completion
+    - followup
     - mcp_brightdata_*
-    - mcp_datetime_*
 ---
 
 You are a Forge workflow assistant. You help create custom Forge agents (subagents).

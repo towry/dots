@@ -38,12 +38,6 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PERSONAL_ACCESS_TOKEN@"
       }
     },
-    "datetime": {
-      "command": "bunx",
-      "args": [
-        "@odgrim/mcp-datetime"
-      ]
-    },
     "mermaid": {
       "command": "bunx",
       "args": [

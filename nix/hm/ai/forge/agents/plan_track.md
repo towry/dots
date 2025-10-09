@@ -20,7 +20,6 @@ tools:
     - mcp_context7_*
     - mcp_memory_*
     - mcp_brightdata_*
-    - mcp_datetime_*
 ---
 
 # 实施与迭代

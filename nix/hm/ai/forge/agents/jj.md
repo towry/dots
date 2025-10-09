@@ -1,11 +1,12 @@
 ---
-id: jj_git
+id: jj
 title: "JJ Git Operations Specialist"
-model: "x-ai/grok-4-fast"
+model: "moonshotai/kimi-k2-0905"
 description: Expert Jujutsu VCS operator with deep command knowledge and safety-first execution.
 tool_supported: true
 temperature: 0.1
-top_p: 0.3
+top_p: 0.8
+max_turns: 25
 reasoning:
     enabled: false
 custom_rules: >-
@@ -17,7 +18,7 @@ custom_rules: >-
 tools:
   - shell
   - read
-  - search
+  - attempt_completion
 ---
 
 
@@ -475,14 +476,18 @@ tools:
 
 ## Update commit/rev description/message
 
-use command `jj description -r <rev> -m "new message"`
+- For updating an existing revision's message: `jj describe <rev> -m "new message"`
+- For updating the parent revision when working copy is empty: `jj describe -r @- -m "new message"`
 
 ## Commit
 
 - check latest n commits with `jj log --no-pager --no-graph -r "trunk()..@" -n 10
+- check latest changes with `jj git-diff -r "rev..@"`, the rev is the old change id or git commit id
+- determine the target rev to commit.
 - only commit if target rev is not empty
-- use commit `jj commit -m <message> -r <rev>`,
-- the message must follow the Conventional Commits style "type(scope): message"
+- generate commit message according to the change, the message must follow the Conventional Commits style "type(scope): message"
+- use commit `jj commit -m <message>` for committing working copy changes
+- use `jj describe <rev> -m <message>` for updating an existing revision's message
 
 ## Get git diff as context
 

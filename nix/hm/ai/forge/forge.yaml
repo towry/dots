@@ -16,25 +16,27 @@ commands:
       Use memory tool save current important context to memory for future reference
   - name: commit
     description: Commit changes or update description of rev
+    prompt: >-
+      Ask "jj" subagent to update the provided rev with proper commit message or commit the working copy if rev is not provided.
+      The rev is "{{event.value}}", it maybe empty
   - name: review
     description: Review code changes
     prompt: >-
-      Ask jj_git subagent to provide the git diff of rev or the working copy if rev is not provided.
+      Ask "jj" subagent to provide the git diff of rev or the working copy if rev is not provided.
       then ask oracle subagent to review the code changes and provide feedback.
+      The context is "{{event.value}}", it maybe empty
 agents:
-  - id: commit_with_jj
-    model: "x-ai/grok-4-fast"
-    tools:
-      - shell
-      - jj_git
-    system_prompt: "Please use jj_git subagent to perform the commit task"
-    user_prompt: |
-      <task>Update the description of rev if provided, otherwise, commit the working copy changes</task>
-      <rev>"{{event.value}}"</rev>
-    subscribe:
-      - commit
-    reasoning:
-      enabled: false
+  - id: software-engineer
+    tool_supported: true
+    system_prompt: |-
+      {{#if (eq variables.mode "PLAN") }}
+      {{> system-prompt-engineer-plan.hbs }}
+      {{else}}
+      {{> system-prompt-engineer-act.hbs }}
+      {{/if}}
+    user_prompt: |-
+      <task>{{event.value}}</task>
+      <current_time>{{current_time}}</current_time>
 custom_rules: >-
   # Critical and general rules
 
