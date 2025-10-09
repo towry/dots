@@ -34,6 +34,12 @@ clients:
     api_base: https://openrouter.ai/api/v1
     api_key: @OPENROUTER_API_KEY@
     models:
+      - name: kimi-k2-non-reasoning
+        real_name: moonshotai/kimi-k2-0905
+        patch:
+          body:
+            reasoning:
+              enabled: false
       - name: grok-4-fast-non-reasoning
         real_name: x-ai/grok-4-fast
         patch:

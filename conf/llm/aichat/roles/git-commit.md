@@ -1,5 +1,5 @@
 ---
-model: openrouter:grok-code-fast-non-reasoning
+model: openrouter:kimi-k2-non-reasoning
 temperature: 0.0
 top_p: 0.2
 stream: false
