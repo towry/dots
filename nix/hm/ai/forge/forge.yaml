@@ -1,11 +1,20 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/antinomyhq/forge/refs/heads/main/forge.schema.json
-model: "x-ai/grok-code-fast-1"
+updates:
+  auto_update: false
 commands:
   - name: background
     description: Delegate command to run
-    prompt: |
+    prompt: >-
       Delegate the prompt to the hog tool
-custom_rules: |
+  - name: follow_plan_track
+    description: Follow the PLAN.md and TRACK.md files to implement the plan
+    prompt: >-
+      Follow the PLAN.md and TRACK.md files to implement the plan
+  - name: save_memory
+    description: Save important context to memory for future reference
+    prompt: >-
+      Use memory tool save current important context to memory for future reference
+custom_rules: >-
   # Critical and general rules
 
   Avoid over-engineering. Prefer simple, correct, and maintainable solutions.

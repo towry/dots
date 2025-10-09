@@ -790,7 +790,6 @@ in
         default-command = [
           # "status"
           "log"
-          "--ignore-working-copy"
           "--no-pager"
           "-r"
           "trunk()..@"

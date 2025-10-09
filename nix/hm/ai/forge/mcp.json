@@ -1,0 +1,67 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "bunx",
+      "args": [
+        "@upstash/context7-mcp"
+      ]
+    },
+    "playwright": {
+      "command": "bunx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    },
+    "commander-mcp": {
+      "command": "commander-mcp"
+    },
+    "memory": {
+      "command": "bunx",
+      "args": [
+        "@modelcontextprotocol/server-memory"
+      ],
+      "alwaysAllow": [
+        "read_graph",
+        "create_entities",
+        "create_relations",
+        "add_observations"
+      ]
+    },
+    "github": {
+      "command": "github-mcp-server",
+      "args": [
+        "stdio",
+        "--toolsets",
+        "all"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PERSONAL_ACCESS_TOKEN@"
+      }
+    },
+    "datetime": {
+      "command": "bunx",
+      "args": [
+        "@odgrim/mcp-datetime"
+      ]
+    },
+    "mermaid": {
+      "command": "bunx",
+      "args": [
+        "mcp-mermaid"
+      ]
+    },
+    "grep-code": {
+      "type": "http",
+      "url": "https://mcp.grep.app"
+    },
+    "brightdata": {
+      "command": "bunx",
+      "args": [
+        "@brightdata/mcp"
+      ],
+      "env": {
+        "API_TOKEN": "@BRIGHTDATA_API_KEY@"
+      }
+    }
+  }
+}

@@ -27,14 +27,6 @@ in
   };
 
   home.activation = {
-    updateForgeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      mkdir -p ${config.home.homeDirectory}/forge/
-      echo "Updating forge config..."
-      cat ${../../../conf/llm/forge/forge.yaml} > ${config.home.homeDirectory}/forge.yaml
-      cat ${../../../conf/llm/forge/mcp.json} > ${config.home.homeDirectory}/forge/.mcp.json
-      echo "Forge config updated"
-    '';
-
     updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/memories/
       # write the conf/llm/coding-rules.md content to the global_rules.md file in above dir.
@@ -57,12 +49,6 @@ in
     "kilocode-rule" = {
       target = "${config.home.homeDirectory}/.kilocode/rules/agents.md";
       source = ../../../conf/llm/docs/coding-rules.md;
-    };
-    "forge-agents" = {
-      enable = true;
-      target = "${config.home.homeDirectory}/forge/agents";
-      source = ../../../conf/llm/forge/agents;
-      recursive = true;
     };
     "${aichatConfigDir}/roles" = {
       # link to ../../../conf/llm/aichat/roles dir

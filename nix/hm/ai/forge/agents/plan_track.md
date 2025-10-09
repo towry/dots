@@ -1,21 +1,26 @@
 ---
-id: plot
+id: plan_track
 title: "Plot Expert"
-model: "qwen/qwen3-max"
-description: "Plan and outline expert"
+model: "openai/gpt-5-codex"
+description: "Plan and outline expert, create PLAN.md and TRACK.md"
 tool_supported: true
 tools:
     - sage
+    - bob_sage
+    - oracle
     - read
     - write
     - patch
-    - wise
     - shell
     - fetch
     - remove
     - search
     - undo
     - attempt_completion
+    - mcp_context7_*
+    - mcp_memory_*
+    - mcp_brightdata_*
+    - mcp_datetime_*
 ---
 
 # 实施与迭代

@@ -5,5 +5,6 @@
     ./legacy.nix
     ./goose.nix
     ./droid
+    ./forge
   ];
 }
