@@ -15,14 +15,26 @@ commands:
     prompt: >-
       Use memory tool save current important context to memory for future reference
   - name: commit
-    description: Commit changes to version control
-    prompt: >-
-      Ask jj_git subagent to commit changes to version control with a clear, concise, and conventional commit message.
+    description: Commit changes or update description of rev
   - name: review
     description: Review code changes
     prompt: >-
       Ask jj_git subagent to provide the git diff of rev or the working copy if rev is not provided.
       then ask oracle subagent to review the code changes and provide feedback.
+agents:
+  - id: jj_git_commit
+    model: "x-ai/grok-4-fast"
+    tools:
+      - shell
+      - jj_git
+    system_prompt: "Please use jj_git subagent to perform the commit task"
+    user_prompt: |
+      <task>Update the description of rev if provided, otherwise, commit the working copy changes</task>
+      <rev>"{{event.value}}"</rev>
+    subscribe:
+      - commit
+    reasoning:
+      enabled: false
 custom_rules: >-
   # Critical and general rules
 
