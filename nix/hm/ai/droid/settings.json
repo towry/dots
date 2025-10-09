@@ -1,6 +1,6 @@
 {
     "model": "glm-4.6",
-    "reasoningEffort": "low",
+    "reasoningEffort": "medium",
     "cloudSessionSync": true,
     "diffMode": "github",
     "ideExtensionPromptedAt": {
@@ -14,7 +14,18 @@
     "commandAllowlist": [
         "ls",
         "pwd",
-        "dir"
+        "dir",
+        "cd",
+        "cat",
+        "echo",
+        "head",
+        "tail",
+        "grep",
+        "find",
+        "glob",
+        "rg",
+        "fd",
+        "jj git-diff"
     ],
     "commandDenylist": [
         "rm -rf /",

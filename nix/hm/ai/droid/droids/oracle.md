@@ -1,6 +1,6 @@
 ---
 name: oracle
-model: "gpt-5-codex" # gpt-5-codex
+model: "claude-sonnet-4-20250514" # gpt-5-codex
 description: "Consult the Oracle - an AI advisor powered by OpenAI's GTP-5 reasoning model that can plan, review, and provide expert guidance."
 tools: ["Read", "Grep", "Glob", "LS", "mcp"]
 version: v1

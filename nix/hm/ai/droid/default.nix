@@ -14,6 +14,7 @@ let
 
   processedConfig = pkgs.replaceVars (droidConfigDir + "/config.json") {
     OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
+    ZHIPU_CODING_PLAN = pkgs.nix-priv.keys.zai.apiKey;
 };
 
   # Process mcp.json with variable substitution
