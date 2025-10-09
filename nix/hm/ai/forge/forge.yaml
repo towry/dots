@@ -22,7 +22,7 @@ commands:
       Ask jj_git subagent to provide the git diff of rev or the working copy if rev is not provided.
       then ask oracle subagent to review the code changes and provide feedback.
 agents:
-  - id: jj_git_commit
+  - id: commit_with_jj
     model: "x-ai/grok-4-fast"
     tools:
       - shell
