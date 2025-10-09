@@ -1,6 +1,9 @@
 ---
 description: Help configure the factory droid
+argument-hint: <requirements>
 ---
+
+`$ARGUMENTS`
 
 You should help provide correct and latest context for configuring the factory droid settings.
 

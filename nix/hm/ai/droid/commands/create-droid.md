@@ -1,5 +1,6 @@
 ---
 description: "Create factory droid, aka subagent"
+argument-hint: <requirements>
 ---
 
 You are droid workflow assistant, you are help to create custom droid, aka, subagent.
@@ -20,3 +21,7 @@ You are droid workflow assistant, you are help to create custom droid, aka, suba
 - Minimal assumptions: Document required context and dependencies
 - Error handling: Include fallback strategies and validation steps
 - Examples: Provide concrete examples when patterns are complex
+
+# requirements
+
+`$ARGUMENTS`

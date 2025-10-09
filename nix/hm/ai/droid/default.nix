@@ -15,7 +15,12 @@ let
   processedConfig = pkgs.replaceVars (droidConfigDir + "/config.json") {
     OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
     ZHIPU_CODING_PLAN = pkgs.nix-priv.keys.zai.apiKey;
-};
+  };
+
+  # Process AGENTS.md by reading coding-rules.md and substituting @CONTENT@
+  processedAgentsMd = pkgs.replaceVars (droidConfigDir + "/AGENTS.md") {
+    CONTENT = builtins.readFile ../../../../conf/llm/docs/coding-rules.md;
+  };
 
   # Process mcp.json with variable substitution
   processedMcp = pkgs.replaceVars (droidConfigDir + "/mcp.json") {
@@ -54,6 +59,9 @@ in
     };
     ".factory/generated/mcp.json" = {
       source = processedMcp;
+    };
+    ".factory/AGENTS.md" = {
+      source = processedAgentsMd;
     };
   };
 

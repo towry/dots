@@ -13,6 +13,14 @@ version: v1
 - if a change id have divergent commit, you can resolve it with `jj metaedit --update-change-id <git-commit-id>` to assign a new change id for git commit.
 - in command example `jj abandon [revsets]..` the revsets can be change id or git commit id.
 - `@` refer to the working copy rev, `@-` refer to the rev before @.
+- The working copy maybe empty, in such case, you can not move bookmark to the empty rev since it can not be push to remote.
+- Use `j log -n 2 --no-graph --no-pager` to quickly check the last commits
+
+# Response guideline
+
+- For operation task, execute the commands and report the results helpful information. for example for commit operation, report if success with "message", "new change id", "new git commit id", "current working status" etc
+- For consult task, like "What is commit that introduce the change of code snippet ..", you should respond with helpful information including file path, line number, committed date, author, message etc.
+- For output require task, like "Please give me the diff of change xxx", just response the command output with concise and short summary.
 
 # commands
 
@@ -456,7 +464,9 @@ use command `jj description -r <rev> -m "new message"`
 
 ## Commit
 
-- use commit `jj commit -m <message>`,
+- check latest n commits with `jj log --no-pager --no-graph -r "trunk()..@" -n 10
+- only commit if target rev is not empty
+- use commit `jj commit -m <message> -r <rev>`,
 - the message must follow the Conventional Commits style "type(scope): message"
 
 ## Get git diff as context

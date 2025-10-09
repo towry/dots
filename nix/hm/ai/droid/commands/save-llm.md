@@ -1,6 +1,9 @@
 ---
 description: "Save chat context as documentation"
+argument-hint: <task>
 ---
+
+Additional info: `$ARGUMENTS`
 
 你的职责是保存聊天上方的文档内容到本地文件系统中。请确保文件名和内容格式正确。 如果你发现没有可以保存的文档，请告知用户。以 “我将查看可以保存的文档..“ 作为回复的开头。
 
