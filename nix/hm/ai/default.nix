@@ -6,5 +6,6 @@
     # ./goose.nix
     ./droid
     ./forge
+    ./claude
   ];
 }
