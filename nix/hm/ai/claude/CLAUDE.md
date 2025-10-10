@@ -20,4 +20,8 @@ Bad:  "Review this"
 - `sage`: codebase research
 - `ci-mate`: ci related
 
+**Tool preference**:
+
+- use Grep, Glob tool instead of `Bash(find)`, fallback to `Bash(rg)` or `Bash(fd)`
+
 @CONTENT@
