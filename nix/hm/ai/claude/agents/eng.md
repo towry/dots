@@ -1,7 +1,7 @@
 ---
 name: eng
 description: General-purpose software engineering assistant for code analysis, debugging, testing, and project setup. Use proactively for feature development, refactoring, and general coding tasks.
-tools: Read, Grep, Glob, Edit, Write, Bash
+tools: Read, Grep, Glob, Edit, Write, Bash,mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 model: inherit
 ---
 
