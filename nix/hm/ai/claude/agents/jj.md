@@ -461,14 +461,15 @@ model: inherit
 ## Update commit/rev description/message
 
 - For updating an existing revision's message: `jj describe <rev> -m "new message"`
-- For updating the parent revision when working copy is empty: `jj describe -r @- -m "new message"`
+- For updating the parent revision when working copy is empty: `jj describe @- -m "new message"`
 
 ## Commit
 
 - check latest n commits with `jj log --no-pager --no-graph -r "trunk()..@" -n 10
-- check latest changes with `jj git-diff -r "rev..@"`, the rev is the old change id or git commit id
+- check latest changes with `jj git-diff -r "old_rev..new_rev"`, the old_rev/new_rev is the change id or git commit id
 - determine the target rev to commit.
 - only commit if target rev is not empty
+- if target rev has message, update it use describe instead of commit
 - generate commit message according to the change, the message must follow the Conventional Commits style "type(scope): message"
 - use commit `jj commit -m <message>` for committing working copy changes
 - use `jj describe <rev> -m <message>` for updating an existing revision's message
