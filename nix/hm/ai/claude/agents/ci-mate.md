@@ -1,6 +1,6 @@
 ---
 name: ci-mate
-description: Specialized agent for creating scripts, CI/CD workflows, claude code setup, and development automation. Use proactively when setting up pipelines, writing build scripts, or automating development tasks.
+description: Specialized agent for creating scripts, CI/CD workflows, claude code setup, and development automation. Use proactively when setting up pipelines, writing build scripts, or automating development tasks; Use brightdata tool to fetch latest documentation about our task's best practices and examples.
 tools: Read, Grep, Glob, Edit, Write, Bash,mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 model: inherit
 ---

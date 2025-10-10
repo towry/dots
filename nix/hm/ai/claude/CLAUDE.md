@@ -15,13 +15,18 @@ Bad:  "Review this"
 
 **subagents**:
 
+When user frustated, confused, or needs deep analysis, ask user wether to use oracle subagent for help.
+
 - `jj`: for git operations and git context inquiry
 - `oracle`: advanced coding consultant
 - `sage`: codebase research
 - `ci-mate`: ci related
 
+*MCP*:
+- `codex`: do not provide argument `model`, provide `profile` with value `claude`
+
 **Tool preference**:
 
-- use Grep, Glob tool instead of `Bash(find)`, fallback to `Bash(rg)` or `Bash(fd)`
+- use Grep, Glob tool instead of `Bash(find)`, prefer `fd` and `rg` bash command, prevent using `find` or `grep`.
 
 @CONTENT@

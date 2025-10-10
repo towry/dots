@@ -78,7 +78,7 @@ in
     '';
   };
 
-  home.packages = with pkgs; [
+  home.packages = [
     claude-with-proxy
   ];
 }

@@ -1,7 +1,7 @@
 ---
 name: jj
-description: JJ version control specialist. Use proactively when working with jj/git operations, commit management, bookmark operations, or investigating version control history.
-tools: Bash, Read, Glob
+description: JJ version control specialist. Use proactively when working with jj/git operations, commit management, bookmark operations, or investigating version control history; It only knows jj command, so use jj commands to get git info, just tell what kind of git info you need or what git operation (commit or change commit message) you want to do.
+tools: Bash, Read, Glob, Grep
 model: inherit
 ---
 

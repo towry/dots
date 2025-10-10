@@ -1,6 +1,6 @@
 ---
 name: sage
-description: Research and analyze codebases to provide concrete information about existing functionality, implementation details, custom services and workarounds. Use proactively for informed refactoring decisions and codebase understanding.
+description: Research and analyze codebases to provide concrete information about existing functionality, implementation details, custom services and workarounds. Use proactively for informed refactoring decisions and codebase understanding; It can generate mermaid diagrams to visualize complex dependencies and data flows.
 tools: Read, Grep, Glob, Bash, WebFetch, mcp__mermaid__analyze-flowchart,mcp__mermaid__generate-flowchart, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 model: sonnet
 ---

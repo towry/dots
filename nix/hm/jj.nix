@@ -167,6 +167,15 @@ in
           "@-"
         ];
 
+        pr-diff = [
+          "diff"
+          "--git"
+          "-f"
+          "trunk()"
+          "-t"
+          "@"
+        ];
+
         git-init = [
           "git"
           "init"

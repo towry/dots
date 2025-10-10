@@ -1,68 +1,68 @@
 {
-    "mcpServers": {
-        "commander": {
-            "type": "stdio",
-            "command": "commander-mcp",
-            "args": [],
-            "disabled": false
-        },
-        "playwright": {
-            "type": "stdio",
-            "command": "bunx",
-            "args": [
-                "@playwright/mcp@latest"
-            ],
-            "disabled": false
-        },
-        "github": {
-            "type": "stdio",
-            "command": "github-mcp-server",
-            "args": [
-                "stdio",
-                "--toolsets",
-                "all"
-            ],
-            "disabled": false,
-            "env": {
-                "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
-            }
-        },
-        "datetime": {
-            "type": "stdio",
-            "command": "bunx",
-            "args": [
-                "@odgrim/mcp-datetime"
-            ],
-            "disabled": false
-        },
-        "mermaid": {
-            "type": "stdio",
-            "command": "bunx",
-            "args": [
-                "@devstefancho/mermaid-mcp"
-            ],
-            "disabled": false
-        },
-        "context7": {
-            "type": "http",
-            "url": "https://mcp.context7.com/mcp",
-            "disabled": false
-        },
-        "grep-code": {
-            "type": "http",
-            "url": "https://mcp.grep.app",
-            "disabled": false
-        },
-        "brightdata": {
-            "type": "stdio",
-            "command": "bunx",
-            "args": [
-                "@brightdata/mcp"
-            ],
-            "disabled": false,
-            "env": {
-                "API_TOKEN": "${BRIGHTDATA_API_KEY}"
-            }
-        }
+  "mcpServers": {
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["chrome-devtools-mcp@latest"],
+      "disabled": false
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@playwright/mcp@latest"],
+      "disabled": false
+    },
+    "github": {
+      "type": "stdio",
+      "command": "github-mcp-server",
+      "args": ["stdio", "--toolsets", "all"],
+      "disabled": false,
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "datetime": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@odgrim/mcp-datetime"],
+      "disabled": false
+    },
+    "mermaid": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@devstefancho/mermaid-mcp"],
+      "disabled": false
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@modelcontextprotocol/server-sequential-thinking"],
+      "disabled": false
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "disabled": false
+    },
+    "grep-code": {
+      "type": "http",
+      "url": "https://mcp.grep.app",
+      "disabled": false
+    },
+    "brightdata": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@brightdata/mcp"],
+      "disabled": false,
+      "env": {
+        "API_TOKEN": "${BRIGHTDATA_API_KEY}"
+      }
+    },
+    "codex": {
+      "type": "stdio",
+      "command": "codex-ai",
+      "args": ["--profile", "claude_fast", "mcp-server"],
+      "disabled": false
     }
+  }
 }

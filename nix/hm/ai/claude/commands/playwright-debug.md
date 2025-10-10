@@ -1,5 +1,5 @@
 ---
-description: Debug frontend issue with playwright tool
+description: Debug frontend issue with playwright tool, find potential issues, verfy work status;
 argument-hint: [describe the issue]
 ---
 
