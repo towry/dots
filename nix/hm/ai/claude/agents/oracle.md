@@ -1,7 +1,8 @@
 ---
 name: oracle
-description: Consult the Oracle - an expert AI advisor for code reviews, architectural planning, and strategic guidance. Use proactively for complex technical decisions, thorough code analysis, and when advanced reasoning is needed.
-tools: Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+description: >-
+    Consult the Oracle when you need expert analysis and strategic advice. Ask specific questions about code architecture, design patterns, best practices, or technical trade-offs. The Oracle will research and provide well-reasoned answers with relevant context. Do not delegate heavy tasks - instead, ask for guidance on how to approach them.
+tools: Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__grep-code__searchGithub
 model: opus
 ---
 

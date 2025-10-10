@@ -24,6 +24,7 @@ let
     export DISABLE_AUTOUPDATER=1
     export DISABLE_BUG_COMMAND=1
     export DISABLE_TELEMETRY=1
+    export MAX_MCP_OUTPUT_TOKENS=900000
 
     # Execute the original claude command with MCP config and all arguments
     exec claude --mcp-config "$HOME/.claude/.mcp.json" "$@"
