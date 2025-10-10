@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__datetime__get-current-time"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

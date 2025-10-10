@@ -1,0 +1,11 @@
+{
+    "name": "opencode",
+    "version": "1.0.0",
+    "dependencies": {
+        "@opencode-ai/plugin": "^0.14.5",
+        "ai": "^5.0.60"
+    },
+    "devDependencies": {
+        "@types/node": "^24.5.2"
+    }
+}

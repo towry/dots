@@ -2,9 +2,32 @@
     "$schema": "https://opencode.ai/config.json",
     "model": "glm-4.6",
     "autoupdate": false,
-    "instructions": [
-        "~/.config/opencode/instructions.md"
+    "share": "disabled",
+    "small_model": "glm-4.6",
+    "disabled_providers": [
+        "openai",
+        "gemini"
     ],
+    "instructions": [
+        "./AGENTS.md"
+    ],
+    "agent": {
+        "plan": {
+            "mode": "primary",
+            "model": "openrouter/openai/gpt-5",
+            "tools": {
+                "write": false,
+                "edit": false,
+                "bash": false,
+                "grep": true,
+                "list": true,
+                "glob": true,
+                "webfetch": false,
+                "brightdata*": true,
+                "grep-code*": true
+            }
+        }
+    },
     "provider": {
         /// if use tab change the MODE, but model not changing,
         /// that means the model is not recognized, you must list it in
@@ -12,11 +35,48 @@
         /// openrouter is builtin provider in opencode, but not all models
         /// is loaded.
         "openrouter": {
+            "npm": "@openrouter/ai-sdk-provider",
             "name": "OpenRouter",
             "options": {
                 "apiKey": "{env:OPENROUTER_API_KEY}"
             },
             "models": {
+                // "gpt-5-codex-medium": {
+                //     "id": "openai/gpt-5-codex",
+                //     "name": "GPT-5 Codex Medium",
+                //     "options": {
+                //         "reasoningEffort": "medium",
+                //         "textVerbosity": "low",
+                //         "reasoningSummary": "auto"
+                //     }
+                // },
+                // "gpt-5-medium": {
+                //     "id": "openai/gpt-5",
+                //     "name": "GPT-5 Medium",
+                //     "options": {
+                //         "reasoningEffort": "medium",
+                //         "textVerbosity": "low",
+                //         "reasoningSummary": "auto"
+                //     }
+                // },
+                "openai/gpt-5": {
+                    "name": "GPT-5",
+                    "options": {
+                        "reasoningEffort": "medium",
+                        "textVerbosity": "low",
+                        "reasoningSummary": "auto"
+                    }
+                },
+                "x-ai/grok-4-fast": {
+                    "name": "Grok 4 Fast",
+                    "tool_call": true,
+                    "attachment": true
+                },
+                "x-ai/grok-code-fast-1": {
+                    "name": "Grok Code Fast 1",
+                    "tool_call": true,
+                    "attachment": true
+                },
                 "z-ai/glm-4.6": {
                     "name": "GLM 4.6",
                     "tool_call": true,
@@ -24,11 +84,6 @@
                 },
                 "deepseek/deepseek-chat-v3.1": {
                     "name": "DeepSeek Chat V3.1",
-                    "tool_call": true,
-                    "attachment": true
-                },
-                "qwen/qwen3-max": {
-                    "name": "Qwen 3 Max",
                     "tool_call": true,
                     "attachment": true
                 },
@@ -53,45 +108,33 @@
                     "name": "GLM 4.5",
                     "tool_call": true
                 },
-                "z-ai/glm-4.5v": {
-                    "name": "GLM 4.5V",
-                    "tool_call": true,
-                    "attachment": true
-                },
                 "mistralai/mistral-medium-3.1": {
                     "name": "Mistral Medium 3.1",
                     "tool_call": true,
                     "attachment": false
-                },
-                "moonshotai/kimi-vl-a3b-thinking": {
-                    "name": "Kimi VL A3B Thinking",
-                    "attachment": false,
-                    "tool_call": true
-                },
-                "google/gemini-2.5-flash-lite-preview-06-17": {
-                    "name": "Gemini 2.5 Flash Lite",
-                    "tool_call": true,
-                    "attachment": true
-                },
-                "anthropic/claude-3-haiku": {
-                    "name": "Claude 3 Haiku",
-                    "tool_call": true
-                },
-                "google/gemini-2.0-flash-001": {
-                    "name": "Gemini 2.0 Flash"
                 }
             }
         }
     },
     "permission": {
         "bash": {
-            "*": "allow",
+            "*": "ask",
             "git commit": "ask",
             "git add": "ask"
         },
         "edit": "allow",
         "webfetch": "ask"
     },
+    "tools": {
+        "playwright*": false,
+        "github*": false,
+        "context7*": false,
+        "mermaid*": false,
+        "brave-search*": false
+    },
+    // global mcp settings
+    // disabled in global can enabled for a specific agent with tools setting
+    // like `context7*: true`
     "mcp": {
         "commander": {
             "type": "local",
@@ -115,14 +158,14 @@
                 "bunx",
                 "@playwright/mcp@latest"
             ],
-            "enabled": false
+            "enabled": true
         },
-        "tidewave": {
-            "type": "remote",
-            "url": "http://localhost:4000/tidewave/mcp",
-            "enabled": false
-        },
-        "github-mcp-server": {
+        // "tidewave": {
+        //     "type": "remote",
+        //     "url": "http://localhost:4000/tidewave/mcp",
+        //     "enabled": false
+        // },
+        "github": {
             "type": "local",
             "command": [
                 "github-mcp-server",
@@ -130,9 +173,41 @@
                 "--toolsets",
                 "all"
             ],
-            "enabled": false,
+            "enabled": true,
             "environment": {
                 "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+            }
+        },
+        "datetime": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "@odgrim/mcp-datetime"
+            ],
+            "enabled": true
+        },
+        "mermaid": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "mcp-mermaid"
+            ],
+            "enabled": true
+        },
+        "grep-code": {
+            "type": "remote",
+            "url": "https://mcp.grep.app",
+            "enabled": true
+        },
+        "brightdata": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "@brightdata/mcp"
+            ],
+            "enabled": true,
+            "environment": {
+                "API_TOKEN": "{env:BRIGHTDATA_API_KEY}"
             }
         },
         "brave-search": {

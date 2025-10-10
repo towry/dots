@@ -1,12 +1,11 @@
 GOOSE_PLANNER_PROVIDER: openrouter
-GOOSE_PLANNER_MODEL: qwen/qwen3-235b-a22b-thinking-2507
+GOOSE_PLANNER_MODEL: openai/gpt-5
 GOOSE_PROVIDER: openrouter
 # GOOSE_LEAD_MODEL: qwen/qwen3-235b-a22b-thinking-2507
 GOOSE_MODE: auto
 GOOSE_PROVIDER__TYPE: OpenRouter
-GOOSE_MODEL:  x-ai/grok-code-fast-1
+GOOSE_MODEL: x-ai/grok-code-fast-1
 GOOSE_TOOLSHIM: false
-GOOSE_TOOLSHIM_OLLAMA_MODEL: mistral-nemo
 GOOSE_CLI_MIN_PRIORITY: 0.0
 ## lead-worker
 ### Switch back to lead after n failure turns
@@ -18,6 +17,9 @@ GOOSE_LEAD_FALLBACK_TURNS: 2
 ## Smart context management
 GOOSE_CONTEXT_STRATEGY: summarize
 GOOSE_MAX_TURNS: 800
+sub_recipes:
+  - name: oracle
+    path: "./recipes/sub-recipes/oracle.yml
 extensions:
   developer:
     bundled: true
@@ -70,16 +72,6 @@ extensions:
     display_name: Playwright
     timeout: 300
     type: stdio
-  tidewave:
-    cmd: mcp-proxy
-    args:
-      - "http://localhost:4000/tidewave/mcp"
-    bundled: false
-    enabled: false
-    name: tidewave
-    display_name: Tidewave AI
-    timeout: 300
-    type: stdio
   filesystem:
     args:
       - "@modelcontextprotocol/server-filesystem"
@@ -89,7 +81,7 @@ extensions:
     bundled: false
     cmd: bunx
     description: Access the local filesystem.
-    enabled: true
+    enabled: false
     name: fs
     display_name: FileSystem Tool
     timeout: 400

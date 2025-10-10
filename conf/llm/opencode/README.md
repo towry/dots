@@ -1,0 +1,1 @@
+- [Available tools](https://opencode.ai/docs/agents/#available-tools)

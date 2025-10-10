@@ -2,21 +2,22 @@
 description: "Summarize changes"
 model: "glm-4.6"
 permission:
-    write: ask
-    edit: ask
+  write: ask
+  edit: ask
 tools:
-    write: true
-    edit: true
-    bash: false
-    read: true
-    glob: true
-    grep: true
-    list: true
-    webfetch: true
+  write: true
+  edit: true
+  bash: false
+  read: true
+  glob: true
+  grep: true
+  list: true
+  webfetch: false
 mode: subagent
 ---
 
-Please summarize current chat what the changes are and create/write in markdown file located at `./llm/changes/<change-name>_change.md`.
+Please summarize current chat what the changes are and create/write in markdown
+file located at `./llm/changes/<change-name>_change.md`.
 
 The format is like:
 

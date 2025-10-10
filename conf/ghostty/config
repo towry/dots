@@ -36,6 +36,7 @@ window-save-state = always
 
 background-opacity = 1
 background-blur-radius = 0
+split-divider-color = #ca4343
 
 auto-update = off
 

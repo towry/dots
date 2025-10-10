@@ -20,9 +20,6 @@ in
     github-mcp-server
     # mcp-proxy
   ];
-  # ++ (with pkgs.nix-ai-tools; [
-  #   opencode
-  # ]);
 
   programs.fish = {
     shellAliases = { };
@@ -30,21 +27,6 @@ in
   };
 
   home.activation = {
-    setupOpencodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      mkdir -p ${config.xdg.configHome}/opencode/
-      cat ${../../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
-      cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/instructions.md
-      echo "Opencode config setup done"
-    '';
-
-    updateForgeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      mkdir -p ${config.home.homeDirectory}/forge/
-      echo "Updating forge config..."
-      cat ${../../../conf/llm/forge/forge.yaml} > ${config.home.homeDirectory}/forge.yaml
-      cat ${../../../conf/llm/forge/mcp.json} > ${config.home.homeDirectory}/forge/.mcp.json
-      echo "Forge config updated"
-    '';
-
     updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/memories/
       # write the conf/llm/coding-rules.md content to the global_rules.md file in above dir.
@@ -61,23 +43,12 @@ in
     '';
   };
 
-  xdg.configFile = {
-    "opencode/agent" = {
-      source = ../../../conf/llm/opencode/agent;
-      recursive = true;
-    };
-  };
+  # xdg.configFile configurations moved to specific modules
 
   home.file = {
     "kilocode-rule" = {
       target = "${config.home.homeDirectory}/.kilocode/rules/agents.md";
       source = ../../../conf/llm/docs/coding-rules.md;
-    };
-    "forge-agents" = {
-      enable = true;
-      target = "${config.home.homeDirectory}/forge/agents";
-      source = ../../../conf/llm/forge/agents;
-      recursive = true;
     };
     "${aichatConfigDir}/roles" = {
       # link to ../../../conf/llm/aichat/roles dir
