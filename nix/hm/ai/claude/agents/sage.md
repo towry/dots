@@ -1,7 +1,7 @@
 ---
 name: sage
 description: Research and analyze codebases to provide concrete information about existing functionality, implementation details, custom services and workarounds. Use proactively for informed refactoring decisions and codebase understanding.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, WebFetch
 model: sonnet
 ---
 

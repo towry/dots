@@ -44,6 +44,10 @@ in
       source = claudeConfigDir + "/agents";
       recursive = true;
     };
+    ".claude/commands" = {
+      source = claudeConfigDir + "/commands";
+      recursive = true;
+    };
   };
 
   # Activation script to copy settings.json and .mcp.json
