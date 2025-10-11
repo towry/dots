@@ -22,7 +22,7 @@ in
   xdg.configFile = {
     # toml
     "codex/config.toml".text = ''
-      model = "openai/gpt-5-codex"
+      model = "openai/gpt-5"
       model_provider = "openrouter"
       approval_policy = "untrusted"
       model_reasoning_effort = "low"
@@ -34,7 +34,7 @@ in
       env_key = "OPENROUTER_API_KEY"
 
       [profiles.claude]
-      model = "openai/gpt-5-codex"
+      model = "openai/gpt-5"
       sandbox_mode = "read-only"
       approval_policy = "never"
       model_provider = "openrouter"

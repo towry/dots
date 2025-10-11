@@ -45,7 +45,6 @@
       "mcp__playwright__browser_press_key",
       "mcp__playwright__browser_navigate_back",
       "mcp__playwright__browser_take_screenshot",
-      "mcp__playwright__browser_snapshot",
       "mcp__playwright__browser_drag",
       "mcp__mermaid__analyze-flowchart",
       "mcp__mermaid__generate-flowchart",
