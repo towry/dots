@@ -44,7 +44,7 @@ in
       model_verbosity = "low"
 
       [profiles.claude_fast]
-      model = "openai/gpt-5-codex"
+      model = "anthropic/claude-sonnet-4.5"
       sandbox_mode = "read-only"
       approval_policy = "never"
       model_provider = "openrouter"
