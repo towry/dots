@@ -15,7 +15,7 @@ Bad:  "Review this"
 
 **subagents**:
 
-When user frustated, confused, or needs deep analysis, ask user wether to use oracle subagent for help.
+When user frustrated, confused, or needs deep analysis, ask user whether to use oracle subagent for help.
 
 - `jj`: for git operations and git context inquiry
 - `oracle`: advanced coding consultant
