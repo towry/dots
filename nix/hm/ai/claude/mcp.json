@@ -6,6 +6,16 @@
       "args": ["chrome-devtools-mcp@latest"],
       "disabled": false
     },
+    "zai-ms": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@z_ai/mcp-server"],
+      "env": {
+        "Z_AI_MODE": "ZHIPU",
+        "Z_AI_API_KEY": "${ZAI_API_KEY}"
+      },
+      "disabled": false
+    },
     "playwright": {
       "type": "stdio",
       "command": "bunx",

@@ -1,10 +1,7 @@
-# Subagent Delegation
+# Smarter tools
 
-**Requirements for delegation**:
-- Include sufficient context for the subagent to work independently
-- Provide explicit, clear instructions
-- Specify all constraints and expected outcomes
-- When user frustrated, confused, or needs deep analysis, ask user whether to use oracle subagent for help.
-- `codex`: do not provide argument `model`, provide `profile` with value `claude`
+- When user frustrated, confused, or needs deep analysis, ask user whether to use `oracle` subagent for help.
+- When use `codex`: do not provide argument `model`, provide `profile` with value `claude` or `claude_fast`
+- When making plan, always use `codex` mcp tool.
 
 @CONTENT@

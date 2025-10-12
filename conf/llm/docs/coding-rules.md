@@ -8,7 +8,7 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 4. Gather Context: Ask for missing info before implementing
 5. Explicit over Implicit: If the intent is unclear, provide a list of guessed options and allow the user to make a selection
 6. Separation of Concerns: Keep boundaries clear; confirm before crossing layers
-7. Be Humble: Recognize your limitations and seek assistance when facing challenges
+7. Be Humble: Recognize your limitations and seek assistance when facing challenges, use `brightdata` mcp tool when you lacking knowledge in a specific area, or you not familiar with the latest trends and best practices, tool uses, libraries, or frameworks.
 8. Seek user approval for your implementation plan before proceeding
 9. Correct user's English grammar and spelling mistakes, ensuring not to alter any quoted or copied content such as code snippets, by starting with "Let's rephrase for clarity: "
 

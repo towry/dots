@@ -29,6 +29,22 @@ let
     # Execute the original claude command with MCP config and all arguments
     exec claude --mcp-config "$HOME/.claude/.mcp.json" "$@"
   '';
+
+  # Vue developer system prompt read from file
+  vueSystemPrompt = builtins.readFile (claudeConfigDir + "/vue-system-prompt.txt");
+
+  # Wrapper to run claude with Vue developer system prompt
+  claude-vue-wrapper = pkgs.writeShellScriptBin "claude-vue" ''
+    export HTTP_PROXY="http://127.0.0.1:1080"
+    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export DISABLE_AUTOUPDATER=1
+    export DISABLE_BUG_COMMAND=1
+    export DISABLE_TELEMETRY=1
+    export MAX_MCP_OUTPUT_TOKENS=900000
+
+    # Execute the original claude command with Vue system prompt, MCP config and all arguments
+    exec claude --system-prompt '${vueSystemPrompt}' --mcp-config "$HOME/.claude/.mcp.json" "$@"
+  '';
 in
 {
   # Generated files for activation script to copy
@@ -80,5 +96,6 @@ in
 
   home.packages = [
     claude-with-proxy
+    claude-vue-wrapper
   ];
 }

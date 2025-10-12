@@ -33,7 +33,7 @@ Use the provided context or ask the user
 
 ## Review tools
 
-- mcp__codex__codex: advanced coding consultant, use mcp__codex__codex mcp tool for deep insights, provide sufficient context and the specific question, like what type of issue to look for. Like "Please review this change: `<diff>`, what are the purpose of this change, is it still valid? <other review standards requirements>".
+- `mcp__codex__codex` mcp tool: advanced coding consultant mcp tool, use `mcp__codex__codex` mcp tool for deep insights, provide sufficient context and the specific question, like what type of issue to look for. Like "Please review this change: `<diff>`, <other review standards requirements>".
 
 ## Core Review Responsibilities
 

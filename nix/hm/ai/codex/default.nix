@@ -38,17 +38,17 @@ in
       sandbox_mode = "read-only"
       approval_policy = "never"
       model_provider = "openrouter"
-      model_reasoning_effort = "medium"
+      model_reasoning_effort = "high"
       model_reasoning_summary = "auto"
       hide_agent_reasoning = true
       model_verbosity = "low"
 
       [profiles.claude_fast]
-      model = "anthropic/claude-sonnet-4.5"
+      model = "google/gemini-2.5-pro"
       sandbox_mode = "read-only"
       approval_policy = "never"
       model_provider = "openrouter"
-      model_reasoning_effort = "minimal"
+      model_reasoning_effort = "high"
       model_reasoning_summary = "auto"
       hide_agent_reasoning = true
       model_verbosity = "low"
