@@ -1,10 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(minimize-git-diff-llm)",
+      "Bash(minimize-git-diff-llm:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
+      "Bash(ls:*)",
+      "Read(/tmp/**)",
       "Bash(jj df:*)",
       "Bash(jj diff:*)",
       "Bash(jj st:*)",
@@ -106,7 +108,7 @@
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)"
     ],
-    "additionalDirectories": ["/Users/towry/workspace"],
+    "additionalDirectories": ["/Users/towry/workspace", "/tmp"],
     "defaultMode": "default"
   },
   "env": {
