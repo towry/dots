@@ -19,6 +19,7 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 - Break Down Tasks: Split complex tasks into small, verifiable steps for better clarity and manageability
 - Consider Scope: Check impact on surrounding code
 - Avoid integrating _mock code_ into intermediate layers. Ensure that the foundational implementation is finalized, and contain all mocking behavior in the highest layer.
+- Do not add debug or demo code into components or modules, unless explicitly requested
 - Use annotations like FIXME, TODO, and NOTE to highlight areas that require attention, further improvement, or documentation for future reference
 - Write helpful comments for “why”, prefer self-documenting code for “what”
 - Prioritize correctness and clarity over micro-optimizations
@@ -72,13 +73,17 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 3. Ask user to commit current changes before running lint/format to avoid unexpected
    diffs
 
-# When researching code
+# When researching/refactoring code
 
-1. *Shell* Utilize `fd` to find files and `rg` to search within file contents
-2. *MCP tools* When using MCP tools, provide absolute file paths
-3. Package Managers: Detect the correct one (npm/pnpm/yarn)
-4. *Shell* Kill process that owning a port: `killport <port>`
-5. *Shell* Running shell commands: Use shell commands in fish shell
-6. *Git* View file changed vs main in git repo: `jj df-file-base <file-path>`
-7. *Git* View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`
-8. Use brightdata mcp tool to fetch latest context from the web, like version, framework tools, documentation.
+Your bash environment has access to some useful non-default tools:
+
+- *Shell* Utilize `fd` to find files and `rg` to search within file contents
+- *MCP tools* When using MCP tools, provide absolute file paths
+- Package Managers: Detect the correct one (npm/pnpm/yarn)
+- *Shell* Kill process that owning a port: `killport <port>`
+- *Shell* Running shell commands: Use shell commands in fish shell
+- *Git* View file changed vs main in git repo: `jj df-file-base <file-path>`
+- *Git* View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`
+- Use brightdata mcp tool to fetch latest context from the web, like version, framework tools, documentation.
+- `ast-grep`. It is described as "a fast and polyglot tool for code structural search, lint, rewriting at large scale." More info at https://ast-grep.github.io/llms.txt
+- `fastmod` is a code modification tool forked from codemod. Very useful for large refactors or refactoring code. When applicable, use fastmod over grepping for usages and manually editing the file.
