@@ -45,7 +45,7 @@ jj diff --git --no-pager --ignore-working-copy --context 0 --from "<baseline-id>
 ls /tmp/llm/diff/
 ```
 
-The chunk files are named as `chunk_<suffxi>.diff`, where <suffix> is from `aa` to `zz`.
+The chunk files are named as `chunk_<suffxi>.diff`, where `<suffix>` is from `aa` to `zz`.
 
 # Call diff-issue subagent with Every Diff Chunk Exhaustively
 
