@@ -75,6 +75,10 @@
   # aliases
   programs.fish.shellAliases = {
     cd-home = "cd $HOME/workspace";
+    cd-work = "cd $HOME/workspace/work";
+    ya-home = "cd $HOME/workspace && yazi";
+    ya-download = "cd $HOME/Downloads && yazi";
+    cd-download = "cd $HOME/Downloads";
     surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
     run-firefox-debugger =
       if pkgs.stdenv.isDarwin then

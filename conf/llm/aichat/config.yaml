@@ -28,6 +28,12 @@ clients:
               type: "disabled"
       - name: glm-4.6
         real_name: glm-4.6
+      - name: glm-4.6-non-reasoning
+        real_name: glm-4.6
+        patch:
+          body:
+            thinking:
+              type: "disabled"
 
   - type: openai-compatible
     name: openrouter

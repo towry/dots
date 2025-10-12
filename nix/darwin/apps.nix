@@ -13,6 +13,7 @@
   homebrew = {
     brews = [
       "asdf"
+      "codex"
       # "block-goose-cli"
     ];
     casks = [

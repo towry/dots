@@ -21,6 +21,10 @@ let
   claude-with-proxy = pkgs.writeShellScriptBin "claude-ai" ''
     export HTTP_PROXY="http://127.0.0.1:1080"
     export HTTPS_PROXY="http://127.0.0.1:1080"
+    export DISABLE_AUTOUPDATER=1
+    export DISABLE_BUG_COMMAND=1
+    export DISABLE_TELEMETRY=1
+    export MAX_MCP_OUTPUT_TOKENS=900000
 
     # Execute the original claude command with MCP config and all arguments
     exec claude --mcp-config "$HOME/.claude/.mcp.json" "$@"
@@ -74,7 +78,7 @@ in
     '';
   };
 
-  home.packages = with pkgs; [
+  home.packages = [
     claude-with-proxy
   ];
 }

@@ -328,6 +328,7 @@ in
       ".opencode/"
       ".roo/"
       ".expert/"
+      "settings.local.json"
     ];
   };
 }
