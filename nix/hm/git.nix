@@ -23,11 +23,9 @@ in
     gh-pr-rebase = "gh pr merge -d -r";
     gh-pr-squash = "gh pr merge -d -s";
     glab-new-pr = "bash ${bashScriptsDir}/glab-new-pr.sh";
-    gstat = "git show --stat";
     lg = "lazygit";
     lgs = "lazygit status";
     tig = "TERM=xterm-256color ${pkgs.tig}/bin/tig";
-    flog = "glog";
   };
 
   home.packages = with pkgs; [
@@ -37,7 +35,7 @@ in
     # git-smash
     gnupg
     # git-sim
-    git-interactive-rebase-tool
+    # git-interactive-rebase-tool
   ];
   programs.git = {
     enable = true;
@@ -287,16 +285,16 @@ in
           blame-code-style = "syntax";
         };
         dark = true;
-        side-by-side = true;
+        side-by-side = false;
         keep-plus-minus-markers = true;
         syntax-theme = "none";
         file-decoration-style = "blue box";
         hunk-header-decoration-style = "blue ul";
         line-numbers = true;
-        line-numbers-left-format = "{nm:>3} │";
-        line-numbers-right-format = " │{np:>3} │";
+        # line-numbers-left-format = "{nm:>3} │";
+        # line-numbers-right-format = " │{np:>3} │";
         navigate = true;
-        tabs = 4;
+        tabs = 2;
         features = "kanagawa-dragon";
         hyperlinks = true;
         diff-stat-align-width = 48;
