@@ -1,5 +1,5 @@
 ---
-description: "Save chat context as documentation"
+description: "Save chat context as markdown files in the llm directory; Only tell me the requirements, do not tell me how to do and what folder to save the file; I have convention and guideline to work with, so let me handle the details."
 argument-hint: <task>
 ---
 
@@ -10,7 +10,7 @@ Additional info: `$ARGUMENTS`
 *文件名*
 
 - 如果是计划类的，则是 `llm/task-plan/<plan-name>_plan.md`
-- 如果是文档类的，则是 `llm/documents/<document-name>.md
+- 如果是文档类的，则是 `llm/documents/<document-name>.md`
 - 如果是报告类的，则是 `llm/reports/<report-name>.md`
 - 如果是技术设计类，则是 `llm/tech-designs/<design-name>.md`
 
@@ -22,3 +22,5 @@ Additional info: `$ARGUMENTS`
 - 如果文件已存在，请覆盖旧文件。
 - 请直接保存文件，避免额外的输出。
 - 去除开头的无意义的问候语句
+- 语言保持一致
+- 如果没有可以保存的文档，请告知用户
