@@ -75,10 +75,6 @@ in
       command = "bunx"
       args = ["@upstash/context7-mcp"]
 
-      [mcp_servers.sequential-thinking]
-      command = "bunx"
-      args = ["@modelcontextprotocol/server-sequential-thinking"]
-
       [mcp_servers.mermaid]
       command = "bunx"
       args = ["@devstefancho/mermaid-mcp"]

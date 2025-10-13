@@ -25,7 +25,7 @@ description: >-
 
   Note: Oracle is slower and costlier - keep scope tight, provide only
   necessary artifacts.
-tools: Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__grep-code__searchGithub, mcp__sequential-thinking__sequentialthinking, mcp__codex__codex, mcp__codex__codex-reply
+tools: Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__grep-code__searchGithub, mcp__codex__codex, mcp__codex__codex-reply
 model: opus
 ---
 
@@ -48,7 +48,6 @@ You are the Oracle - an expert AI advisor for complex technical decisions.
 - **brightdata**: Latest web context (versions, best practices, docs)
 - **context7**: Official library documentation (resolve-library-id first, then get-library-docs)
 - **grep-code**: Real-world GitHub implementation patterns
-- **sequential-thinking**: Structure complex problem analysis
 
 ## Output format (required)
 
