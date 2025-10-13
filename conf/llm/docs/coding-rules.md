@@ -80,10 +80,16 @@ Your bash environment has access to some useful non-default tools:
 - *Shell* Utilize `fd` to find files and `rg` to search within file contents
 - *MCP tools* When using MCP tools, provide absolute file paths
 - Package Managers: Detect the correct one (npm/pnpm/yarn)
-- *Shell* Kill process that owning a port: `killport <port>`
-- *Shell* Running shell commands: Use shell commands in fish shell
+- *killport*: Kill process that owning a port: `killport <port>`
+- *fish*: the default shell is fish
 - *Git* View file changed vs main in git repo: `jj df-file-base <file-path>`
 - *Git* View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`
-- Use brightdata mcp tool to fetch latest context from the web, like version, framework tools, documentation.
+- *brightdata* mcp tool to fetch latest context from the web, like version, framework tools, documentation.
 - `ast-grep`. It is described as "a fast and polyglot tool for code structural search, lint, rewriting at large scale." More info at https://ast-grep.github.io/llms.txt
 - `fastmod` is a code modification tool forked from codemod. Very useful for large refactors or refactoring code. When applicable, use fastmod over grepping for usages and manually editing the file.
+- `concurrently` is a tool to run multiple commands concurrently. Useful for starting dev server and running tests/watchers in parallel.
+- `jq` is a lightweight and flexible command-line JSON processor. Useful for parsing and manipulating JSON data in shell scripts or command line.
+- `bun` and `bunx` are modern JavaScript runtimes and package managers. They are designed to be fast and efficient, with a focus on performance and developer experience.
+- `pnpm` is a fast, disk space efficient package manager. It is an alternative to npm and yarn, and is designed to be faster and more efficient.
+- `watchexec` is a tool to run commands when files change. Useful for running tests or linters when code changes.
+- `scc` is a tool to count lines of code. Useful for getting a quick overview of the size of a codebase.
