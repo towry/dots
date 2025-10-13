@@ -83,7 +83,7 @@ function jj-fork --description "Fork from a bookmark or revision"
     or return
 
     set -l date_now (date +%m%d%H)
-    set -l bookmark_name "$bookmark_name-$date_now"
+    set -l bookmark_name "towry/$bookmark_name-$date_now"
 
     # Check if the bookmark name is already used
     jj --ignore-working-copy log --quiet -r $bookmark_name -n 1 > /dev/null 2>&1

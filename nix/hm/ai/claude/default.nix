@@ -97,5 +97,6 @@ in
   home.packages = [
     claude-with-proxy
     claude-vue-wrapper
+    pkgs.minijinja
   ];
 }
