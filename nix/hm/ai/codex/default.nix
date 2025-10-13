@@ -19,7 +19,6 @@ in
     codex-with-proxy
   ];
 
-  # https://app.edenai.run/v2/feat/generative/chat
   xdg.configFile = {
     # toml
     "codex/config.toml".text = ''
@@ -34,13 +33,8 @@ in
       base_url = "https://openrouter.ai/api/v1"
       env_key = "OPENROUTER_API_KEY"
 
-      [model_providers.edenai]
-      name = "edenai"
-      base_url = "https://api.edenai.run/v2/llm/chat"
-      env_key = "EDENAI_API_KEY"
-
       [profiles.claude]
-      model = "openai/gpt-5"
+      model = "openai/gpt-5-codex"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
       approval_policy = "never"
@@ -50,11 +44,11 @@ in
       model_verbosity = "low"
 
       [profiles.claude_fast]
-      model = "google/gemini-2.5-pro"
+      model = "openai/gpt-5-codex"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
       approval_policy = "never"
-      model_reasoning_effort = "high"
+      model_reasoning_effort = "low"
       model_reasoning_summary = "auto"
       hide_agent_reasoning = true
       model_verbosity = "low"

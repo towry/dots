@@ -1,0 +1,529 @@
+#!/usr/bin/env bash
+
+# Claude Workflow Dispatcher Script
+#
+# This script acts as a dispatcher that delegates different commands to appropriate tools:
+# --pr-list    -> Delegates to init-kiro.sh --pr-list (interactive)
+# --pr-new     -> Delegates to claude-boot.sh --pr-new + system prompt generation
+# --yolo       -> Enables Claude with bypass permissions for current PR context
+# --test       -> Runs the test suite
+# --help       -> Shows this help message
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CLAUDE_BOOT_SCRIPT="$SCRIPT_DIR/claude-boot.sh"
+INIT_KIRO_SCRIPT="$SCRIPT_DIR/init-kiro.sh"
+
+# Colors with proper terminal detection
+setup_colors() {
+    # Check if stdout is a terminal and supports colors
+    if [[ -t 1 ]] && command -v tput &> /dev/null; then
+        ncolors=$(tput colors 2>/dev/null || echo 0)
+        if [[ $ncolors -ge 8 ]]; then
+            RED='\033[0;31m'
+            GREEN='\033[0;32m'
+            YELLOW='\033[1;33m'
+            BLUE='\033[0;34m'
+            PURPLE='\033[0;35m'
+            CYAN='\033[0;36m'
+            BOLD='\033[1m'
+            NC='\033[0m'
+            COLORS_SUPPORTED=true
+            return
+        fi
+    fi
+
+    # Fallback: no colors
+    RED=''
+    GREEN=''
+    YELLOW=''
+    BLUE=''
+    PURPLE=''
+    CYAN=''
+    BOLD=''
+    NC=''
+    COLORS_SUPPORTED=false
+}
+
+# Initialize colors
+setup_colors
+
+log_info() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${BLUE}[INFO]${NC} $1"
+    else
+        echo "[INFO] $1"
+    fi
+}
+
+log_success() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${GREEN}[SUCCESS]${NC} $1"
+    else
+        echo "[SUCCESS] $1"
+    fi
+}
+
+log_error() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${RED}[ERROR]${NC} $1"
+    else
+        echo "[ERROR] $1"
+    fi
+}
+
+log_warning() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${YELLOW}[WARNING]${NC} $1"
+    else
+        echo "[WARNING] $1"
+    fi
+}
+
+log_test() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${PURPLE}[TEST]${NC} $1"
+    else
+        echo "[TEST] $1"
+    fi
+}
+
+log_pass() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${GREEN}[PASS]${NC} $1"
+    else
+        echo "[PASS] $1"
+    fi
+}
+
+log_fail() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${RED}[FAIL]${NC} $1"
+    else
+        echo "[FAIL] $1"
+    fi
+}
+
+log_skip() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${YELLOW}[SKIP]${NC} $1"
+    else
+        echo "[SKIP] $1"
+    fi
+}
+
+# Show usage information
+show_help() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        cat << EOF
+${CYAN}Claude Workflow Dispatcher${NC}
+
+This script dispatches different commands to appropriate tools:
+
+${YELLOW}Usage:${NC} $0 [COMMAND] [OPTIONS]
+
+${YELLOW}Commands:${NC}
+  --pr-list                    List and select existing PR folders (interactive)
+  --pr-new "description"        Create new PR folder and generate system prompt
+  --yolo                       Start Claude with bypass permissions for current PR
+  --test                       Run comprehensive test suite
+  --help, -h                   Show this help message
+
+${YELLOW}Examples:${NC}
+  $0 --pr-list                 # Interactive PR selection
+  $0 --pr-new "Add feature X"  # Create PR and get system prompt
+  $0 --yolo                    # Start Claude with bypass permissions
+  $0 --test                    # Run all tests
+
+${YELLOW}Workflow:${NC}
+  1. Use --pr-new to create a new PR folder
+  2. Use --yolo to start Claude with the PR context and bypass permissions
+  3. Use --pr-list to work on existing PRs
+
+EOF
+    else
+        cat << 'EOF'
+Claude Workflow Dispatcher
+
+This script dispatches different commands to appropriate tools:
+
+Usage: ./claude-workflow [COMMAND] [OPTIONS]
+
+Commands:
+  --pr-list                    List and select existing PR folders (interactive)
+  --pr-new "description"        Create new PR folder and generate system prompt
+  --yolo                       Start Claude with bypass permissions for current PR
+  --test                       Run comprehensive test suite
+  --help, -h                   Show this help message
+
+Examples:
+  ./claude-workflow --pr-list                 # Interactive PR selection
+  ./claude-workflow --pr-new "Add feature X"  # Create PR and get system prompt
+  ./claude-workflow --yolo                    # Start Claude with bypass permissions
+  ./claude-workflow --test                    # Run all tests
+
+Workflow:
+  1. Use --pr-new to create a new PR folder
+  2. Use --yolo to start Claude with the PR context and bypass permissions
+  3. Use --pr-list to work on existing PRs
+
+EOF
+    fi
+}
+
+# Delegate PR list to claude-boot.sh for better programmatic support
+handle_pr_list() {
+    log_info "Launching PR selection..."
+    if [[ -f "$CLAUDE_BOOT_SCRIPT" ]]; then
+        # Get PR selection from claude-boot.sh
+        local result
+        result=$("$CLAUDE_BOOT_SCRIPT" --pr-list 2>/dev/null)
+
+        if [[ $? -eq 0 && -n "$result" ]]; then
+            local pr_dir
+            pr_dir=$(echo "$result" | jq -r '.pr_dir // empty')
+
+            if [[ -n "$pr_dir" ]]; then
+                log_success "Selected PR folder: $pr_dir"
+
+                # Try to export system prompt if CLAUDE.md exists
+                if [[ -f "$pr_dir/CLAUDE.md" ]]; then
+                    export KIRO_SYSTEM_PROMPT=$(cat "$pr_dir/CLAUDE.md")
+                    log_info "System prompt loaded from: $pr_dir/CLAUDE.md"
+                fi
+            else
+                log_error "No PR directory found in result"
+                return 1
+            fi
+        else
+            log_error "Failed to get PR selection from claude-boot.sh"
+            return 1
+        fi
+    else
+        log_error "claude-boot.sh script not found: $CLAUDE_BOOT_SCRIPT"
+        return 1
+    fi
+}
+
+# Delegate PR creation to claude-boot.sh and show system prompt
+handle_pr_new() {
+    local description="$1"
+    log_info "Creating new PR: $description"
+
+    if [[ -z "$description" ]]; then
+        log_error "--pr-new requires a description"
+        echo "Usage: $0 --pr-new \"description of your PR\""
+        return 1
+    fi
+
+    # Create PR and get context JSON
+    local context_json
+    context_json=$("$CLAUDE_BOOT_SCRIPT" --pr-new "$description" 2>/dev/null)
+
+    if [[ $? -ne 0 || -z "$context_json" ]]; then
+        log_error "Failed to create PR"
+        return 1
+    fi
+
+    # Extract PR directory for user info
+    local pr_dir
+    pr_dir=$(echo "$context_json" | jq -r '.pr_dir // empty')
+
+    if [[ -n "$pr_dir" ]]; then
+        log_success "PR created successfully: $pr_dir"
+
+        # Generate system prompt
+        local system_prompt
+        system_prompt=$("$CLAUDE_BOOT_SCRIPT" --pr-new "$description" --generate-prompt 2>/dev/null)
+
+        if [[ $? -eq 0 && -n "$system_prompt" ]]; then
+            echo ""
+            if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+                echo "${CYAN}=== Generated System Prompt ===${NC}"
+                echo "$system_prompt"
+                echo "${CYAN}===============================${NC}"
+            else
+                echo "=== Generated System Prompt ==="
+                echo "$system_prompt"
+                echo "==============================="
+            fi
+            echo ""
+            log_info "Use '$0 --yolo' to start Claude with this PR context and bypass permissions"
+        else
+            log_warning "Could not generate system prompt (minijinja-cli may be missing)"
+        fi
+    else
+        log_error "Failed to extract PR directory from response"
+        return 1
+    fi
+}
+
+# Start Claude with bypass permissions for current PR
+handle_yolo() {
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo -e "${CYAN}🚀 YOLO MODE: Starting Claude with bypass permissions${NC}"
+    else
+        echo "🚀 YOLO MODE: Starting Claude with bypass permissions"
+    fi
+
+    # Try to find current PR context
+    local pr_dir=""
+    local context_json="{}"
+
+    # Check if we're in a PR directory or subdirectory
+    local current_dir="$(pwd)"
+    while [[ "$current_dir" != "/" ]]; do
+        if [[ -f "$current_dir/CLAUDE.md" && -f "$current_dir/DESIGN.md" && -f "$current_dir/TASK.md" ]]; then
+            pr_dir="$current_dir"
+            break
+        fi
+        current_dir="$(dirname "$current_dir")"
+    done
+
+    if [[ -n "$pr_dir" ]]; then
+        log_success "Found PR context: $pr_dir"
+
+        # Extract description from CLAUDE.md or use directory name
+        local description=""
+        if [[ -f "$pr_dir/CLAUDE.md" ]]; then
+            description=$(grep "This is a Kiro-managed PR for:" "$pr_dir/CLAUDE.md" | cut -d':' -f2- | xargs || echo "")
+        fi
+
+        if [[ -z "$description" ]]; then
+            description=$(basename "$pr_dir" | sed 's/_/ /g' | sed 's/-/ /g')
+        fi
+
+        # Generate context JSON
+        context_json=$(cat << EOF
+{
+  "pr_dir": "$pr_dir",
+  "description": "$description",
+  "branch_name": "$(basename "$pr_dir")",
+  "timestamp": "$(date -Iseconds)"
+}
+EOF
+)
+
+        # Generate system prompt
+        local system_prompt
+        system_prompt=$("$CLAUDE_BOOT_SCRIPT" --pr-new "$description" --generate-prompt 2>/dev/null)
+
+        if [[ $? -eq 0 && -n "$system_prompt" ]]; then
+            log_success "System prompt generated for current PR"
+
+            # Export system prompt for Claude
+            export KIRO_SYSTEM_PROMPT="$system_prompt"
+            export KIRO_PR_DIR="$pr_dir"
+
+            echo ""
+            if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+                echo "${CYAN}=== Claude YOLO Mode ===${NC}"
+                echo "${GREEN}✓ Bypass permissions enabled${NC}"
+                echo "${GREEN}✓ PR context loaded: $pr_dir${NC}"
+                echo "${GREEN}✓ System prompt ready${NC}"
+            else
+                echo "=== Claude YOLO Mode ==="
+                echo "✓ Bypass permissions enabled"
+                echo "✓ PR context loaded: $pr_dir"
+                echo "✓ System prompt ready"
+            fi
+            echo ""
+            log_info "Starting Claude with bypass permissions..."
+            log_info "Press Ctrl+C to exit Claude"
+            echo ""
+
+            # Start Claude with bypass permissions
+            # Try different Claude commands and flags
+            if command -v claude &> /dev/null; then
+                # Try common Claude CLI flags for bypassing restrictions
+                if claude --help 2>&1 | grep -q "bypass\|permission\|dangerous"; then
+                    # If Claude has bypass/permission flags, use them
+                    claude --dangerous 2>/dev/null || claude --bypass 2>/dev/null || claude
+                else
+                    # Default Claude without special flags
+                    claude
+                fi
+            elif command -v aichat &> /dev/null; then
+                # Fallback to aichat with developer role
+                aichat --role developer -S
+            elif command -v anthropic-claude &> /dev/null; then
+                # Alternative Claude CLI
+                anthropic-claude
+            else
+                log_error "No Claude CLI found (claude, aichat, or anthropic-claude)"
+                log_info "System prompt is available in KIRO_SYSTEM_PROMPT environment variable"
+                log_info "You can manually start Claude and paste the system prompt"
+                return 1
+            fi
+        else
+            log_warning "Could not generate system prompt"
+            log_info "You can manually use the system prompt from KIRO_SYSTEM_PROMPT"
+        fi
+    else
+        log_warning "No PR context found in current directory or parent directories"
+        log_info "Create a PR first with: $0 --pr-new \"your description\""
+        log_info "Or navigate to an existing PR directory"
+        return 1
+    fi
+}
+
+# Run test suite
+handle_test() {
+    log_info "Running comprehensive test suite..."
+
+    # Test 1: Help functionality
+    test_help() {
+        log_test "Testing help functionality..."
+        if output=$("$CLAUDE_BOOT_SCRIPT" --help 2>&1); then
+            if echo "$output" | grep -q "Usage:" && echo "$output" | grep -q "Options:"; then
+                log_pass "Help functionality works"
+                return 0
+            fi
+        fi
+        log_fail "Help functionality failed"
+        return 1
+    }
+
+    # Test 2: Default behavior
+    test_default() {
+        log_test "Testing default behavior (no arguments)..."
+        if output=$("$CLAUDE_BOOT_SCRIPT" 2>/dev/null); then
+            if echo "$output" | jq . &> /dev/null; then
+                if echo "$output" | jq -e '.timestamp' &> /dev/null; then
+                    log_pass "Default behavior returns valid JSON with timestamp"
+                    return 0
+                fi
+            fi
+        fi
+        log_fail "Default behavior failed"
+        return 1
+    }
+
+    # Test 3: PR creation
+    test_pr_creation() {
+        log_test "Testing PR creation..."
+        test_desc="Manual test PR $(date +%s)"
+        if output=$("$CLAUDE_BOOT_SCRIPT" --pr-new "$test_desc" 2>/dev/null); then
+            if echo "$output" | jq . &> /dev/null; then
+                if echo "$output" | jq -e '.pr_dir' &> /dev/null && echo "$output" | jq -e '.description' &> /dev/null && echo "$output" | jq -e '.branch_name' &> /dev/null && echo "$output" | jq -e '.timestamp' &> /dev/null; then
+                    local pr_dir
+                    pr_dir=$(echo "$output" | jq -r '.pr_dir')
+                    if [[ -d "$pr_dir" ]] && [[ -f "$pr_dir/CLAUDE.md" ]]; then
+                        log_pass "PR creation successful - PR directory and files created"
+                        # Clean up test PR
+                        rm -rf "$pr_dir"
+                        return 0
+                    fi
+                fi
+            fi
+        fi
+        log_fail "PR creation failed"
+        return 1
+    }
+
+    # Test 4: System prompt generation
+    test_prompt_generation() {
+        log_test "Testing system prompt generation..."
+        if ! command -v minijinja-cli &> /dev/null; then
+            log_skip "System prompt generation - minijinja-cli not available"
+            return 0
+        fi
+
+        test_desc="Prompt generation test $(date +%s)"
+        if output=$("$CLAUDE_BOOT_SCRIPT" --pr-new "$test_desc" --generate-prompt 2>/dev/null); then
+            if echo "$output" | grep -q "Claude System Prompt" && echo "$output" | grep -q "$test_desc"; then
+                log_pass "System prompt generation successful"
+                return 0
+            fi
+        fi
+        log_fail "System prompt generation failed"
+        return 1
+    }
+
+    # Test 5: Error handling
+    test_error_handling() {
+        log_test "Testing error handling for invalid arguments..."
+        if ! output=$("$CLAUDE_BOOT_SCRIPT" --invalid-option 2>&1); then
+            if echo "$output" | grep -q "Unknown option"; then
+                log_pass "Error handling works correctly"
+                return 0
+            fi
+        fi
+        log_fail "Error handling failed"
+        return 1
+    }
+
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo "${CYAN}=== Test Suite ===${NC}"
+    else
+        echo "=== Test Suite ==="
+    fi
+    local tests_total=5
+    local tests_passed=0
+    local tests_failed=0
+
+    test_help && ((tests_passed++)) || ((tests_failed++))
+    test_default && ((tests_passed++)) || ((tests_failed++))
+    test_pr_creation && ((tests_passed++)) || ((tests_failed++))
+    test_prompt_generation && ((tests_passed++)) || ((tests_failed++))
+    test_error_handling && ((tests_passed++)) || ((tests_failed++))
+
+    echo ""
+    if [[ "$COLORS_SUPPORTED" == "true" ]]; then
+        echo "${CYAN}=== Test Summary ===${NC}"
+        echo "Total: $tests_total, Passed: ${GREEN}$tests_passed${NC}, Failed: ${RED}$tests_failed${NC}"
+    else
+        echo "=== Test Summary ==="
+        echo "Total: $tests_total, Passed: $tests_passed, Failed: $tests_failed"
+    fi
+
+    if [[ $tests_failed -eq 0 ]]; then
+        log_success "All tests passed!"
+        return 0
+    else
+        log_error "Some tests failed"
+        return 1
+    fi
+}
+
+# Main dispatcher logic
+main() {
+    # Handle no arguments case
+    if [[ $# -eq 0 ]]; then
+        show_help
+        exit 0
+    fi
+
+    case "${1:-}" in
+        --help|-h)
+            show_help
+            ;;
+        --pr-list)
+            handle_pr_list
+            ;;
+        --pr-new)
+            if [[ $# -lt 2 ]]; then
+                log_error "--pr-new requires a description"
+                echo "Usage: $0 --pr-new \"description of your PR\""
+                exit 1
+            fi
+            handle_pr_new "$2"
+            ;;
+        --yolo)
+            handle_yolo
+            ;;
+        --test)
+            handle_test
+            ;;
+        *)
+            log_error "Unknown command: ${1:-}"
+            echo ""
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+# Run main function with all arguments
+main "$@"

@@ -25,6 +25,7 @@ in
     (with pkgs; [
       ## code counter
       scc
+      argc
       # bore-cli
       # termshark
       # inetutils

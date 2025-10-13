@@ -65,7 +65,9 @@ NC='\033[0m' # No Color
 
 # Logging functions (always output to stderr)
 log_info() {
-    echo -e "${BLUE}[INFO]${NC} $1" >&2
+    if [[ "${KIRO_QUIET:-}" != "1" ]]; then
+        echo -e "${BLUE}[INFO]${NC} $1" >&2
+    fi
 }
 
 log_success() {
@@ -208,6 +210,24 @@ load_template_content() {
     fi
 
     cat "$template_path"
+}
+
+# Export system prompt from PR directory
+export_system_prompt() {
+    local pr_dir="$1"
+    local claude_file="$pr_dir/CLAUDE.md"
+
+    if [[ ! -f "$claude_file" ]]; then
+        log_error "CLAUDE.md file not found: $claude_file"
+        return 1
+    fi
+
+    # Read the CLAUDE.md content and export as environment variable
+    local system_prompt
+    system_prompt=$(cat "$claude_file")
+    export KIRO_SYSTEM_PROMPT="$system_prompt"
+
+    log_success "System prompt exported from: $claude_file"
 }
 
 # Create PR folder with template files
