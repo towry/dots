@@ -76,12 +76,7 @@
     "codex": {
       "type": "stdio",
       "command": "codex-ai",
-      "args": [
-        "--dangerously-bypass-approvals-and-sandbox",
-        "--profile",
-        "claude_fast",
-        "mcp-server"
-      ],
+      "args": ["--profile", "claude_fast", "mcp-server"],
       "disabled": false
     }
   }

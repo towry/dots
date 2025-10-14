@@ -20,6 +20,10 @@ in
   ];
 
   xdg.configFile = {
+    "codex/instructions" = {
+      source = ./instructions;
+      recursive = true;
+    };
     # toml
     "codex/config.toml".text = ''
       model = "openai/gpt-5"
@@ -37,9 +41,10 @@ in
       model = "openai/gpt-5-codex"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
+      experimental_instructions_file = "${codex_home}/instructions/oracle-role.md"
       approval_policy = "never"
-      model_reasoning_effort = "high"
-      model_reasoning_summary = "auto"
+      model_reasoning_effort = "medium"
+      model_reasoning_summary = "concise"
       hide_agent_reasoning = true
       model_verbosity = "low"
 
@@ -47,9 +52,10 @@ in
       model = "openai/gpt-5-codex"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
+      experimental_instructions_file = "${codex_home}/instructions/oracle-role.md"
       approval_policy = "never"
-      model_reasoning_effort = "low"
-      model_reasoning_summary = "auto"
+      model_reasoning_effort = "minimal"
+      model_reasoning_summary = "concise"
       hide_agent_reasoning = true
       model_verbosity = "low"
 
@@ -69,7 +75,7 @@ in
       ## MCP
       [mcp_servers.playwright]
       command = "bunx"
-      args = ["@playwright/mcp@latest"]
+      args = ["@playwright/mcp@latest", "--headless", "--ignore-https-errors", "--save-session"]
 
       [mcp_servers.context7]
       command = "bunx"

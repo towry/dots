@@ -1,35 +1,33 @@
-# Critical and general rules
+# Core Principles
 
 Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
 
-1. Be Organized: Use numbered lists for options, steps, or requirements
-2. Be Transparent: Use FIXME, TODO, NOTE when relevant
-3. Be Clear: Document assumptions and requirements briefly in comments
-4. Gather Context: Ask for missing info before implementing
-5. Explicit over Implicit: If the intent is unclear, provide a list of guessed options and allow the user to make a selection
-6. Separation of Concerns: Keep boundaries clear; confirm before crossing layers
-7. Be Humble: Recognize your limitations and seek assistance when facing challenges, use `brightdata` mcp tool when you lacking knowledge in a specific area, or you not familiar with the latest trends and best practices, tool uses, libraries, or frameworks.
-8. Seek user approval for your implementation plan before proceeding
-9. Correct user's English grammar and spelling mistakes, ensuring not to alter any quoted or copied content such as code snippets, by starting with "Let's rephrase for clarity: "
+- use existing fd, rg modern command tools, do not use find, grep that are not installed.
+- When search files, grep for file content, use `fd` and `rg` instead of `find` and `grep`, `find` or `grep` is not installed.
+- Prioritize project conventions over general best practices
+- *Maintainability*: Long-term convenience over short-term hacks
+- Avoid over-engineering and unnecessary complexity
+- *Pragmatic Solutions*: Favor obviously correct code over clever tricks
+- Ensuring every abstraction justifies
+- Complexity is only introduced when it solves real problems
+- Be Organized: Use numbered items format when providing options or steps
+- Gather Context: Ask for missing info before implementing
+- Explicit over Implicit: If the intent is unclear, provide a list of guessed options and allow the user to make a selection
+- Separation of Concerns: Keep boundaries clear; confirm before crossing layers
+- Be Humble: Recognize your limitations and seek assistance when facing challenges, use `brightdata` mcp tool when you lacking knowledge in a specific area, or you not familiar with the latest trends and best practices, tool uses, libraries, or frameworks.
+- Ask user approval after plan is approved with "Do you want me to proceed with the implementation?"
+- Correct user's English grammar and spelling mistakes, ensuring not to alter any quoted or copied content such as code snippets, by starting with "Let's rephrase for clarity: "
 
 # When implementing and fixing
 
 - Clarify Requirements: Ask questions when tasks are unclear
 - Validate Requirements: Identify key specifications and edge cases
 - Break Down Tasks: Split complex tasks into small, verifiable steps for better clarity and manageability
-- Consider Scope: Check impact on surrounding code
-- Avoid integrating _mock code_ into intermediate layers. Ensure that the foundational implementation is finalized, and contain all mocking behavior in the highest layer.
-- Do not add debug or demo code into components or modules, unless explicitly requested
+- Consider Scope: check impact on surrounding code
+- Avoid integrating _mock code_ or _demo code_ into intermediate layers. Ensure that the foundational implementation(components, modules) is finalized, and contain all mocking/demo behavior in the highest layer.
 - Use annotations like FIXME, TODO, and NOTE to highlight areas that require attention, further improvement, or documentation for future reference
-- Write helpful comments for “why”, prefer self-documenting code for “what”
-- Prioritize correctness and clarity over micro-optimizations
-- Follow DRY pragmatically: apply SOLID principles when they improve readability
-  and maintainability; avoid unnecessary abstractions that do not solve a clear
-  problem.
 - Use descriptive constants instead of magic numbers (e.g., const MAX_RETRIES =
   3).
-- Preserve existing structure and style unless they contradict project standards
-  or cause readability/maintainability issues.
 - Prefer dependency injection and localized state over globals: allow direct
   access in small standalone scripts or configuration files where DI overhead
   outweighs its benefit.
@@ -39,7 +37,6 @@ Avoid over-engineering. Prefer simple, correct, and maintainable solutions.
   must be documented and justified.
 - Prefer simple solutions that minimize side effects and blast radius
 - **Fail Fast, Don't Hide Bugs**: Avoid using try-catch blocks, optional chaining (`?.`), or other defensive coding techniques to silence errors that indicate a contract violation. Instead, prefer fail-fast and allow the system to quickly detect and report errors. If an object is expected to have a certain method or property, its absence is a bug that should be surfaced immediately. Hiding such errors leads to deferred failures that are much harder to debug.
-
 
 **Good function signature design**
 
@@ -77,7 +74,6 @@ Good: `downloadResume(candidateId, candidateName, authToken)`
 
 Your bash environment has access to some useful non-default tools:
 
-- *Shell* Utilize `fd` to find files and `rg` to search within file contents
 - *MCP tools* When using MCP tools, provide absolute file paths
 - Package Managers: Detect the correct one (npm/pnpm/yarn)
 - *killport*: Kill process that owning a port: `killport <port>`
@@ -85,6 +81,8 @@ Your bash environment has access to some useful non-default tools:
 - *Git* View file changed vs main in git repo: `jj df-file-base <file-path>`
 - *Git* View file changed vs previous commit in git repo: `jj df-file-prev <file-path>`
 - *brightdata* mcp tool to fetch latest context from the web, like version, framework tools, documentation.
+- "fd" is a simple, fast and user-friendly alternative to "find". 
+- "rg" (ripgrep) is a line-oriented search tool that recursively searches the current directory for a regex pattern. It is similar to "grep", but faster and more user-friendly.
 - `ast-grep`. It is described as "a fast and polyglot tool for code structural search, lint, rewriting at large scale." More info at https://ast-grep.github.io/llms.txt
 - `fastmod` is a code modification tool forked from codemod. Very useful for large refactors or refactoring code. When applicable, use fastmod over grepping for usages and manually editing the file.
 - `concurrently` is a tool to run multiple commands concurrently. Useful for starting dev server and running tests/watchers in parallel.
