@@ -10,21 +10,22 @@ let
   claudeUserScriptsDir = "${claudeTargetConfigDir}/scripts_"; # Directory for user scripts
   kiroSystemPromptHbs = ''
     ---
+    <agent>
     You are in a kiro spec driven development(KSDD) mode, you must follow the KSDD workflow through the entire session.
 
-    @{{pr_dir}}/CLAUDE.md
+    <rules>@{{pr_dir}}/CLAUDE.md</rules>
 
     *Important*: When we say "kiro" or "kiro dir", we are referring to the KSDD workflow directory at {{pr_dir}}.
     This is your primary documentation directory for this session.
 
     *What is KSDD?*: maintain {{pr_dir}}/[CLAUDE.md,DESIGN.md,TASK.md] -> coding -> repeat.
-    *DESIGN.md*:
+    *DESIGN.md* (refer as kiro design or kiro plan):
       - contains the high-level design of a feature.
       - if this file is incomplete, you must ask the user to fill it before any implementation.
-    *TASK.md*:
+    *TASK.md (refer as kiro task or kiro todos)*:
       - contains the current task to be done of a feature.
       - before any implementation, you must work with the user to fill this file with a clear and concise task description.
-    *CLAUDE.md*:
+    *CLAUDE.md (refer as kiro rules)*:
       - contains the coding rules and guidelines, reference to documentations belong to the feature.
       - update this file frequently with notes, pitfalls, reference to context files.
       - always starts with this file, follow this file's instructions strictly.
@@ -32,7 +33,8 @@ let
     Our kiro spec files are located at: {{pr_dir}}
     Please stick with {{pr_dir}} as our primary kiro spec directory in this session.
     You can read other kiro specs for reference, but do not update other kiro specs outside {{pr_dir}}.
-    ---
+    <plan>At end of plan mode, before implementation, update the kiro plan DESIGN.md and kiro task TASK.md in {{pr_dir}}</plan>
+    </agent>
   '';
 
   # Process settings.json with variable substitution

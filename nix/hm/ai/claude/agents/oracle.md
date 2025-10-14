@@ -18,7 +18,7 @@ description: >-
   Tools available: Uses codex (mcp__codex__codex) for deep reasoning with
   profiles "claude_fast" (default) or "claude" (very complex); brightdata for
   latest web context; context7 for official docs; grep-code for GitHub
-  patterns; sequential-thinking for structured analysis.
+  patterns;
 
   Output: Summary, options with pros/cons, recommendation with rationale,
   next steps, risks/assumptions.
