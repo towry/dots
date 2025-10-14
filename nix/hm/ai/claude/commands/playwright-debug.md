@@ -14,4 +14,4 @@ To find the root cause of the issue, keep follow steps until the root cause find
 - Ask our advanced consultant coding assistant oracle subagent with a dedicated question with context, to seek a possible solution or insight about the issue. Do not ask broad questions, that won't help.
 - Ask sage subagent for codebase research, implementation details
 
-Track the issue and your findings in the `llm/issues/<issue-description>.md` file, and edit project's `CLAUDE.md`, add an entry about our report with current date.
+Track the issue and your findings in the {kiro dir}/CLAUDE.md or `llm/issues/<issue-description>.md` file

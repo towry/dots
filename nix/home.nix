@@ -86,6 +86,7 @@ in
     ./hm/fzf.nix
     ./hm/editor.nix
     ./hm/frontend-dev.nix
+    ./hm/agpod
     # ./hm/helix.nix
     # ./hm/tmux.nix
     # ./hm/zellij.nix

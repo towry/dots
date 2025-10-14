@@ -1,7 +1,7 @@
 ---
 description: "Review code changes in a jj revision for adherence to project guidelines and best practices"
 argument-hint: [revset]
-allowed-tools: Bash(jj log:*), Bash(jj diff:*), Bash(jj operation log:*), Bash(jj show:*), Bash(jj status:*), Bash(jj file show:*), Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__grep-code__searchGithub, mcp__sequential-thinking__sequentialthinking, mcp__codex__codex, mcp__codex__codex-reply
+allowed-tools: Bash(jj log:*), Bash(jj diff:*), Bash(jj operation log:*), Bash(jj show:*), Bash(jj status:*), Bash(jj file show:*), Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__grep-code__searchGithub, mcp__codex__codex, mcp__codex__codex-reply
 ---
 
 User provided input: `$ARGUMENTS`
@@ -33,7 +33,7 @@ Use the provided context or ask the user
 
 ## Review tools
 
-- mcp__codex__codex: advanced coding consultant, use mcp__codex__codex mcp tool for deep insights, provide sufficient context and the specific question, like what type of issue to look for. Like "Please review this change: `<diff>`, what are the purpose of this change, is it still valid? <other review standards requirements>".
+- `mcp__codex__codex` mcp tool: advanced coding consultant mcp tool, use `mcp__codex__codex` mcp tool for deep insights, provide sufficient context and the specific question, like what type of issue to look for. Like "Please review this change: `<diff>`, <other review standards requirements>".
 
 ## Core Review Responsibilities
 

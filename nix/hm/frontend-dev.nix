@@ -10,6 +10,8 @@
     nodejs
     pnpm
     bun
+    concurrently
+    fastmod
     # biome
     # nodePackages.prettier
     # nodePackages.eslint

@@ -1,6 +1,6 @@
 ---
 description: "Summarize changes"
-model: "glm-4.6"
+model: "zhipuai-coding-plan/glm-4.6"
 permission:
   write: ask
   edit: ask

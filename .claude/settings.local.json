@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "mcp__datetime__get-current-time"
+      "mcp__datetime__get-current-time",
+      "mcp__grep-code__searchGitHub"
     ],
     "deny": [],
     "ask": []
