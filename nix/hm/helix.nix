@@ -12,9 +12,6 @@
 
     # lsp servers
     languages.language-server = {
-      nixd = {
-        command = "${lib.getExe pkgs.nixd}";
-      };
       typos = {
         # typos-lsp
         command = "${lib.getExe pkgs.typos-lsp}";
@@ -51,7 +48,7 @@
       {
         name = "nix";
         language-servers = [
-          "nixd"
+          "nil"
           "typos"
         ];
         formatter.binary = "${lib.getExe pkgs.nixfmt-classic}";
@@ -128,7 +125,6 @@
 
       # Nix
       nixfmt-classic
-      nixd
     ];
   };
 }

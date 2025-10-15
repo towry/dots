@@ -6,8 +6,8 @@
 }:
 let
   claudeConfigDir = ./.; # Current directory containing all config files
-  claudeTargetConfigDir = "${config.home.homeDirectory}/.claude"; # Target directory in home
-  claudeUserScriptsDir = "${claudeTargetConfigDir}/scripts_"; # Directory for user scripts
+  # claudeTargetConfigDir = "${config.home.homeDirectory}/.claude"; # Target directory in home
+  # claudeUserScriptsDir = "${claudeTargetConfigDir}/scripts_"; # Directory for user scripts
   kiroSystemPromptHbs = ''
     ---
     <agent>

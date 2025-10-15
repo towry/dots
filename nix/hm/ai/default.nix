@@ -8,5 +8,6 @@
     ./forge
     ./claude
     ./codex
+    ./cline
   ];
 }

@@ -11,7 +11,10 @@ let
       "${config.home.homeDirectory}/Library/Application Support/aichat"
     else
       "${config.home.homeDirectory}/.config/aichat";
-
+  windsurfDir = ../../../conf/llm/windsurf;
+  processedWindsurfMd = pkgs.replaceVars (windsurfDir + "/rules.md") {
+    CONTENT = builtins.readFile ../../../conf/llm/docs/coding-rules.md;
+  };
 in
 {
   home.packages = with pkgs; [
@@ -29,11 +32,6 @@ in
   home.activation = {
     updateWindsurfGlobalRule = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/memories/
-      # write the conf/llm/coding-rules.md content to the global_rules.md file in above dir.
-      echo "Updating windsurf global rules..."
-      cat ${../../../conf/llm/docs/coding-rules.md} > ${config.home.homeDirectory}/.codeium/windsurf/memories/global_rules.md
-      echo "Windsurf global rules updated"
-
       mkdir -p ${config.home.homeDirectory}/.codeium/windsurf/workflows/
       cp -rf ${../../../conf/llm/windsurf/workflows}/*.md ${config.home.homeDirectory}/.codeium/windsurf/workflows/
       echo "Windsurf workflows updated"
@@ -46,6 +44,9 @@ in
   # xdg.configFile configurations moved to specific modules
 
   home.file = {
+    ".codeium/windsurf/memories/global_rules.md" = {
+      source = processedWindsurfMd;
+    };
     "kilocode-rule" = {
       target = "${config.home.homeDirectory}/.kilocode/rules/agents.md";
       source = ../../../conf/llm/docs/coding-rules.md;

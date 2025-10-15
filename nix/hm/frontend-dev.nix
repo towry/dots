@@ -7,6 +7,7 @@
   home.packages = with pkgs; [
     # node2nix
     fnm
+    google-chrome
     nodejs
     pnpm
     bun

@@ -16,7 +16,6 @@ let
       # nix formatter
       treefmt
       nixfmt-rfc-style
-      nixd
       # nix-health
       # git-fuzzy
       # zig
@@ -27,6 +26,7 @@ let
       nix-prefetch-github
       # nerd-font-patcher
       lxgw-wenkai
+      geist-font
       # utils
       ## man page tldr
       tlrc

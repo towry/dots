@@ -1,8 +1,14 @@
 { inputs, ... }:
+let
+  chromeUserDataDir = "$HOME/.local/share/chrome-user-data";
+in
 (
   final: prev:
   {
     codelldb = final.vscode-extensions.vadimcn.vscode-lldb.adapter;
+    google-chrome = prev.google-chrome.override {
+      commandLineArgs = "--remote-debugging-port=9222 --disable-gpu --no-first-run --no-default-browser-check --noerrdialogs --user-data-dir=\"${chromeUserDataDir}\"";
+    };
     path-git-format = final.callPackage ./pkgs/path-git-format.nix {
       version = "v0.0.3";
       pkgs = final;

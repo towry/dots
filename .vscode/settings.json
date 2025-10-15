@@ -1,5 +1,4 @@
 {
-    "kiroAgent.configureMCP": "Disabled",
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
