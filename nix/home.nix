@@ -89,7 +89,7 @@ in
     ./hm/agpod
     # ./hm/helix.nix
     # ./hm/tmux.nix
-    # ./hm/zellij.nix
+    ./hm/zellij.nix
     ./hm/rust.nix
     ./hm/go.nix
     # ./hm/skhd.nix
@@ -101,7 +101,7 @@ in
     ./hm/ai
     # ./hm/gptme.nix
     # ./hm/git-town.nix
-    ./hm/docker.nix
+    # ./hm/docker.nix
     ./hm/asdf.nix
     ./hm/python.nix
   ];
