@@ -147,9 +147,9 @@
 
     # Configure fifc sources for different completion groups
     # Directory completions
-    fifc \
-        -n 'test "$fifc_group" = "directories"' \
-        -s _fifc_source_directories
+    # fifc \
+    #     -n 'test "$fifc_group" = "directories"' \
+    #     -s _fifc_source_directories
 
     # File completions
     fifc \
