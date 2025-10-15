@@ -19,6 +19,11 @@
 - Add verification steps to the plan, options: unit testing; playwright interactive verify; manually verify
 </plan>
 
+<review>
+- Check for adherence to coding rules
+- Check if code changes is unused or disconnected from the system
+</review>
+
 <implementation>
 - Prioritize functionality: Ensure the core features work correctly before optimizing or adding enhancements, like excessive ui animations.
 - Clarify Requirements: Ask questions when tasks are unclear
