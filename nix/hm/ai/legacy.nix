@@ -61,6 +61,7 @@ in
         DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apiKey;
         OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
         ZHIPU_API_KEY = pkgs.nix-priv.keys.zai.apiKey;
+        MOONSHOT_API_KEY = pkgs.nix-priv.keys.moonshot.apiKey;
       };
     };
   };

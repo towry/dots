@@ -68,6 +68,17 @@ clients:
 
 
   - type: openai-compatible
+    name: moonshot
+    api_base: https://api.moonshot.cn/v1
+    api_key: @MOONSHOT_API_KEY@
+    models:
+      - name: kimi-k2-turbo
+        real_name: kimi-k2-turbo-preview
+        max_input_tokens: 64000
+        supports_vision: true
+        supports_function_calling: true
+
+  - type: openai-compatible
     name: deepseek
     api_base: https://api.deepseek.com/v1
     api_key: @DEEPSEEK_API_KEY@
