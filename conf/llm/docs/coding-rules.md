@@ -17,7 +17,7 @@
 ## Plan
 
 - Prioritize existing codebase convention over edge-cutting best practices, search for `.github/instructions/*.md`, `.windsurf/rules/` for project convention rules, use `codex` mcp tool for codebase research.
-- Plan based on existing similiar functionality, unless user explicitly requests otherwise, for example, When implement feature X, with slightly difference between feature Y, then plan based on feature Y, search if there are similiar feature Y at the start of plan; It is ok to explicitly ask for such information about similiar feature.
+- Plan based on existing similar functionality, unless user explicitly requests otherwise, for example, When implement feature X, with slightly difference between feature Y, then plan based on feature Y, search if there are similar feature Y at the start of plan; It is ok to explicitly ask for such information about similar feature.
 - Each implementation step should contain file location and changes.
 - Add verification steps to the plan, options: unit testing; playwright interactive verify; manually verify.
 
