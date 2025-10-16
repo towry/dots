@@ -31,19 +31,6 @@
           name = "foreign-env";
           inherit (pkgs.fishPlugins.foreign-env) src;
         }
-        # {
-        #   name = "sponge";
-        #   inherit (pkgs.fishPlugins.sponge) src;
-        # }
-        {
-          name = "fifc";
-          src = pkgs.fetchFromGitHub {
-            owner = "ollehu";
-            repo = "fifc";
-            rev = "235aace6ebc3f8e962957b31305f6aad1fc8e42b";
-            sha256 = "sha256-hG5qzRj4TvYrinlUu+AoRwt3OUJrj1ki7wOOu21EFDM=";
-          };
-        }
         {
           # type .... will expand to ../..
           name = "puffer-fish";
@@ -138,94 +125,18 @@
 
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path --path --append $HOME/.local/bin
-
-    # FIFC (Fish Interactive Fuzzy Completion) configuration
-    # Initialize fifc variables
-    set -gx _fifc_comp_count 0
-    set -gx _fifc_unordered_comp
-    set -gx _fifc_ordered_comp
-
-    # Configure fifc sources for different completion groups
-    # Directory completions
-    fifc \
-        -n 'test "$fifc_group" = "directories"' \
-        -s _fifc_source_directories
-
-    # File completions
-    fifc \
-        -n 'test "$fifc_group" = "files"' \
-        -s _fifc_source_files
-
-    # Process completions
-    fifc \
-        -n 'test "$fifc_group" = processes' \
-        -s 'ps -ax -o pid=,command='
-
-    # Configure preview and open commands for different types
-    # Options
-    fifc \
-        -n 'test "$fifc_group" = "options"' \
-        -p _fifc_preview_opt \
-        -o _fifc_open_opt
-
-    # Commands (executables)
-    fifc \
-        -n 'test \( -n "$fifc_desc" -o -z "$fifc_commandline" \); and type -q -f -- "$fifc_candidate"' \
-        -r '^(?!\\w+\\h+)' \
-        -p _fifc_preview_cmd \
-        -o _fifc_open_cmd
-
-    # Functions
-    fifc \
-        -n 'test -n "$fifc_desc" -o -z "$fifc_commandline"' \
-        -r '^(functions)?\\h+' \
-        -p _fifc_preview_fn \
-        -o _fifc_open_fn
-
-    # Files
-    fifc \
-        -n 'test -f "$fifc_candidate"' \
-        -p _fifc_preview_file \
-        -o _fifc_open_file
-
-    # Directories
-    fifc \
-        -n 'test -d "$fifc_candidate"' \
-        -p _fifc_preview_dir \
-        -o _fifc_open_dir
-
-    # Processes
-    fifc \
-        -n 'test "$fifc_group" = processes -a (ps -p (_fifc_parse_pid "$fifc_candidate") &>/dev/null)' \
-        -p _fifc_preview_process \
-        -o _fifc_open_process \
-        -e '^\\h*([0-9]+)'
   '';
   ## do not forget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122
   programs.fish.loginShellInit = ''
     set -U fish_greeting ""
-    set -Ux fifc_editor nvim
-    set -U fifc_fd_opts --hidden
 
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path /run/current-system/sw/bin
   '';
 
   programs.fish.interactiveShellInit = ''
-    set -qU fifc_keybinding
-    or set -U fifc_keybinding \t
-    set -qU fifc_open_keybinding
-    or set -U fifc_open_keybinding ctrl-o
-
-    set -qU fifc_rm_cmd
-    or set -U fifc_rm_cmd rm
-
-    set -qU fifc_custom_fzf_opts
-    or set -U fifc_custom_fzf_opts
-
     for mode in default insert
-        bind --mode $mode $fifc_keybinding _fifc
         # Bind ctrl-f to move forward one word (accepts autosuggestion word by word when at end)
         bind --mode $mode ctrl-f forward-bigword
         # Bind ctrl+shift+w to move backward one bigword

@@ -128,9 +128,13 @@
     },
     "permission": {
         "bash": {
-            "*": "ask",
             "git commit": "ask",
-            "git add": "ask"
+            "git add": "ask",
+            "rg": "allow",
+            "ast-grep": "allow",
+            "fd": "allow",
+            "ls": "allow",
+            "cd": "allow"
         },
         "edit": "allow",
         "webfetch": "ask"
@@ -184,11 +188,6 @@
                 "Z_AI_API_KEY": "{env:ZAI_API_KEY}"
             }
         },
-        // "tidewave": {
-        //     "type": "remote",
-        //     "url": "http://localhost:4000/tidewave/mcp",
-        //     "enabled": false
-        // },
         "github": {
             "type": "local",
             "command": [
@@ -201,14 +200,6 @@
             "environment": {
                 "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
             }
-        },
-        "datetime": {
-            "type": "local",
-            "command": [
-                "bunx",
-                "@odgrim/mcp-datetime"
-            ],
-            "enabled": true
         },
         "mermaid": {
             "type": "local",

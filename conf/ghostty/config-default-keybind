@@ -36,7 +36,7 @@ keybind = super+0=toggle_split_zoom
 # select all
 keybind = super+a=select_all
 # clear screen
-keybind = ctrl+l=clear_screen
+# keybind = ctrl+l=clear_screen
 # scroll to top
 keybind = ctrl+a>y=scroll_to_top
 # # scroll to bottom
