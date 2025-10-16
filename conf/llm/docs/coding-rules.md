@@ -108,6 +108,6 @@
 }
 ```
 
-## Trouble shooting for tool issues
+## Troubleshooting for tool issues
 
 - grep, search failed with our builtin tools, try use `codex` mcp tool with "sage" profile.
