@@ -92,7 +92,7 @@
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)"
     ],
-    "additionalDirectories": ["/Users/towry/workspace/work", "/tmp"],
+    "additionalDirectories": ["/Users/towry/workspace", "/tmp"],
     "defaultMode": "default"
   },
   "env": {
