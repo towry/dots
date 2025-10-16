@@ -84,7 +84,7 @@
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation.
 - *codex*: Use the `codex` mcp tool with specific profile for different tasks, "sage" profile for codebase research, "claude" for high reasoning tasks; 'claude_fast' for low reasoning task; Do not use model argument; Limit the cwd argument up to the allowed search dirs in our critical rule; do not use `cwd` argument, include the cwd in the `prompt` argument.
 
-### codex codebase research useage example
+### codex codebase research usage example
 
 ```json
 {
