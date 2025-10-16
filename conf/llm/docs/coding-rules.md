@@ -24,7 +24,7 @@
 ## Review
 
 - Read project AGENTS.md and `~/.config/AGENTS.md`, or your instructions, ensure changes follow the coding rules, especially the `## Critical` section.
-- Check if code changes is unused or disconnected from the system, for eample, added an event handler function/method, but did not bind to the ui component, cause event flow disruption.
+- Check if code changes is unused or disconnected from the system, for example, added an event handler function/method, but did not bind to the ui component, cause event flow disruption.
 - **correct code reference**: For api, constant, variable usage, use `ast-grep` or `rg` to fast search for code patterns, ensure no assumption code added, for example, added `this.userType = 123`, but `userType` with value `123` is none-sense in the project.
 
 ## Implementation
