@@ -88,7 +88,8 @@
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";
-    make-neovim = "make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$HOME/.local";
+    # make-neovim = "make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$HOME/.local";
+    install-neovim-from-dir = "cp -rf ./lib/nvim ~/.local/lib/ && cp -rf ./share/nvim ~/.local/share/ && cp -f ./bin/nvim ~/.local/bin";
     nvim-lazy-install = "nvim --headless \"+Lazy! install\" +qa && echo 'done'";
     ghc = "gh copilot";
     ghcp = "gh copilot explain";

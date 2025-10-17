@@ -1,0 +1,142 @@
+{
+    "mcpServers": {
+        "grep-code": {
+            "serverUrl": "https://mcp.grep.app"
+        },
+        "brightdata": {
+            "command": "bunx",
+            "args": [
+                "@brightdata/mcp"
+            ],
+            "env": {
+                "API_TOKEN": "@BRIGHTDATA_API_KEY@"
+            },
+            "disabledTools": []
+        },
+        "chromemcp": {
+            "command": "bunx",
+            "args": [
+                "chrome-devtools-mcp@latest",
+                "--browser-url=http://127.0.0.1:9222"
+            ]
+        },
+        "playwright": {
+            "command": "bunx",
+            "args": [
+                "@playwright/mcp@latest",
+                "--headless",
+                "--ignore-https-errors",
+                "--save-session"
+            ],
+            "disabledTools": [],
+            "disabled": true
+        },
+        "fs": {
+            "command": "bunx",
+            "args": [
+                "@modelcontextprotocol/server-filesystem",
+                "~/workspace"
+            ],
+            "disabledTools": [
+                "read_media_file",
+                "read_multiple_files",
+                "search_files",
+                "get_file_info",
+                "read_text_file"
+            ],
+            "disabled": true
+        },
+        "codex": {
+            "command": "codex-ai",
+            "args": [
+                "--profile",
+                "sage",
+                "mcp-server"
+            ],
+            "disabledTools": [
+                "codex-reply"
+            ]
+        },
+        "github": {
+            "command": "github-mcp-server",
+            "args": [
+                "stdio",
+                "--toolsets",
+                "all"
+            ],
+            "env": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PAT@"
+            },
+            "disabledTools": [
+                "create_gist",
+                "create_issue",
+                "create_or_update_file",
+                "create_pending_pull_request_review",
+                "create_repository",
+                "delete_file",
+                "delete_workflow_run_logs",
+                "dismiss_notification",
+                "download_workflow_run_artifact",
+                "fork_repository",
+                "get_code_scanning_alert",
+                "get_commit",
+                "get_dependabot_alert",
+                "get_discussion",
+                "get_discussion_comments",
+                "get_issue",
+                "get_issue_comments",
+                "get_job_logs",
+                "get_me",
+                "get_notification_details",
+                "get_pull_request",
+                "get_pull_request_comments",
+                "get_pull_request_diff",
+                "get_pull_request_files",
+                "get_pull_request_reviews",
+                "get_pull_request_status",
+                "get_secret_scanning_alert",
+                "get_tag",
+                "get_workflow_run_usage",
+                "list_code_scanning_alerts",
+                "list_dependabot_alerts",
+                "list_discussion_categories",
+                "list_discussions",
+                "list_gists",
+                "list_notifications",
+                "list_pull_requests",
+                "list_secret_scanning_alerts",
+                "list_sub_issues",
+                "list_tags",
+                "list_workflow_jobs",
+                "list_workflow_run_artifacts",
+                "list_workflow_runs",
+                "list_workflows",
+                "manage_notification_subscription",
+                "manage_repository_notification_subscription",
+                "mark_all_notifications_read",
+                "merge_pull_request",
+                "push_files",
+                "remove_sub_issue",
+                "reprioritize_sub_issue",
+                "request_copilot_review",
+                "rerun_failed_jobs",
+                "rerun_workflow_run",
+                "run_workflow",
+                "search_code",
+                "search_issues",
+                "search_orgs",
+                "search_pull_requests",
+                "search_repositories",
+                "search_users",
+                "submit_pending_pull_request_review",
+                "update_gist",
+                "update_issue",
+                "update_pull_request",
+                "update_pull_request_branch",
+                "get_teams",
+                "list_org_repository_security_advisories",
+                "add_comment_to_pending_review"
+            ]
+        }
+    }
+}
