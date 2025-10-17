@@ -88,7 +88,8 @@
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";
-    make-neovim = "make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$HOME/.local";
+    # make-neovim = "make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$HOME/.local";
+    install-neovim-from-dir = "cp -rf ./lib/nvim ~/.local/lib/ && cp -rf ./share/nvim ~/.local/share/ && cp -f ./bin/nvim ~/.local/bin";
     nvim-lazy-install = "nvim --headless \"+Lazy! install\" +qa && echo 'done'";
     ghc = "gh copilot";
     ghcp = "gh copilot explain";
@@ -125,6 +126,8 @@
 
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path --path --append $HOME/.local/bin
+    # temp for elixir
+    fish_add_path --path --append /Users/towry/.asdf/shims
   '';
   ## do not forget to run fish --login to generate new fish_variables file.
   # https://github.com/LnL7/nix-darwin/issues/122

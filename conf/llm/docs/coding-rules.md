@@ -15,15 +15,18 @@
 
 ## Plan
 
-- Follow the house style first: check `.github/instructions/*.md` and `.windsurf/rules/`, then use `codex` to see how the codebase already does it.
+- Follow the house style first: check one of `.github/instructions/*.md` and `.windsurf/rules/`, then use `codex` to see how the codebase already does it (use fast context tool if you are windsurf agent).
 - Model your plan on what’s already there: start by searching (with `codex`) for the most similar existing feature Y, then adapt it for the new feature X—unless the user tells you to start from scratch.
 - Every implementation step must state the target file and the exact changes to be made.
 - Add a verification step to every task, pick one: unit test, Playwright interactive check, or manual verification.
+- Before writing anything new, scour the codebase for reusable building blocks and list them in the plan. For instance, when a new API is introduced, first look for an existing data-transformation utility (e.g., snake-case ↔ camel-case mappers, date-format normalizers, pagination wrappers, etc.) instead of creating another one.
+- Add review checkpoints after each major step, especially when working on complex features or refactoring existing code.
 
 ## Review
 
 - Read project `AGENTS.md` and `~/.config/AGENTS.md` (or your own instructions) and obey the `## Critical` rules.  
 - Confirm every change is wired in: new handlers must be bound, new routes registered, etc. no orphaned code.  
+- Conduct a deep, human review, not just static-code checks: walk through every edge case, anticipate failure modes, and weigh the performance cost of each path.
 - Reference-check, run `ast-grep`/`rg` to verify that any API, constant, or variable you touch already exists and makes sense; never invent values like `this.userType = 123` if `123` is meaningless in the project.
 
 ## Implementation
@@ -39,6 +42,7 @@
 - **function/method**: Use explicit parameter passing instead of parent/ambient access.
 - Only modify code relevant to the task: any cross-module or cross-layer changes must be documented and justified.
 - **Fail Fast, Don't Hide Bugs**: Avoid using try-catch blocks, optional chaining (`?.`), or other defensive coding techniques to silence errors that indicate a contract violation. Instead, prefer fail-fast and allow the system to quickly detect and report errors. If an object is expected to have a certain method or property, its absence is a bug that should be surfaced immediately. Hiding such errors leads to deferred failures that are much harder to debug.
+- Before adding any fraction utilities, carefully search the codebase for existing ones—reuse, don’t duplicate.
 
 ### Function Signature Design
 
