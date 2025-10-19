@@ -9,6 +9,8 @@ This repo use jj as the version control system, so you need to commit your chang
 
 1. run `jj status` to check working copy status
 2. run `jj log --no-pager --no-graph -n 10` to check the last 10 commits
+3. run `jj git-diff -r @` to check working copy changes in diff format
+4. run `jj git-diff -r rev` to check changes in specific rev, if needed
 
 ## If you find commits with `wip: ` prefix in the log
 
