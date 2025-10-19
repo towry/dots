@@ -5,16 +5,23 @@
       "command": "bunx",
       "args": [
         "@playwright/mcp@latest",
-        "--headless",
-        "--ignore-https-errors",
-        "--save-session"
+        "--executable-path",
+        "google-chrome-stable",
+        "--extension"
       ],
-      "disabled": false
+      "disabled": false,
+      "env": {
+        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "${PLAYWRIGHT_MCP_EXTENSION_TOKEN}"
+      }
     },
     "github": {
       "type": "stdio",
       "command": "github-mcp-server",
-      "args": ["stdio", "--toolsets", "all"],
+      "args": [
+        "stdio",
+        "--toolsets",
+        "all"
+      ],
       "disabled": true,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
@@ -23,7 +30,9 @@
     "mermaid": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["@devstefancho/mermaid-mcp"],
+      "args": [
+        "@devstefancho/mermaid-mcp"
+      ],
       "disabled": false
     },
     "context7": {
@@ -39,7 +48,9 @@
     "brightdata": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["@brightdata/mcp"],
+      "args": [
+        "@brightdata/mcp"
+      ],
       "disabled": false,
       "env": {
         "API_TOKEN": "${BRIGHTDATA_API_KEY}"
@@ -48,7 +59,11 @@
     "codex": {
       "type": "stdio",
       "command": "codex-ai",
-      "args": ["--profile", "claude_fast", "mcp-server"],
+      "args": [
+        "--profile",
+        "claude_fast",
+        "mcp-server"
+      ],
       "disabled": false
     }
   }
