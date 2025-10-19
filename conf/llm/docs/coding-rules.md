@@ -2,30 +2,32 @@
 
 ## Critical
 
-- Avoid over-engineering, only write coding that explicitly addresses the user's request.
-- **Easy to reference your options**: Use numbered lists for options, steps, or requirements, so user can use number to reference the choice.
-- **Be Transparent**: Use FIXME, TODO, NOTE when relevant.
-- **Be Clear**: Document non-obvious logic and the purpose of complex functions.
-- **Explicit over Implicit**: If the intent is unclear, provide a list of guessed options and allow the user to make a selection.
+- Avoid over-engineering; write only the code necessary to meet the user's request. Do not add extra features or functionality unless explicitly asked. It's fine to document such nice-to-haves in comments or documentation for future reference.
+- Easy reference and recommendation: Number any options, steps, or requirements so users can cite them by number.
+- Be transparent about code intention: flag anything that needs attention with FIXME, TODO, or NOTE.
+- **Be clear in code**: document any non-obvious logic and explain what complex functions are for.
+- **Explicit over implicit in conversation**: when user intent is unclear, list the likely options and let the user pick, interpretate user message with scope, like "Are you asking for X or Y?", and "Are you talking about ci in 'Continuous Integration' or just code variable name in current codebase?".
 - **Keep boundaries clear**: UI components should not contain business logic, demo code, debug logic, temporary code, or mock code.
-- **Be Humble**: Recognize your limitations and seek assistance when facing challenges.
-- Seek user approval for your implementation plan before proceeding.
-- Correct user's English grammar and spelling mistakes, ensuring not to alter any quoted or copied content such as code snippets, by starting with "Let's rephrase for clarity: ".
-- **Ability**: You know everything about code, with `codex` mcp tool, you can search any local codebase in any workspaces; With web search tool, brightdata, you can search anything on the web, and scrape html content; with grep-code mcp tool (if available), you can search code patterns from GitHub public codebase.
-- **Allowed search dirs**: `$HOME/workspace/`, `/tmp`; do not search on `$HOME` root directory;
+- **Stay humble**: push yourself to solve the problem first, but if you hit a hard limit, say so and ask for help—never fake an answer.
+- **One-check rule**: present your plan up front; if the user says nothing, proceed—only ask again if the scope changes.
+- **Polish, don’t paraphrase**: if the user’s English is off, say “Let’s rephrase for clarity:” and fix only the grammar or spelling—leave any quoted code or copied text untouched.
+- You can instantly search your local code (`codex` mcp tool), the live web (`brightdata` mcp tool), and public GitHub repos (`grep-code` mcp tool).
 
 ## Plan
 
-- Prioritize existing codebase convention over edge-cutting best practices, search for `.github/instructions/*.md`, `.windsurf/rules/` for project convention rules, use `codex` mcp tool for codebase research.
-- Plan based on existing similar functionality, unless user explicitly requests otherwise, for example, When implement feature X, with slightly difference between feature Y, then plan based on feature Y, search if there are similar feature Y at the start of plan; It is ok to explicitly ask for such information about similar feature.
-- Each implementation step should contain file location and changes.
-- Add verification steps to the plan, options: unit testing; playwright interactive verify; manually verify.
+- Follow the house style first: check one of `.github/instructions/*.md` and `.windsurf/rules/`, then use `codex` to see how the codebase already does it (use fast context tool if you are windsurf agent).
+- Model your plan on what’s already there: start by searching (with `codex`) for the most similar existing feature Y, then adapt it for the new feature X—unless the user tells you to start from scratch.
+- Every implementation step must state the target file and the exact changes to be made.
+- Add a verification step to every task, pick one: unit test, Playwright interactive check, or manual verification.
+- Before writing anything new, scour the codebase for reusable building blocks and list them in the plan. For instance, when a new API is introduced, first look for an existing data-transformation utility (e.g., snake-case ↔ camel-case mappers, date-format normalizers, pagination wrappers, etc.) instead of creating another one.
+- Add review checkpoints after each major step, especially when working on complex features or refactoring existing code.
 
 ## Review
 
-- Read project AGENTS.md and `~/.config/AGENTS.md`, or your instructions, ensure changes follow the coding rules, especially the `## Critical` section.
-- Check if code changes is unused or disconnected from the system, for example, added an event handler function/method, but did not bind to the ui component, cause event flow disruption.
-- **correct code reference**: For api, constant, variable usage, use `ast-grep` or `rg` to fast search for code patterns, ensure no assumption code added, for example, added `this.userType = 123`, but `userType` with value `123` is none-sense in the project.
+- Read project `AGENTS.md` and `~/.config/AGENTS.md` (or your own instructions) and obey the `## Critical` rules.  
+- Confirm every change is wired in: new handlers must be bound, new routes registered, etc. no orphaned code.  
+- Conduct a deep, human review, not just static-code checks: walk through every edge case, anticipate failure modes, and weigh the performance cost of each path.
+- Reference-check, run `ast-grep`/`rg` to verify that any API, constant, or variable you touch already exists and makes sense; never invent values like `this.userType = 123` if `123` is meaningless in the project.
 
 ## Implementation
 
@@ -40,6 +42,7 @@
 - **function/method**: Use explicit parameter passing instead of parent/ambient access.
 - Only modify code relevant to the task: any cross-module or cross-layer changes must be documented and justified.
 - **Fail Fast, Don't Hide Bugs**: Avoid using try-catch blocks, optional chaining (`?.`), or other defensive coding techniques to silence errors that indicate a contract violation. Instead, prefer fail-fast and allow the system to quickly detect and report errors. If an object is expected to have a certain method or property, its absence is a bug that should be surfaced immediately. Hiding such errors leads to deferred failures that are much harder to debug.
+- Before adding any fraction utilities, carefully search the codebase for existing ones—reuse, don’t duplicate.
 
 ### Function Signature Design
 

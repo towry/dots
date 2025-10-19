@@ -1,0 +1,61 @@
+# Kiro Spec Control Board
+
+**Project**: {{ desc }}  
+**Created**: {{ now }}  
+**Owner**: {{ user }}
+
+---
+
+## Agent Instructions
+
+### Start of Session
+
+1. **Read user's request first** - Understand what they want to do
+
+2. **If user wants to continue work**, check status:
+   - Read `@./tasks.md` - If has real content → Find first unchecked `[ ]` task
+   - If only template → Read `@./design.md` - If has content → Create tasks
+   - If only template → Read `@./requirements.md` - If has content → Create design
+   - If only template → Fill out requirements
+
+3. **If user has specific request** (bug fix, new feature, question):
+   - Address their request directly
+   - Update relevant spec documents as needed
+
+### Workflow
+
+**Requirements** → **Design** → **Tasks** → **Implementation** → **Verification**
+
+1. **Requirements** (`requirements.md`):
+   - User stories: "As [role], I want [action], so that [benefit]"
+   - Acceptance criteria: "WHEN [condition] THEN system SHALL [behavior]"
+
+2. **Design** (`design.md`):
+   - Read requirements first
+   - Document architecture, data flows, components
+   - Reference requirements by number
+
+3. **Tasks** (`tasks.md`):
+   - Read design first
+   - Break into phases with specific tasks
+   - Each task: prompt, requirements ref, design ref, files
+
+4. **Implementation**:
+   - Work through tasks.md sequentially
+   - Mark completed tasks with `[x]`
+
+5. **Verification**:
+   - All tasks checked → Verify acceptance criteria
+
+---
+
+## Notes
+
+### Decisions
+- 
+
+### Questions
+- 
+
+### Risks
+-

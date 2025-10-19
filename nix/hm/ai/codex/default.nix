@@ -44,6 +44,11 @@ in
       base_url = "https://open.bigmodel.cn/api/coding/paas/v4"
       env_key = "ZAI_API_KEY"
 
+      [model_providers.moonshot]
+      name = "moonshot"
+      base_url = "https://api.moonshot.cn/v1"
+      env_key = "MOONSHOT_API_KEY"
+
       [profiles.claude]
       model = "openai/gpt-5-codex"
       model_provider = "openrouter"
@@ -78,8 +83,8 @@ in
       model_verbosity = "low"
 
       [profiles.sage]
-      model = "moonshotai/kimi-k2-0905"
-      model_provider = "openrouter"
+      model = "kimi-k2-turbo-preview"
+      model_provider = "moonshot"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/sage-role.md"
       approval_policy = "never"

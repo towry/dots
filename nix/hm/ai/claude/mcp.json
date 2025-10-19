@@ -1,17 +1,5 @@
 {
   "mcpServers": {
-    "zai-ms": {
-      "type": "stdio",
-      "command": "bunx",
-      "args": [
-        "@z_ai/mcp-server"
-      ],
-      "env": {
-        "Z_AI_MODE": "ZHIPU",
-        "Z_AI_API_KEY": "${ZAI_API_KEY}"
-      },
-      "disabled": false
-    },
     "playwright": {
       "type": "stdio",
       "command": "bunx",
@@ -26,12 +14,8 @@
     "github": {
       "type": "stdio",
       "command": "github-mcp-server",
-      "args": [
-        "stdio",
-        "--toolsets",
-        "all"
-      ],
-      "disabled": false,
+      "args": ["stdio", "--toolsets", "all"],
+      "disabled": true,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       }
@@ -39,9 +23,7 @@
     "mermaid": {
       "type": "stdio",
       "command": "bunx",
-      "args": [
-        "@devstefancho/mermaid-mcp"
-      ],
+      "args": ["@devstefancho/mermaid-mcp"],
       "disabled": false
     },
     "context7": {
@@ -57,9 +39,7 @@
     "brightdata": {
       "type": "stdio",
       "command": "bunx",
-      "args": [
-        "@brightdata/mcp"
-      ],
+      "args": ["@brightdata/mcp"],
       "disabled": false,
       "env": {
         "API_TOKEN": "${BRIGHTDATA_API_KEY}"
@@ -68,11 +48,7 @@
     "codex": {
       "type": "stdio",
       "command": "codex-ai",
-      "args": [
-        "--profile",
-        "claude_fast",
-        "mcp-server"
-      ],
+      "args": ["--profile", "claude_fast", "mcp-server"],
       "disabled": false
     }
   }
