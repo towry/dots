@@ -5,6 +5,8 @@ auto_execution_mode: 1
 
 This repo use jj as the version control system, so you need to commit your changes with jj.
 
+I suggest you run the commands with `&&` to speed up the process.
+
 # steps to commit
 
 1. run `jj status` to check working copy status
@@ -52,6 +54,6 @@ follow the commit conventions:
 
 # post-commit check
 
-After commit, run `jj log --no-pager --no-graph -n 10` to check the last 10 commits, ensure no empty commit between commits, no wip commit block our way to push.
+After commit, run `jj log --no-pager --no-graph -n 10 -r "trunk()..@"` to check the last 10 commits, ensure no empty commit between commits, no wip commit block our way to push.
 
 Do not perform push command, let user decide wether to push or not.
