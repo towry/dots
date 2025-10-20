@@ -35,6 +35,11 @@ in
       system = final.system;
     };
     starship-jj = inputs.starship-jj.packages.${prev.system}.default;
+    agpod = final.callPackage ./pkgs/agpod.nix {
+      version = "0.5.0";
+      pkgs = final;
+      system = final.system;
+    };
     # nerd-font-patcher =
     #   let
     #     nerdFontPatcherVersion = "3.2.1";

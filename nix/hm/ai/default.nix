@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./opencode.nix
@@ -18,4 +23,7 @@
       echo "AGENTS.md updated"
     '';
   };
+  home.packages = [
+    pkgs.agpod
+  ];
 }
