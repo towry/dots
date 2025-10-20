@@ -10,7 +10,7 @@
       base_dir = "llm/kiro"
       templates_dir = "~/.config/agpod/templates"
       plugins_dir = "~/.config/agpod/plugins"
-      template = "vue"
+      template = "default"
       summary_lines = 3
 
       [plugins.name]
@@ -25,6 +25,9 @@
       missing_policy = "error"
 
       # Template-specific configurations
+      [templates.default]
+      files = ["design.md.j2", "tasks.md.j2", "claude.md.j2", "requirements.md.j2"]
+      missing_policy = "error"
       [templates.vue]
       files = ["design.md.j2", "tasks.md.j2", "claude.md.j2", "requirements.md.j2"]
       missing_policy = "error"
