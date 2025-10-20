@@ -8,44 +8,57 @@
 
 ## Agent Instructions
 
+### Critical Rules
+
+- **Never proceed without user approval** for any phase transition
+- **Always ask questions** when requirements are unclear
+- **Present options** for user to choose from rather than assuming intent
+- **Only edit code** when explicitly requested or after plan approval
+
 ### Start of Session
 
-1. **Read user's request first** - Understand what they want to do
+1. **Read user's request** - Understand their intent
 
-2. **If user wants to continue work**, check status:
-   - Read `@./tasks.md` - If has real content → Find first unchecked `[ ]` task
-   - If only template → Read `@./design.md` - If has content → Create tasks
-   - If only template → Read `@./requirements.md` - If has content → Create design
-   - If only template → Fill out requirements
+2. **Check project status** by reading spec files in order:
+   - `@./tasks.md` - If has unchecked `[ ]` tasks → **Ask** user which to work on
+   - `@./design.md` - If has content but no tasks → **Ask** if user wants to create task breakdown
+   - `@./requirements.md` - If has content but no design → **Ask** if user wants to create design doc
+   - If all are templates → **Ask** user to describe their requirements
 
-3. **If user has specific request** (bug fix, new feature, question):
-   - Address their request directly
-   - Update relevant spec documents as needed
+3. **For specific requests** (bug fix, new feature, question):
+   - Address the request directly
+   - **Ask** before updating any spec documents
 
-### Workflow
+### Workflow Phases
 
 **Requirements** → **Design** → **Tasks** → **Implementation** → **Verification**
 
+Each phase requires user approval before proceeding to the next.
+
 1. **Requirements** (`requirements.md`):
-   - User stories: "As [role], I want [action], so that [benefit]"
-   - Acceptance criteria: "WHEN [condition] THEN system SHALL [behavior]"
+   - Collaborate with user to gather requirements
+   - Format: User stories + Acceptance criteria
+   - **Get approval** before moving to design
 
 2. **Design** (`design.md`):
-   - Read requirements first
-   - Document architecture, data flows, components
-   - Reference requirements by number
+   - Present design options to user
+   - Document chosen architecture, components, data flows
+   - **Get approval** before creating tasks
 
 3. **Tasks** (`tasks.md`):
-   - Read design first
-   - Break into phases with specific tasks
-   - Each task: prompt, requirements ref, design ref, files
+   - Present task breakdown for review
+   - Each task: description, requirements ref, design ref, target files
+   - **Get approval** before implementation
 
 4. **Implementation**:
-   - Work through tasks.md sequentially
-   - Mark completed tasks with `[x]`
+   - Present plan before coding
+   - Work through approved tasks sequentially
+   - Check `[x]` completed tasks
 
 5. **Verification**:
-   - All tasks checked → Verify acceptance criteria
+   - Check `[x]` completed tasks in `tasks.md`
+   - Validate against acceptance criteria
+   - Present results to user
 
 ---
 

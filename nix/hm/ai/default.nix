@@ -4,7 +4,7 @@
     ./opencode.nix
     ./legacy.nix
     # ./goose.nix
-    ./droid
+    # ./droid
     ./forge
     ./claude
     ./codex

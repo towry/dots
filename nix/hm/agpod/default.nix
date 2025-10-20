@@ -7,30 +7,52 @@
     };
 
     "agpod/config.toml".text = ''
+      # Configuration version (for tracking schema changes and deprecations)
+      version = "1"
+
+      # Kiro workflow configuration
+      [kiro]
       base_dir = "llm/kiro"
       templates_dir = "~/.config/agpod/templates"
       plugins_dir = "~/.config/agpod/plugins"
       template = "default"
       summary_lines = 3
 
-      [plugins.name]
+      [kiro.plugins.name]
       enabled = true
       command = "name.sh"
       timeout_secs = 3
       pass_env = ["AGPOD_*", "GIT_*", "USER", "HOME"]
 
-      [rendering]
-      files = ["DESIGN.md.j2", "TASK.md.j2"]
+      [kiro.rendering]
+      files = ["design.md.j2", "tasks.md.j2"]
       extra = []
       missing_policy = "error"
 
-      # Template-specific configurations
-      [templates.default]
+      # Template-specific configurations for Kiro
+      [kiro.templates.default]
+      description = "Standard PR draft template with design and task documents"
       files = ["design.md.j2", "tasks.md.j2", "claude.md.j2", "requirements.md.j2"]
       missing_policy = "error"
-      [templates.vue]
+
+      [kiro.templates.vue]
+      description = "Vue.js component development template"
       files = ["design.md.j2", "tasks.md.j2", "claude.md.j2", "requirements.md.j2"]
       missing_policy = "error"
+
+      # Diff minimization configuration
+      [diff]
+      # Default output directory for saved diff chunks
+      output_dir = "llm/diff"
+
+      # Threshold for considering a file "large" (number of changes)
+      large_file_changes_threshold = 100
+
+      # Threshold for considering a file "large" (total lines)
+      large_file_lines_threshold = 500
+
+      # Maximum consecutive empty lines to keep in output
+      max_consecutive_empty_lines = 2
     '';
   };
 }
