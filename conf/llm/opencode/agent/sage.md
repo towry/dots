@@ -1,6 +1,6 @@
 ---
 description: "Research and analyze codebases"
-model: "openrouter/x-ai/grok-code-fast-1"
+model: "github-copilot/grok-code-fast-1"
 permission:
   edit: "deny"
   bash: "deny"

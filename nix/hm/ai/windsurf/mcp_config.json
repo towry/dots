@@ -18,33 +18,19 @@
             "args": [
                 "chrome-devtools-mcp@latest",
                 "--browser-url=http://127.0.0.1:9222"
-            ]
+            ],
+            "disabled": true
         },
         "playwright": {
             "command": "bunx",
             "args": [
                 "@playwright/mcp@latest",
-                "--headless",
-                "--ignore-https-errors",
-                "--save-session"
+                "--executable-path",
+                "google-chrome-stable",
+                "--extension"
             ],
             "disabledTools": [],
-            "disabled": true
-        },
-        "fs": {
-            "command": "bunx",
-            "args": [
-                "@modelcontextprotocol/server-filesystem",
-                "~/workspace"
-            ],
-            "disabledTools": [
-                "read_media_file",
-                "read_multiple_files",
-                "search_files",
-                "get_file_info",
-                "read_text_file"
-            ],
-            "disabled": true
+            "disabled": false
         },
         "codex": {
             "command": "codex-ai",
@@ -103,9 +89,7 @@
                 "list_discussions",
                 "list_gists",
                 "list_notifications",
-                "list_pull_requests",
                 "list_secret_scanning_alerts",
-                "list_sub_issues",
                 "list_tags",
                 "list_workflow_jobs",
                 "list_workflow_run_artifacts",
@@ -122,10 +106,7 @@
                 "rerun_failed_jobs",
                 "rerun_workflow_run",
                 "run_workflow",
-                "search_code",
-                "search_issues",
                 "search_orgs",
-                "search_pull_requests",
                 "search_repositories",
                 "search_users",
                 "submit_pending_pull_request_review",

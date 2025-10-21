@@ -1,5 +1,5 @@
 ---
-model: openrouter:grok-code-fast-non-reasoning
+model: zhipu:glm-4.6-non-reasoning
 temperature: 0.3
 top_p: 0.4
 ---

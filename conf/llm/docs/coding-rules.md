@@ -69,11 +69,12 @@
 - Use `actual` for results and `expected` for assertions.
 - Test one behavior per test.
 
-## Debugging
+## Debugging and issue analysis
 
 - Verify that no existing debug or development processes are running.
 - Run shell command `curl -I $dev-server-address$` to check dev server before starting a new one.
 - Ask user to commit current changes before running lint/format to avoid unexpected diffs.
+- Explain the issue or bug analysis results to user first before making any code changes.
 
 ## Tool Usage
 

@@ -1,9 +1,10 @@
 {
     "$schema": "https://opencode.ai/config.json",
     "model": "zhipuai-coding-plan/glm-4.6",
+    "small_model": "github-copilot/grok-code-fast-1",
     "autoupdate": false,
+    "username": "Towry",
     "share": "disabled",
-    "small_model": "glm-4.6",
     "disabled_providers": [
         "openai",
         "gemini"
@@ -12,20 +13,28 @@
         "./AGENTS.md"
     ],
     "agent": {
+        "build": {
+            "model": "zhipuai-coding-plan/glm-4.6",
+        },
         "plan": {
             "mode": "primary",
-            "model": "openrouter/gpt-5-codex-low",
-            "prompt": "{file:./agent/oracle.md}",
+            "model": "github-copilot/gpt-5",
+            "prompt": "{file:./roles/oracle.md}",
             "tools": {
-                "write": false,
-                "edit": false,
-                "bash": false,
+                "write": true,
+                "edit": true,
+                "bash": true,
                 "grep": true,
+                "read": true,
                 "list": true,
                 "glob": true,
                 "webfetch": false,
                 "brightdata*": true,
                 "grep-code*": true
+            },
+            "permission": {
+                "bash": "ask",
+                "edit": "ask"
             }
         }
     },
@@ -171,9 +180,9 @@
             "command": [
                 "bunx",
                 "@playwright/mcp@latest",
-                "--headless",
-                "--ignore-https-errors",
-                "--save-session"
+                "--executable-path",
+                "google-chrome-stable",
+                "--extension"
             ],
             "enabled": true
         },

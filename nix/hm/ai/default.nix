@@ -1,10 +1,15 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./opencode.nix
     ./legacy.nix
     # ./goose.nix
-    ./droid
+    # ./droid
     ./forge
     ./claude
     ./codex
@@ -18,4 +23,7 @@
       echo "AGENTS.md updated"
     '';
   };
+  home.packages = [
+    pkgs.agpod
+  ];
 }
