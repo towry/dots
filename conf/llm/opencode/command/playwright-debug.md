@@ -4,7 +4,14 @@ agent: build
 model: "github-copilot/claude-sonnet-4.5"
 ---
 
+# User Input
+
+$ARGUMENTS
+
+You MUST consider the user input before proceeding (if not empty).
+
 # debug the issue find the root cause
+
 
 To find the root cause of the issue, keep follow steps until the root cause find:
 
