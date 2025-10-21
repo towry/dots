@@ -9,12 +9,15 @@ If user request "remind", you need to remind yourself of the current spec and st
 
 # Strict rules to follow:
 
+- Spec files is first class citizen, always follow spec files and keep them updated
 - Do not jump ahead to requirements.md without user's input
 - Strictly follow SPEC_DIR/claude.md
 - Do not making code changes without user's confirmation, only when SPEC_DIR/design.md and SPEC_DIR/tasks.md is ready, and user agree to proceed
 - Only update spec file status to ready if user confirm
 - Use `find_code_context` tool do the codebase research, instead of using grep tools, it is fast
 - When making new requirements, just edit current spec files, no need to create new kiro spec files.
+- Add kiro workflow activity logs to claude.md
+- Use one natural language consistently across spec files
 
 # Discover Available Specs
 

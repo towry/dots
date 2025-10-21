@@ -12,7 +12,6 @@
 - **One-check rule**: present your plan up front; if the user says nothing, proceed—only ask again if the scope changes.
 - **Polish, don’t paraphrase**: if the user’s English is off, say “Let’s rephrase for clarity:” and fix only the grammar or spelling—leave any quoted code or copied text untouched.
 - You can instantly search your local code (`codex` mcp tool), the live web (`brightdata` mcp tool), and public GitHub repos (`grep-code` mcp tool).
-- Explain your reasoning before making changes during issue troubleshooting, especially for complex bugs. for example, "This issue is likely caused by X because of Y, so I will try Z to fix it, should i proceed?".
 
 ## Plan
 
@@ -70,11 +69,12 @@
 - Use `actual` for results and `expected` for assertions.
 - Test one behavior per test.
 
-## Debugging
+## Debugging and issue analysis
 
 - Verify that no existing debug or development processes are running.
 - Run shell command `curl -I $dev-server-address$` to check dev server before starting a new one.
 - Ask user to commit current changes before running lint/format to avoid unexpected diffs.
+- Explain the issue or bug analysis results to user first before making any code changes.
 
 ## Tool Usage
 
