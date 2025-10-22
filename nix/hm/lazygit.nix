@@ -4,7 +4,7 @@ let
   bashScriptsDir = "${config.home.homeDirectory}/.local/bash/scripts";
   aichatSelectCommit = [
     {
-      key = "<c-a>";
+      key = "<c-x>";
       description = "Auto commit with AI";
       command = ''
         bash -c '
@@ -202,22 +202,21 @@ in
         editAtLine = "nvim +{{line}} {{filename}}";
       };
       # https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Command_Keybindings.md
-      customCommands =
-        [
-          {
-            key = "H";
-            context = "commits";
-            command = "gh browse {{.SelectedCommit.Sha}}";
-          }
-          # in diff view, open file in nvim at selected commit
-          {
-            key = "E";
-            context = "commitFiles";
-            command = "nvim -c 'Gedit {{.SelectedCommit.Sha}}:{{.SelectedFile.Name}}'";
-          }
-        ]
-        ++ (if config.vars.git-town.enable && useGitTownInLazygit then gitTownCommands else [ ])
-        ++ aichatSelectCommit;
+      customCommands = [
+        {
+          key = "H";
+          context = "commits";
+          command = "gh browse {{.SelectedCommit.Sha}}";
+        }
+        # in diff view, open file in nvim at selected commit
+        {
+          key = "E";
+          context = "commitFiles";
+          command = "nvim -c 'Gedit {{.SelectedCommit.Sha}}:{{.SelectedFile.Name}}'";
+        }
+      ]
+      ++ (if config.vars.git-town.enable && useGitTownInLazygit then gitTownCommands else [ ])
+      ++ aichatSelectCommit;
       quitOnTopLevelReturn = false;
       disableStartupPopups = true;
       promptToReturnFromSubprocess = false;

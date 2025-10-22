@@ -120,7 +120,7 @@ in
             # Parse arguments
             while [[ $# -gt 0 ]]; do
               case "$1" in
-                -m|--message)
+                -m|--message|-i)
                   shift
                   msg="$1"
                   ;;
@@ -457,6 +457,7 @@ in
         ];
         amend = [
           "squash"
+          "-i"
         ];
         gp = [
           "git"
@@ -794,12 +795,12 @@ in
       ui = {
         conflict-marker-style = "git";
         log-word-wrap = false;
-        merge-editor = "mergiraf";
-        # editor = [
-        #   "nvim"
-        #   "--cmd"
-        #   "let g:flatten_wait=1"
-        # ];
+        # merge-editor = "mergiraf";
+        editor = [
+          "nvim"
+          "--cmd"
+          "let g:flatten_wait=1"
+        ];
         streampager = {
           interface = "full-screen-clear-output";
           wrapping = "none";

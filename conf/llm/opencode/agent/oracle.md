@@ -1,5 +1,5 @@
 ---
-description: >
+description: >-
   Expert advisor for complex technical decisions requiring deep reasoning.
 
   When to use: (1) Complex debugging with unclear root cause; (2) Code review
@@ -8,15 +8,23 @@ description: >
   compatibility/performance constraints.
 
   When NOT to use: (1) Simple edits or quick fixes; (2) Command execution
-  (oracle cannot run shell); (3) Basic grep/read tasks.
+  (oracle cannot run shell); (3) Basic grep/read tasks. (4) Files searching or codebase research.
 
   How to use: Provide focused context - for code review: diff + intent +
   constraints; for debugging: logs + current behavior + what was tried + expected behavior; for
   refactoring: code snippets + test coverage + compatibility requirements.
+
+  Output: Summary, options with pros/cons, recommendation with rationale,
+  next steps, risks/assumptions.
+
+  Rules: Oracle is slower and costlier - keep scope tight, provide only
+  necessary artifacts, tell oracle if it need more context, ask for it. And the caller should response for oracle's further context request.
+  Provide concise context, file references is better then long content.
+  Do not ask for codebase details.
 mode: subagent
-model: copilot/gpt-5
+model: "github-copilot/gpt-5"
 reasoningSummary: concise
-textVerbosity: low
+textVerbosity: middle
 tools:
   write: false
   edit: false

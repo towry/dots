@@ -1,6 +1,7 @@
 { inputs, ... }:
 let
   chromeUserDataDir = "$HOME/.local/share/chrome-user-data";
+  versions = builtins.fromJSON (builtins.readFile ./pkgs/versions.json);
 in
 (
   final: prev:
@@ -10,18 +11,18 @@ in
       commandLineArgs = "--remote-debugging-port=9222 --disable-gpu --no-first-run --no-default-browser-check --noerrdialogs --user-data-dir=\"${chromeUserDataDir}\"";
     };
     path-git-format = final.callPackage ./pkgs/path-git-format.nix {
-      version = "v0.0.3";
+      version = versions.path-git-format;
       pkgs = final;
       system = final.system;
     };
     mcp-filesystem-server = final.callPackage ./pkgs/mcp-filesystem-server.nix {
-      version = "0.9.0";
+      version = versions.mcp-filesystem-server;
       pkgs = final;
       system = final.system;
     };
     # jujutsu = inputs.jj-repo.packages.${prev.system}.default;
     code-assistant = final.callPackage ./pkgs/code-assistant.nix {
-      version = "0.1.6";
+      version = versions.code-assistant;
       pkgs = final;
       system = final.system;
     };
@@ -36,7 +37,7 @@ in
     };
     starship-jj = inputs.starship-jj.packages.${prev.system}.default;
     agpod = final.callPackage ./pkgs/agpod.nix {
-      version = "0.5.0";
+      version = versions.agpod;
       pkgs = final;
       system = final.system;
     };

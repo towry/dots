@@ -1,6 +1,6 @@
 ---
 description: "Design the kiro spec"
-agent: plan
+agent: kiro
 model: "github-copilot/gpt-5"
 ---
 

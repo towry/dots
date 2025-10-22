@@ -77,8 +77,7 @@
     lazy = "NVIM_APPNAME=neonvim nvim";
     # temporary for lazy branch dev
     astro = "NVIM_APPNAME=astro nvim";
-    q = "exit";
-    qq = "exit && exit && exit";
+    q = "exit 0";
     j0 = "jump-first";
     ji = "jump";
     nix-proxy = "sudo /usr/bin/env python ~/.dotfiles/bin/darwin-nix-proxy.py";
