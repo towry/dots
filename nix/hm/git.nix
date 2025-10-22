@@ -34,6 +34,7 @@ in
     # glab
     # git-smash
     gnupg
+    mergiraf
     # git-sim
     # git-interactive-rebase-tool
   ];

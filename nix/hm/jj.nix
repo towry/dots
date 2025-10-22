@@ -13,6 +13,7 @@ in
   home.packages = [
     # pkgs.diffedit3
     pkgs.gg-jj
+    pkgs.mergiraf
   ];
   programs.fish.shellAliases = {
     jl = "jj log -n 8";
@@ -50,18 +51,6 @@ in
         private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'WIP:*')";
       };
       merge-tools = {
-        code = {
-          program = "code";
-          merge-tool-edits-conflict-markers = true;
-          merge-args = [
-            "--wait"
-            "--merge"
-            "$output"
-            "$base"
-            "$left"
-            "$right"
-          ];
-        };
         nvim3way = {
           program = "nvim";
           diff-expected-exit-codes = [
@@ -77,10 +66,24 @@ in
             "$left"
             "$right"
           ];
+          edit-args = [
+            "-f"
+            "-d"
+            "$left"
+            "$right"
+          ];
+          diff-args = [ ];
         };
         nvim2way = {
           program = "nvim";
           merge-tool-edits-conflict-markers = true;
+          edit-args = [
+            "-f"
+            "-d"
+            "$left"
+            "$right"
+          ];
+          diff-args = [ ];
           merge-args = [
             "-c"
             "let g:jj_diffconflicts_marker_length=$marker_length"
@@ -94,6 +97,11 @@ in
         };
       };
       aliases = {
+        solve = [
+          "resolve"
+          "--tool"
+          "mergiraf"
+        ];
         e = [
           "edit"
         ];
@@ -786,11 +794,12 @@ in
       ui = {
         conflict-marker-style = "git";
         log-word-wrap = false;
-        editor = [
-          "nvim"
-          "--cmd"
-          "let g:flatten_wait=1"
-        ];
+        merge-editor = "mergiraf";
+        # editor = [
+        #   "nvim"
+        #   "--cmd"
+        #   "let g:flatten_wait=1"
+        # ];
         streampager = {
           interface = "full-screen-clear-output";
           wrapping = "none";
@@ -803,7 +812,7 @@ in
           "-r"
           "trunk()..@"
           "-n"
-          "2"
+          "3"
         ];
         # diff.tool = [
         #   "${lib.getExe pkgs.difftastic}"
