@@ -1,9 +1,9 @@
 {
     "$schema": "https://opencode.ai/config.json",
-    "model": "zhipuai-coding-plan/glm-4.6",
+    // "model": "zhipuai-coding-plan/glm-4.6",
     "small_model": "github-copilot/grok-code-fast-1",
     "autoupdate": false,
-    "username": "Towry",
+    "username": "TOWRY 🤣",
     "share": "disabled",
     "disabled_providers": [
         "openai",
@@ -13,13 +13,41 @@
         "./AGENTS.md"
     ],
     "agent": {
-        "build": {
-            "model": "zhipuai-coding-plan/glm-4.6",
-        },
-        "plan": {
-            "mode": "primary",
+        "kiro": {
             "model": "github-copilot/gpt-5",
-            "prompt": "{file:./roles/oracle.md}",
+            "prompt": "{file:./roles/kiro.md}",
+            "tools": {
+                "write": false,
+                "edit": true,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": true,
+                "todoread": true,
+                "webfetch": false,
+                "brightdata*": true,
+                "grep-code*": true
+            },
+            "permission": {
+                "edit": "ask",
+                "bash": {
+                    "*": "ask",
+                    "ls": "allow",
+                    "git show": "allow",
+                    "git diff": "allow",
+                    "git log": "allow",
+                    "rg": "allow",
+                    "ast-grep": "allow",
+                    "fd": "allow",
+                    "cd": "allow",
+                    "pwd": "allow"
+                }
+            }
+        },
+        "build": {
+            "model": "github-copilot/claude-sonnet-4.5",
             "tools": {
                 "write": true,
                 "edit": true,
@@ -28,6 +56,43 @@
                 "read": true,
                 "list": true,
                 "glob": true,
+                "todowrite": true,
+                "todoread": true,
+                "webfetch": false,
+                "brightdata*": true,
+                "grep-code*": true
+            }
+        },
+        "build_heavy": {
+            "model": "zhipuai-coding-plan/glm-4.6",
+            "tools": {
+                "write": true,
+                "edit": true,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": true,
+                "todoread": true,
+                "webfetch": false,
+                "brightdata*": true,
+                "grep-code*": true
+            }
+        },
+        "plan": {
+            "mode": "primary",
+            "model": "github-copilot/gpt-5",
+            "tools": {
+                "write": true,
+                "edit": true,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": true,
+                "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
                 "grep-code*": true
@@ -138,6 +203,7 @@
     "permission": {
         "bash": {
             "git commit": "ask",
+            "git push": "ask",
             "git add": "ask",
             "rg": "allow",
             "ast-grep": "allow",
@@ -152,8 +218,8 @@
         "playwright*": false,
         "github*": false,
         "context7*": false,
-        "mermaid*": false,
-        "brave-search*": false
+        "mermaid*": true,
+        "brightdata*": true
     },
     // global mcp settings
     // disabled in global can enabled for a specific agent with tools setting
@@ -182,7 +248,8 @@
                 "@playwright/mcp@latest",
                 "--executable-path",
                 "google-chrome-stable",
-                "--extension"
+                "--extension",
+                "--output-dir=./.playwright"
             ],
             "enabled": true
         },

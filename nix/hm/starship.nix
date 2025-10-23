@@ -63,7 +63,7 @@ in
         format = "\\[[$symbol$branch]($style)\\] ";
         style = "bold yellow";
         symbol = "";
-        disabled = true;
+        disabled = false;
       };
       git_commit = {
         disabled = true;
@@ -71,10 +71,10 @@ in
         style = "bold white";
       };
       git_status = {
-        disabled = true;
+        disabled = false;
       };
       git_state = {
-        disabled = true;
+        disabled = false;
         format = "[\($state( $progress_current of $progress_total)\)]($style) ";
       };
       memory_usage = {

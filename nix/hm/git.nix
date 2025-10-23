@@ -17,8 +17,6 @@ in
     g = "git";
     gtail = "git rev-list --all | tail";
     ggrep = "git rev-list --all | xargs git grep --break";
-    xmerge = "git merge --ff";
-    xmerged = "git branch --merged master";
     gh-new-pr = "gh pr create -f -H";
     gh-pr-rebase = "gh pr merge -d -r";
     gh-pr-squash = "gh pr merge -d -s";

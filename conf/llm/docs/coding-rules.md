@@ -74,7 +74,8 @@
 - Verify that no existing debug or development processes are running.
 - Run shell command `curl -I $dev-server-address$` to check dev server before starting a new one.
 - Ask user to commit current changes before running lint/format to avoid unexpected diffs.
-- Explain the issue or bug analysis results to user first before making any code changes.
+- Explain the issue or bug analysis results to user first, then ask for confirmation to make any code changes.
+- When user frustrated, or issue is complex, use said "not working", "still broken", you need to try ask for advanced subagent for help.
 
 ## Tool Usage
 
@@ -87,6 +88,10 @@
 - **git**: To view file changes against the previous commit, use `jj df-file-prev ?file-path?`.
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation.
 - *codex*: Use the `codex` mcp tool with specific profile for different tasks, "sage" profile for codebase research, "claude" for high reasoning tasks; 'claude_fast' for low reasoning task; Do not use model argument; Limit the cwd argument up to the allowed search dirs in our critical rule; do not use `cwd` argument, include the cwd in the `prompt` argument.
+
+#### playwright mcp tool
+
+- On first start, always double check if the page is loaded, the first load usally is a blank page initiated by the browser, you may need to navigate to the url again to ensure page is loaded.
 
 ### codex codebase research usage example
 
