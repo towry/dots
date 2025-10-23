@@ -21,7 +21,6 @@ let
       # zig
       # zls
       # vim-zellij-navigator
-      path-git-format
       # uclanr
       nix-prefetch-github
       # nerd-font-patcher

@@ -10,11 +10,7 @@ in
     google-chrome = prev.google-chrome.override {
       commandLineArgs = "--remote-debugging-port=9222 --disable-gpu --no-first-run --no-default-browser-check --noerrdialogs --user-data-dir=\"${chromeUserDataDir}\"";
     };
-    path-git-format = final.callPackage ./pkgs/path-git-format.nix {
-      version = versions.path-git-format;
-      pkgs = final;
-      system = final.system;
-    };
+
     mcp-filesystem-server = final.callPackage ./pkgs/mcp-filesystem-server.nix {
       version = versions.mcp-filesystem-server;
       pkgs = final;

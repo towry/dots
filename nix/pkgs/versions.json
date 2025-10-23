@@ -1,6 +1,5 @@
 {
   "agpod": "0.8.1",
   "code-assistant": "0.1.6",
-  "mcp-filesystem-server": "0.9.0",
-  "path-git-format": "v0.0.3"
+  "mcp-filesystem-server": "0.9.0"
 }

@@ -657,7 +657,7 @@
     jump = {
       body = ''
         set -l query "$argv"
-        set result (zoxide query --list --exclude $PWD | ${pkgs.path-git-format}/bin/path-git-format --filter --no-bare -f"{path} [{branch}]" | awk -v home="$HOME" '{gsub(home, "~", $1); print $0}' | fzf --height ~60% --reverse --tiebreak=index -1 -0 --exact --query="$query")
+        set result (zoxide query --list --exclude $PWD | agpod vcs-path-info --filter --no-bare --format "{path} [{branch}]" | awk -v home="$HOME" '{gsub(home, "~", $1); print $0}' | fzf --height ~60% --reverse --tiebreak=index -1 -0 --exact --query="$query")
         if test -n "$result"
             set directory (echo $result | awk -F' ' '{print $1}' | awk -F'[' '{print $1}')
             if test "$_ZO_ECHO" = "1"
@@ -671,7 +671,7 @@
     jump-first = {
       body = ''
         set -l query "$argv"
-        set result (zoxide query --list --exclude $PWD | path-git-format --filter --no-bare -f"{path} [{branch}]" | fzf --tiebreak=index --exact --filter="$query" --no-sort --nth=4.. --delimiter='[\/\s]' | head -n 1)
+        set result (zoxide query --list --exclude $PWD | agpod vcs-path-info --filter --no-bare --format "{path} [{branch}]" | fzf --tiebreak=index --exact --filter="$query" --no-sort --nth=4.. --delimiter='[\/\s]' | head -n 1)
         if test -n "$result"
             set directory (echo $result | awk -F' ' '{print $1}' | awk -F'[' '{print $1}')
             if test "$_ZO_ECHO" = "1"

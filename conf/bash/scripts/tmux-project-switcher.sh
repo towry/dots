@@ -88,7 +88,7 @@ if [[ -z $SELECTED_PATH ]]; then
 
     # Use binaries from PATH (assumes they're available)
     selected=$(zoxide query -l --exclude "$PWD" | \
-        path-git-format --filter --no-bare -f"{path} [{branch}]" | \
+        agpod vcs-path-info --filter --no-bare --format "{path} [{branch}]" | \
         awk -v home="$HOME" '{gsub(home, "~"); print}' | \
         fzf "${FZF_OPTS[@]}" \
             --preview "echo {} | awk -F '[' '{print \$1}' | awk -v home=\"\$HOME\" '{sub(/^~/,home)};1' | xargs -I % eza --color=always --icons=auto --group-directories-first --git --no-user --no-quotes --git-repos %" | \
