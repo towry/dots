@@ -3,11 +3,16 @@
     // "model": "zhipuai-coding-plan/glm-4.6",
     "small_model": "github-copilot/grok-code-fast-1",
     "autoupdate": false,
-    "username": "TOWRY 🤣",
-    "share": "disabled",
+    "username": "TOWRY ☕",
+    // "share": "disabled",
     "disabled_providers": [
         "openai",
-        "gemini"
+        "gemini",
+        "openrouter",
+        "opencode",
+        "moonshotai",
+        "deepseek",
+        "perplexity",
     ],
     "instructions": [
         "./AGENTS.md"
@@ -16,10 +21,12 @@
         "kiro": {
             "model": "github-copilot/gpt-5",
             "prompt": "{file:./roles/kiro.md}",
+            "description": "Kiro spec workflow",
+            "mode": "primary",
             "tools": {
                 "write": false,
                 "edit": true,
-                "bash": true,
+                "bash": false,
                 "grep": true,
                 "read": true,
                 "list": true,
@@ -31,19 +38,21 @@
                 "grep-code*": true
             },
             "permission": {
-                "edit": "ask",
-                "bash": {
-                    "*": "ask",
-                    "ls": "allow",
-                    "git show": "allow",
-                    "git diff": "allow",
-                    "git log": "allow",
-                    "rg": "allow",
-                    "ast-grep": "allow",
-                    "fd": "allow",
-                    "cd": "allow",
-                    "pwd": "allow"
-                }
+                "edit": "allow",
+                "bash": "deny",
+                "webfetch": "deny"
+                // "bash": {
+                //     "*": "ask",
+                //     "ls": "allow",
+                //     "git show": "allow",
+                //     "git diff": "allow",
+                //     "git log": "allow",
+                //     "rg": "allow",
+                //     "ast-grep": "allow",
+                //     "fd": "allow",
+                //     "cd": "allow",
+                //     "pwd": "allow"
+                // }
             }
         },
         "build": {
@@ -212,9 +221,10 @@
             "cd": "allow"
         },
         "edit": "allow",
-        "webfetch": "ask"
+        "webfetch": "deny"
     },
     "tools": {
+        "webfetch": false,
         "playwright*": false,
         "github*": false,
         "context7*": false,
