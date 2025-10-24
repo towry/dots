@@ -104,6 +104,7 @@
 
     fish_add_path /etc/profiles/per-user/${username}/bin
     fish_add_path --path --append $HOME/.local/bin
+    fish_add_path --path --append $HOME/.bun/bin
     # temp for elixir
     fish_add_path --path --append /Users/towry/.asdf/shims
   '';

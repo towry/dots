@@ -1,6 +1,12 @@
 ---
-description: "Summarize changes"
+description: |
+  Best for: summarizing code changes from current conversation, creating change logs.
+
+  How: reviews chat history; generates structured markdown summaries by file; writes to `./llm/changes/<name>_change.md`; fast and lightweight.
+
+  When: documenting what changed in a session, creating change records, tracking modifications across multiple files.
 model: "zhipuai-coding-plan/glm-4.6"
+reasoningEffort: low
 permission:
   write: ask
   edit: ask

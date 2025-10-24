@@ -17,9 +17,13 @@
     "instructions": [
         "./AGENTS.md"
     ],
+    "keybinds": {
+        "session_child_cycle": "shift+right",
+        "session_child_cycle_reverse": "shift+left"
+    },
     "agent": {
         "kiro": {
-            "model": "github-copilot/gpt-5",
+            "model": "github-copilot/claude-sonnet-4.5",
             "prompt": "{file:./roles/kiro.md}",
             "description": "Kiro spec workflow",
             "mode": "primary",

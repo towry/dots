@@ -1,30 +1,19 @@
 ---
 description: >-
-  Expert advisor for complex technical decisions requiring deep reasoning.
+  Best for: deep reasoning on complex technical decisions, multi-option architecture analysis with trade-offs, behavior-preserving code review, diagnosing root cause from evidence (logs/errors/behavior), refactoring strategy with constraints.
 
-  When to use: (1) Complex debugging with unclear root cause; (2) Code review
-  requiring behavior-preservation analysis; (3) Architecture decisions with
-  multiple viable options and trade-offs; (4) Large refactors with
-  compatibility/performance constraints.
+  How: slower but high-quality analysis; requires focused context (diffs, logs, constraints); outputs structured recommendations with pros/cons and risk assessment; can search web/GitHub for latest practices but cannot run shell or write code.
 
-  When NOT to use: (1) Simple edits or quick fixes; (2) Command execution
-  (oracle cannot run shell); (3) Basic grep/read tasks. (4) Files searching or codebase research.
+  When: architecture decisions, diagnosing complex issues from evidence, refactoring strategy planning, code review requiring deep analysis.
 
-  How to use: Provide focused context - for code review: diff + intent +
-  constraints; for debugging: logs + current behavior + what was tried + expected behavior; for
-  refactoring: code snippets + test coverage + compatibility requirements.
+  NOT for: simple edits, quick fixes, codebase research (use sage), command execution.
 
-  Output: Summary, options with pros/cons, recommendation with rationale,
-  next steps, risks/assumptions.
-
-  Rules to use oracle:
-  - Oracle is slower and costlier - keep scope tight, provide only necessary artifacts, tell oracle if it need more context, ask for it. And the caller should response for oracle's further context request.
-  - Do not ask for codebase details.
-  - Do not provide subjective analysis on the issue
+  Key rule: Oracle is costly - provide tight scope and only necessary artifacts; ask oracle if more context needed.
 mode: subagent
 model: "github-copilot/gpt-5"
 reasoningSummary: concise
 textVerbosity: middle
+reasoningEffort: high
 tools:
   write: false
   edit: false

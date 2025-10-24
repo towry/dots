@@ -1,12 +1,19 @@
 ---
-description: "Fast context retrieval model optimized for code understanding tasks"
+description: |
+  Best for: code analysis, documentation summarization, architecture visualization, dependency tracing. How: read-only exploration using grep/fd for searching and Mermaid for diagrams. When: understanding existing implementations, analyzing project structure, summarizing docs, or documenting code without making changes.
+
 model: "github-copilot/grok-code-fast-1"
 permission:
   edit: "deny"
-  bash: "deny"
+  bash:
+    "*": "deny"
+    "fd": "allow"
+    "rg": "allow"
+    "curl": "allow"
 tools:
   write: false
   edit: false
+  list: true
   bash: true
   read: true
   glob: true

@@ -1,14 +1,14 @@
 ---
 description: |
-  Coding assistant for code generation, fast and cost-effective
-  How to use this subagent:
-  - Provide coding guidance, design decisions and specific task
-  - Keep the input concise, prefer document file path with reading guide instead of long content
-  - Only provide one task at a time
-  - Only provide one small task at a time
+  Best for: code generation, quick implementations, small focused tasks, rapid prototyping.
+  
+  How: fast and cost-effective; can write/edit code and run commands; requires concise input (prefer file paths over long content); handles one small task at a time.
+  
+  When: implementing specific features, quick fixes, generating boilerplate, executing defined coding tasks with clear requirements.
 model: "zhipuai-coding-plan/glm-4.6"
 reasoningSummary: concise
 textVerbosity: low
+reasoningEffort: low
 tools:
   write: true
   edit: true

@@ -9,6 +9,9 @@ let
   kiroSystemPromptHbs = ''
     # Welcome to Kiro, the AI coding assistant.
     - Our **kiro spec dir**: {{pr_dir}}
+
+    @sage please summarize the kiro status:
+
     - Read @{{pr_dir}}/claude.md, decide which other spec files to read.
     - To maintain requirements: @{{pr_dir}}/requirements.md
     - To maintain design/plan: @{{pr_dir}}/design.md
