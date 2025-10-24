@@ -300,4 +300,24 @@ in
         set -e TMUX
     end
   '';
+  programs.fish = {
+    functions = {
+      tmux-switch = {
+        # TODO: tmux enable check.
+        body = ''
+          if test (count $argv) -eq 0
+              tmux switch-client -l
+          else
+              tmux switch-client -t $argv[1]
+          end
+        '';
+        description = "Tmux switch client";
+      };
+    };
+    aliases = {
+      tmuxin = "tmux new-session -A -s tmux";
+      tm-rw = "tmux rename-window";
+      tm-rs = "tmux rename-session";
+    };
+  };
 }

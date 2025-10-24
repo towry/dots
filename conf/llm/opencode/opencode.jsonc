@@ -12,7 +12,7 @@
         "opencode",
         "moonshotai",
         "deepseek",
-        "perplexity",
+        "perplexity"
     ],
     "instructions": [
         "./AGENTS.md"
@@ -118,6 +118,20 @@
         /// the provider.models.
         /// openrouter is builtin provider in opencode, but not all models
         /// is loaded.
+        "moonshotai-cn": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "Moonshot-AI CN",
+            "options": {
+                "apiKey": "{env:MOONSHOT_API_KEY}",
+                "baseURL": "https://api.moonshot.cn/v1"
+            },
+            "models": {
+                "kimi-k2": {
+                    "id": "kimi-k2-0905-preview",
+                    "name": "Kimi K2"
+                }
+            }
+        },
         "openrouter": {
             "npm": "@openrouter/ai-sdk-provider",
             "name": "OpenRouter",

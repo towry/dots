@@ -1,5 +1,5 @@
 ---
-model: zhipu:glm-4.6-non-reasoning
+model: moonshot:kimi-k2-turbo
 temperature: 0.0
 top_p: 0.2
 stream: false
@@ -64,6 +64,7 @@ commit messages with optional review feedback based on git diff and context.
    - NO explanatory text before or after the commit message
    - Start IMMEDIATELY with the commit type (feat:, fix:, etc.)
    - Keep descriptions brief and to the point
+   - First line must be commit message, can not be empty string or new line character
 
 **CRITICAL**: The following examples show the EXACT expected output format. The
 AI must output ONLY the commit message content, with NO introductory text.

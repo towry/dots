@@ -67,49 +67,28 @@
     ya-download = "cd $HOME/Downloads && yazi";
     cd-download = "cd $HOME/Downloads";
     surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
-    run-firefox-debugger =
-      if pkgs.stdenv.isDarwin then
-        "/Applications/Firefox.app/Contents/MacOS/firefox --start-debugger-server"
-      else
-        "/user/bin/firefox --start-debugger-server";
     cls = "clear";
     vi = "nvim";
-    lazy = "NVIM_APPNAME=neonvim nvim";
-    # temporary for lazy branch dev
-    astro = "NVIM_APPNAME=astro nvim";
     q = "exit 0";
     j0 = "jump-first";
     ji = "jump";
     nix-proxy = "sudo /usr/bin/env python ~/.dotfiles/bin/darwin-nix-proxy.py";
-    cachix-exec = "cachix watch-exec towry --";
     dot-proxy = "export CURL_NIX_FLAGS='-x http://127.0.0.1:1080' https_proxy=http://127.0.0.1:1080 http_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080";
     up-karabiner = "jq . ~/.config/karabiner/karabiner.json | sponge ~/.config/karabiner/karabiner.json && gh gist edit 072fd7c32c1fc0b33044d0915885b3b4 -f karabiner.json ~/.config/karabiner/karabiner.json";
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
     pn = "pnpm";
-    # make-neovim = "make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$HOME/.local";
     install-neovim-from-dir = "cp -rf ./lib/nvim ~/.local/lib/ && cp -rf ./share/nvim ~/.local/share/ && cp -f ./bin/nvim ~/.local/bin";
-    nvim-lazy-install = "nvim --headless \"+Lazy! install\" +qa && echo 'done'";
-    ghc = "gh copilot";
-    ghcp = "gh copilot explain";
     zj = "zellij";
     zjr = "zellij run";
     zj-in = "zellij attach -c towry";
     zj-run-tasks = ''
       zellij action start-or-reload-plugin file:$HOME/.config/zellij/plugins/multitask.wasm --configuration "shell=$SHELL,cwd=`pwd`"
     '';
-    emptytrash = "sudo rm -rf ~/.Trash/*";
     stop-yabai = "yabai --stop-service";
     start-yabai = "yabai --start-service";
-    # yabaiconf="nvim ~/.config/yabai/yabairc";
     skhdconf = "nvim ~/.config/skhd/skhdrc";
-    tmuxin = "tmux new-session -A -s tmux";
-    quickterm = "tmux new-session -A -s quickterm -c $HOME/workspace";
-    tm-rw = "tmux rename-window";
-    tm-rs = "tmux rename-session";
     tail-tmp-log = "tail -f (fd --type file --search-path /tmp | fzf)";
-    # random-name = "uclanr";
-    # tree = "${pkgs.eza}/bin/eza --tree --git-ignore --group-directories-first -L8";
     nix-shell-run-nix-info = "nix-shell -p nix-info --run \"nix-info -m\"";
   };
 
@@ -382,17 +361,6 @@
          echo "Merged `$default_branch` into current branch."
       '';
       description = "Git sync with branch";
-    };
-    tmux-switch = {
-      # TODO: tmux enable check.
-      body = ''
-        if test (count $argv) -eq 0
-            tmux switch-client -l
-        else
-            tmux switch-client -t $argv[1]
-        end
-      '';
-      description = "Tmux switch client";
     };
     cd-finder = {
       # TODO: system check.

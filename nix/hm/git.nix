@@ -35,6 +35,57 @@ in
     # git-sim
     # git-interactive-rebase-tool
   ];
+  programs.difftastic = {
+    enable = false;
+    options = {
+      background = "light";
+    };
+  };
+
+  programs.delta = {
+    enable = enable_delta;
+    enableGitIntegration = true;
+    options = {
+      kanagawa-dragon = {
+        dark = true;
+        green = "#b7d0ae";
+        darkgreen = "#6f894e";
+        red = "#d9a594";
+        darkred = "#e82424";
+        file-style = ''blue bold italic'';
+        file-decoration-style = "blue box";
+        minus-style = "kanagawa-dragon.red";
+        minus-emph-style = "kanagawa-dragon.darkred bold italic";
+        minus-non-emph-style = "normal";
+        plus-style = "kanagawa-dragon.green";
+        plus-emph-style = "kanagawa-dragon.darkgreen bold italic";
+        plus-non-emph-style = "normal";
+        zero-style = "syntax";
+        blame-code-style = "syntax";
+      };
+      dark = true;
+      side-by-side = false;
+      keep-plus-minus-markers = true;
+      syntax-theme = "none";
+      file-decoration-style = "blue box";
+      hunk-header-decoration-style = "blue ul";
+      line-numbers = true;
+      navigate = true;
+      tabs = 2;
+      features = "kanagawa-dragon";
+      hyperlinks = true;
+      diff-stat-align-width = 48;
+      wrap-left-symbol = "󰌑";
+      wrap-right-symbol = "󱞣";
+      wrap-right-prefix-symbol = "󰇘";
+      hunk-label = "󰡏 ";
+      hunk-header-style = "file line-number syntax";
+      file-style = "blue bold italic";
+      wrap-max-lines = 3;
+      wrap-right-percent = 1;
+    };
+  };
+
   programs.git = {
     enable = true;
 
@@ -42,15 +93,7 @@ in
       guiSupport = false;
     };
 
-    difftastic = {
-      # enable this need to disable delta.
-      enable = false;
-      options = {
-        background = "light";
-      };
-    };
-
-    aliases = {
+    settings.alias = {
       co = "checkout";
       ad = "add";
       sw = "switch";
@@ -159,7 +202,7 @@ in
       it-rm = ''!f() { git commit -m "cleanup: $(echo $@)"; }; f'';
     };
 
-    extraConfig = {
+    settings = {
       user = {
         name = "Towry Wang";
         email = "towry@users.noreply.github.com";
@@ -259,51 +302,6 @@ in
       interactive = lib.mkIf enable_delta { diffFilter = "${pkgs.delta}/bin/delta --color-only"; };
       advice = {
         detachedHead = true;
-      };
-    };
-
-    delta = {
-      enable = enable_delta;
-      options = {
-        kanagawa-dragon = {
-          dark = true;
-          green = "#b7d0ae";
-          darkgreen = "#6f894e";
-          red = "#d9a594";
-          darkred = "#e82424";
-          file-style = ''blue bold italic'';
-          file-decoration-style = "blue box";
-          minus-style = "kanagawa-dragon.red";
-          minus-emph-style = "kanagawa-dragon.darkred bold italic";
-          minus-non-emph-style = "normal";
-          plus-style = "kanagawa-dragon.green";
-          plus-emph-style = "kanagawa-dragon.darkgreen bold italic";
-          plus-non-emph-style = "normal";
-          zero-style = "syntax";
-          blame-code-style = "syntax";
-        };
-        dark = true;
-        side-by-side = false;
-        keep-plus-minus-markers = true;
-        syntax-theme = "none";
-        file-decoration-style = "blue box";
-        hunk-header-decoration-style = "blue ul";
-        line-numbers = true;
-        # line-numbers-left-format = "{nm:>3} │";
-        # line-numbers-right-format = " │{np:>3} │";
-        navigate = true;
-        tabs = 2;
-        features = "kanagawa-dragon";
-        hyperlinks = true;
-        diff-stat-align-width = 48;
-        wrap-left-symbol = "󰌑";
-        wrap-right-symbol = "󱞣";
-        wrap-right-prefix-symbol = "󰇘";
-        hunk-label = "󰡏 ";
-        hunk-header-style = "file line-number syntax";
-        file-style = "blue bold italic";
-        wrap-max-lines = 3;
-        wrap-right-percent = 1;
       };
     };
 
