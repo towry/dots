@@ -8,6 +8,6 @@ $ARGUMENTS
 
 # Kiro spec workflow Status
 
-Please read your `claude.md` file and remeber you are in kiro spec workflow.
+Please read current spec's `claude.md` file and remember you are in kiro spec workflow.
 
 Report current kiro spec status in concise output style

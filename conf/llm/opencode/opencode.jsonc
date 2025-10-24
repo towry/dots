@@ -3,11 +3,16 @@
     // "model": "zhipuai-coding-plan/glm-4.6",
     "small_model": "github-copilot/grok-code-fast-1",
     "autoupdate": false,
-    "username": "TOWRY 🤣",
-    "share": "disabled",
+    "username": "TOWRY ☕",
+    // "share": "disabled",
     "disabled_providers": [
         "openai",
-        "gemini"
+        "gemini",
+        "openrouter",
+        "opencode",
+        "moonshotai",
+        "deepseek",
+        "perplexity"
     ],
     "instructions": [
         "./AGENTS.md"
@@ -16,10 +21,12 @@
         "kiro": {
             "model": "github-copilot/gpt-5",
             "prompt": "{file:./roles/kiro.md}",
+            "description": "Kiro spec workflow",
+            "mode": "primary",
             "tools": {
                 "write": false,
                 "edit": true,
-                "bash": true,
+                "bash": false,
                 "grep": true,
                 "read": true,
                 "list": true,
@@ -31,19 +38,21 @@
                 "grep-code*": true
             },
             "permission": {
-                "edit": "ask",
-                "bash": {
-                    "*": "ask",
-                    "ls": "allow",
-                    "git show": "allow",
-                    "git diff": "allow",
-                    "git log": "allow",
-                    "rg": "allow",
-                    "ast-grep": "allow",
-                    "fd": "allow",
-                    "cd": "allow",
-                    "pwd": "allow"
-                }
+                "edit": "allow",
+                "bash": "deny",
+                "webfetch": "deny"
+                // "bash": {
+                //     "*": "ask",
+                //     "ls": "allow",
+                //     "git show": "allow",
+                //     "git diff": "allow",
+                //     "git log": "allow",
+                //     "rg": "allow",
+                //     "ast-grep": "allow",
+                //     "fd": "allow",
+                //     "cd": "allow",
+                //     "pwd": "allow"
+                // }
             }
         },
         "build": {
@@ -109,6 +118,20 @@
         /// the provider.models.
         /// openrouter is builtin provider in opencode, but not all models
         /// is loaded.
+        "moonshotai-cn": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "Moonshot-AI CN",
+            "options": {
+                "apiKey": "{env:MOONSHOT_API_KEY}",
+                "baseURL": "https://api.moonshot.cn/v1"
+            },
+            "models": {
+                "kimi-k2": {
+                    "id": "kimi-k2-0905-preview",
+                    "name": "Kimi K2"
+                }
+            }
+        },
         "openrouter": {
             "npm": "@openrouter/ai-sdk-provider",
             "name": "OpenRouter",
@@ -165,37 +188,6 @@
                     "name": "GLM 4.6",
                     "tool_call": true,
                     "attachment": true
-                },
-                "deepseek/deepseek-chat-v3.1": {
-                    "name": "DeepSeek Chat V3.1",
-                    "tool_call": true,
-                    "attachment": true
-                },
-                "mistralai/mistral-small-24b-instruct-2501": {
-                    "name": "Mistral Small 24B Instruct"
-                },
-                "meta-llama/llama-4-scout": {
-                    "name": "Llama 4 Scout",
-                    "tool_call": true,
-                    "attachment": true
-                },
-                "meta-llama/llama-4-maverick": {
-                    "name": "Llama 4 Maverick",
-                    "tool_call": true,
-                    "attachment": true
-                },
-                "meta-llama/llama-3.3-70b-instruct": {
-                    "name": "Llama 3.3 70B Instruct",
-                    "tool_call": true
-                },
-                "z-ai/glm-4.5": {
-                    "name": "GLM 4.5",
-                    "tool_call": true
-                },
-                "mistralai/mistral-medium-3.1": {
-                    "name": "Mistral Medium 3.1",
-                    "tool_call": true,
-                    "attachment": false
                 }
             }
         }
@@ -212,12 +204,14 @@
             "cd": "allow"
         },
         "edit": "allow",
-        "webfetch": "ask"
+        "webfetch": "deny"
     },
     "tools": {
+        "webfetch": false,
         "playwright*": false,
         "github*": false,
         "context7*": false,
+        "grep-code*": false,
         "mermaid*": true,
         "brightdata*": true
     },
@@ -225,13 +219,6 @@
     // disabled in global can enabled for a specific agent with tools setting
     // like `context7*: true`
     "mcp": {
-        "commander": {
-            "type": "local",
-            "command": [
-                "commander-mcp"
-            ],
-            "enabled": true
-        },
         "context7": {
             "type": "local",
             "command": [
@@ -269,8 +256,7 @@
             "command": [
                 "github-mcp-server",
                 "stdio",
-                "--toolsets",
-                "all"
+                "--dynamic-toolsets"
             ],
             "enabled": true,
             "environment": {

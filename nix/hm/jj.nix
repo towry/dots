@@ -6,7 +6,7 @@
   ...
 }:
 let
-  gitCfg = config.programs.git.extraConfig;
+  gitCfg = config.programs.git.settings;
   bashScriptsDir = "${config.home.homeDirectory}/.local/bash/scripts";
 in
 {

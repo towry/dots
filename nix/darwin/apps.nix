@@ -15,7 +15,6 @@
       "asdf"
       "codex"
       # "html2markdown"
-      # "block-goose-cli"
     ];
     casks = [
       "amethyst"

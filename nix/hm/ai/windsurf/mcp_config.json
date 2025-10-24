@@ -47,8 +47,7 @@
             "command": "github-mcp-server",
             "args": [
                 "stdio",
-                "--toolsets",
-                "all"
+                "--dynamic-toolsets"
             ],
             "env": {
                 "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PAT@"

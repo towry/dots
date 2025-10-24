@@ -14,10 +14,7 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
     # git-smash = {
     #   url = "github:towry/nix-flakes?dir=git-smash";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +35,6 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zjstatus.url = "github:dj95/zjstatus";
     nix-priv = {
       url = "git+ssh://git@github.com/towry/nix-priv.git?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -70,7 +66,7 @@
       nixpkgs-edge,
       darwin,
       home-manager,
-      mac-app-util,
+
       ...
     }@inputs:
     let
@@ -158,7 +154,7 @@
             nixpkgs-stable
             nixpkgs-edge
             home-manager
-            mac-app-util
+
             darwin
             ;
         }

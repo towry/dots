@@ -19,8 +19,7 @@
       "command": "github-mcp-server",
       "args": [
         "stdio",
-        "--toolsets",
-        "all"
+        "--dynamic-toolsets"
       ],
       "disabled": true,
       "env": {

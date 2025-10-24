@@ -6,7 +6,14 @@
 }:
 
 let
-  kiroSystemPromptHbs = builtins.readFile ./roles-md/kiro-system-prmpt.md;
+  kiroSystemPromptHbs = ''
+    # Welcome to Kiro, the AI coding assistant.
+    - Our **kiro spec dir**: {{pr_dir}}
+    - Read @{{pr_dir}}/claude.md, decide which other spec files to read.
+    - To maintain requirements: @{{pr_dir}}/requirements.md
+    - To maintain design/plan: @{{pr_dir}}/design.md
+    - To maintain tasks: @{{pr_dir}}/tasks.md
+  '';
   kiroPromptLiteral = lib.escapeShellArg kiroSystemPromptHbs;
 
   ocode-with-proxy = pkgs.writeShellScriptBin "ocode" ''
@@ -75,6 +82,7 @@ in
 {
   home.packages = [
     ocode-with-proxy
+    pkgs.terminal-notifier
     pkgs.minijinja
     # opencode
   ];

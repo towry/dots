@@ -6,6 +6,7 @@ in
 (
   final: prev:
   {
+
     codelldb = final.vscode-extensions.vadimcn.vscode-lldb.adapter;
     google-chrome = prev.google-chrome.override {
       commandLineArgs = "--remote-debugging-port=9222 --disable-gpu --no-first-run --no-default-browser-check --noerrdialogs --user-data-dir=\"${chromeUserDataDir}\"";
@@ -13,6 +14,11 @@ in
 
     mcp-filesystem-server = final.callPackage ./pkgs/mcp-filesystem-server.nix {
       version = versions.mcp-filesystem-server;
+      pkgs = final;
+      system = final.system;
+    };
+    github-mcp-server = final.callPackage ./pkgs/github-mcp-server.nix {
+      version = versions.github-mcp-server;
       pkgs = final;
       system = final.system;
     };

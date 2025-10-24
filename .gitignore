@@ -17,3 +17,4 @@ nix/foo.nix
 .opencode/
 .roo/
 .pmdaemon/
+pnpm-lock.yaml

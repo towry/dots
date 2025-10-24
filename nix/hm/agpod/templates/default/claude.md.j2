@@ -4,32 +4,34 @@
 **Created**: {{ now }}
 **Owner**: {{ user }}
 
+**Spec files status** (one of: ready, draft, empty):
+
+- requirements.md: empty
+- design.md: empty
+- tasks.md: empty
 ---
 
-## Agent Instructions
+# Critical Rules
 
-### Critical Rules
-
+- Make sure **Spec files status** is up to date
 - **Never proceed without user approval** for any phase transition
 - **Always ask questions** when requirements are unclear
 - **Present options** for user to choose from rather than assuming intent
 - **Only edit code** when explicitly requested or after plan approval
+- **Keep user decisions documented**: update Session Notebook -> Decisions with the new decisions that user made, like user want to tweak the design to use X instead of Y.
 
-### Start of Session
+# Start of Session
 
 1. **Read user's request** - Understand their intent
-
-2. **Check project status** by reading spec files in order:
-   - `@./tasks.md` - If has unchecked `[ ]` tasks → **Ask** user which to work on
-   - `@./design.md` - If has content but no tasks → **Ask** if user wants to create task breakdown
-   - `@./requirements.md` - If has content but no design → **Ask** if user wants to create design doc
-   - If all are templates → **Ask** user to describe their requirements
-
+2. Check **Spec files status** to decide next steps
+   - Read essential spec files, no need to read all at once
+   - If any spec file is "empty", collaborate with user to fill it out
+   - If all spec files are "ready", proceed to implementation planning
 3. **For specific requests** (bug fix, new feature, question):
    - Address the request directly
    - **Ask** before updating any spec documents
 
-### Workflow Phases
+# Workflow Phases
 
 **Requirements** → **Design** → **Tasks** → **Implementation** → **Verification**
 
@@ -39,16 +41,19 @@ Each phase requires user approval before proceeding to the next.
    - Collaborate with user to gather requirements
    - Format: User stories + Acceptance criteria
    - **Get approval** before moving to design
+   - When user approved, mark `requirements.md` as "ready"
 
 2. **Design** (`design.md`):
    - Present design options to user
    - Document chosen architecture, components, data flows
    - **Get approval** before creating tasks
+   - When user approved, mark `design.md` as "ready"
 
 3. **Tasks** (`tasks.md`):
    - Present task breakdown for review
    - Each task: description, requirements ref, design ref, target files
    - **Get approval** before implementation
+   - When user approved, mark `tasks.md` as "ready"
 
 4. **Implementation**:
    - Present plan before coding
@@ -62,13 +67,20 @@ Each phase requires user approval before proceeding to the next.
 
 ---
 
-## Notes
+# Session Notebook
 
-### Decisions
--
+## Decisions
 
-### Questions
--
+<!-- List of key decisions made during the session -->
 
-### Risks
--
+## Questions
+
+<!-- List of questions asked to the user and their answers -->
+
+## Risks
+
+<!-- List of identified risks and mitigation strategies -->
+
+## Findings
+
+<!-- List of important findings during research or implementation -->

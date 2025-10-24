@@ -129,6 +129,7 @@ make update-input
 - [nix-darwin Manual](https://daiderd.com/nix-darwin/manual/index.html)
 - [home-manager Manual](https://nix-community.github.io/home-manager/index.html)
 - [Nix Flakes](https://nixos.wiki/wiki/Flakes)
+- [Github mcp toolset](https://github.com/github/copilot-cli/releases/tag/v0.0.350)
 
 ## 📄 License
 

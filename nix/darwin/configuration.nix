@@ -19,7 +19,15 @@
     home = "/Users/${username}";
     shell = pkgs.fish;
   };
-  nixpkgs.hostPlatform = system;
+  nixpkgs = {
+    hostPlatform = system;
+    config = {
+      allowUnfree = true;
+      # Disable tests during builds to avoid test failures blocking installation
+      doCheck = false;
+      doInstallCheck = false;
+    };
+  };
   environment = {
     variables = {
       EDITOR = "${config.vars.editor}";

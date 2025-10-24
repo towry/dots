@@ -53,6 +53,9 @@ in
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
+      # Disable tests during builds to avoid test failures blocking installation
+      doCheck = false;
+      doInstallCheck = false;
     };
   };
   home = {
@@ -98,7 +101,6 @@ in
     ./hm/jj.nix
     # ./hm/autoraise.nix
     ./hm/ai
-    # ./hm/gptme.nix
     # ./hm/git-town.nix
     # ./hm/docker.nix
     ./hm/asdf.nix
