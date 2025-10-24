@@ -256,8 +256,7 @@
             "command": [
                 "github-mcp-server",
                 "stdio",
-                "--toolsets",
-                "get_file_contents,search_code,search_repositories,list_branches,list_commits,get_commit,get_issue,list_issues,get_issue_comments,search_issues,pull_request_read,list_pull_requests,search_pull_requests,list_workflows,list_workflow_runs,get_workflow_run,get_job_logs,get_workflow_run_logs"
+                "--dynamic-toolsets"
             ],
             "enabled": true,
             "environment": {

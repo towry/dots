@@ -3,13 +3,19 @@
     "playwright": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["@playwright/mcp@latest", "--headless"],
+      "args": [
+        "@playwright/mcp@latest",
+        "--headless"
+      ],
       "disabled": false
     },
     "github": {
       "type": "stdio",
       "command": "github-mcp-server",
-      "args": ["stdio", "--toolsets", "all"],
+      "args": [
+        "stdio",
+        "--dynamic-toolsets"
+      ],
       "disabled": false,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PERSONAL_ACCESS_TOKEN@"
@@ -18,7 +24,9 @@
     "mermaid": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["mcp-mermaid"],
+      "args": [
+        "mcp-mermaid"
+      ],
       "disabled": false
     },
     "context7": {
@@ -34,7 +42,9 @@
     "brightdata": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["@brightdata/mcp"],
+      "args": [
+        "@brightdata/mcp"
+      ],
       "disabled": false,
       "env": {
         "API_TOKEN": "@BRIGHTDATA_API_KEY@"

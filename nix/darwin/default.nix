@@ -1,6 +1,6 @@
 {
   home-manager,
-  mac-app-util,
+
   mkSystemConfig,
   inputs,
   darwin,
@@ -29,7 +29,7 @@ let
           ;
       };
       modules = [
-        mac-app-util.darwinModules.default
+
         ./configuration.nix
         home-manager.darwinModules.home-manager
         {
@@ -39,7 +39,7 @@ let
           home-manager.sharedModules = [
             ../modules/config.nix
             ./vars.nix
-            mac-app-util.homeManagerModules.default
+
           ];
           home-manager.extraSpecialArgs = {
             inherit
