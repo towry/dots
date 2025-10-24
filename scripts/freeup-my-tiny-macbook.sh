@@ -11,7 +11,6 @@ rm -rf "$HOME/Library/Caches/colima/caches"
 rm -rf "$HOME/Library/Caches/Doubao"
 rm -rf "$HOME/Library/Caches/anytype-updater/"
 
-## maybe created by the goose project build system.
 sudo rm -rf "$HOME/Library/Caches/hermit"
 
 rm -rf "$HOME/Library/Caches/go-build/"
@@ -24,9 +23,6 @@ rm -rf "$HOME/Library/Application Support/Notion"
 
 rm -rf "$HOME/Library/Application Support/Kerlig"
 
-
-# goose logs 
-rm -rf "$HOME/.local/state/goose/logs"
 # nvim logs 
 rm -rf "$HOME/.local/state/nvim/*.log"
 

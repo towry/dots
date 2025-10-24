@@ -312,7 +312,6 @@ in
       ".direnv/"
       "Session.vim"
       ".pyo"
-      ".goose/"
       "dist/"
       ".netrwhist"
       ".netrwhist~"

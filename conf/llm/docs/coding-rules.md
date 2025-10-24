@@ -6,7 +6,7 @@
 - Easy reference and recommendation: Number any options, steps, or requirements so users can cite them by number.
 - Be transparent about code intention: flag anything that needs attention with FIXME, TODO, or NOTE.
 - **Be clear in code**: document any non-obvious logic and explain what complex functions are for.
-- **Explicit over implicit in conversation**: when user intent is unclear, list the likely options and let the user pick, interpretate user message with scope, like "Are you asking for X or Y?", and "Are you talking about ci in 'Continuous Integration' or just code variable name in current codebase?".
+- **Explicit over implicit in conversation**: when user intent is unclear, list the likely options and let the user pick, interpret user message with scope, like "Are you asking for X or Y?", and "Are you talking about ci in 'Continuous Integration' or just code variable name in current codebase?".
 - **Keep boundaries clear**: UI components should not contain business logic, demo code, debug logic, temporary code, or mock code.
 - **Stay humble**: push yourself to solve the problem first, but if you hit a hard limit, say so and ask for help—never fake an answer.
 - **One-check rule**: present your plan up front; if the user says nothing, proceed—only ask again if the scope changes.
@@ -24,8 +24,8 @@
 
 ## Review
 
-- Read project `AGENTS.md` and `~/.config/AGENTS.md` (or your own instructions) and obey the `## Critical` rules.  
-- Confirm every change is wired in: new handlers must be bound, new routes registered, etc. no orphaned code.  
+- Read project `AGENTS.md` and `~/.config/AGENTS.md` (or your own instructions) and obey the `## Critical` rules.
+- Confirm every change is wired in: new handlers must be bound, new routes registered, etc. no orphaned code.
 - Conduct a deep, human review, not just static-code checks: walk through every edge case, anticipate failure modes, and weigh the performance cost of each path.
 - Reference-check, run `ast-grep`/`rg` to verify that any API, constant, or variable you touch already exists and makes sense; never invent values like `this.userType = 123` if `123` is meaningless in the project.
 
@@ -77,30 +77,20 @@
 - Explain the issue or bug analysis results to user first, then ask for confirmation to make any code changes.
 - When user frustrated, or issue is complex, use said "not working", "still broken", you need to try ask for advanced subagent for help.
 
-## Tool Usage
+## Tools available in current environment
 
-- **grep**: Whenever a search requires syntax-aware or structural matching, use `ast-grep run --lang ? --pattern ? [PATHS]...` (set `--lang` appropriately, default to lang in `lang` tags), fallback to text-only tool `rg`.
-- **find**: To search for files, use `fd`. The `find` shell command is deprecated and removed.
-- **Package Managers**: Use pnpm when possible.
-- **port occupied**: To kill a process that is using a port, use `killport $port$`.
+- **grep**(ast-grep): Whenever a search requires syntax-aware or structural matching, use `ast-grep run --lang ? --pattern ? [PATHS]...` (set `--lang` appropriately, default to lang in `lang` tags), fallback to text-only tool `rg`.
+- **find(fd,rg)**: To search for files, use `fd`. The `find` shell command is deprecated and removed.
+- **Package Managers(pnpm, bun)**: Use pnpm when possible.
+- **port occupied(killport)**: To kill a process that is using a port, use `killport $port$`.
 - **shell**: The current shell is `fish`.
-- **git**: To view file changes against the main branch, use `jj df-file-base ?file-path?`.
-- **git**: To view file changes against the previous commit, use `jj df-file-prev ?file-path?`.
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation.
-- *codex*: Use the `codex` mcp tool with specific profile for different tasks, "sage" profile for codebase research, "claude" for high reasoning tasks; 'claude_fast' for low reasoning task; Do not use model argument; Limit the cwd argument up to the allowed search dirs in our critical rule; do not use `cwd` argument, include the cwd in the `prompt` argument.
+- `gh`: github cli
 
 #### playwright mcp tool
 
 - On first start, always double check if the page is loaded, the first load usally is a blank page initiated by the browser, you may need to navigate to the url again to ensure page is loaded.
 
-### codex codebase research usage example
-
-```json
-{
-  "prompt": "Search xxx in cwd: yyy",
-  "profile": "sage"
-}
-```
 
 ### GitHub Code Search, do not use this when request for local codebase search
 
@@ -116,7 +106,3 @@
  "useRegexp": true
 }
 ```
-
-## Troubleshooting for tool issues
-
-- grep, search failed with our builtin tools, try use `codex` mcp tool with "sage" profile.
