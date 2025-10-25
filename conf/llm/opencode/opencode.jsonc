@@ -76,23 +76,6 @@
                 "grep-code*": true
             }
         },
-        "build_heavy": {
-            "model": "zhipuai-coding-plan/glm-4.6",
-            "tools": {
-                "write": true,
-                "edit": true,
-                "bash": true,
-                "grep": true,
-                "read": true,
-                "list": true,
-                "glob": true,
-                "todowrite": true,
-                "todoread": true,
-                "webfetch": false,
-                "brightdata*": true,
-                "grep-code*": true
-            }
-        },
         "plan": {
             "mode": "primary",
             "model": "github-copilot/gpt-5",
