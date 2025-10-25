@@ -7,10 +7,8 @@
 
 let
   kiroSystemPromptHbs = ''
-    # Welcome to Kiro, the AI coding assistant.
-    - Our **kiro spec dir**: {{pr_dir}}
-
-    @sage please summarize the kiro status:
+    Our **kiro spec dir**: {{pr_dir}}
+    **ask** @sage subagent please summarize the kiro status:
 
     - Read @{{pr_dir}}/claude.md, decide which other spec files to read.
     - To maintain requirements: @{{pr_dir}}/requirements.md
@@ -75,7 +73,7 @@ let
       fi
 
       # Execute opencode with kiro system prompt and plan agent
-      exec $HOME/.local/bin/opencode --prompt "$system_prompt" --agent kiro "''${args[@]}"
+      KIRO_SYSTEM_PROMPT="kiro_dir: $pr_dir" exec $HOME/.local/bin/opencode --prompt "$system_prompt" --agent kiro "''${args[@]}"
     else
       # Normal mode: just run opencode with all arguments
       exec $HOME/.local/bin/opencode "$@"

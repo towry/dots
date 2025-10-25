@@ -21,8 +21,9 @@ tools:
   grep: true
   list: true
   glob: true
-  brightdata*: false
-  grep-code*: false
+  webfetch: false
+  brightdata*: true
+  grep-code*: true
 permission:
   edit: allow
   bash:
@@ -39,7 +40,7 @@ permission:
     "ssh-keygen": deny
     "jj commit": deny
     "jj git": deny
-mode: subagent
+mode: all
 ---
 
 # Core principles

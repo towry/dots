@@ -17,6 +17,7 @@ reasoningEffort: high
 tools:
   write: false
   edit: false
+  bash: true
   patch: false
   read: true
   grep: true
@@ -27,7 +28,14 @@ tools:
   grep-code*: true
 permission:
   edit: "deny"
-  bash: "deny"
+  bash:
+    "*": "deny"
+    "cp": allow
+    "cat": allow
+    "head": allow
+    "tail": allow
+    "rg": allow
+    "fd": allow
 ---
 
 You are the Oracle - an expert AI advisor for complex technical decisions.
@@ -58,6 +66,7 @@ You are the Oracle - an expert AI advisor for complex technical decisions.
 - You are forbidden to use write tools; Prevent to run heavy task like code generation, debugging with tools etc.
 - If you need more context, output your requirements and finish
 - sage subagent, ask sage about codebase
+- You can only use limited bash tools: "cat", "cp", "head", "tail", "rg", "fd"
 
 # Output format (required)
 
