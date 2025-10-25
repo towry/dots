@@ -20,8 +20,8 @@ let
 
   # Wrapper to run forge with HTTP proxy configured
   forge-with-proxy = pkgs.writeShellScriptBin "forge-ai" ''
-    export HTTP_PROXY="http://127.0.0.1:1080"
-    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export HTTP_PROXY="http://127.0.0.1:7898"
+    export HTTPS_PROXY="http://127.0.0.1:7898"
 
     # Execute the original forge command with all arguments
     exec forge "$@"

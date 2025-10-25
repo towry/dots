@@ -79,11 +79,17 @@ function jj-fork --description "Fork from a bookmark or revision"
 
     # Generate bookmark name from aichat
     echo "Generating bookmark name..."
-    set -l bookmark_name (aichat --role git-branch -S -c "$description")
+    set -l bookmark_name_raw (aichat --role git-branch -S -c "$description" | string collect)
     or return
 
+    # Trim all whitespace and replace spaces with hyphens
+    set -l bookmark_name (string trim -- $bookmark_name_raw)
+    set bookmark_name (string replace -a ' ' '-' -- $bookmark_name)
+    # Remove leading hyphens to avoid double hyphens after prefix
+    set bookmark_name (string replace -r '^-+' '' -- $bookmark_name)
+
     set -l date_now (date +%m%d%H)
-    set -l bookmark_name "towry/$bookmark_name-$date_now"
+    set bookmark_name "towry/$bookmark_name-$date_now"
 
     # Check if the bookmark name is already used
     jj --ignore-working-copy log --quiet -r $bookmark_name -n 1 > /dev/null 2>&1

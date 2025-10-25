@@ -23,8 +23,8 @@ let
   claudeScriptPrelude = ''
     set -euo pipefail
 
-    export HTTP_PROXY="http://127.0.0.1:1080"
-    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export HTTP_PROXY="http://127.0.0.1:7898"
+    export HTTPS_PROXY="http://127.0.0.1:7898"
     export DISABLE_AUTOUPDATER=1
     export DISABLE_BUG_COMMAND=1
     export DISABLE_TELEMETRY=1

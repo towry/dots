@@ -30,8 +30,8 @@ let
 
   # Wrapper to run droid with HTTP proxy configured
   factory-with-proxy = pkgs.writeShellScriptBin "factory" ''
-    export HTTP_PROXY="http://127.0.0.1:1080"
-    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export HTTP_PROXY="http://127.0.0.1:7898"
+    export HTTPS_PROXY="http://127.0.0.1:7898"
 
     # Execute the original droid command with all arguments
     exec droid "$@"

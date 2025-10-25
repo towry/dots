@@ -20,8 +20,8 @@ let
   kiroPromptLiteral = lib.escapeShellArg kiroSystemPromptHbs;
 
   ocode-with-proxy = pkgs.writeShellScriptBin "ocode" ''
-    export HTTP_PROXY="http://127.0.0.1:1080"
-    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export HTTP_PROXY="http://127.0.0.1:7898"
+    export HTTPS_PROXY="http://127.0.0.1:7898"
 
     # Check if --pr flag is present
     use_pr_mode=false
