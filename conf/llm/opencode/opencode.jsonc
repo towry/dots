@@ -244,17 +244,6 @@
             ],
             "enabled": true
         },
-        "zai-ms": {
-            "type": "local",
-            "command": [
-                "bunx",
-                "@z_ai/mcp-server"
-            ],
-            "environment": {
-                "Z_AI_MODE": "ZHIPU",
-                "Z_AI_API_KEY": "{env:ZAI_API_KEY}"
-            }
-        },
         "github": {
             "type": "local",
             "command": [
@@ -273,11 +262,6 @@
                 "bunx",
                 "mcp-mermaid"
             ],
-            "enabled": true
-        },
-        "grep-code": {
-            "type": "remote",
-            "url": "https://mcp.grep.app",
             "enabled": true
         },
         "brightdata": {

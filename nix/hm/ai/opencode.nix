@@ -99,6 +99,7 @@ in
 
       cat ${../../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
       cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/AGENTS.md
+      cat ${../../../conf/llm/opencode/package.json} > ${config.xdg.configHome}/opencode/package.json
 
       echo "Opencode config setup done"
     '';
