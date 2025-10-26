@@ -8,10 +8,7 @@ interface NotifyOptions {
 }
 
 const onClick = `osascript \\
-          -e 'tell application "Ghostty" to activate' \\
-          -e 'tell application "System Events" to key code 49 using control down' \\
-          -e 'delay 0.1' \\
-          -e 'tell application "System Events" to key code 36'`;
+          -e 'tell application "Ghostty" to activate'`;
 
 export const Notify: Plugin = async ({ directory, client, $ }) => {
   const pathParts = directory.split("/").filter(Boolean);

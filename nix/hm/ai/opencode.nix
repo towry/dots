@@ -73,7 +73,7 @@ let
       fi
 
       # Execute opencode with kiro system prompt and plan agent
-      KIRO_SYSTEM_PROMPT="kiro_dir: $pr_dir" exec $HOME/.local/bin/opencode --prompt "$system_prompt" --agent kiro "''${args[@]}"
+      KIRO_SYSTEM_PROMPT="**kiro spec dir**: $pr_dir" exec $HOME/.local/bin/opencode --agent kiro "''${args[@]}"
     else
       # Normal mode: just run opencode with all arguments
       exec $HOME/.local/bin/opencode "$@"
