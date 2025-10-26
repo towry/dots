@@ -58,7 +58,7 @@
             }
         },
         "build": {
-            "model": "github-copilot/claude-sonnet-4.5",
+            "model": "zhipuai-coding-plan/glm-4.6",
             "tools": {
                 "write": true,
                 "edit": true,
@@ -71,15 +71,17 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "grep-code*": true
+                "grep-code*": true,
+                "github*": true
             }
         },
         "plan": {
             "mode": "primary",
-            "model": "github-copilot/gpt-5",
+            "model": "github-copilot/claude-sonnet-4.5",
+            "prompt": "{file:./roles/oracle.md}",
             "tools": {
-                "write": true,
-                "edit": true,
+                "write": false,
+                "edit": false,
                 "bash": true,
                 "grep": true,
                 "read": true,
@@ -89,11 +91,11 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "grep-code*": true
+                "github*": true
             },
             "permission": {
-                "bash": "ask",
-                "edit": "ask"
+                "bash": "deny",
+                "edit": "deny"
             }
         }
     },
@@ -198,7 +200,8 @@
         "context7*": false,
         "grep-code*": false,
         "mermaid*": true,
-        "brightdata*": true
+        "brightdata*": true,
+        "memory*": true
     },
     // global mcp settings
     // disabled in global can enabled for a specific agent with tools setting
@@ -244,6 +247,13 @@
                 "mcp-mermaid"
             ],
             "enabled": true
+        },
+        "memory": {
+          "type": "local",
+          "command": [
+            "bunx",
+            "@modelcontextprotocol/server-memory"
+          ]
         },
         "brightdata": {
             "type": "local",

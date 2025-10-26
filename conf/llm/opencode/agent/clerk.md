@@ -40,7 +40,7 @@ permission:
     "ssh-keygen": deny
     "jj commit": deny
     "jj git": deny
-mode: all
+mode: subagent
 ---
 
 # Core principles

@@ -20,6 +20,7 @@ let
   ocode-with-proxy = pkgs.writeShellScriptBin "ocode" ''
     export HTTP_PROXY="http://127.0.0.1:7898"
     export HTTPS_PROXY="http://127.0.0.1:7898"
+    export OPENCODE_DISABLE_LSP_DOWNLOAD="1"
 
     # Check if --pr flag is present
     use_pr_mode=false
@@ -90,6 +91,12 @@ in
   # ++ (with pkgs.nix-ai-tools; [
   #   opencode
   # ]);
+
+  home.sessionVariables = {
+    OPENCODE_AUTO_SHARE = "0";
+    OPENCODE_DISABLE_AUTOUPDATE = "1";
+    OPENCODE_DISABLE_LSP_DOWNLOAD = "1";
+  };
 
   home.activation = {
     setupOpencodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
