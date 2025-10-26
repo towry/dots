@@ -7,8 +7,9 @@
 
 let
   kiroSystemPromptHbs = ''
-    # Welcome to Kiro, the AI coding assistant.
-    - Our **kiro spec dir**: {{pr_dir}}
+    Our **kiro spec dir**: {{pr_dir}}
+    **ask** @sage subagent please summarize the kiro status:
+
     - Read @{{pr_dir}}/claude.md, decide which other spec files to read.
     - To maintain requirements: @{{pr_dir}}/requirements.md
     - To maintain design/plan: @{{pr_dir}}/design.md
@@ -17,8 +18,8 @@ let
   kiroPromptLiteral = lib.escapeShellArg kiroSystemPromptHbs;
 
   ocode-with-proxy = pkgs.writeShellScriptBin "ocode" ''
-    export HTTP_PROXY="http://127.0.0.1:1080"
-    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export HTTP_PROXY="http://127.0.0.1:7898"
+    export HTTPS_PROXY="http://127.0.0.1:7898"
 
     # Check if --pr flag is present
     use_pr_mode=false
@@ -72,7 +73,7 @@ let
       fi
 
       # Execute opencode with kiro system prompt and plan agent
-      exec $HOME/.local/bin/opencode --prompt "$system_prompt" --agent kiro "''${args[@]}"
+      KIRO_SYSTEM_PROMPT="**kiro spec dir**: $pr_dir" exec $HOME/.local/bin/opencode --agent kiro "''${args[@]}"
     else
       # Normal mode: just run opencode with all arguments
       exec $HOME/.local/bin/opencode "$@"
@@ -96,6 +97,7 @@ in
 
       cat ${../../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
       cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/AGENTS.md
+      cat ${../../../conf/llm/opencode/package.json} > ${config.xdg.configHome}/opencode/package.json
 
       echo "Opencode config setup done"
     '';

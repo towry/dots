@@ -9,7 +9,6 @@
     ./opencode.nix
     ./legacy.nix
     # ./droid
-    ./forge
     ./claude
     ./codex
     ./windsurf

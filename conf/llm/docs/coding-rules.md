@@ -80,11 +80,12 @@
 ## Tools available in current environment
 
 - **grep**(ast-grep): Whenever a search requires syntax-aware or structural matching, use `ast-grep run --lang ? --pattern ? [PATHS]...` (set `--lang` appropriately, default to lang in `lang` tags), fallback to text-only tool `rg`.
-- **find(fd,rg)**: To search for files, use `fd`. The `find` shell command is deprecated and removed.
+- **[find, grep](fd,rg)**: To search for files, use `fd`. The `find` shell command is deprecated and removed.
 - **Package Managers(pnpm, bun)**: Use pnpm when possible.
 - **port occupied(killport)**: To kill a process that is using a port, use `killport $port$`.
 - **shell**: The current shell is `fish`.
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation.
+- `github` mcp tool: search public GitHub repositories for code examples.
 - `gh`: github cli
 
 #### playwright mcp tool

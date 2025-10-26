@@ -14,12 +14,14 @@
         "deepseek",
         "perplexity"
     ],
-    "instructions": [
-        "./AGENTS.md"
-    ],
+    "instructions": [],
+    "keybinds": {
+        "session_child_cycle": "shift+right",
+        "session_child_cycle_reverse": "shift+left"
+    },
     "agent": {
         "kiro": {
-            "model": "github-copilot/gpt-5",
+            "model": "github-copilot/claude-sonnet-4.5",
             "prompt": "{file:./roles/kiro.md}",
             "description": "Kiro spec workflow",
             "mode": "primary",
@@ -57,23 +59,6 @@
         },
         "build": {
             "model": "github-copilot/claude-sonnet-4.5",
-            "tools": {
-                "write": true,
-                "edit": true,
-                "bash": true,
-                "grep": true,
-                "read": true,
-                "list": true,
-                "glob": true,
-                "todowrite": true,
-                "todoread": true,
-                "webfetch": false,
-                "brightdata*": true,
-                "grep-code*": true
-            }
-        },
-        "build_heavy": {
-            "model": "zhipuai-coding-plan/glm-4.6",
             "tools": {
                 "write": true,
                 "edit": true,
@@ -240,17 +225,6 @@
             ],
             "enabled": true
         },
-        "zai-ms": {
-            "type": "local",
-            "command": [
-                "bunx",
-                "@z_ai/mcp-server"
-            ],
-            "environment": {
-                "Z_AI_MODE": "ZHIPU",
-                "Z_AI_API_KEY": "{env:ZAI_API_KEY}"
-            }
-        },
         "github": {
             "type": "local",
             "command": [
@@ -271,11 +245,6 @@
             ],
             "enabled": true
         },
-        "grep-code": {
-            "type": "remote",
-            "url": "https://mcp.grep.app",
-            "enabled": true
-        },
         "brightdata": {
             "type": "local",
             "command": [
@@ -288,5 +257,54 @@
             }
         }
     },
-    "lsp": {}
+    "lsp": {
+        "typescript": {
+            "disabled": true
+        },
+        "deno": {
+            "disabled": true
+        },
+        "eslint": {
+            "disabled": true
+        },
+        "gopls": {
+            "disabled": true
+        },
+        "ruby-lsp": {
+            "disabled": true
+        },
+        "pyright": {
+            "disabled": true
+        },
+        "elixir-ls": {
+            "disabled": true
+        },
+        "zls": {
+            "disabled": true
+        },
+        "csharp": {
+            "disabled": true
+        },
+        "vue": {
+            "disabled": true
+        },
+        "rust": {
+            "disabled": true
+        },
+        "clangd": {
+            "disabled": true
+        },
+        "svelte": {
+            "disabled": true
+        },
+        "astro": {
+            "disabled": true
+        },
+        "jdtls": {
+            "disabled": true
+        },
+        "lua-ls": {
+            "disabled": true
+        }
+    }
 }

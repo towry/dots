@@ -5,8 +5,8 @@ let
   # like commands in other agents
   # prompts_dir = "${codex_home}/prompts";
   codex-with-proxy = pkgs.writeShellScriptBin "codex-ai" ''
-    export HTTP_PROXY="http://127.0.0.1:1080"
-    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export HTTP_PROXY="http://127.0.0.1:7898"
+    export HTTPS_PROXY="http://127.0.0.1:7898"
 
     exec codex "$@"
   '';
@@ -104,7 +104,7 @@ in
       exclude = []
       # if provided, *only* vars matching these patterns are kept
       include_only = []
-      set = { HTTP_PROXY = "http://127.0.0.1:1080", HTTPS_PROXY = "http://127.0.0.1:1080" }
+      set = { HTTP_PROXY = "http://127.0.0.1:7898", HTTPS_PROXY = "http://127.0.0.1:7898" }
 
       ## MCP
       # [mcp_servers.playwright]

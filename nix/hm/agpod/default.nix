@@ -1,8 +1,25 @@
-{ ... }:
+{ lib, config, ... }:
+let
+  configDir = "${config.home.homeDirectory}/.config/agpod";
+in
 {
+
+  # home.activation = {
+  #   setupAgpodPermission = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  #     rm -rf ${configDir}/plugins
+  #     mkdir -p ${configDir}/plugins
+  #     # recursive copy with content from ./plugins_generated to ${configDir}/plugins
+  #     cp -rfL ${./plugins_generated}/* ${configDir}/plugins/
+  #   '';
+  # };
+
   xdg.configFile = {
     "agpod/templates" = {
       source = ./templates;
+      recursive = true;
+    };
+    "agpod/plugins" = {
+      source = ./plugins;
       recursive = true;
     };
 

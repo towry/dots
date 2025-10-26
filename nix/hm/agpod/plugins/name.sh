@@ -31,12 +31,24 @@ if [[ -z "$desc" ]]; then
   exit 0
 fi
 
-# Simple slugify: convert to lowercase, replace spaces with hyphens
-# This is a portable version that works on all systems
-slug=$(echo "$desc" | tr '[:upper:]' '[:lower:]' | tr '[:space:]' '-' | tr -cd 'a-z0-9-')
+# Try to use AI to generate a better branch name
+# Falls back to simple slugify if aichat is not available or fails
+slug=""
 
-# Remove multiple consecutive hyphens and trim leading/trailing hyphens
-slug=$(echo "$slug" | sed -e 's/-\+/-/g' -e 's/^-//' -e 's/-$//')
+if command -v aichat &> /dev/null; then
+  # Try to generate branch name using aichat (same as jj-fork.fish)
+  slug=$(aichat --role git-branch -S -c "$desc" 2>/dev/null | tr -d '\n')
+fi
+
+# Fallback to simple slugify if AI generation failed or produced empty result
+if [[ -z "$slug" ]]; then
+  # Simple slugify: convert to lowercase, replace spaces with hyphens
+  # This is a portable version that works on all systems
+  slug=$(echo "$desc" | tr '[:upper:]' '[:lower:]' | tr '[:space:]' '-' | tr -cd 'a-z0-9-')
+
+  # Remove multiple consecutive hyphens and trim leading/trailing hyphens
+  slug=$(echo "$slug" | sed -e 's/-\+/-/g' -e 's/^-//' -e 's/-$//')
+fi
 
 # If slug is empty after sanitization, return empty for fallback
 if [[ -z "$slug" ]]; then

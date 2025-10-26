@@ -1,12 +1,39 @@
 ---
-description: "Fast context retrieval model optimized for code understanding tasks"
+description: |
+  Best for: analyzing existing code patterns, documenting what already exists, visualizing current architecture, tracing dependencies in codebase.
+
+  How: read-only exploration; uses grep/fd to search local code; generates Mermaid diagrams; summarizes existing docs and implementations.
+
+  When: understanding how current code works, finding existing patterns, documenting current state, analyzing project structure.
+
+  NOT for: researching how to implement new features (use oracle), making decisions on best approaches, finding external best practices.
+
 model: "github-copilot/grok-code-fast-1"
 permission:
   edit: "deny"
-  bash: "deny"
+  bash:
+    "*": "deny"
+    "fd": "allow"
+    "rg": "allow"
+    "curl": "allow"
+    "cat": "allow"
+    "head": "allow"
+    "tail": "allow"
+    "git log": "allow"
+    "git show": "allow"
+    "git diff": "allow"
+    "git status": "allow"
+    "git rev-parse": "allow"
+    "git reflog": "allow"
+    "git branch": "allow"
+    "which": "allow"
+    "file": "allow"
+    "wc": "allow"
+    "jq": "allow"
 tools:
   write: false
   edit: false
+  list: true
   bash: true
   read: true
   glob: true
