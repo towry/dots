@@ -259,5 +259,54 @@
             }
         }
     },
-    "lsp": {}
+    "lsp": {
+        "typescript": {
+            "disabled": true
+        },
+        "deno": {
+            "disabled": true
+        },
+        "eslint": {
+            "disabled": true
+        },
+        "gopls": {
+            "disabled": true
+        },
+        "ruby-lsp": {
+            "disabled": true
+        },
+        "pyright": {
+            "disabled": true
+        },
+        "elixir-ls": {
+            "disabled": true
+        },
+        "zls": {
+            "disabled": true
+        },
+        "csharp": {
+            "disabled": true
+        },
+        "vue": {
+            "disabled": true
+        },
+        "rust": {
+            "disabled": true
+        },
+        "clangd": {
+            "disabled": true
+        },
+        "svelte": {
+            "disabled": true
+        },
+        "astro": {
+            "disabled": true
+        },
+        "jdtls": {
+            "disabled": true
+        },
+        "lua-ls": {
+            "disabled": true
+        }
+    }
 }
