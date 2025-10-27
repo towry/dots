@@ -4,7 +4,7 @@ description: |
   How: read-only exploration; uses grep/fd to search local code; generates Mermaid diagrams; summarizes existing docs and implementations.
   When: understanding how current code works, finding existing patterns, documenting current state, analyzing project structure.
   NOT for: researching how to implement new features (use oracle), making decisions on best approaches, finding external best practices.
-model: "zhipuai-coding-plan/glm-4.6"
+model: "github-copilot/grok-code-fast-1"
 permission:
   edit: "deny"
   bash:
@@ -35,10 +35,11 @@ tools:
   read: true
   glob: true
   grep: true
-  mermaid*: true
-  github*: false
-  brightdata*: false
-  playwright*: false
+  "memory*": true
+  "mermaid*": true
+  "github*": false
+  "brightdata*": false
+  "playwright*": false
 mode: subagent
 ---
 

@@ -106,6 +106,8 @@ in
       cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/AGENTS.md
       cat ${../../../conf/llm/opencode/package.json} > ${config.xdg.configHome}/opencode/package.json
 
+      cp -rfL ${config.xdg.configHome}/opencode/tool_generated/ ${config.xdg.configHome}/opencode/tool/
+
       echo "Opencode config setup done"
     '';
   };
@@ -117,6 +119,10 @@ in
     };
     "opencode/plugin" = {
       source = ../../../conf/llm/opencode/plugin;
+      recursive = true;
+    };
+    "opencode/tool_generated" = {
+      source = ../../../conf/llm/opencode/tool;
       recursive = true;
     };
     "opencode/command" = {

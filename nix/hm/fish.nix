@@ -118,6 +118,13 @@
   '';
 
   programs.fish.interactiveShellInit = ''
+    if test -n "$COPILOT"
+        set -x PAGER cat
+        set -x GIT_PAGER cat
+        set -x SYSTEMD_PAGER cat
+        set -x LESS -FRX
+    end
+
     for mode in default insert
         # Bind ctrl-f to move forward one word (accepts autosuggestion word by word when at end)
         bind --mode $mode ctrl-f forward-bigword

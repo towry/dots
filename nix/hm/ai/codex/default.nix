@@ -71,6 +71,17 @@ in
       hide_agent_reasoning = true
       model_verbosity = "low"
 
+      [profiles.review]
+      model = "glm-4.6"
+      model_provider = "zhipuai-coding-plan"
+      sandbox_mode = "read-only"
+      experimental_instructions_file = "${codex_home}/instructions/review-role.md"
+      approval_policy = "never"
+      model_reasoning_effort = "medium"
+      model_reasoning_summary = "concise"
+      hide_agent_reasoning = true
+      model_verbosity = "low"
+
       [profiles.sage_slow]
       model = "glm-4.6"
       model_provider = "zhipuai-coding-plan"

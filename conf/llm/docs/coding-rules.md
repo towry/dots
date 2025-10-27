@@ -87,6 +87,7 @@
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation.
 - `github` mcp tool: search public GitHub repositories for code examples.
 - `gh`: github cli
+- `memory` mcp tool: to store and retrieve short-term memory across the conversations, use memory tool when you have vague context in current chat due to context compression.
 
 #### playwright mcp tool
 

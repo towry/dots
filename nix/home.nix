@@ -25,7 +25,7 @@ let
       nix-prefetch-github
       # nerd-font-patcher
       lxgw-wenkai
-      geist-font
+      ibm-plex
       # utils
       ## man page tldr
       tlrc

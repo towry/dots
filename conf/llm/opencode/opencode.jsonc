@@ -37,7 +37,8 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "grep-code*": true
+                "grep-code*": true,
+                "lifeguard": true
             },
             "permission": {
                 "edit": "allow",
@@ -72,7 +73,8 @@
                 "webfetch": false,
                 "brightdata*": true,
                 "grep-code*": true,
-                "github*": true
+                "github*": true,
+                "lifeguard": true
             }
         },
         "plan": {
@@ -91,7 +93,8 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "github*": true
+                "github*": true,
+                "lifeguard": true
             },
             "permission": {
                 "bash": "deny",
@@ -249,11 +252,14 @@
             "enabled": true
         },
         "memory": {
-          "type": "local",
-          "command": [
-            "bunx",
-            "@modelcontextprotocol/server-memory"
-          ]
+            "type": "local",
+            "command": [
+                "bunx",
+                "@modelcontextprotocol/server-memory"
+            ],
+            "environment": {
+              "MEMORY_FILE_PATH": "/Users/towry/.local/share/memory.json"
+            }
         },
         "brightdata": {
             "type": "local",

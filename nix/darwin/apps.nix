@@ -13,7 +13,6 @@
   homebrew = {
     brews = [
       "asdf"
-      "codex"
       # "html2markdown"
     ];
     casks = [

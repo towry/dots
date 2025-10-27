@@ -20,6 +20,7 @@ tools:
   grep: true
   list: true
   glob: true
+  lifeguard: true
   brightdata*: false
   grep-code*: false
 permission:

@@ -1,4 +1,5 @@
 import { tool } from "@opencode-ai/plugin";
+import { $ } from "bun";
 
 export default tool({
   description:
@@ -9,14 +10,18 @@ export default tool({
       .describe("Review instructions to pass to codex-ai"),
     conversationContext: tool.schema
       .string()
-      .describe("Conversation context for the review"),
+      .describe("Conversation context for the review, changes made etc"),
   },
-  async execute(args, ctx) {
+  async execute(args) {
     const { reviewInstructions, conversationContext } = args;
-    const prompt = `${reviewInstructions}\n\nContext:\n${conversationContext}`;
+    const prompt = `${reviewInstructions}\n----\nContext:\n${conversationContext}\n----\n`;
 
-    const result =
-      await ctx.$`codex-ai --profile review e ${prompt} --sandbox read-only --skip-git-repo-check --color never`;
-    return result.stdout;
+    if (!reviewInstructions.trim()) {
+      return "No review instructions provided.";
+    }
+
+    const result = await $`claude-lifeguard -p ${prompt}`;
+
+    return result.stdout.toString();
   },
 });
