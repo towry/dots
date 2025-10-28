@@ -37,6 +37,10 @@ in
       pkgs = final;
       system = final.system;
     };
+    rift = final.callPackage ./pkgs/rift.nix {
+      pkgs = final;
+      system = final.system;
+    };
     starship-jj = inputs.starship-jj.packages.${prev.system}.default;
     agpod = final.callPackage ./pkgs/agpod.nix {
       version = versions.agpod;

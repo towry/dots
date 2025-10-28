@@ -15,6 +15,7 @@ let
       cachix
       # nix formatter
       treefmt
+      # rift
       nixfmt-rfc-style
       # nix-health
       # git-fuzzy
@@ -96,6 +97,7 @@ in
     ./hm/go.nix
     # ./hm/skhd.nix
     # ./hm/yabai.nix
+    ./hm/rift.nix
     ./hm/dark-mode-notify.nix
     ./hm/lazygit.nix
     ./hm/jj.nix
