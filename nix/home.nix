@@ -36,10 +36,6 @@ let
     ]
     ++ lib.lists.optionals pkgs.stdenv.isDarwin [
       # macOs packages
-      # raycast
-      # libiconv # neovim build need this.
-      # darwin.apple_sdk.frameworks.Security
-      # darwin.apple_sdk.frameworks.Foundation
     ]
     ++ lib.lists.optionals pkgs.stdenv.isLinux [
       # linux packages
@@ -68,6 +64,9 @@ in
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/.cargo/bin"
+      "/run/current-system/sw/bin"
+      "/etc/profiles/per-user/${username}/bin"
+      "$HOME/.bun/bin"
       "/Applications/Ghostty.app/Contents/MacOS/"
     ];
     file = {
