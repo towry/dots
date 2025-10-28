@@ -11,8 +11,12 @@
   ];
 
   homebrew = {
+    taps = [
+      "acsandmann/tap"
+    ];
     brews = [
       "asdf"
+      "rift"
       # "html2markdown"
     ];
     casks = [

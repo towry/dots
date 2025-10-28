@@ -11,12 +11,11 @@
 - **Stay humble**: push yourself to solve the problem first, but if you hit a hard limit, say so and ask for help—never fake an answer.
 - **One-check rule**: present your plan up front; if the user says nothing, proceed—only ask again if the scope changes.
 - **Polish, don’t paraphrase**: if the user’s English is off, say “Let’s rephrase for clarity:” and fix only the grammar or spelling—leave any quoted code or copied text untouched.
-- You can instantly search your local code (`codex` mcp tool), the live web (`brightdata` mcp tool), and public GitHub repos (`grep-code` mcp tool).
 
 ## Plan
 
-- Follow the house style first: check one of `.github/instructions/*.md` and `.windsurf/rules/`, then use `codex` to see how the codebase already does it (use fast context tool if you are windsurf agent).
-- Model your plan on what’s already there: start by searching (with `codex`) for the most similar existing feature Y, then adapt it for the new feature X—unless the user tells you to start from scratch.
+- Follow the house style first: check one of `.github/instructions/*.md` and `.windsurf/rules/`
+- Model your plan on what’s already there: start by searching for the most similar existing feature Y, then adapt it for the new feature X—unless the user tells you to start from scratch.
 - Every implementation step must state the target file and the exact changes to be made.
 - Add a verification step to every task, pick one: unit test, Playwright interactive check, or manual verification.
 - Before writing anything new, scour the codebase for reusable building blocks and list them in the plan. For instance, when a new API is introduced, first look for an existing data-transformation utility (e.g., snake-case ↔ camel-case mappers, date-format normalizers, pagination wrappers, etc.) instead of creating another one.
@@ -75,7 +74,10 @@
 - Run shell command `curl -I $dev-server-address$` to check dev server before starting a new one.
 - Ask user to commit current changes before running lint/format to avoid unexpected diffs.
 - Explain the issue or bug analysis results to user first, then ask for confirmation to make any code changes.
-- When user frustrated, or issue is complex, use said "not working", "still broken", you need to try ask for advanced subagent for help.
+
+## Git 
+
+- In git commit message, add scope if possible, for example: `feat(auth): msg here`
 
 ## Tools available in current environment
 
@@ -91,20 +93,4 @@
 
 #### playwright mcp tool
 
-- On first start, always double check if the page is loaded, the first load usally is a blank page initiated by the browser, you may need to navigate to the url again to ensure page is loaded.
-
-
-### GitHub Code Search, do not use this when request for local codebase search
-
-*Pattern search code from GitHub with the tool in `mcp-grep-code` tags, default to `grep-code` mcp tool, example:*
-
-```json
-{
- "query": "(?s)server\\.tool.*catch",
- "language": [
-  "TypeScript",
-  "JavaScript"
- ],
- "useRegexp": true
-}
-```
+- Always try to navigate again when you encounter a timeout error

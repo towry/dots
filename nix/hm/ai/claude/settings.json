@@ -64,7 +64,12 @@
       "mcp__context7__get-library-docs",
       "mcp__codex__codex",
       "mcp__codex__codex-reply",
-      "mcp__grep-code__searchGitHub"
+      "mcp__github__get_file_contents",
+      "mcp__github__search_repositories",
+      "mcp__github__get_commit",
+      "mcp__github__get_toolset_tools",
+      "mcp__github__enable_toolset",
+      "mcp__github__search_code"
     ],
     "ask": [
       "Bash(git push:*)",

@@ -26,6 +26,7 @@ let
 
     export HTTP_PROXY="http://127.0.0.1:7898"
     export HTTPS_PROXY="http://127.0.0.1:7898"
+    export NO_PROXY="localhost,127.0.0.1,0.0.0.0"
     export DISABLE_AUTOUPDATER=1
     export DISABLE_BUG_COMMAND=1
     export DISABLE_TELEMETRY=1

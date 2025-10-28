@@ -5,7 +5,7 @@
 }:
 {
   home.packages = [
-    pkgs.rift
+    # pkgs.rift
   ];
 
   xdg.configFile = {
@@ -28,10 +28,10 @@
 
       [settings.layout.gaps]
       [settings.layout.gaps.outer]
-      top = 4
-      left = 4
-      bottom = 4
-      right = 4
+      top = 2
+      left = 2
+      bottom = 2
+      right = 2
 
       [settings.layout.gaps.inner]
       horizontal = 6
@@ -140,34 +140,35 @@
       alt_shift_ctrl = "Alt + Shift + Ctrl"
       cmd = "Meta"
       cmd_shift = "Meta + Shift"
+      cmd_ctrl = "Meta + Ctrl"
 
       [keys]
       # Focus movement
-      "Alt + H" = { move_focus = "left" }
-      "Alt + J" = { move_focus = "down" }
-      "Alt + K" = { move_focus = "up" }
-      "Alt + L" = { move_focus = "right" }
+      "cmd + H" = { move_focus = "left" }
+      "cmd + J" = { move_focus = "down" }
+      "cmd + K" = { move_focus = "up" }
+      "cmd + L" = { move_focus = "right" }
 
       # Window movement
-      "Alt + Shift + H" = { move_node = "left" }
-      "Alt + Shift + J" = { move_node = "down" }
-      "Alt + Shift + K" = { move_node = "up" }
-      "Alt + Shift + L" = { move_node = "right" }
+      "cmd_shift + H" = { move_node = "left" }
+      "cmd_shift + J" = { move_node = "down" }
+      "cmd_shift + K" = { move_node = "up" }
+      "cmd_shift + L" = { move_node = "right" }
 
       # Workspace navigation (0-based indices)
-      "Alt + 1" = { switch_to_workspace = 0 }
-      "Alt + 2" = { switch_to_workspace = 1 }
-      "Alt + 3" = { switch_to_workspace = 2 }
-      "Alt + 4" = { switch_to_workspace = 3 }
-      "Alt + 5" = { switch_to_workspace = 4 }
-      "Alt + 6" = { switch_to_workspace = 5 }
-      "Alt + 7" = { switch_to_workspace = 6 }
-      "Alt + 8" = { switch_to_workspace = 7 }
-      "Alt + 9" = { switch_to_workspace = 8 }
+      "cmd_ctrl + 1" = { switch_to_workspace = 0 }
+      "cmd_ctrl + 2" = { switch_to_workspace = 1 }
+      "cmd_ctrl + 3" = { switch_to_workspace = 2 }
+      "cmd_ctrl + 4" = { switch_to_workspace = 3 }
+      "cmd_ctrl + 5" = { switch_to_workspace = 4 }
+      "cmd_ctrl + 6" = { switch_to_workspace = 5 }
+      "cmd_ctrl + 7" = { switch_to_workspace = 6 }
+      "cmd_ctrl + 8" = { switch_to_workspace = 7 }
+      "cmd_ctrl + 9" = { switch_to_workspace = 8 }
 
-      "Alt + Tab" = "switch_to_last_workspace"
-      "Alt + Ctrl + P" = "prev_workspace"
-      "Alt + Ctrl + N" = "next_workspace"
+      # "Alt + Tab" = "switch_to_last_workspace"
+      "cmd_ctrl + P" = "prev_workspace"
+      "cmd_ctrl + N" = "next_workspace"
 
       # Move window to workspace
       "Alt + Shift + 1" = { move_window_to_workspace = 0 }
@@ -191,7 +192,7 @@
       "Alt + Ctrl + K" = { join_window = "up" }
       "Alt + Ctrl + H" = { join_window = "left" }
       "Alt + Ctrl + L" = { join_window = "right" }
-      
+
       # NOTE: unjoin_windows command exists in official config but may not work
       "Alt + Ctrl + E" = "unjoin_windows"
 
@@ -202,7 +203,7 @@
       # Workspace management
       "Alt + Ctrl + W" = "create_workspace"
       "Alt + Z" = "toggle_space_activated"
-      
+
       # Focus floating windows briefly
       "Alt + Ctrl + Space" = "toggle_focus_floating"
 

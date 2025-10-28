@@ -3,7 +3,9 @@
   "version": "1.0.1",
   "dependencies": {
     "@opencode-ai/plugin": "^0.15.18",
-    "ai": "^5.0.79"
+    "@ai-sdk/openai-compatible": "latest",
+    "ai": "^5.0.79",
+    "opencode-anthropic-auth": "*"
   },
   "devDependencies": {
     "@prettier/plugin-oxc": "^0.0.4",

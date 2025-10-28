@@ -101,10 +101,19 @@ in
   home.activation = {
     setupOpencodeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p ${config.xdg.configHome}/opencode/
+      mkdir -p ${config.home.homeDirectory}/.cache/opencode/
 
       cat ${../../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
       cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/AGENTS.md
       cat ${../../../conf/llm/opencode/package.json} > ${config.xdg.configHome}/opencode/package.json
+      cat ${../../../conf/llm/opencode/package.json} > ${config.home.homeDirectory}/.cache/opencode/package.json
+
+      # Setup bunfig.toml with npmmirror registry to avoid proxy issues
+      cat > ${config.home.homeDirectory}/.cache/opencode/bunfig.toml << 'EOF'
+      [install]
+      # Use npmmirror registry for package installation
+      registry = "https://registry.npmmirror.com"
+      EOF
 
       cp -rfL ${config.xdg.configHome}/opencode/tool_generated/ ${config.xdg.configHome}/opencode/tool/
 
@@ -132,6 +141,9 @@ in
     "opencode/roles" = {
       source = ../../../conf/llm/opencode/roles;
       recursive = true;
+    };
+    "opencode/roles/lifeguard.md" = {
+      source = ./roles-md/lifeguard-role.md;
     };
   };
 }

@@ -7,12 +7,14 @@
   ...
 }:
 let
-  python3 = import ../lib/python3.nix { inherit pkgs; };
+  # python3 = import ../lib/python3.nix { inherit pkgs; };
+  proxyConfig = import ../lib/proxy.nix { inherit lib; };
 in
 {
   home.sessionVariables = {
     HOMEBREW_NO_ANALYTICS = "1";
     HOMEBREW_NO_AUTO_UPDATE = "1";
+    NO_PROXY = proxyConfig.noProxyString;
   };
   home.activation = {
     ensureWorkspaceDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

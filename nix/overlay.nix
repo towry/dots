@@ -12,8 +12,8 @@ in
       commandLineArgs = "--remote-debugging-port=9222 --disable-gpu --no-first-run --no-default-browser-check --noerrdialogs --user-data-dir=\"${chromeUserDataDir}\"";
     };
 
-    mcp-filesystem-server = final.callPackage ./pkgs/mcp-filesystem-server.nix {
-      version = versions.mcp-filesystem-server;
+    rust-mcp-filesystem = final.callPackage ./pkgs/rust-mcp-filesystem.nix {
+      version = versions.rust-mcp-filesystem;
       pkgs = final;
       system = final.system;
     };

@@ -15,7 +15,6 @@ let
       cachix
       # nix formatter
       treefmt
-      # rift
       nixfmt-rfc-style
       # nix-health
       # git-fuzzy
@@ -106,6 +105,7 @@ in
     # ./hm/docker.nix
     ./hm/asdf.nix
     ./hm/python.nix
+    ./hm/litellm.nix
   ];
 
   # Let Home Manager install and manage itself.

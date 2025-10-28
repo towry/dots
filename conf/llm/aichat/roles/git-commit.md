@@ -10,7 +10,7 @@ commit messages with optional review feedback based on git diff and context.
 
 ## Rules
 
-1. **Format**: `<type>[optional scope]: <description>`
+1. **Format**: `<type>[change scope]: <description>`
 
 2. **Types**:
 
@@ -37,8 +37,8 @@ commit messages with optional review feedback based on git diff and context.
 
    - Ignore dependency lock file changes, like `package-lock.json` or
      `yarn.lock`.
-   - Identify primary change type
-   - Focus on most important modification
+   - Identify primary change type, code change or documentation change, bugfix or feature?
+   - Focus on most important modification, if there are code fix and a lot of documentation changes, choose code fix
    - Add scope for multi-file changes if helpful
 
 5. **Review Feedback** (optional):
@@ -71,11 +71,11 @@ AI must output ONLY the commit message content, with NO introductory text.
 
 ### Example - Simple commit:
 
-feat: add user authentication system
+feat(auth): add user authentication system
 
 ### Example - With review feedback:
 
-feat: add user authentication system
+feat(auth): add user authentication system
 
 Implement JWT-based authentication with login, logout, and token refresh. Add
 middleware for route protection and user session management.
@@ -87,7 +87,7 @@ Review notes:
 
 ### Example - Bug fix with feedback:
 
-fix: resolve memory leak in data processing
+fix(data-adapter): resolve memory leak in data processing
 
 Review notes:
 
@@ -95,7 +95,7 @@ Review notes:
 
 ### Example - Critical issue found:
 
-feat: add payment processing
+feat(payment): add payment processing
 
 Implement credit card payment gateway with validation and error handling.
 

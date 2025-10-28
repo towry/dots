@@ -2,13 +2,15 @@
   "permissions": {
     "allow": [
       "mcp__grep-code__searchGitHub",
-      "Bash(fd:*)"
+      "Bash(fd:*)",
+      "mcp__fs__search_files",
+      "mcp__fs__list_allowed_directories"
     ],
     "deny": [],
     "ask": []
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "context7"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
