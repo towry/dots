@@ -8,7 +8,7 @@ let
 in
 {
   home.packages = with pkgs; [
-    mcp-filesystem-server
+    rust-mcp-filesystem
     ## build neovim
     ninja
     gettext

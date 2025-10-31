@@ -9,6 +9,7 @@ let
   # claudeTargetConfigDir = "${config.home.homeDirectory}/.claude"; # Target directory in home
   # claudeUserScriptsDir = "${claudeTargetConfigDir}/scripts_"; # Directory for user scripts
   kiroSystemPromptHbs = builtins.readFile ../roles-md/kiro-system-prmpt.md;
+  lifeguardRole = builtins.readFile ../roles-md/lifeguard-role.md;
 
   # Process settings.json with variable substitution
   processedSettings = pkgs.replaceVars (claudeConfigDir + "/settings.json") {
@@ -25,6 +26,7 @@ let
 
     export HTTP_PROXY="http://127.0.0.1:7898"
     export HTTPS_PROXY="http://127.0.0.1:7898"
+    export NO_PROXY="localhost,127.0.0.1,0.0.0.0"
     export DISABLE_AUTOUPDATER=1
     export DISABLE_BUG_COMMAND=1
     export DISABLE_TELEMETRY=1
@@ -42,8 +44,12 @@ let
     '';
 
   kiroPromptLiteral = lib.escapeShellArg kiroSystemPromptHbs;
+  lifeguardPromptLiteral = lib.escapeShellArg lifeguardRole;
 
   claudeScripts = {
+    claude-lifeguard = mkClaudeWrapper "claude-lifeguard" ''
+      exec claude --system-prompt ${lifeguardPromptLiteral} --strict-mcp-config "$@"
+    '';
     claude-ai = mkClaudeWrapper "claude-ai" ''
       # Check if --pr flag is present
       use_pr_mode=false

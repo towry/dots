@@ -102,9 +102,7 @@
         source $HOME/.private.fish
     end
 
-    fish_add_path /etc/profiles/per-user/${username}/bin
-    fish_add_path --path --append $HOME/.local/bin
-    fish_add_path --path --append $HOME/.bun/bin
+    # fish_add_path /etc/profiles/per-user/${username}/bin
     # temp for elixir
     fish_add_path --path --append /Users/towry/.asdf/shims
   '';
@@ -113,11 +111,18 @@
   programs.fish.loginShellInit = ''
     set -U fish_greeting ""
 
-    fish_add_path /etc/profiles/per-user/${username}/bin
-    fish_add_path /run/current-system/sw/bin
+    # fish_add_path /etc/profiles/per-user/${username}/bin
+    # fish_add_path /run/current-system/sw/bin
   '';
 
   programs.fish.interactiveShellInit = ''
+    if test -n "$COPILOT"
+        set -x PAGER cat
+        set -x GIT_PAGER cat
+        set -x SYSTEMD_PAGER cat
+        set -x LESS -FRX
+    end
+
     for mode in default insert
         # Bind ctrl-f to move forward one word (accepts autosuggestion word by word when at end)
         bind --mode $mode ctrl-f forward-bigword

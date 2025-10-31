@@ -3,15 +3,13 @@ import type { Plugin } from "@opencode-ai/plugin";
 export const Kiro: Plugin = async ({ client }) => {
   return {
     async event({ event }) {
-      if (event.type === "session.updated" && process.env.KIRO_SYSTEM_PROMPT) {
-        const sessionID = event.properties.info.id as string;
-        const messageList = await client.session.messages({
-          path: { id: sessionID },
-        });
-
-        if (messageList.data?.length) {
-          return;
-        }
+      // https://github.com/sst/opencode/pull/3413#issuecomment-3451988873
+      if (
+        (event.type === "session.started" ||
+          event.type === "session.created") &&
+        process.env.KIRO_SYSTEM_PROMPT
+      ) {
+        const sessionID = event.properties.sessionID as string;
 
         const SystemPromptFromEnv = [
           process.env.KIRO_SYSTEM_PROMPT || "Kiro spec not found",

@@ -17,21 +17,25 @@
     "github": {
       "type": "stdio",
       "command": "github-mcp-server",
-      "args": [
-        "stdio",
-        "--dynamic-toolsets"
-      ],
+      "args": ["stdio", "--dynamic-toolsets"],
       "disabled": true,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       }
     },
+    "memory": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["@modelcontextprotocol/server-memory"],
+      "env": {
+        "MEMORY_FILE_PATH": "/Users/towry/.local/share/memory.json"
+      },
+      "disabled": false
+    },
     "mermaid": {
       "type": "stdio",
       "command": "bunx",
-      "args": [
-        "@devstefancho/mermaid-mcp"
-      ],
+      "args": ["@devstefancho/mermaid-mcp"],
       "disabled": false
     },
     "context7": {
@@ -39,17 +43,10 @@
       "url": "https://mcp.context7.com/mcp",
       "disabled": false
     },
-    "grep-code": {
-      "type": "http",
-      "url": "https://mcp.grep.app",
-      "disabled": false
-    },
     "brightdata": {
       "type": "stdio",
       "command": "bunx",
-      "args": [
-        "@brightdata/mcp"
-      ],
+      "args": ["@brightdata/mcp"],
       "disabled": false,
       "env": {
         "API_TOKEN": "${BRIGHTDATA_API_KEY}"
@@ -58,11 +55,7 @@
     "codex": {
       "type": "stdio",
       "command": "codex-ai",
-      "args": [
-        "--profile",
-        "claude_fast",
-        "mcp-server"
-      ],
+      "args": ["--profile", "claude_fast", "mcp-server"],
       "disabled": false
     }
   }

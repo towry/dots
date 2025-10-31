@@ -3,15 +3,18 @@
 # https://github.com/ghostty-org/ghostty/blob/b8ffee7acbdd5ee97953f6e6d02e047d4bfda37b/src/input/key.zig#L255
 
 
-theme = dark:kanagawa-dragon-dark,light:Builtin Solarized Light
-font-family = "Berkeley Mono"
-window-title-font-family = "PT Sans"
+theme = kanagawa-dragon-dark
+# font-family = "Berkeley Mono"
+font-family = "IBM Plex Mono"
+window-title-font-family = "IBM Plex Sans"
 font-feature = "+calt"
 # font-family = "Maple Mono"
 # font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"
 font-size = 14
 bold-is-bright = true
 font-thicken = false
+alpha-blending = linear-corrected
+window-theme = system
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
@@ -24,7 +27,7 @@ macos-window-shadow  = false
 adjust-underline-position = 15%
 adjust-underline-thickness = -40%
 adjust-box-thickness = -40%
-adjust-cell-height = 10%
+adjust-cell-height = 5%
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 0.9
@@ -35,7 +38,7 @@ window-padding-y = 0
 window-save-state = default
 
 background-opacity = 1
-background-blur-radius = 0
+background-blur = true
 split-divider-color = #ca4343
 
 auto-update = off
@@ -43,7 +46,7 @@ auto-update = off
 # Quick terminal
 
 quick-terminal-animation-duration = 0
-quick-terminal-position = bottom
+quick-terminal-position = center
 quick-terminal-autohide = false
 quick-terminal-space-behavior = move
 

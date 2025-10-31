@@ -9,8 +9,9 @@ description: |
   NOT for: high-risk architectural refactors, complex business logic changes, introducing heavy dependencies.
 
   Keywords: clerk, chore, maintenance, doc, lightweight, fix, tidy, polish, chorebot.
-model: "zhipuai-coding-plan/glm-4.6"
+model: "github-copilot/claude-haiku-4.5"
 reasoningSummary: concise
+reasoningEffort: low
 textVerbosity: low
 tools:
   write: true
@@ -40,7 +41,7 @@ permission:
     "ssh-keygen": deny
     "jj commit": deny
     "jj git": deny
-mode: all
+mode: subagent
 ---
 
 # Core principles

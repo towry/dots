@@ -54,7 +54,8 @@ let
             theme = pkgs.callPackage ../lib/theme.nix { theme = "kanagawa"; };
           };
         }
-      ] ++ modules;
+      ]
+      ++ modules;
     };
 in
 {
