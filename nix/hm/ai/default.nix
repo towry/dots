@@ -8,11 +8,10 @@
   imports = [
     ./opencode.nix
     ./legacy.nix
-    # ./droid
     ./claude
     ./codex
     ./windsurf
-    # ./cline
+    ./cline
   ];
   home.activation = {
     setupGlobalAgents = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

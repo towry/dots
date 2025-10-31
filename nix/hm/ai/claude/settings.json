@@ -69,7 +69,8 @@
       "mcp__github__get_commit",
       "mcp__github__get_toolset_tools",
       "mcp__github__enable_toolset",
-      "mcp__github__search_code"
+      "mcp__github__search_code",
+      "mcp__memory__search_nodes"
     ],
     "ask": [
       "Bash(git push:*)",
@@ -97,10 +98,7 @@
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)"
     ],
-    "additionalDirectories": [
-      "/Users/towry/workspace",
-      "/tmp"
-    ],
+    "additionalDirectories": ["/Users/towry/workspace", "/tmp"],
     "defaultMode": "default"
   },
   "env": {
