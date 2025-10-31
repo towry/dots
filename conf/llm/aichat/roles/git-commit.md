@@ -65,6 +65,7 @@ commit messages with optional review feedback based on git diff and context.
    - Start IMMEDIATELY with the commit type (feat:, fix:, etc.)
    - Keep descriptions brief and to the point
    - First line must be commit message, can not be empty string or new line character
+   - Only mention format change in commit message if there are NO other code changes
 
 **CRITICAL**: The following examples show the EXACT expected output format. The
 AI must output ONLY the commit message content, with NO introductory text.
