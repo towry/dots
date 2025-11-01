@@ -18,49 +18,49 @@
     "keybinds": {},
     "agent": {
         "review": {
-          "model": "github-copilot/gemini-2.5-pro",
-          "prompt": "{file:./roles/lifeguard.md}",
-          "description": "Code review and code quality assurance",
-          "mode": "all",
-          "tools": {
-              "write": false,
-              "edit": false,
-              "bash": true,
-              "grep": true,
-              "read": true,
-              "list": true,
-              "glob": true,
-              "todowrite": false,
-              "todoread": false,
-              "webfetch": false,
-              "brightdata*": true,
-              "github*": true,
-              "lifeguard": false
-          },
-          "permission": {
-            "edit": "deny",
-            "bash": {
-              "*": "deny",
-              "jj log": "allow",
-              "jj diff": "allow",
-              "rg": "allow",
-              "ast-grep": "allow",
-              "fd": "allow",
-              "ls": "allow",
-              "head": "allow",
-              "tail": "allow",
-              "git show": "allow",
-              "git diff": "allow",
-              "git log": "allow",
-              "git reflog": "allow",
-              "git status": "allow",
-              "jj git-diff": "allow",
-              "jj df-names": "allow",
-              "jj show": "allow",
-              "jj file": "allow",
-              "jj operation log": "allow"
+            "model": "github-copilot/gpt-5",
+            "prompt": "{file:./roles/lifeguard.md}",
+            "description": "Code review and code quality assurance",
+            "mode": "all",
+            "tools": {
+                "write": false,
+                "edit": false,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": false,
+                "todoread": false,
+                "webfetch": false,
+                "brightdata*": true,
+                "github*": true,
+                "lifeguard": false
+            },
+            "permission": {
+                "edit": "deny",
+                "bash": {
+                    "*": "deny",
+                    "jj log": "allow",
+                    "jj diff": "allow",
+                    "rg": "allow",
+                    "ast-grep": "allow",
+                    "fd": "allow",
+                    "ls": "allow",
+                    "head": "allow",
+                    "tail": "allow",
+                    "git show": "allow",
+                    "git diff": "allow",
+                    "git log": "allow",
+                    "git reflog": "allow",
+                    "git status": "allow",
+                    "jj git-diff": "allow",
+                    "jj df-names": "allow",
+                    "jj show": "allow",
+                    "jj file": "allow",
+                    "jj operation log": "allow"
+                }
             }
-          }
         },
         "kiro": {
             "model": "github-copilot/claude-sonnet-4.5",
@@ -114,12 +114,13 @@
                 "webfetch": false,
                 "brightdata*": true,
                 "github*": true,
+                "fs*": true,
                 "lifeguard": true
             }
         },
         "plan": {
             "mode": "primary",
-            "model": "github-copilot/gpt-5",
+            "model": "github-copilot/claude-sonnet-4.5",
             "prompt": "{file:./roles/oracle.md}",
             "tools": {
                 "write": false,
@@ -134,7 +135,13 @@
                 "webfetch": false,
                 "brightdata*": true,
                 "github*": true,
-                "lifeguard": true
+                "lifeguard": true,
+                "fs_read*": true,
+                "fs_search*": true,
+                "fs_tail_file": true,
+                "fs_list*": true,
+                "fs_head*": true,
+                "fs_find*": true
             },
             "permission": {
                 "bash": "deny",
@@ -315,7 +322,7 @@
                 "@modelcontextprotocol/server-memory"
             ],
             "environment": {
-              "MEMORY_FILE_PATH": "/Users/towry/.local/share/memory.json"
+                "MEMORY_FILE_PATH": "/Users/towry/.local/share/memory.json"
             }
         },
         "brightdata": {

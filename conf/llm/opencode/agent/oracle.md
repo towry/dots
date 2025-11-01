@@ -10,7 +10,7 @@ description: >-
 
   Key rule: Oracle is costly - provide tight scope and only necessary artifacts; ask oracle if more context needed.
 mode: subagent
-model: "github-copilot/gemini-2.5-pro"
+model: "github-copilot/gpt-5"
 reasoningSummary: concise
 textVerbosity: middle
 reasoningEffort: high
@@ -27,6 +27,12 @@ tools:
   brightdata*: true
   github*: true
   memory*: true
+  fs_read*: true
+  fs_search*: true
+  fs_tail_file: true
+  fs_list*: true
+  fs_head*: true
+  fs_find*: true
 permission:
   edit: "deny"
   bash:
