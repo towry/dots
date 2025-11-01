@@ -24,7 +24,7 @@ tools:
   glob: true
   webfetch: false
   brightdata*: true
-  grep-code*: true
+  github*: true
 permission:
   edit: allow
   bash:

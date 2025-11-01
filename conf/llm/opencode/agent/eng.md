@@ -22,7 +22,7 @@ tools:
   glob: true
   lifeguard: true
   brightdata*: false
-  grep-code*: false
+  github*: false
 permission:
   edit: allow
   bash:

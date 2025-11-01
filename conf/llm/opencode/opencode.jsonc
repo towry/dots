@@ -79,7 +79,6 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "grep-code*": true,
                 "lifeguard": true
             },
             "permission": {
@@ -114,7 +113,6 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "grep-code*": true,
                 "github*": true,
                 "lifeguard": true
             }
@@ -226,11 +224,20 @@
     },
     "permission": {
         "bash": {
-            "git commit": "ask",
-            "git push": "ask",
-            "git add": "ask",
+            "*": "ask",
             "rg": "allow",
+            "git diff": "allow",
+            "git show": "allow",
+            "git status": "allow",
+            "git log": "allow",
+            "jj log": "allow",
+            "jj git-diff": "allow",
+            "jj df-names": "allow",
+            "jj diff": "allow",
+            "jj show": "allow",
+            "jj file": "allow",
             "ast-grep": "allow",
+            "cat": "allow",
             "fd": "allow",
             "ls": "allow",
             "cd": "allow"
@@ -243,7 +250,6 @@
         "playwright*": false,
         "github*": false,
         "context7*": false,
-        "grep-code*": false,
         "mermaid*": true,
         "brightdata*": true,
         "memory*": true

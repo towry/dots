@@ -86,8 +86,8 @@
 - **Package Managers(pnpm, bun)**: Use pnpm when possible.
 - **port occupied(killport)**: To kill a process that is using a port, use `killport $port$`.
 - **shell**: The current shell is `fish`.
-- **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation.
-- `github` mcp tool: search public GitHub repositories for code examples.
+- **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation; For github, use github mcp tool for github repo search and read.
+- `github` mcp tool: search public GitHub repositories for code examples, read github repo files, issues
 - `gh`: github cli
 - `memory` mcp tool: to store and retrieve short-term memory across the conversations, use memory tool when you have vague context in current chat due to context compression.
 
