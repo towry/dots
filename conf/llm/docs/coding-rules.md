@@ -89,7 +89,8 @@
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation; For github, use github mcp tool for github repo search and read.
 - `github` mcp tool: search public GitHub repositories for code examples, read github repo files, issues
 - `gh`: github cli
-- `memory` mcp tool: to store and retrieve short-term memory across the conversations, use memory tool when you have vague context in current chat due to context compression.
+- `memory` mcp tool: to store and retrieve short-term memory across the conversations, use memory tool when you want to save chat summarization or important obversations, share context between different agents.
+- `fs` mcp tool: only use this tool outside of current working directory.
 
 #### playwright mcp tool
 

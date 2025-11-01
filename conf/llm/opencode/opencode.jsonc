@@ -9,7 +9,6 @@
         "openai",
         "gemini",
         "openrouter",
-        "opencode",
         "moonshotai",
         "deepseek",
         "perplexity"
@@ -244,6 +243,8 @@
             "jj show": "allow",
             "jj file": "allow",
             "ast-grep": "allow",
+            "head": "allow",
+            "tail": "allow",
             "cat": "allow",
             "fd": "allow",
             "ls": "allow",
@@ -270,7 +271,8 @@
             "command": [
                 "rust-mcp-filesystem",
                 "~/workspace",
-                "/tmp"
+                "/tmp",
+                "."
             ],
             "enabled": true
         },

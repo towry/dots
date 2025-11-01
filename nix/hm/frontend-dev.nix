@@ -38,11 +38,7 @@
     "$NPM_CONFIG_PREFIX/bin"
   ];
 
-  programs.fish.interactiveShellInit = ''
-    eval "$(fnm env)"
-    # otherwise in interactive shell, npm bins not available
-    # fish_add_path "$NPM_CONFIG_PREFIX/bin"
-  '';
+
   programs.bash.initExtra = ''
     eval "$(fnm env --use-on-cd)"
   '';

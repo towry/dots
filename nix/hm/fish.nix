@@ -18,7 +18,7 @@
     # HTTPS_PROXY = "http://127.0.0.1:1080";
   };
   programs = {
-    carapace.enableFishIntegration = true;
+    carapace.enableFishIntegration = false;  # Was: true
     fish = {
       package = pkgs.fish;
       enable = true;
@@ -44,7 +44,7 @@
       ];
     };
     zoxide = {
-      enableFishIntegration = true;
+      enableFishIntegration = false;  # Was: true
     };
   };
   home.file.fishThemes = {
@@ -121,7 +121,26 @@
         set -x GIT_PAGER cat
         set -x SYSTEMD_PAGER cat
         set -x LESS -FRX
+        set -g fish_autosuggestion_enabled 0
+        
+        # Keep fnm for Node/npm access in COPILOT shells
+        eval "$(fnm env)"
+        
+        return  # Skip all remaining interactive features
     end
+
+    # Normal interactive setup continues below
+    starship init fish | source
+
+    # Manual tool initialization (skipped in COPILOT mode via early-return)
+    eval "$(zoxide init fish)"
+    fzf --fish | source
+
+    # eza aliases (manually configured)
+    alias ls="eza"
+    alias ll="eza -l"
+    alias la="eza -la"
+    alias lt="eza --tree"
 
     for mode in default insert
         # Bind ctrl-f to move forward one word (accepts autosuggestion word by word when at end)
