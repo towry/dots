@@ -24,6 +24,7 @@ permission:
   edit: allow
   bash:
     "*": allow
+    "cargo run": "deny"
     "git push*": deny
     "git commit*": deny
     "g": deny

@@ -3,7 +3,7 @@
     // "model": "zhipuai-coding-plan/glm-4.6",
     "small_model": "github-copilot/grok-code-fast-1",
     "autoupdate": false,
-    "username": "TOWRY ☕",
+    "username": "TOWRY 😜",
     // "share": "disabled",
     "disabled_providers": [
         "openai",
@@ -78,7 +78,8 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "lifeguard": true
+                "lifeguard": true,
+                "sequentialthinking*": true
             },
             "permission": {
                 "edit": "allow",
@@ -114,7 +115,61 @@
                 "brightdata*": true,
                 "github*": true,
                 "fs*": true,
-                "lifeguard": true
+                "lifeguard": true,
+                "sequentialthinking*": true
+            },
+            "permission": {
+                "bash": {
+                    "*": "allow",
+                    "rm -rf": "deny",
+                    "git push": "ask",
+                    "git commit": "ask",
+                    "git pull": "ask",
+                    "git fetch": "ask",
+                    "jj ci": "ask",
+                    "jj git": "ask",
+                    "jj commit": "ask",
+                    "ssh": "ask",
+                    "cargo run": "ask"
+                }
+            }
+        },
+        "super": {
+            "model": "github-copilot/claude-sonnet-4.5",
+            "description": "Super AI developer assistant",
+            "mode": "primary",
+            "prompt": "You are Super, a highly capable AI assistant specialized in software development. Your goal is to assist the user in completing their software development tasks efficiently and effectively. Always ensure to follow best practices and maintain code quality.",
+            "tools": {
+                "write": true,
+                "edit": true,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": true,
+                "todoread": true,
+                "webfetch": false,
+                "brightdata*": true,
+                "github*": true,
+                "fs*": true,
+                "lifeguard": true,
+                "sequentialthinking*": true
+            },
+            "permission": {
+                "bash": {
+                    "*": "allow",
+                    "rm -rf": "deny",
+                    "git push": "ask",
+                    "git commit": "ask",
+                    "git pull": "ask",
+                    "git fetch": "ask",
+                    "jj ci": "ask",
+                    "jj git": "ask",
+                    "jj commit": "ask",
+                    "ssh": "ask",
+                    "cargo run": "ask"
+                }
             }
         },
         "plan": {
@@ -140,7 +195,39 @@
                 "fs_tail_file": true,
                 "fs_list*": true,
                 "fs_head*": true,
-                "fs_find*": true
+                "fs_find*": true,
+                "sequentialthinking*": true
+            },
+            "permission": {
+                "bash": "deny",
+                "edit": "deny"
+            }
+        },
+        "bender": {
+            "mode": "primary",
+            "model": "github-copilot/gpt-5-mini",
+            "prompt": "{file:./roles/oracle.md}",
+            "tools": {
+                "write": false,
+                "edit": false,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": true,
+                "todoread": true,
+                "webfetch": false,
+                "brightdata*": true,
+                "github*": true,
+                "lifeguard": true,
+                "fs_read*": true,
+                "fs_search*": true,
+                "fs_tail_file": true,
+                "fs_list*": true,
+                "fs_head*": true,
+                "fs_find*": true,
+                "sequentialthinking*": true
             },
             "permission": {
                 "bash": "deny",
@@ -231,6 +318,19 @@
     "permission": {
         "bash": {
             "*": "ask",
+            "test": "allow",
+            "mkdir": "allow",
+            "grep": "allow",
+            "mv": "allow",
+            "cp": "allow",
+            "ps": "allow",
+            "lsof": "allow",
+            "mktemp": "allow",
+            "curl": "allow",
+            "pbcopy": "allow",
+            "xargs": "allow",
+            "agpod": "allow",
+            "echo": "allow",
             "rg": "allow",
             "git diff": "allow",
             "git show": "allow",
@@ -260,7 +360,8 @@
         "context7*": false,
         "mermaid*": true,
         "brightdata*": true,
-        "memory*": true
+        "memory*": true,
+        "sequentialthinking*": false
     },
     // global mcp settings
     // disabled in global can enabled for a specific agent with tools setting
@@ -337,6 +438,15 @@
             "environment": {
                 "API_TOKEN": "{env:BRIGHTDATA_API_KEY}"
             }
+        },
+        "sequentialthinking": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "@modelcontextprotocol/server-sequential-thinking"
+            ],
+            "enabled": true,
+            "environment": {}
         }
     },
     "lsp": {
