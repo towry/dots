@@ -10,7 +10,7 @@ description: >-
 
   Key rule: Oracle is costly - provide tight scope and only necessary artifacts; ask oracle if more context needed.
 mode: subagent
-model: "github-copilot/gemini-2.5-pro"
+model: "github-copilot/gpt-5"
 reasoningSummary: concise
 textVerbosity: middle
 reasoningEffort: high
@@ -27,6 +27,12 @@ tools:
   brightdata*: true
   github*: true
   memory*: true
+  fs_read*: true
+  fs_search*: true
+  fs_tail_file: true
+  fs_list*: true
+  fs_head*: true
+  fs_find*: true
 permission:
   edit: "deny"
   bash:
@@ -63,6 +69,18 @@ You are the Oracle - a research-driven AI advisor specializing in deep technical
 - `github` mcp tools: Search code examples on github
 - If you need more context, output your requirements and finish
 - sage subagent, ask sage about codebase
+
+## Sequential Thinking Tool
+
+Use sequential thinking for:
+
+- **Complex multi-step problems**: Breaking down architectural decisions into clear stages
+- **Trade-off analysis**: Systematically evaluating pros/cons of multiple approaches
+- **Debugging workflows**: Structured hypothesis testing with progressive elimination
+- **Refactoring strategy**: Planning incremental changes with validation checkpoints
+- **Risk assessment**: Identifying edge cases through methodical reasoning
+
+The tool provides a structured framework for reflective, traceable decision-making.
 
 # Output format (required)
 

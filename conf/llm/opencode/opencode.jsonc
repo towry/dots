@@ -3,67 +3,63 @@
     // "model": "zhipuai-coding-plan/glm-4.6",
     "small_model": "github-copilot/grok-code-fast-1",
     "autoupdate": false,
-    "username": "TOWRY ☕",
+    "username": "TOWRY 😜",
     // "share": "disabled",
     "disabled_providers": [
         "openai",
         "gemini",
         "openrouter",
-        "opencode",
         "moonshotai",
         "deepseek",
         "perplexity"
     ],
     "instructions": [],
-    "keybinds": {
-        "session_child_cycle": "shift+right",
-        "session_child_cycle_reverse": "shift+left"
-    },
+    "keybinds": {},
     "agent": {
         "review": {
-          "model": "github-copilot/gemini-2.5-pro",
-          "prompt": "{file:./roles/lifeguard.md}",
-          "description": "Code review and code quality assurance",
-          "mode": "all",
-          "tools": {
-              "write": false,
-              "edit": false,
-              "bash": true,
-              "grep": true,
-              "read": true,
-              "list": true,
-              "glob": true,
-              "todowrite": false,
-              "todoread": false,
-              "webfetch": false,
-              "brightdata*": true,
-              "github*": true,
-              "lifeguard": false
-          },
-          "permission": {
-            "edit": "deny",
-            "bash": {
-              "*": "deny",
-              "jj log": "allow",
-              "jj diff": "allow",
-              "rg": "allow",
-              "ast-grep": "allow",
-              "fd": "allow",
-              "ls": "allow",
-              "head": "allow",
-              "tail": "allow",
-              "git show": "allow",
-              "git diff": "allow",
-              "git log": "allow",
-              "git reflog": "allow",
-              "git status": "allow",
-              "jj git-diff": "allow",
-              "jj df-names": "allow",
-              "jj show": "allow",
-              "jj file": "allow",
-              "jj operation log": "allow"
+            "model": "github-copilot/gpt-5",
+            "prompt": "{file:./roles/lifeguard.md}",
+            "description": "Code review and code quality assurance",
+            "mode": "all",
+            "tools": {
+                "write": false,
+                "edit": false,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": false,
+                "todoread": false,
+                "webfetch": false,
+                "brightdata*": true,
+                "github*": true,
+                "lifeguard": false
+            },
+            "permission": {
+                "edit": "deny",
+                "bash": {
+                    "*": "deny",
+                    "jj log": "allow",
+                    "jj diff": "allow",
+                    "rg": "allow",
+                    "ast-grep": "allow",
+                    "fd": "allow",
+                    "ls": "allow",
+                    "head": "allow",
+                    "tail": "allow",
+                    "git show": "allow",
+                    "git diff": "allow",
+                    "git log": "allow",
+                    "git reflog": "allow",
+                    "git status": "allow",
+                    "jj git-diff": "allow",
+                    "jj df-names": "allow",
+                    "jj show": "allow",
+                    "jj file": "allow",
+                    "jj operation log": "allow"
+                }
             }
-          }
         },
         "kiro": {
             "model": "github-copilot/claude-sonnet-4.5",
@@ -82,8 +78,8 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "grep-code*": true,
-                "lifeguard": true
+                "lifeguard": true,
+                "sequentialthinking*": true
             },
             "permission": {
                 "edit": "allow",
@@ -117,14 +113,15 @@
                 "todoread": true,
                 "webfetch": false,
                 "brightdata*": true,
-                "grep-code*": true,
                 "github*": true,
-                "lifeguard": true
+                "fs*": true,
+                "lifeguard": true,
+                "sequentialthinking*": true
             }
         },
         "plan": {
             "mode": "primary",
-            "model": "github-copilot/gpt-5",
+            "model": "github-copilot/claude-sonnet-4.5",
             "prompt": "{file:./roles/oracle.md}",
             "tools": {
                 "write": false,
@@ -139,7 +136,45 @@
                 "webfetch": false,
                 "brightdata*": true,
                 "github*": true,
-                "lifeguard": true
+                "lifeguard": true,
+                "fs_read*": true,
+                "fs_search*": true,
+                "fs_tail_file": true,
+                "fs_list*": true,
+                "fs_head*": true,
+                "fs_find*": true,
+                "sequentialthinking*": true
+            },
+            "permission": {
+                "bash": "deny",
+                "edit": "deny"
+            },
+        },
+        "bender": {
+            "mode": "primary",
+            "model": "github-copilot/gpt-5-mini",
+            "prompt": "{file:./roles/oracle.md}",
+            "tools": {
+                "write": false,
+                "edit": false,
+                "bash": true,
+                "grep": true,
+                "read": true,
+                "list": true,
+                "glob": true,
+                "todowrite": true,
+                "todoread": true,
+                "webfetch": false,
+                "brightdata*": true,
+                "github*": true,
+                "lifeguard": true,
+                "fs_read*": true,
+                "fs_search*": true,
+                "fs_tail_file": true,
+                "fs_list*": true,
+                "fs_head*": true,
+                "fs_find*": true,
+                "sequentialthinking*": true
             },
             "permission": {
                 "bash": "deny",
@@ -229,11 +264,27 @@
     },
     "permission": {
         "bash": {
-            "git commit": "ask",
-            "git push": "ask",
-            "git add": "ask",
+            "*": "ask",
+            "curl": "allow",
+            "pbcopy": "allow",
+            "xargs": "allow",
+            "agpod": "allow",
+            "echo": "allow",
             "rg": "allow",
+            "git diff": "allow",
+            "git show": "allow",
+            "git status": "allow",
+            "git log": "allow",
+            "jj log": "allow",
+            "jj git-diff": "allow",
+            "jj df-names": "allow",
+            "jj diff": "allow",
+            "jj show": "allow",
+            "jj file": "allow",
             "ast-grep": "allow",
+            "head": "allow",
+            "tail": "allow",
+            "cat": "allow",
             "fd": "allow",
             "ls": "allow",
             "cd": "allow"
@@ -246,10 +297,10 @@
         "playwright*": false,
         "github*": false,
         "context7*": false,
-        "grep-code*": false,
         "mermaid*": true,
         "brightdata*": true,
-        "memory*": true
+        "memory*": true,
+        "sequentialthinking*": false
     },
     // global mcp settings
     // disabled in global can enabled for a specific agent with tools setting
@@ -260,7 +311,8 @@
             "command": [
                 "rust-mcp-filesystem",
                 "~/workspace",
-                "/tmp"
+                "/tmp",
+                "."
             ],
             "enabled": true
         },
@@ -312,7 +364,7 @@
                 "@modelcontextprotocol/server-memory"
             ],
             "environment": {
-              "MEMORY_FILE_PATH": "/Users/towry/.local/share/memory.json"
+                "MEMORY_FILE_PATH": "/Users/towry/.local/share/memory.json"
             }
         },
         "brightdata": {
@@ -325,6 +377,15 @@
             "environment": {
                 "API_TOKEN": "{env:BRIGHTDATA_API_KEY}"
             }
+        },
+        "sequentialthinking": {
+            "type": "local",
+            "command": [
+                "bunx",
+                "@modelcontextprotocol/server-sequential-thinking"
+            ],
+            "enabled": true,
+            "environment": {}
         }
     },
     "lsp": {

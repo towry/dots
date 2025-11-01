@@ -3,7 +3,7 @@ import { $ } from "bun";
 
 export default tool({
   description:
-    "Execute codex-ai review with provided instructions and conversation context",
+    "Execute codex-ai review with provided instructions and original concise chat context",
   args: {
     reviewInstructions: tool.schema
       .string()

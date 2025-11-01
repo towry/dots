@@ -33,6 +33,7 @@ in
 
   programs.starship = {
     enable = enable_starship;
+    enableFishIntegration = false;
     enableTransience = false;
     settings = {
       format = lib.concatStrings [ "$all" ];

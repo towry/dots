@@ -69,7 +69,8 @@
       "mcp__github__get_commit",
       "mcp__github__get_toolset_tools",
       "mcp__github__enable_toolset",
-      "mcp__github__search_code"
+      "mcp__github__search_code",
+      "mcp__memory__search_nodes"
     ],
     "ask": [
       "Bash(git push:*)",
@@ -105,7 +106,6 @@
   },
   "includeCoAuthoredBy": true,
   "cleanupPeriodDays": 30,
-  "outputStyle": "Explanatory",
   "enableAllProjectMcpServers": false,
   "disableAllHooks": false,
   "hooks": {

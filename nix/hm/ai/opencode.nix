@@ -21,6 +21,7 @@ let
     export HTTP_PROXY="http://127.0.0.1:7898"
     export HTTPS_PROXY="http://127.0.0.1:7898"
     export OPENCODE_DISABLE_LSP_DOWNLOAD="1"
+    export COPILOT="1"
 
     # Check if --pr flag is present
     use_pr_mode=false
