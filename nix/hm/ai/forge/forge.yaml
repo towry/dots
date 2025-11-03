@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/antinomyhq/forge/refs/heads/main/forge.schema.json
+updates:
+  auto_update: false
+agents:
+  - id: software-engineer
+    tool_supported: true
+    system_prompt: |-
+      {{#if (eq variables.mode "PLAN") }}
+      {{> system-prompt-engineer-plan.hbs }}
+      {{else}}
+      {{> system-prompt-engineer-act.hbs }}
+      {{/if}}
+    user_prompt: |-
+      <task>{{event.value}}</task>
+      <current_time>{{current_time}}</current_time>
+custom_rules: >-
+  @RULE@

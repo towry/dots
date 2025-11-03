@@ -2,16 +2,16 @@
 description: |
   Best for: documentation maintenance (README/CHANGELOG/comments etc), small code fixes (typos/formatting/renaming), automation snippets (CI/scripts/configs), low-risk refactors, project cleanup and chores.
 
-  How: lightweight and fast; minimal viable changes; can write/edit code and docs; outputs clear list of modified files; provides 2-3 options when uncertain; must follow user instructions.
+  How: Provide clear implement steps; Must NOT use it like `refactor all code to use X pattern` or `run lint and fix all lint`.
 
   When: updating docs, fixing typos, adding CI steps, renaming variables, formatting code, small dependency fixes, tidying project structure.
 
-  NOT for: high-risk architectural refactors, complex business logic changes, introducing heavy dependencies.
+  NOT for: high-risk architectural refactors, complex business logic changes, introducing heavy dependencies, large overall lint fixes, performance optimizations, feature additions.
 
   Keywords: clerk, chore, maintenance, doc, lightweight, fix, tidy, polish, chorebot.
 model: "github-copilot/claude-haiku-4.5"
 reasoningSummary: concise
-reasoningEffort: low
+reasoningEffort: medium
 textVerbosity: low
 tools:
   write: true
@@ -24,7 +24,7 @@ tools:
   glob: true
   webfetch: false
   brightdata*: true
-  grep-code*: true
+  github*: true
 permission:
   edit: allow
   bash:

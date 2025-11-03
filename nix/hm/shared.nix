@@ -168,7 +168,7 @@ in
     eza = {
       enable = true;
       icons = "auto";
-      enableFishIntegration = true;
+      enableFishIntegration = false;  # Was: true
     };
     ssh = {
       enable = true;

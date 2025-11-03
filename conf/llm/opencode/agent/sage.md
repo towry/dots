@@ -35,11 +35,17 @@ tools:
   read: true
   glob: true
   grep: true
-  "memory*": true
+  "kg*": true
   "mermaid*": true
   "github*": false
   "brightdata*": false
   "playwright*": false
+  "fs_read*": true
+  "fs_search*": true
+  "fs_tail_file": true
+  "fs_list*": true
+  "fs_head*": true
+  "fs_find*": true
 mode: subagent
 ---
 

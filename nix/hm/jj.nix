@@ -13,7 +13,6 @@ in
   home.packages = [
     # pkgs.diffedit3
     pkgs.gg-jj
-    pkgs.mergiraf
   ];
   programs.fish.shellAliases = {
     jl = "jj log -n 8";
@@ -97,11 +96,6 @@ in
         };
       };
       aliases = {
-        solve = [
-          "resolve"
-          "--tool"
-          "mergiraf"
-        ];
         e = [
           "edit"
         ];
@@ -795,7 +789,6 @@ in
       ui = {
         conflict-marker-style = "git";
         log-word-wrap = false;
-        # merge-editor = "mergiraf";
         editor = [
           "nvim"
           "--cmd"
