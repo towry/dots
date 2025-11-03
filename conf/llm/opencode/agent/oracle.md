@@ -26,7 +26,7 @@ tools:
   webfetch: false
   brightdata*: true
   github*: true
-  memory*: true
+  kg*: true
   fs_read*: true
   fs_search*: true
   fs_tail_file: true

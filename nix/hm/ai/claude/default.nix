@@ -5,6 +5,10 @@
   ...
 }:
 let
+  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib; };
+  claudeMcpJson = builtins.toJSON ({
+    mcpServers = mcpServers.clients.claude;
+  });
   claudeConfigDir = ./.; # Current directory containing all config files
   # claudeTargetConfigDir = "${config.home.homeDirectory}/.claude"; # Target directory in home
   # claudeUserScriptsDir = "${claudeTargetConfigDir}/scripts_"; # Directory for user scripts
@@ -152,8 +156,7 @@ in
 
       # Always copy .mcp.json (override existing)
       echo "Copying .mcp.json to ~/.claude/"
-      cp -f "$GENERATED_DIR/.mcp.json" "$CLAUDE_DIR/.mcp.json"
-      chmod u+w "$CLAUDE_DIR/.mcp.json"
+      echo '${claudeMcpJson}' > "$CLAUDE_DIR/.mcp.json"
 
       echo "Claude config setup done"
     '';

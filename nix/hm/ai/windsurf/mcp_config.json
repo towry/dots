@@ -2,7 +2,9 @@
   "mcpServers": {
     "brightdata": {
       "command": "bunx",
-      "args": ["@brightdata/mcp"],
+      "args": [
+        "@brightdata/mcp"
+      ],
       "env": {
         "API_TOKEN": "@BRIGHTDATA_API_KEY@"
       },
@@ -19,16 +21,12 @@
       "disabledTools": [],
       "disabled": false
     },
-    "memory": {
-      "command": "bunx",
-      "args": ["@modelcontextprotocol/server-memory"],
-      "env": {
-        "MEMORY_FILE_PATH": "/Users/towry/.local/share/memory.json"
-      }
-    },
     "github": {
       "command": "github-mcp-server",
-      "args": ["stdio", "--dynamic-toolsets"],
+      "args": [
+        "stdio",
+        "--dynamic-toolsets"
+      ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PAT@"
       },

@@ -35,7 +35,7 @@ tools:
   read: true
   glob: true
   grep: true
-  "memory*": true
+  "kg*": true
   "mermaid*": true
   "github*": false
   "brightdata*": false

@@ -6,6 +6,12 @@
 }:
 
 let
+  mcpServers = import ../../modules/ai/mcp.nix { inherit pkgs lib; };
+  opencodeConfigModule = import ../../modules/ai/opencode-config.nix { inherit lib; };
+  opencodeConfig = opencodeConfigModule.config // {
+    mcp = mcpServers.clients.opencode;
+  };
+  opencodeConfigJson = builtins.toJSON opencodeConfig;
   kiroSystemPromptHbs = ''
     Our **kiro spec dir**: {{pr_dir}}
     **ask** @sage subagent please summarize the kiro status:
@@ -104,7 +110,9 @@ in
       mkdir -p ${config.xdg.configHome}/opencode/
       mkdir -p ${config.home.homeDirectory}/.cache/opencode/
 
-      cat ${../../../conf/llm/opencode/opencode.jsonc} > ${config.xdg.configHome}/opencode/opencode.jsonc
+      # Write OpenCode config with MCP servers merged in
+      cp ${pkgs.writeText "opencode.jsonc" opencodeConfigJson} ${config.xdg.configHome}/opencode/opencode.jsonc
+
       cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/AGENTS.md
       cat ${../../../conf/llm/opencode/package.json} > ${config.xdg.configHome}/opencode/package.json
       cat ${../../../conf/llm/opencode/package.json} > ${config.home.homeDirectory}/.cache/opencode/package.json
