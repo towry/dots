@@ -38,7 +38,6 @@
     "$NPM_CONFIG_PREFIX/bin"
   ];
 
-
   programs.bash.initExtra = ''
     eval "$(fnm env --use-on-cd)"
   '';

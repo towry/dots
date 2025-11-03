@@ -1,0 +1,41 @@
+# name: 'monokai machine'
+# preferred_background: 191919
+
+fish_color_autosuggestion ae81ff
+fish_color_cancel -r
+fish_color_command 66d9ef
+fish_color_comment 75715e
+fish_color_cwd a6e22e
+fish_color_cwd_root f92672
+fish_color_end f4bf75
+fish_color_error f92672
+fish_color_escape 66d9ef
+fish_color_history_current --bold
+fish_color_host normal
+fish_color_host_remote f4bf75
+fish_color_keyword f92672
+fish_color_match --background=66d9ef
+fish_color_normal f8f8f2
+fish_color_operator a1efe4
+fish_color_option ae81ff
+fish_color_param f8f8f2
+fish_color_quote a6e22e
+fish_color_redirection f8f8f2
+fish_color_search_match --background=191919
+fish_color_selection --background=191919
+fish_color_status f92672
+fish_color_user a6e22e
+fish_color_valid_path --underline
+fish_pager_color_background
+fish_pager_color_completion f8f8f2
+fish_pager_color_description ae81ff
+fish_pager_color_prefix a1efe4
+fish_pager_color_progress ae81ff
+fish_pager_color_secondary_background
+fish_pager_color_secondary_completion
+fish_pager_color_secondary_description
+fish_pager_color_secondary_prefix
+fish_pager_color_selected_background -r
+fish_pager_color_selected_completion
+fish_pager_color_selected_description
+fish_pager_color_selected_prefix

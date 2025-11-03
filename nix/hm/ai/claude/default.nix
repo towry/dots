@@ -6,6 +6,7 @@
 }:
 let
   mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib; };
+  proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
   claudeMcpJson = builtins.toJSON ({
     mcpServers = mcpServers.clients.claude;
   });
@@ -28,9 +29,9 @@ let
   claudeScriptPrelude = ''
     set -euo pipefail
 
-    export HTTP_PROXY="http://127.0.0.1:7898"
-    export HTTPS_PROXY="http://127.0.0.1:7898"
-    export NO_PROXY="localhost,127.0.0.1,0.0.0.0"
+    export HTTP_PROXY="${proxyConfig.proxies.http}"
+    export HTTPS_PROXY="${proxyConfig.proxies.https}"
+    export NO_PROXY="${proxyConfig.noProxyString}"
     export DISABLE_AUTOUPDATER=1
     export DISABLE_BUG_COMMAND=1
     export DISABLE_TELEMETRY=1
@@ -156,9 +157,10 @@ in
 
       # Always copy .mcp.json (override existing)
       echo "Copying .mcp.json to ~/.claude/"
-      echo '${claudeMcpJson}' > "$CLAUDE_DIR/.mcp.json"
+      # claude look up for .mcp.json and use it
+      echo '${claudeMcpJson}' > "$HOME/.mcp.json"
 
-      echo "Claude config setup done"
+      echo "🧕🏻 Claude config setup done"
     '';
   };
 

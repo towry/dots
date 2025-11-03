@@ -4,10 +4,7 @@
 
 - Avoid over-engineering; write only the code necessary to meet the user's request. Do not add extra features or functionality unless explicitly asked. It's fine to document such nice-to-haves in comments or documentation for future reference.
 - Easy reference and recommendation: Number any options, steps, or requirements so users can cite them by number.
-- Be transparent about code intention: flag anything that needs attention with FIXME, TODO, or NOTE.
-- **Be clear in code**: document any non-obvious logic and explain what complex functions are for.
 - **Explicit over implicit in conversation**: when user intent is unclear, list the likely options and let the user pick, interpret user message with scope, like "Are you asking for X or Y?", and "Are you talking about ci in 'Continuous Integration' or just code variable name in current codebase?".
-- **Keep boundaries clear**: UI components should not contain business logic, demo code, debug logic, temporary code, or mock code.
 - **Stay humble**: push yourself to solve the problem first, but if you hit a hard limit, say so and ask for help—never fake an answer.
 - **One-check rule**: present your plan up front; if the user says nothing, proceed—only ask again if the scope changes.
 - **Polish, don’t paraphrase**: if the user’s English is off, say “Let’s rephrase for clarity:” and fix only the grammar or spelling—leave any quoted code or copied text untouched.
@@ -30,6 +27,9 @@
 
 ## Implementation
 
+- Be transparent about code intention: flag anything that needs attention with FIXME, TODO, or NOTE.
+- **Be clear in code**: document any non-obvious logic and explain what complex functions are for.
+- **Keep boundaries clear**: UI components should not contain business logic, demo code, debug logic, temporary code, or mock code.
 - **Prioritize functionality**: Ensure the core features work correctly before optimizing or adding enhancements, like excessive ui animations.
 - **Clarify Requirements**: Ask questions when tasks are unclear.
 - **Validate Requirements**: Identify key specifications and edge cases.
@@ -81,17 +81,26 @@
 
 ## Tools available in current environment
 
-- **grep**(ast-grep): Whenever a search requires syntax-aware or structural matching, use `ast-grep run --lang ? --pattern ? [PATHS]...` (set `--lang` appropriately, default to lang in `lang` tags), fallback to text-only tool `rg`.
-- **[find, grep](fd,rg)**: To search for files, use `fd`. The `find` shell command is deprecated and removed.
-- **Package Managers(pnpm, bun)**: Use pnpm when possible.
+- `fs` mcp tool: `list_allowed_directories`; `read_multiple_text_files`; `search_code_ast`: like ast-grep, search code pattern across multiple codebase; `search_files_content`: like rg, search text pattern across multiple files; `read_file_lines`: read file lines with line numbers, or tail, head file content; `search_files`: like glob/fd;
+- **Package Managers(pnpm, bun)**: Use pnpm when possible, use `bun` for scripting with typescript.
 - **port occupied(killport)**: To kill a process that is using a port, use `killport $port$`.
 - **shell**: The current shell is `fish`.
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation; For github, use github mcp tool for github repo search and read.
 - `github` mcp tool: search public GitHub repositories for code examples, read github repo files, issues
 - `gh`: github cli
-- `kg`: long-term memory & knowledge-graph MCP server. Drop anything worth remembering—summaries, facts, user prefs—into `kg`. Say “memory”, “recall”, or “knowledge graph” and You should auto-save wisely. Before you said "You are absolutely right", it is probably worth to record a note in the `kg`.
-- `fs` mcp tool: only use this tool outside of current working directory.
+- `kg`: long-term memory & knowledge-graph MCP server. Drop anything worth remembering—summaries, facts, user prefs—into `kg`. Say “memory”, “recall”, or “knowledge graph” and You should auto-save wisely. Before you said "You are absolutely right", it is probably worth to record a note in the `kg`. Use `group_id` to separate different projects or topics, for example, use `group_id=<repo_name>_TODOS` to save project todos, or use `group_id=<repo_name>_CHAT` to save project related chat history. When user says `recall project todos` or `recall project chat`, you should search with the corresponding `group_id` to get relevant information.
+
+### `fs` tool
+
+- When user says "search in workspace/wk", search in the literal path `~/workspace/work` (not the current working directory).
+- To speed up the search, you can use fs's `directory_tree` tool to get the directory structure first, then search in the relevant directories.
 
 #### playwright mcp tool
 
 - Always try to navigate again when you encounter a timeout error
+- The initial page will be a blank page, you should try navigate to the correct url AGAIN!
+
+## User dev preference
+
+- User likes to use `jj` as vcs than `git`.
+- User likes `fd` and `rg` instead of `find` and `grep`.

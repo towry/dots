@@ -7,6 +7,7 @@
 
 let
   mcpServers = import ../../modules/ai/mcp.nix { inherit pkgs lib; };
+  proxyConfig = import ../../lib/proxy.nix { inherit lib; };
   opencodeConfigModule = import ../../modules/ai/opencode-config.nix { inherit lib; };
   opencodeConfig = opencodeConfigModule.config // {
     mcp = mcpServers.clients.opencode;
@@ -24,8 +25,8 @@ let
   kiroPromptLiteral = lib.escapeShellArg kiroSystemPromptHbs;
 
   ocode-with-proxy = pkgs.writeShellScriptBin "ocode" ''
-    export HTTP_PROXY="http://127.0.0.1:7898"
-    export HTTPS_PROXY="http://127.0.0.1:7898"
+    export HTTP_PROXY="${proxyConfig.proxies.http}"
+    export HTTPS_PROXY="${proxyConfig.proxies.https}"
     export OPENCODE_DISABLE_LSP_DOWNLOAD="1"
     export COPILOT="1"
 
@@ -111,7 +112,7 @@ in
       mkdir -p ${config.home.homeDirectory}/.cache/opencode/
 
       # Write OpenCode config with MCP servers merged in
-      cp ${pkgs.writeText "opencode.jsonc" opencodeConfigJson} ${config.xdg.configHome}/opencode/opencode.jsonc
+      cat ${pkgs.writeText "opencode.jsonc" opencodeConfigJson} > ${config.xdg.configHome}/opencode/opencode.jsonc
 
       cat ${../../../conf/llm/docs/coding-rules.md} > ${config.xdg.configHome}/opencode/AGENTS.md
       cat ${../../../conf/llm/opencode/package.json} > ${config.xdg.configHome}/opencode/package.json
@@ -126,7 +127,7 @@ in
 
       cp -rfL ${config.xdg.configHome}/opencode/tool_generated/ ${config.xdg.configHome}/opencode/tool/
 
-      echo "Opencode config setup done"
+      echo "🧕🏻 Opencode config setup done"
     '';
   };
 

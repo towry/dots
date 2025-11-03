@@ -12,7 +12,9 @@
     ./codex
     ./forge
     ./windsurf
-    ./cline
+    # ./cline
+    ./copilot
+    ./amp
   ];
   home.activation = {
     setupGlobalAgents = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

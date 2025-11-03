@@ -1,12 +1,18 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
+  proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
   codex_home = "${config.xdg.configHome}/codex";
   # codex_config_file = "${codex_home}/config.toml";
   # like commands in other agents
   # prompts_dir = "${codex_home}/prompts";
   codex-with-proxy = pkgs.writeShellScriptBin "codex-ai" ''
-    export HTTP_PROXY="http://127.0.0.1:7898"
-    export HTTPS_PROXY="http://127.0.0.1:7898"
+    export HTTP_PROXY="${proxyConfig.proxies.http}"
+    export HTTPS_PROXY="${proxyConfig.proxies.https}"
 
     exec codex "$@"
   '';
@@ -115,7 +121,7 @@ in
       exclude = []
       # if provided, *only* vars matching these patterns are kept
       include_only = []
-      set = { HTTP_PROXY = "http://127.0.0.1:7898", HTTPS_PROXY = "http://127.0.0.1:7898" }
+      set = { HTTP_PROXY = proxyConfig.proxies.http, HTTPS_PROXY = proxyConfig.proxies.https }
 
       ## MCP
       # [mcp_servers.playwright]

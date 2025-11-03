@@ -1,14 +1,14 @@
 {
-  version ? "0.3.8",
+  version,
   system,
   pkgs ? (import <nixpkgs> { }),
 }:
 let
   url-map = {
-    aarch64-darwin = "https://github.com/rust-mcp-stack/rust-mcp-filesystem/releases/download/v${version}/rust-mcp-filesystem-aarch64-apple-darwin.tar.gz";
+    aarch64-darwin = "https://github.com/towry/rust-mcp-filesystem/releases/download/v${version}/rust-mcp-filesystem-aarch64-apple-darwin.tar.gz";
   };
   sha256-map = {
-    aarch64-darwin = "0w20dy7pihq9r60nxxlkdmpzyxpzxh8spylx4fp98qf9mfb03xn8";
+    aarch64-darwin = "139jxx2wwv406hijxq5mhh5ji1p3318gn496fx2kvv5z82gs08b0";
   };
   tarball = builtins.fetchurl {
     url = url-map.${system};

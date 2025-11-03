@@ -27,7 +27,7 @@ in
   };
   programs.fzf = {
     enable = true;
-    enableFishIntegration = false;  # Was: true
+    enableFishIntegration = false; # Was: true
     defaultCommand = "${pkgs.fd}/bin/fd --color=always -td --ignore-file=$HOME/.ignore";
     defaultOptions = [
       "--prompt='  '"

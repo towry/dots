@@ -20,4 +20,11 @@
     "registry.npmmirror.com"
     "bigmodel.cn"
   ];
+
+  proxies = {
+    # use http by default
+    http = "http://127.0.0.1:7898";
+    https = "http://127.0.0.1:7898";
+    socks5 = "socks5://127.0.0.1:7898";
+  };
 }

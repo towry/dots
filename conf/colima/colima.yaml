@@ -214,8 +214,7 @@ diskImage: ""
 #
 # Default: {}
 env:
-  # setup proxy
-  http_proxy: http://127.0.0.1:7898
-  https_proxy: http://127.0.0.1:7898
-  no_proxy: localhost,127.0.0.1
-
+  # setup proxy - these values should be overridden by environment variables
+  http_proxy: ${HTTP_PROXY:-http://127.0.0.1:7898}
+  https_proxy: ${HTTPS_PROXY:-http://127.0.0.1:7898}
+  no_proxy: ${NO_PROXY:-localhost,127.0.0.1,0.0.0.0,registry.npmmirror.com,bigmodel.cn}
