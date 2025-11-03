@@ -1,7 +1,7 @@
 ---
 id: create_forge_agent
 title: "Create Forge Agent"
-model: "openai/gpt-5-codex"
+model: "zhipuai/glm-4.6"
 description: "Create custom Forge agent at ~/forge/agents/"
 tool_supported: true
 tools:
@@ -11,7 +11,6 @@ tools:
     - remove
     - search
     - undo
-    - attempt_completion
     - followup
     - mcp_brightdata_*
 ---

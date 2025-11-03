@@ -84,4 +84,40 @@
           headers = serverAttrs.headers or { };
         }
     );
+  # forge
+  forge =
+    serverAttrs:
+    let
+      typeMap = {
+        local = "stdio";
+        http = "http";
+        sse = "stdio";
+      };
+    in
+    {
+      type = typeMap.${serverAttrs.type};
+      env = serverAttrs.environment or { };
+      alwaysAllow = serverAttrs.alwaysAllow or [ ];
+    }
+    // (
+      if serverAttrs.type == "local" then
+        {
+          inherit (serverAttrs) command args;
+        }
+      else if serverAttrs.type == "sse" then
+        {
+          command = "bunx";
+          args = [
+            "mcp-remote"
+            serverAttrs.url
+            "--header"
+            "Authorization: ${serverAttrs.headers.Authorization}"
+          ];
+        }
+      else
+        {
+          inherit (serverAttrs) url;
+          headers = serverAttrs.headers or { };
+        }
+    );
 }

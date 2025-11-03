@@ -116,5 +116,17 @@ rec {
         "sequentialthinking"
       ]
     );
+    forge = mapWithClientMk clientMk.forge (
+      pick mcpServers [
+        "kg"
+        "fs"
+        "context7"
+        "playwright"
+        "github"
+        "mermaid"
+        "brightdata"
+        "sequentialthinking"
+      ]
+    );
   };
 }

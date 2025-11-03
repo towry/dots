@@ -68,9 +68,17 @@ detect_os() {
     esac
 }
 
-# Get latest release info
-get_latest_release() {
-    log_info "Fetching latest release information..." >&2
+# Get release info for specific version or latest
+get_release_info() {
+    local version="$1"
+    local endpoint="latest"
+    
+    if [[ "$version" != "latest" ]]; then
+        endpoint="tags/$version"
+        log_info "Fetching release information for version $version..." >&2
+    else
+        log_info "Fetching latest release information..." >&2
+    fi
 
     # Use curl instead of gh to avoid bash variable assignment issues
     local auth_header=""
@@ -84,10 +92,10 @@ get_latest_release() {
     fi
 
     if [[ -n "$auth_header" ]]; then
-        curl -s -H "$auth_header" "https://api.github.com/repos/antinomyhq/forge/releases/latest"
+        curl -s -H "$auth_header" "https://api.github.com/repos/antinomyhq/forge/releases/$endpoint"
     else
         # Fallback to unauthenticated request (rate limited but works)
-        curl -s "https://api.github.com/repos/antinomyhq/forge/releases/latest"
+        curl -s "https://api.github.com/repos/antinomyhq/forge/releases/$endpoint"
     fi
 }
 
@@ -175,8 +183,26 @@ verify_installation() {
     fi
 }
 
+# Show usage
+show_usage() {
+    echo "Usage: $0 [VERSION]"
+    echo "  VERSION: Optional version tag (e.g., v1.1.0, v1.0.0). If not specified, installs the latest version."
+    echo ""
+    echo "Examples:"
+    echo "  $0          # Install latest version"
+    echo "  $0 v1.1.0   # Install specific version v1.1.0"
+}
+
 # Main function
 main() {
+    local version="${1:-latest}"
+    
+    # Handle help flag
+    if [[ "$version" == "-h" || "$version" == "--help" ]]; then
+        show_usage
+        exit 0
+    fi
+    
     log_info "Starting Forge CLI installation..."
 
     # Check prerequisites
@@ -197,27 +223,44 @@ main() {
     log_info "Detected architecture: $arch"
     log_info "Detected OS: $os"
 
-    # Get latest release and process it
+    # Get release info and process it
     log_info "Getting release information..."
-    local release_info version download_url
-    release_info=$(get_latest_release)
+    local release_info download_url
+    release_info=$(get_release_info "$version")
 
     if [[ $? -ne 0 ]] || [[ -z "$release_info" ]]; then
-        log_error "Failed to get release information"
+        log_error "Failed to get release information for version: $version"
+        exit 1
+    fi
+
+    # Check if release exists
+    local release_message
+    release_message=$(echo "$release_info" | jq -r '.message // empty')
+    if [[ -n "$release_message" && "$release_message" == "Not Found" ]]; then
+        log_error "Version $version not found"
+        log_error "Please check available releases at: https://github.com/antinomyhq/forge/releases"
         exit 1
     fi
 
     log_info "Parsing version..."
-    version=$(echo "$release_info" | jq -r '.tag_name')
-    if [[ $? -ne 0 ]]; then
+    local parsed_version
+    parsed_version=$(echo "$release_info" | jq -r '.tag_name')
+    if [[ $? -ne 0 || "$parsed_version" == "null" ]]; then
         log_error "Failed to parse version from release info"
         exit 1
     fi
-    log_info "Latest version: $version"    # Find download URL
+    
+    if [[ "$version" == "latest" ]]; then
+        log_info "Latest version: $parsed_version"
+    else
+        log_info "Installing version: $parsed_version"
+    fi
+    
+    # Find download URL
     download_url=$(find_download_url "$release_info" "$arch" "$os")
 
     # Install forge
-    install_forge "$download_url" "$version"
+    install_forge "$download_url" "$parsed_version"
 
     # Verify installation
     verify_installation

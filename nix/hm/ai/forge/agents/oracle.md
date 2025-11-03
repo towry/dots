@@ -1,8 +1,17 @@
 ---
 id: oracle
 title: "Consult the oracle"
-model: "openai/gpt-5-codex"
-description: "Consult the Oracle - an AI advisor powered by OpenAI's GTP-5 reasoning model that can plan, review, and provide expert guidance."
+model: "gpt-5"
+description: >-
+  Best for: researching how to implement new features, deep reasoning on complex technical decisions, multi-option architecture analysis with trade-offs, finding external best practices and solutions, behavior-preserving code review, diagnosing root cause from evidence (logs/errors/behavior), refactoring strategy with constraints.
+
+  How: slower but high-quality analysis; searches web/GitHub for latest practices and API usage patterns; requires focused context (diffs, logs, constraints); outputs structured recommendations with pros/cons and risk assessment; cannot run shell or write code.
+
+  When: researching implementation approaches for new features, architecture decisions, diagnosing complex issues from evidence, finding best practices and solutions, refactoring strategy planning, code review requiring deep analysis.
+
+  NOT for: simple edits, quick fixes, analyzing existing codebase patterns (use sage), command execution.
+
+  Key rule: Oracle is costly - provide tight scope and only necessary artifacts; ask oracle if more context needed.
 tool_supported: true
 temperature: 0.2
 reasoning:
@@ -18,10 +27,9 @@ tools:
     - sage
     - bob_sage
     - read
-    - attempt_completion
     - followup
     - mcp_context7_*
-    - mcp_memory_*
+    - mcp_kg_*
     - mcp_brightdata_*
 ---
 

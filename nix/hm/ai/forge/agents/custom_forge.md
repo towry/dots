@@ -19,10 +19,8 @@ tools:
     - remove
     - search
     - undo
-    - attempt_completion
     - followup
-    - mcp_commander-mcp_*
-    - mcp_memory_*
+    - mcp_kg_*
     - mcp_brightdata_*
 ---
 

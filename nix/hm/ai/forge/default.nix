@@ -5,23 +5,31 @@
   ...
 }:
 let
+  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib; };
+  forgeMcpJson = builtins.toJSON ({
+    mcpServers = mcpServers.clients.forge;
+  });
   forgeConfigDir = ./.; # Current directory containing all config files
+
+  # Read and indent the coding rules for proper YAML formatting
+  # Each line after the first needs to be indented with 2 spaces for YAML literal block
+  codingRules =
+    let
+      rawRules = builtins.readFile ../../../../conf/llm/docs/coding-rules.md;
+      lines = lib.splitString "\n" rawRules;
+      indentedLines = lib.imap0 (i: line: if i == 0 then line else "  ${line}") lines;
+    in
+    lib.concatStringsSep "\n" indentedLines;
 
   # Process forge.yaml with variable substitution
   processedForgeYaml = pkgs.replaceVars (forgeConfigDir + "/forge.yaml") {
-    # Add any variable substitutions if needed in the future
-  };
-
-  # Process mcp.json with variable substitution
-  processedMcp = pkgs.replaceVars (forgeConfigDir + "/mcp.json") {
-    GITHUB_PERSONAL_ACCESS_TOKEN = pkgs.nix-priv.keys.github.accessToken;
-    BRIGHTDATA_API_KEY = pkgs.nix-priv.keys.brightdata.apiKey;
+    RULE = codingRules;
   };
 
   # Wrapper to run forge with HTTP proxy configured
   forge-with-proxy = pkgs.writeShellScriptBin "forge-ai" ''
-    export HTTP_PROXY="http://127.0.0.1:1080"
-    export HTTPS_PROXY="http://127.0.0.1:1080"
+    export HTTP_PROXY="http://127.0.0.1:7898"
+    export HTTPS_PROXY="http://127.0.0.1:7898"
 
     # Execute the original forge command with all arguments
     exec forge "$@"
@@ -40,7 +48,7 @@ in
       source = processedForgeYaml;
     };
     "forge/.generated/mcp.json" = {
-      source = processedMcp;
+      text = forgeMcpJson;
     };
   };
 
@@ -66,7 +74,7 @@ in
     '';
   };
 
-  home.packages = with pkgs; [
+  home.packages = [
     forge-with-proxy
   ];
 }

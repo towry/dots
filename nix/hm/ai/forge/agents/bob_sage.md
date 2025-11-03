@@ -1,15 +1,18 @@
 ---
 id: bob_sage
 title: "Codebase research for complex task"
-model: "x-ai/grok-code-fast-1"
-description: "Research and analyze codebases to provide concrete information about existing functionality implementation details, including custom services and workarounds, for informed refactoring decisions"
+model: "grok-code-fast-1"
+description: |
+  Best for: analyzing existing code patterns, documenting what already exists, visualizing current architecture, tracing dependencies in codebase.
+  How: read-only exploration; uses grep/fd to search local code; generates Mermaid diagrams; summarizes existing docs and implementations.
+  When: understanding how current code works, finding existing patterns, documenting current state, analyzing project structure.
+  NOT for: researching how to implement new features (use oracle), making decisions on best approaches, finding external best practices.
 tool_supported: true
 tools:
     - read
     - write
     - shell
     - search
-    - attempt_completion
     - followup
     - mcp_memory_*
 ---

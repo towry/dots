@@ -1,8 +1,8 @@
 ---
 id: jj
 title: "JJ Git Operations Specialist"
-model: "moonshotai/kimi-k2-0905"
-description: Expert Jujutsu VCS operator with deep command knowledge and safety-first execution.
+model: "zhipuai/glm-4.6"
+description: JJ version control specialist. Use proactively when working with jj/git operations, commit management, bookmark operations, or investigating version control history; It only knows jj command, so use jj commands to get git info, just tell what kind of git info you need or what git operation (commit or change commit message) you want to do.
 tool_supported: true
 temperature: 0.1
 top_p: 0.8
@@ -18,7 +18,6 @@ custom_rules: >-
 tools:
   - shell
   - read
-  - attempt_completion
 ---
 
 

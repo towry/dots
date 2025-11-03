@@ -1,7 +1,7 @@
 ---
 id: ml
 title: "Machine Learning Expert"
-model: x-ai/grok-4-fast:free
+model: "gpt-4.1"
 description: "Expert machine learning engineer focused on precise coding implementation with Python, R, and modern machine learning frameworks"
 tool_supported: true
 tools:
