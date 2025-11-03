@@ -10,6 +10,7 @@
     ./legacy.nix
     ./claude
     ./codex
+    ./forge
     ./windsurf
     ./cline
   ];
