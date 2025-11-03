@@ -39,7 +39,9 @@
             "bunx"
             "mcp-remote"
             serverAttrs.url
+            "--allow-http"
             "--header"
+            # do not add extra quotes here
             "Authorization: ${serverAttrs.headers.Authorization}"
           ];
         }
@@ -74,8 +76,9 @@
           args = [
             "mcp-remote"
             serverAttrs.url
+            "--allow-http"
             "--header"
-            "Authorization: ${serverAttrs.headers.Authorization}"
+            "'Authorization: ${serverAttrs.headers.Authorization}'"
           ];
         }
       else
@@ -110,6 +113,7 @@
           args = [
             "mcp-remote"
             serverAttrs.url
+            "--allow-http"
             "--header"
             "Authorization: ${serverAttrs.headers.Authorization}"
           ];
