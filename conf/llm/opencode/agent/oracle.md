@@ -1,5 +1,5 @@
 ---
-description: >-
+description: |
   Best for: researching how to implement new features, deep reasoning on complex technical decisions, multi-option architecture analysis with trade-offs, finding external best practices and solutions, behavior-preserving code review, diagnosing root cause from evidence (logs/errors/behavior), refactoring strategy with constraints.
 
   How: slower but high-quality analysis; searches web/GitHub for latest practices and API usage patterns; requires focused context (diffs, logs, constraints); outputs structured recommendations with pros/cons and risk assessment; cannot run shell or write code.
@@ -10,7 +10,7 @@ description: >-
 
   Key rule: Oracle is costly - provide tight scope and only necessary artifacts; ask oracle if more context needed.
 mode: subagent
-model: "github-copilot/gpt-5"
+model: "github-copilot/claude-sonnet-4.5"
 reasoningSummary: concise
 textVerbosity: middle
 reasoningEffort: high
@@ -29,9 +29,8 @@ tools:
   kg*: true
   fs_read*: true
   fs_search*: true
-  fs_tail_file: true
   fs_list*: true
-  fs_head*: true
+  fs_directory_tree: true
   fs_find*: true
   fs_write*: false
 permission:

@@ -8,9 +8,31 @@ let
   pick = attrs: keys: lib.attrsets.filterAttrs (name: _: lib.lists.elem name keys) attrs;
   clientMk = import ../../lib/mcp-clients.nix { inherit lib; };
   mapWithClientMk = clientMk: servers: lib.mapAttrs (name: value: clientMk value) servers;
+  fs_tools = [
+    "read_text_file"
+    "create_directory"
+    "directory_tree"
+    "list_directory"
+    "read_multiple_text_files"
+    "search_files"
+    "search_code_ast"
+    "search_files_content"
+    "read_file_lines"
+    "find_duplicate_files"
+  ];
 in
 rec {
-  mcpServers = {
+  mcpServers = rec {
+    mastergo = {
+      type = "local";
+      command = "bunx";
+      args = [
+        "@mastergo/magic-mcp"
+        "--token"
+        "${pkgs.nix-priv.keys.mastergo.token}"
+        "--url=https://mastergo.com"
+      ];
+    };
     kg = {
       type = "sse";
       url = kgSse;
@@ -27,7 +49,27 @@ rec {
         "."
         "/tmp"
         "--tools"
-        "read_text_file,create_directory,directory_tree,edit_file,list_directory,move_file,read_multiple_text_files,search_files,search_code_ast,search_files_content,read_file_lines,find_duplicate_files"
+        "${lib.concatStringsSep "," fs_tools}"
+      ];
+    };
+
+    fs_mut = {
+      inherit (mcpServers.fs) type command;
+      args = [
+        "~/workspace"
+        "."
+        "/tmp"
+        "--allow-write"
+        "--tools"
+        "${lib.concatStringsSep "," (
+          fs_tools
+          ++ [
+            "write_file"
+            "edit_file"
+            "move_file"
+            "copy_file"
+          ]
+        )}"
       ];
     };
 
@@ -91,6 +133,16 @@ rec {
       ];
       environment = { };
     };
+
+    codex_smart = {
+      type = "local";
+      command = "codex-ai";
+      args = [
+        "--profile"
+        "claude"
+        "mcp-server"
+      ];
+    };
   };
 
   clients = {
@@ -104,19 +156,24 @@ rec {
         "mermaid"
         "brightdata"
         "sequentialthinking"
+        "mastergo"
       ]
     );
     claude = mapWithClientMk clientMk.claude (
-      pick mcpServers [
+      (pick mcpServers [
         "kg"
-        "fs"
         "context7"
         "playwright"
         "github"
         "mermaid"
         "brightdata"
         "sequentialthinking"
-      ]
+        "codex_smart"
+        "mastergo"
+      ])
+      // {
+        fs = mcpServers.fs_mut;
+      }
     );
     forge = mapWithClientMk clientMk.forge (
       pick mcpServers [
@@ -152,6 +209,7 @@ rec {
         "mermaid"
         "brightdata"
         "sequentialthinking"
+        "mastergo"
       ]
     );
   };

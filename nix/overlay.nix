@@ -47,6 +47,13 @@ in
       pkgs = final;
       system = final.system;
     };
+    # fastuuid causes circular dependency issues, removed
+    # fastuuid = final.callPackage ./pkgs/fastuuid.nix { };
+    litellm-proxy = final.callPackage ./pkgs/litellm.nix {
+      version = versions.litellm;
+      fastuuid = null; # Disabled due to circular dependency
+    };
+
     # nerd-font-patcher =
     #   let
     #     nerdFontPatcherVersion = "3.2.1";

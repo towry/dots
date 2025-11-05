@@ -1,10 +1,10 @@
 ---
 name: jj
-description: JJ version control specialist. Use proactively when working with jj/git operations, commit management, bookmark operations, or investigating version control history; It only knows jj command, so use jj commands to get git info, just tell what kind of git info you need or what git operation (commit or change commit message) you want to do.
-tools: Bash, Read, Glob, Grep
-model: sonnet
+model: "glm-4.6" # gpt-5-codex
+description: "jj, provide surrounding context and jj will do git operation"
+tools: execution
+version: v1
 ---
-
 
 # jj terms
 
@@ -460,19 +460,14 @@ model: sonnet
 
 ## Update commit/rev description/message
 
-- For updating an existing revision's message: `jj describe <rev> -m "new message"`
-- For updating the parent revision when working copy is empty: `jj describe @- -m "new message"`
+use command `jj description -r <rev> -m "new message"`
 
 ## Commit
 
 - check latest n commits with `jj log --no-pager --no-graph -r "trunk()..@" -n 10
-- check latest changes with `jj git-diff -r "old_rev..new_rev"`, the old_rev/new_rev is the change id or git commit id
-- determine the target rev to commit.
 - only commit if target rev is not empty
-- if target rev has message, update it use describe instead of commit
-- generate commit message according to the change, the message must follow the Conventional Commits style "type(scope): message"
-- use commit `jj commit -m <message>` for committing working copy changes
-- use `jj describe <rev> -m <message>` for updating an existing revision's message
+- use commit `jj commit -m <message> -r <rev>`,
+- the message must follow the Conventional Commits style "type(scope): message"
 
 ## Get git diff as context
 

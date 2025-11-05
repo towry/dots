@@ -134,3 +134,7 @@ make update-input
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## TODO
+
+- Migrate: https://github.com/jj-vcs/jj/releases/tag/v0.35.0

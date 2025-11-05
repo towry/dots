@@ -42,8 +42,8 @@ in
 
       [model_providers.openrouter]
       name = "openrouter"
-      base_url = "https://openrouter.ai/api/v1"
-      env_key = "OPENROUTER_API_KEY"
+      base_url = "http://127.0.0.1:4000"
+      env_key = "LITELLM_MASTER_KEY"
 
       [model_providers.zhipuai-coding-plan]
       name = "zhipuai-coding-plan"
@@ -55,8 +55,8 @@ in
       base_url = "https://api.moonshot.cn/v1"
       env_key = "MOONSHOT_API_KEY"
 
-      [profiles.claude]
-      model = "openai/gpt-5-codex"
+      [profiles.gpt]
+      model = "copilot/gpt-5"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/oracle-role.md"
@@ -66,13 +66,13 @@ in
       hide_agent_reasoning = true
       model_verbosity = "low"
 
-      [profiles.claude_fast]
-      model = "anthropic/claude-haiku-4.5"
+      [profiles.claude]
+      model = "copilot/claude-sonnet-4.5"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/oracle-role.md"
       approval_policy = "never"
-      model_reasoning_effort = "minimal"
+      model_reasoning_effort = "high"
       model_reasoning_summary = "concise"
       hide_agent_reasoning = true
       model_verbosity = "low"
@@ -121,7 +121,7 @@ in
       exclude = []
       # if provided, *only* vars matching these patterns are kept
       include_only = []
-      set = { HTTP_PROXY = proxyConfig.proxies.http, HTTPS_PROXY = proxyConfig.proxies.https }
+      set = { HTTP_PROXY = "${proxyConfig.proxies.http}", HTTPS_PROXY = "${proxyConfig.proxies.https}" }
 
       ## MCP
       # [mcp_servers.playwright]
@@ -136,6 +136,10 @@ in
       command = "bunx"
       args = ["@devstefancho/mermaid-mcp"]
 
+      [mcp_servers.sequentialthinking]
+      command = "bunx"
+      args = ["@modelcontextprotocol/server-sequential-thinking"]
+
       # [mcp_servers.brightdata]
       # command = "bunx"
       # args = ["@brightdata/mcp"]
@@ -143,7 +147,7 @@ in
 
       # [mcp_servers.github]
       # command = "github-mcp-server"
-      # args = ["stdio", "--toolsets", "all"]
+      # args = ["stdio", "--dynamic-toolsets"]
       # env = { GITHUB_PERSONAL_ACCESS_TOKEN = "${pkgs.nix-priv.keys.github.accessToken}" }
     '';
   };

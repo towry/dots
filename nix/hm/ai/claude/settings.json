@@ -62,20 +62,30 @@
       "mcp__mermaid__generate-flowchart",
       "mcp__context7__resolve-library-id",
       "mcp__context7__get-library-docs",
-      "mcp__codex__codex",
-      "mcp__codex__codex-reply",
       "mcp__github__get_file_contents",
       "mcp__github__search_repositories",
       "mcp__github__get_commit",
       "mcp__github__get_toolset_tools",
       "mcp__github__enable_toolset",
       "mcp__github__search_code",
-      "mcp__kg__*"
+      "mcp__codex_smart__codex",
+      "mcp__kg__query_graph",
+      "mcp__kg__inspect_graph",
+      "mcp__fs__read_text_file",
+      "mcp__fs__list_directory",
+      "mcp__fs__directory_tree",
+      "mcp__fs__list_allowed_directories",
+      "mcp__fs__read_multiple_text_files",
+      "mcp__fs__read_file_lines",
+      "mcp__fs__search_files_content",
+      "mcp__fs__search_code_ast",
+      "mcp__fs__search_files"
     ],
     "ask": [
       "Bash(git push:*)",
       "Bash(jj file untrack:*)",
       "Bash(git commit:*)",
+      "Bash(git ci:*)",
       "Bash(jj commit:*)",
       "Bash(jj rb:*)",
       "Bash(jj rebase:*)",
@@ -93,35 +103,20 @@
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
+      "Read(.private.*)",
       "Read(./secrets/**)",
       "Read(**/private_keys.md)",
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)"
     ],
-    "additionalDirectories": [
-      "/Users/towry/workspace",
-      "/tmp"
-    ],
+    "additionalDirectories": ["/Users/towry/workspace", "/tmp"],
     "defaultMode": "default"
   },
   "env": {
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1
   },
   "includeCoAuthoredBy": true,
-  "cleanupPeriodDays": 30,
-  "enableAllProjectMcpServers": false,
-  "disableAllHooks": false,
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "terminal-notifier -sound default -message 'Claude Code: Awaiting your input'"
-          }
-        ]
-      }
-    ]
-  }
+  "cleanupPeriodDays": 5,
+  "enableAllProjectMcpServers": true,
+  "disableAllHooks": false
 }

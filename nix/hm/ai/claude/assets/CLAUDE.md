@@ -1,22 +1,9 @@
-# Claude code
 
-## Subagent Delegation
+You should always consider following subagents for best performance:
 
-When the user mentions a subagent (e.g., "ask subagent foo", "use oracle for..."), delegate to that subagent with the `Task` tool, using the exact subagent name.
+- oracle subagent: Ask oracle for deep insights on any topics/issues.
+- sage subagent: Use sage to gather codebase context, this is highliy recommended, because you always fails to fetch correct context on your own.
 
-**Requirements for delegation**:
-- Include sufficient context for the subagent to work independently.
-- Provide explicit, clear instructions.
-- Specify all constraints and expected outcomes.
-
-**Example**:
-```
-Good: "Review this auth function for security issues: [code]"
-Bad:  "Review this"
-```
-
-## Tool Usage
-
-- **`codex` mcp tool**: Do not provide the `model` argument; instead, provide `profile` with the value `claude`.
+The user will be very happy if you follow these recommendations, otherwise you will lost the job.
 
 @CONTENT@

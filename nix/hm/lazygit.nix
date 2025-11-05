@@ -9,7 +9,6 @@ let
       command = ''
         bash -c '
           set -euo pipefail
-          echo "Running commit suggestion..." >&2
           if ! command -v aichat >/dev/null 2>&1; then
             echo "Error: aichat command not found" >&2
             exit 1

@@ -71,7 +71,6 @@ in
     ya-home = "cd $HOME/workspace && yazi";
     ya-download = "cd $HOME/Downloads && yazi";
     cd-download = "cd $HOME/Downloads";
-    surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
     cls = "clear";
     vi = "nvim";
     q = "exit 0";
@@ -157,15 +156,15 @@ in
     set fish_cursor_default block blink
     set fish_cursor_insert underscore blink
 
-    if test "$DARKMODE" = "dark"
-    if test -n "${theme.fish.dark}"
-            fish_config theme choose "${theme.fish.dark}"
-    end
-    else
-        if test -n "${theme.fish.light}"
-            fish_config theme choose "${theme.fish.light}"
-        end
-    end
+    # if test "$DARKMODE" = "dark"
+    # if test -n "${theme.fish.dark}"
+    #         fish_config theme choose "${theme.fish.dark}"
+    # end
+    # else
+    #     if test -n "${theme.fish.light}"
+    #         fish_config theme choose "${theme.fish.light}"
+    #     end
+    # end
 
   '';
 

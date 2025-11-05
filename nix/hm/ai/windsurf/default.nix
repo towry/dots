@@ -13,6 +13,8 @@ let
   windsurfMcpConfig = pkgs.replaceVars (windsurfConfigDir + "/mcp_config.json") {
     BRIGHTDATA_API_KEY = pkgs.nix-priv.keys.brightdata.apiKey;
     GITHUB_PAT = pkgs.nix-priv.keys.github.accessToken;
+    KG_SSE = pkgs.nix-priv.keys.kg.sse;
+    KG_API_KEY = pkgs.nix-priv.keys.kg.apiKey;
   };
 in
 {
@@ -33,6 +35,10 @@ in
     loginShellInit = ''
       fish_add_path ${config.home.homeDirectory}/.codeium/windsurf/bin
     '';
+    shellAliases = {
+      # surf = "/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf";
+      surf = "/Users/towry/.codeium/windsurf/bin/surf-next";
+    };
   };
 
   home.activation = {
