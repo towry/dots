@@ -51,5 +51,6 @@ rm -rf "/Users/towry/.local/bin/droid"
 rm -rf "/Users/towry/.local/bin/octocode"
 rm -rf "/Users/towry/.local/bin/expertls"
 rm -rf "/Users/towry/.cache/uv/builds-v0"
-rm -rf "/Users/towry/workspace/git-repos/test"
-rm -rf "/Users/towry/workspace/git-repos/jj"
+uv cache prune
+pnpm cache delete
+npm cache clean --force

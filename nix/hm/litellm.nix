@@ -196,8 +196,8 @@ in
       StandardErrorPath = "${config.xdg.stateHome}/litellm/service.log";
       EnvironmentVariables = {
         LITELLM_MASTER_KEY = pkgs.nix-priv.keys.litellm.apiKey;
-        HTTP_PROXY = "http://127.0.0.1:7898";
-        HTTPS_PROXY = "http://127.0.0.1:7898";
+        HTTP_PROXY = proxyConfig.proxies.http;
+        HTTPS_PROXY = proxyConfig.proxies.http;
         NO_PROXY = proxyConfig.noProxyString;
         AIOHTTP_TRUST_ENV = "True";
         PATH = "${pkgs.uv}/bin:${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
@@ -218,7 +218,7 @@ in
     # Claude Code model selection - configure which models to use for different tiers
     # These map to the model names defined in the LiteLLM config above
     ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-sonnet-4.5"; # For opus tier and opusplan (Plan Mode active)
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-4.5"; # For sonnet tier and opusplan (Plan Mode inactive)
+    ANTHROPIC_DEFAULT_SONNET_MODEL = "zhipuai/glm-4.6"; # For sonnet tier and opusplan (Plan Mode inactive)
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "zhipuai/glm-4.6"; # For haiku tier and background tasks
     CLAUDE_CODE_SUBAGENT_MODEL = "zhipuai/glm-4.6"; # For subagents
 

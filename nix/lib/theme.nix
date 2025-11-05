@@ -1,5 +1,19 @@
 { theme }:
 {
+  system = {
+    fish = {
+      dark = "";
+      light = "";
+    };
+    bat = {
+      light = "base16";
+      dark = "base16";
+    };
+    delta = {
+      light = "base16";
+      dark = "base16";
+    };
+  };
   kanagawa = {
     fish = {
       light = "kanagawa_light";

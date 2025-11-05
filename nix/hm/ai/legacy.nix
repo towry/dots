@@ -27,10 +27,10 @@ in
   # xdg.configFile configurations moved to specific modules
 
   home.file = {
-    "kilocode-rule" = {
-      target = "${config.home.homeDirectory}/.kilocode/rules/agents.md";
-      source = ../../../conf/llm/docs/coding-rules.md;
-    };
+    # "kilocode-rule" = {
+    #   target = "${config.home.homeDirectory}/.kilocode/rules/agents.md";
+    #   source = ../../../conf/llm/docs/coding-rules.md;
+    # };
     "${aichatConfigDir}/roles" = {
       # link to ../../../conf/llm/aichat/roles dir
       source = ../../../conf/llm/aichat/roles;

@@ -24,8 +24,10 @@ rec {
       command = "rust-mcp-filesystem";
       args = [
         "~/workspace"
-        "/tmp"
         "."
+        "/tmp"
+        "--tools"
+        "read_text_file,create_directory,directory_tree,edit_file,list_directory,move_file,read_multiple_text_files,search_files,search_code_ast,search_files_content,read_file_lines,find_duplicate_files"
       ];
     };
 
@@ -117,6 +119,30 @@ rec {
       ]
     );
     forge = mapWithClientMk clientMk.forge (
+      pick mcpServers [
+        "kg"
+        "fs"
+        "context7"
+        "playwright"
+        "github"
+        "mermaid"
+        "brightdata"
+        "sequentialthinking"
+      ]
+    );
+    copilot = mapWithClientMk clientMk.copilot (
+      pick mcpServers [
+        "kg"
+        "fs"
+        "context7"
+        "playwright"
+        "github"
+        "mermaid"
+        "brightdata"
+        "sequentialthinking"
+      ]
+    );
+    amp = mapWithClientMk clientMk.amp (
       pick mcpServers [
         "kg"
         "fs"

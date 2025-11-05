@@ -6,6 +6,7 @@
 }:
 
 let
+  proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
   # Cline global rules directory for macOS
   clineRulesDir = "${config.home.homeDirectory}/Documents/Cline/Rules";
 
@@ -18,8 +19,8 @@ let
   clineScriptPrelude = ''
     set -euo pipefail
 
-    export HTTP_PROXY="http://127.0.0.1:7898"
-    export HTTPS_PROXY="http://127.0.0.1:7898"
+    export HTTP_PROXY="${proxyConfig.proxies.http}"
+    export HTTPS_PROXY="${proxyConfig.proxies.https}"
     # Disable auto-updater and telemetry if needed
     export DISABLE_AUTOUPDATER=1
     export DISABLE_TELEMETRY=1

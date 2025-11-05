@@ -1,0 +1,135 @@
+#!/bin/bash
+
+# Check if PR argument is provided
+if [ $# -eq 0 ]; then
+	echo "Usage: resolve-pr-comments <pr-number-or-url>"
+	echo "Examples:"
+	echo "  resolve-pr-comments 123"
+	echo "  resolve-pr-comments https://github.com/owner/repo/pull/123"
+	exit 2
+fi
+
+PR_ARG="$1"
+
+# Extract PR number if URL is provided
+if [[ "$PR_ARG" == *"github.com"* ]]; then
+	PR_NUMBER=$(echo "$PR_ARG" | grep -oE '[0-9]+$')
+else
+	PR_NUMBER="$PR_ARG"
+fi
+
+# Get repository info
+REPO_INFO=$(gh repo view --json owner,name 2>/dev/null)
+if [ $? -ne 0 ]; then
+	echo "Error: Not in a GitHub repository or gh CLI not authenticated"
+	exit 1
+fi
+
+OWNER=$(echo "$REPO_INFO" | jq -r '.owner.login')
+REPO_NAME=$(echo "$REPO_INFO" | jq -r '.name')
+
+# GraphQL query for PR and comments
+read -r -d '' QUERY <<'EOF'
+query($owner: String!, $repo: String!, $number: Int!) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $number) {
+      title
+      number
+      author { login }
+      body
+      url
+      reviews(first: 50) {
+        nodes {
+          author { login }
+          body
+          state
+          comments(first: 50) {
+            nodes {
+              author { login }
+              body
+              path
+              line
+              diffHunk
+            }
+          }
+        }
+      }
+      comments(first: 50) {
+        nodes {
+          author { login }
+          body
+        }
+      }
+    }
+  }
+}
+EOF
+
+# Execute query
+RESPONSE=$(gh api graphql -f query="$QUERY" -F owner="$OWNER" -F repo="$REPO_NAME" -F number="$PR_NUMBER" 2>/dev/null)
+
+if [ $? -ne 0 ]; then
+	echo "Error: Could not fetch PR #$PR_NUMBER"
+	exit 1
+fi
+
+# Extract data
+PR_DATA=$(echo "$RESPONSE" | jq -r '.data.repository.pullRequest')
+if [ "$PR_DATA" == "null" ]; then
+	echo "Error: PR #$PR_NUMBER not found"
+	exit 1
+fi
+
+TITLE=$(echo "$PR_DATA" | jq -r '.title')
+AUTHOR=$(echo "$PR_DATA" | jq -r '.author.login')
+BODY=$(echo "$PR_DATA" | jq -r '.body // ""')
+URL=$(echo "$PR_DATA" | jq -r '.url')
+
+# Output formatted content
+cat <<EOF
+Analyze this PR feedback and suggest specific resolutions.
+
+# $TITLE (#$PR_NUMBER)
+**Author:** $AUTHOR
+**URL:** $URL
+
+**Description:**
+$BODY
+
+## Feedback to Address
+
+EOF
+
+# Add general comments
+echo "$PR_DATA" | jq -r '.comments.nodes[] | "**@\(.author.login):** \(.body)
+
+"'
+
+# Add review comments
+echo "$PR_DATA" | jq -r '.reviews.nodes[] | select(.body != null and .body != "") | "**@\(.author.login) (\(.state)):** \(.body)
+
+"'
+
+# Add inline code comments
+echo "$PR_DATA" | jq -r '.reviews.nodes[].comments.nodes[] | "**@\(.author.login)** on `\(.path)`:\(.line // ""):
+\(.body)
+
+```
+\(.diffHunk)
+```
+
+"'
+
+cat <<'EOF'
+## Your Tasks
+
+1. **Examine the codebase** - understand context of commented files
+2. Feed in the files into the oracle and tell it to:
+ - **Categorize feedback** - critical issues vs suggestions
+ - **Provide specific resolutions** - exact changes needed for each comment
+ - **Create implementation plan** - order of changes, files to modify
+
+Focus on actionable solutions for each piece of feedback.
+EOF
+
+exit 1

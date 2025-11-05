@@ -35,6 +35,8 @@ in
       [net]
       git-fetch-with-cli = true
       retry = 4
+      [unstable]
+      gc = true
     '';
     sessionVariables = {
       RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";

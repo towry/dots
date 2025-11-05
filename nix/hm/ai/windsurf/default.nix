@@ -51,6 +51,8 @@ in
 
       cat $GEN_DIR/mcp_config.json > $WS_DIR/mcp_config.json
       cat "$GEN_DIR/mcp_config.json" > "$WS_NEXT_DIR/mcp_config.json"
+
+      echo "🧕🏻 Windsurf config setup done"
     '';
   };
 }

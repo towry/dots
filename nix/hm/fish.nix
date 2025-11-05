@@ -1,10 +1,15 @@
 {
   pkgs,
+  lib,
   theme,
   username,
   # config,
   ...
 }:
+
+let
+  proxyConfig = import ../lib/proxy.nix { inherit lib; };
+in
 {
   home.sessionVariables = {
     _ZO_ECHO = 1;
@@ -18,7 +23,7 @@
     # HTTPS_PROXY = "http://127.0.0.1:1080";
   };
   programs = {
-    carapace.enableFishIntegration = false;  # Was: true
+    carapace.enableFishIntegration = false; # Was: true
     fish = {
       package = pkgs.fish;
       enable = true;
@@ -44,7 +49,7 @@
       ];
     };
     zoxide = {
-      enableFishIntegration = false;  # Was: true
+      enableFishIntegration = false; # Was: true
     };
   };
   home.file.fishThemes = {
@@ -73,7 +78,7 @@
     j0 = "jump-first";
     ji = "jump";
     nix-proxy = "sudo /usr/bin/env python ~/.dotfiles/bin/darwin-nix-proxy.py";
-    dot-proxy = "export CURL_NIX_FLAGS='-x http://127.0.0.1:7898' https_proxy=http://127.0.0.1:7898 http_proxy=http://127.0.0.1:7898 all_proxy=socks5://127.0.0.1:7898";
+    dot-proxy = "export CURL_NIX_FLAGS='-x ${proxyConfig.proxies.http}' https_proxy=${proxyConfig.proxies.http} http_proxy=${proxyConfig.proxies.http} all_proxy=${proxyConfig.proxies.socks5}";
     up-karabiner = "jq . ~/.config/karabiner/karabiner.json | sponge ~/.config/karabiner/karabiner.json && gh gist edit 072fd7c32c1fc0b33044d0915885b3b4 -f karabiner.json ~/.config/karabiner/karabiner.json";
     list-zombie-ps = "ps aux | grep -w Z";
     parent-pid-of = "ps o ppid";
@@ -116,16 +121,16 @@
   '';
 
   programs.fish.interactiveShellInit = ''
-    if test -n "$COPILOT"
+    if test -n "$COPILOT" -o -n "$AGENT"
         set -x PAGER cat
         set -x GIT_PAGER cat
         set -x SYSTEMD_PAGER cat
         set -x LESS -FRX
         set -g fish_autosuggestion_enabled 0
-        
-        # Keep fnm for Node/npm access in COPILOT shells
+
+        # Keep fnm for Node/npm access in COPILOT/AGENT shells
         eval "$(fnm env)"
-        
+
         return  # Skip all remaining interactive features
     end
 
@@ -153,9 +158,13 @@
     set fish_cursor_insert underscore blink
 
     if test "$DARKMODE" = "dark"
-        fish_config theme choose "${theme.fish.dark}"
+    if test -n "${theme.fish.dark}"
+            fish_config theme choose "${theme.fish.dark}"
+    end
     else
-        fish_config theme choose "${theme.fish.light}"
+        if test -n "${theme.fish.light}"
+            fish_config theme choose "${theme.fish.light}"
+        end
     end
 
   '';

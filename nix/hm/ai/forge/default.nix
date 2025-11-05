@@ -6,6 +6,7 @@
 }:
 let
   mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib; };
+  proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
   forgeMcpJson = builtins.toJSON ({
     mcpServers = mcpServers.clients.forge;
   });
@@ -28,8 +29,8 @@ let
 
   # Wrapper to run forge with HTTP proxy configured
   forge-with-proxy = pkgs.writeShellScriptBin "forge-ai" ''
-    export HTTP_PROXY="http://127.0.0.1:7898"
-    export HTTPS_PROXY="http://127.0.0.1:7898"
+    export HTTP_PROXY="${proxyConfig.proxies.http}"
+    export HTTPS_PROXY="${proxyConfig.proxies.https}"
 
     # Execute the original forge command with all arguments
     exec forge "$@"
