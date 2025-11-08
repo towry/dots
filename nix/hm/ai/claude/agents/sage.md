@@ -5,7 +5,7 @@ description: |
   How: read-only exploration; uses grep/fd to search local code; generates Mermaid diagrams; summarizes existing docs and implementations.
   When: understanding how current code works, finding existing patterns, documenting current state, analyzing project structure.
   NOT for: researching how to implement new features (use oracle), making decisions on best approaches, finding external best practices.
-tools: Read, Grep, Glob, Bash, WebFetch, mcp__mermaid__analyze-flowchart,mcp__mermaid__generate-flowchart, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__codex__codex
+tools: Read, Grep, Glob, Bash, WebFetch, mcp__mermaid__analyze-flowchart,mcp__mermaid__generate-flowchart, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__fs__read_text_file, mcp__fs__list_directory, mcp__fs__directory_tree, mcp__fs__list_allowed_directories, mcp__fs__read_multiple_text_files, mcp__fs__read_file_lines, mcp__fs__search_files_content, mcp__fs__search_code_ast, mcp__fs__search_files
 model: haiku
 ---
 

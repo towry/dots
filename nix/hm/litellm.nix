@@ -29,6 +29,15 @@ let
       [
         "deepseek-chat"
       ];
+  openrouterModels = [
+    {
+      model_name = "openrouter/*";
+      litellm_params = {
+        model = "openrouter/*";
+        api_key = "os.environ/OPENROUTER_API_KEY";
+      };
+    }
+  ];
 
   googleModels =
     builtins.map
@@ -91,7 +100,7 @@ let
       alias = "github_copilot/${model}";
     in
     {
-      model_name = model; # User calls with just "claude-haiku-4.5"
+      model_name = "copilot/${model}"; # User calls with just "claude-haiku-4.5"
       litellm_params = {
         model = alias; # LiteLLM uses "github_copilot/claude-haiku-4.5"
         extra_headers = copilotHeaders;
@@ -120,7 +129,7 @@ let
         "glm-4.6"
       ];
 
-  modelList = deepseekModels ++ googleModels ++ githubModels ++ zhipuaiModels;
+  modelList = deepseekModels ++ googleModels ++ githubModels ++ zhipuaiModels ++ openrouterModels;
 
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
@@ -129,13 +138,16 @@ let
       drop_params = true;
       # Disable default log file to avoid conflicts with systemd logging
       # All logs will go to stdout/stderr which systemd captures
-      set_verbose = false;
+      set_verbose = true;
+      turn_off_message_logging = true;
     };
   };
 
   # Helper script to start LiteLLM proxy
   startLiteLLMScript = pkgs.writeShellScriptBin "litellm-start" ''
     #!/usr/bin/env bash
+
+    echo "v1====================:)"
 
     # Color codes
     GREEN='\033[1;32m'
@@ -159,7 +171,7 @@ let
       echo -e "''${YELLOW}Warning:''${NC} Set HTTP_PROXY/HTTPS_PROXY environment variables if needed."
     fi
 
-    # Start LiteLLM proxy using uvx
+    # Start LiteLLM proxy using the Nix package
     echo "Starting LiteLLM proxy on http://0.0.0.0:4000"
     echo "Using config: ${litellmConfig}"
 
@@ -168,13 +180,14 @@ let
     export HTTPS_PROXY="''${HTTPS_PROXY:-''${https_proxy}}"
     export NO_PROXY="''${NO_PROXY:-''${no_proxy:-${proxyConfig.noProxyString}}}"
 
-    # Install litellm with proxy support (includes httpx[socks])
-    ${pkgs.uv}/bin/uvx --with 'litellm[proxy]' --with 'httpx[socks]' litellm --config ${litellmConfig} "$@"
+    # Use the Nix-built litellm package
+    ${pkgs.litellm-proxy}/bin/litellm --config ${litellmConfig} "$@"
   '';
 
 in
 {
   home.packages = [
+    pkgs.litellm-proxy
     # Helper scripts
     startLiteLLMScript
   ];
@@ -200,7 +213,7 @@ in
         HTTPS_PROXY = proxyConfig.proxies.http;
         NO_PROXY = proxyConfig.noProxyString;
         AIOHTTP_TRUST_ENV = "True";
-        PATH = "${pkgs.uv}/bin:${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
+        PATH = "${pkgs.litellm-proxy}/bin:${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
       };
     };
   };
@@ -217,10 +230,11 @@ in
 
     # Claude Code model selection - configure which models to use for different tiers
     # These map to the model names defined in the LiteLLM config above
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-sonnet-4.5"; # For opus tier and opusplan (Plan Mode active)
+    ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/claude-sonnet-4.5"; # For opus tier and opusplan (Plan Mode active)
     ANTHROPIC_DEFAULT_SONNET_MODEL = "zhipuai/glm-4.6"; # For sonnet tier and opusplan (Plan Mode inactive)
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "zhipuai/glm-4.6"; # For haiku tier and background tasks
-    CLAUDE_CODE_SUBAGENT_MODEL = "zhipuai/glm-4.6"; # For subagents
+    ANTHROPIC_DEFAULT_HAIKU_MODEL = "copilot/grok-code-fast-1"; # For haiku tier and background tasks
+    ## do not set this variable, otherwise the `model` will not work.
+    # CLAUDE_CODE_SUBAGENT_MODEL = "openrouter/google/gemini-2.5-pro"; # For subagent# s
 
     # GitHub Copilot token storage (optional customization)
     # GITHUB_COPILOT_TOKEN_DIR = "${config.home.homeDirectory}/.config/litellm/github_copilot";

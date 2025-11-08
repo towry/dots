@@ -8,7 +8,7 @@ let
     aarch64-darwin = "https://github.com/towry/rust-mcp-filesystem/releases/download/v${version}/rust-mcp-filesystem-aarch64-apple-darwin.tar.gz";
   };
   sha256-map = {
-    aarch64-darwin = "139jxx2wwv406hijxq5mhh5ji1p3318gn496fx2kvv5z82gs08b0";
+    aarch64-darwin = "0mx1x01843pnhc7vidfnnj5axwm2ifdzyzwvhkd43ky85xgc81rs";
   };
   tarball = builtins.fetchurl {
     url = url-map.${system};

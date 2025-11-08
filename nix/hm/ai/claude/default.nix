@@ -55,7 +55,7 @@ let
     claude-lifeguard = mkClaudeWrapper "claude-lifeguard" ''
       exec claude --system-prompt ${lifeguardPromptLiteral} --strict-mcp-config "$@"
     '';
-    claude-ai = mkClaudeWrapper "claude-ai" ''
+    claude-ai = mkClaudeWrapper "cla" ''
       # Check if --pr flag is present
       use_pr_mode=false
       for arg in "$@"; do
@@ -122,9 +122,6 @@ in
     ".claude/generated/settings.json" = {
       source = processedSettings;
     };
-    ".claude/generated/.mcp.json" = {
-      source = claudeConfigDir + "/mcp.json";
-    };
     ".claude/CLAUDE.md" = {
       source = processedClaudeMd;
     };
@@ -156,7 +153,6 @@ in
       chmod u+w "$CLAUDE_DIR/settings.json"
 
       # Always copy .mcp.json (override existing)
-      echo "Copying .mcp.json to ~/.claude/"
       # claude look up for .mcp.json and use it
       echo '${claudeMcpJson}' > "$HOME/.mcp.json"
 

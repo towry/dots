@@ -23,7 +23,7 @@
 - Read project `AGENTS.md` and `~/.config/AGENTS.md` (or your own instructions) and obey the `## Critical` rules.
 - Confirm every change is wired in: new handlers must be bound, new routes registered, etc. no orphaned code.
 - Conduct a deep, human review, not just static-code checks: walk through every edge case, anticipate failure modes, and weigh the performance cost of each path.
-- Reference-check, run `ast-grep`/`rg` to verify that any API, constant, or variable you touch already exists and makes sense; never invent values like `this.userType = 123` if `123` is meaningless in the project.
+- Reference-check, run `fs(mcp)`/`ast-grep`/`rg` to verify that any API, constant, or variable you touch already exists and makes sense; never invent values like `this.userType = 123` if `123` is meaningless in the project.
 
 ## Implementation
 
@@ -81,7 +81,7 @@
 
 ## Tools available in current environment
 
-- `fs` mcp tool: `list_allowed_directories`; `read_multiple_text_files`; `search_code_ast`: like ast-grep, search code pattern across multiple codebase; `search_files_content`: like rg, search text pattern across multiple files; `read_file_lines`: read file lines with line numbers, or tail, head file content; `search_files`: like glob/fd;
+- `fs` mcp tool: `list_allowed_directories`; `read_multiple_text_files`; `search_code_ast`: like ast-grep, search code pattern across multiple codebase; `search_files_content`: support word/regex to search text across multiple files; `read_file_lines`: read file lines with line numbers, or tail, head file content; `search_files`: like glob/fd;
 - **Package Managers(pnpm, bun)**: Use pnpm when possible, use `bun` for scripting with typescript.
 - **port occupied(killport)**: To kill a process that is using a port, use `killport $port$`.
 - **shell**: The current shell is `fish`.

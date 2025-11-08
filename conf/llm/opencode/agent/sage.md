@@ -42,10 +42,9 @@ tools:
   "playwright*": false
   "fs_read*": true
   "fs_search*": true
-  "fs_tail_file": true
   "fs_list*": true
-  "fs_head*": true
   "fs_find*": true
+  "fs_directory_tree": true
 mode: subagent
 ---
 

@@ -16,6 +16,9 @@
     ];
     instructions = [ ];
     keybinds = { };
+    tui = {
+      scroll_speed = 1;
+    };
 
     agent = {
       review = {
@@ -168,12 +171,12 @@
 
       plan = {
         mode = "primary";
-        model = "github-copilot/claude-sonnet-4.5";
+        model = "github-copilot/gpt-5";
         prompt = "{file:./roles/oracle.md}";
         tools = {
           write = false;
           edit = false;
-          bash = true;
+          bash = false;
           grep = true;
           read = true;
           list = true;
@@ -186,10 +189,9 @@
           lifeguard = true;
           "fs_read*" = true;
           "fs_search*" = true;
-          fs_tail_file = true;
           "fs_list*" = true;
-          "fs_head*" = true;
           "fs_find*" = true;
+          "fs_directory_tree" = true;
           "sequentialthinking*" = true;
         };
         permission = {
@@ -218,9 +220,7 @@
           lifeguard = true;
           "fs_read*" = true;
           "fs_search*" = true;
-          fs_tail_file = true;
           "fs_list*" = true;
-          "fs_head*" = true;
           "fs_find*" = true;
           "sequentialthinking*" = true;
         };

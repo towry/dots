@@ -25,6 +25,7 @@ tools:
   webfetch: false
   brightdata*: true
   github*: true
+  fs*: true
 permission:
   edit: allow
   bash:

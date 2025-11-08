@@ -17,6 +17,7 @@ tools:
   grep: true
   list: true
   glob: true
+  fs*: true
   lifeguard: false
   brightdata*: false
   github*: false

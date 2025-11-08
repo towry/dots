@@ -2,5 +2,6 @@
   "agpod": "0.8.1",
   "code-assistant": "0.1.6",
   "github-mcp-server": "0.19.1",
-  "rust-mcp-filesystem": "0.3.10"
+  "litellm": "0.0.1",
+  "rust-mcp-filesystem": "0.3.11"
 }
