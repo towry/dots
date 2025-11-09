@@ -5,7 +5,7 @@
   ...
 }:
 let
-  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib; };
+  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib config; };
   proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
   forgeMcpJson = builtins.toJSON ({
     mcpServers = mcpServers.clients.forge;

@@ -1,9 +1,12 @@
 {
   pkgs,
   lib,
+  config,
+  ...
 }:
 let
   kgApiKey = pkgs.nix-priv.keys.kg.apiKey;
+  chromeUserData = "${config.home.homeDirectory}/.local/share/chrome-user-data";
   kgSse = pkgs.nix-priv.keys.kg.sse;
   pick = attrs: keys: lib.attrsets.filterAttrs (name: _: lib.lists.elem name keys) attrs;
   clientMk = import ../../lib/mcp-clients.nix { inherit lib; };
@@ -82,15 +85,14 @@ rec {
       environment = { };
     };
 
-    playwright = {
+    chromedev = {
       type = "local";
       command = "bunx";
       args = [
-        "@playwright/mcp@latest"
-        "--executable-path"
-        "google-chrome-stable"
-        "--extension"
-        "--output-dir=./.playwright"
+        "chrome-devtools-mcp@latest"
+        "--executablePath='${pkgs.google-chrome}/bin/google-chrome-stable'"
+        "--acceptInsecureCerts"
+        "--chromeArg=--user-data-dir=${chromeUserData}"
       ];
     };
 
@@ -139,7 +141,7 @@ rec {
       command = "codex-ai";
       args = [
         "--profile"
-        "claude"
+        "gpt"
         "mcp-server"
       ];
     };
@@ -150,37 +152,28 @@ rec {
       pick mcpServers [
         "kg"
         "fs"
-        "context7"
-        "playwright"
+        "chromedev"
         "github"
-        "mermaid"
         "brightdata"
-        "sequentialthinking"
         "mastergo"
       ]
     );
     claude = mapWithClientMk clientMk.claude (
       (pick mcpServers [
         "kg"
-        "context7"
-        "playwright"
+        "chromedev"
         "github"
-        "mermaid"
         "brightdata"
-        "sequentialthinking"
-        "codex_smart"
         "mastergo"
+        "codex_smart"
       ])
-      // {
-        fs = mcpServers.fs_mut;
-      }
     );
     forge = mapWithClientMk clientMk.forge (
       pick mcpServers [
         "kg"
         "fs"
         "context7"
-        "playwright"
+        "chromedev"
         "github"
         "mermaid"
         "brightdata"
@@ -192,7 +185,7 @@ rec {
         "kg"
         "fs"
         "context7"
-        "playwright"
+        "chromedev"
         "github"
         "mermaid"
         "brightdata"
@@ -204,7 +197,7 @@ rec {
         "kg"
         "fs"
         "context7"
-        "playwright"
+        "chromedev"
         "github"
         "mermaid"
         "brightdata"

@@ -11,7 +11,7 @@
 
 ## Plan
 
-- Follow the house style first: check one of `.github/instructions/*.md` and `.windsurf/rules/`
+- Follow the house style first: check one of `.github/instructions/*.md`, `AGENTS.md`
 - Model your plan on what’s already there: start by searching for the most similar existing feature Y, then adapt it for the new feature X—unless the user tells you to start from scratch.
 - Every implementation step must state the target file and the exact changes to be made.
 - Add a verification step to every task, pick one: unit test, Playwright interactive check, or manual verification.
@@ -20,10 +20,9 @@
 
 ## Review
 
-- Read project `AGENTS.md` and `~/.config/AGENTS.md` (or your own instructions) and obey the `## Critical` rules.
 - Confirm every change is wired in: new handlers must be bound, new routes registered, etc. no orphaned code.
 - Conduct a deep, human review, not just static-code checks: walk through every edge case, anticipate failure modes, and weigh the performance cost of each path.
-- Reference-check, run `fs(mcp)`/`ast-grep`/`rg` to verify that any API, constant, or variable you touch already exists and makes sense; never invent values like `this.userType = 123` if `123` is meaningless in the project.
+- Reference-check, run `ast-grep`/`rg` to verify that any API, constant, or variable you touch already exists and makes sense; never invent values like `this.userType = 123` if `123` is meaningless in the project.
 
 ## Implementation
 
@@ -49,10 +48,6 @@
 - Use clear parameter names that reveal purpose.
 - When passing objects, document exact properties used.
 
-**Example**:
-- ✗ **Bad**: `downloadResume(candidateData, $store, componentInstance)`
-- ✓ **Good**: `downloadResume(candidateId, candidateName, authToken)`
-
 ### Error Handling
 
 - Prefer explicit error propagation over silent failures.
@@ -60,13 +55,6 @@
 - Update documentation and tests for significant changes.
 - Ask for help when details are needed for decisions.
 - Avoid duplicate user-facing error messages across layers.
-
-## Testing
-
-- **Use BDD**: GIVEN/WHEN/THEN
-- Write descriptive test names by scenario.
-- Use `actual` for results and `expected` for assertions.
-- Test one behavior per test.
 
 ## Debugging and issue analysis
 
@@ -81,21 +69,15 @@
 
 ## Tools available in current environment
 
-- `fs` mcp tool: `list_allowed_directories`; `read_multiple_text_files`; `search_code_ast`: like ast-grep, search code pattern across multiple codebase; `search_files_content`: support word/regex to search text across multiple files; `read_file_lines`: read file lines with line numbers, or tail, head file content; `search_files`: like glob/fd;
 - **Package Managers(pnpm, bun)**: Use pnpm when possible, use `bun` for scripting with typescript.
 - **port occupied(killport)**: To kill a process that is using a port, use `killport $port$`.
 - **shell**: The current shell is `fish`.
 - **search web and scrape html**: Use the `brightdata` mcp tool to fetch the latest context from the web, like version, framework tools, and documentation; For github, use github mcp tool for github repo search and read.
 - `github` mcp tool: search public GitHub repositories for code examples, read github repo files, issues
 - `gh`: github cli
-- `kg`: long-term memory & knowledge-graph MCP server. Drop anything worth remembering—summaries, facts, user prefs—into `kg`. Say “memory”, “recall”, or “knowledge graph” and You should auto-save wisely. Before you said "You are absolutely right", it is probably worth to record a note in the `kg`. Use `group_id` to separate different projects or topics, for example, use `group_id=<repo_name>_TODOS` to save project todos, or use `group_id=<repo_name>_CHAT` to save project related chat history. When user says `recall project todos` or `recall project chat`, you should search with the corresponding `group_id` to get relevant information.
+- `kg`: long-term memory & knowledge-graph MCP server. Drop anything worth remembering—summaries, facts, user prefs—into `kg`. Say “memory”, “recall”, or “knowledge graph” and You should auto-save wisely. Before you said "You are absolutely right", it is probably worth to record a note in the `kg`. Use `group_id` to separate different projects or topics, for example, use `group_id=<repo_name>_TODOS` to save project todos, or use `group_id=<repo_name>_CHAT` to save **current** project related chat history. When user says `recall project todos` or `recall project chat`, you should search with the corresponding `group_id` to get relevant information.
 
-### `fs` tool
-
-- When user says "search in workspace/wk", search in the literal path `~/workspace/work` (not the current working directory).
-- To speed up the search, you can use fs's `directory_tree` tool to get the directory structure first, then search in the relevant directories.
-
-#### playwright mcp tool
+#### chromedev mcp tool
 
 - Always try to navigate again when you encounter a timeout error
 - The initial page will be a blank page, you should try navigate to the correct url AGAIN!

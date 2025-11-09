@@ -32,8 +32,8 @@ in
     };
     # toml
     "codex/config.toml".text = ''
-      model = "glm-4.6"
-      model_provider = "zhipuai-coding-plan"
+      model = "gpt-5"
+      model_provider = "openrouter"
       approval_policy = "untrusted"
       model_reasoning_effort = "low"
       # the AGENTS.md contains instructions for using codex mcp, do not use it

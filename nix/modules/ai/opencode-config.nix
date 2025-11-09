@@ -247,6 +247,15 @@
         };
       };
 
+      litellm = {
+        npm = "@ai-sdk/openai-compatible";
+        name = "LiteLLM";
+        options = {
+          apiKey = "{env:LITELLM_MASTER_KEY}";
+          baseURL = "http://127.0.0.1:4000";
+        };
+      };
+
       openrouter = {
         npm = "@openrouter/ai-sdk-provider";
         name = "OpenRouter";
