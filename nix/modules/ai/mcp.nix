@@ -6,7 +6,7 @@
 }:
 let
   kgApiKey = pkgs.nix-priv.keys.kg.apiKey;
-  chromeUserData = "${config.home.homeDirectory}/.local/share/chrome-user-data";
+  chromeUserData = "${config.home.homeDirectory}/.local/state/chrome-user-data";
   kgSse = pkgs.nix-priv.keys.kg.sse;
   pick = attrs: keys: lib.attrsets.filterAttrs (name: _: lib.lists.elem name keys) attrs;
   clientMk = import ../../lib/mcp-clients.nix { inherit lib; };
@@ -90,9 +90,7 @@ rec {
       command = "bunx";
       args = [
         "chrome-devtools-mcp@latest"
-        "--executablePath='${pkgs.google-chrome}/bin/google-chrome-stable'"
-        "--acceptInsecureCerts"
-        "--chromeArg=--user-data-dir=${chromeUserData}"
+        "--browser-url=http://127.0.0.1:9222"
       ];
     };
 

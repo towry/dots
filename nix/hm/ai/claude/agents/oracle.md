@@ -17,8 +17,8 @@ description: >
   refactoring: code snippets + test coverage + compatibility requirements.
 
   Tools available: Uses codex (mcp__codex__codex) for deep reasoning with
-  profiles "claude_fast" (default) or "claude" (very complex); brightdata for
-  latest web context; context7 for official docs;
+  profiles "claude" (default) or "gpt" (very complex); brightdata for
+  latest web context;
 
   Output: Summary, options with pros/cons, recommendation with rationale,
   next steps, risks/assumptions.

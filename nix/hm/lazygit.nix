@@ -148,6 +148,7 @@ in
     enable = true;
     settings = {
       gui = {
+        scrollHeight = 4;
         theme = {
           selectedLineBgColor = [
             "#343A51"
@@ -224,6 +225,8 @@ in
         universal = {
           quit = "<c-q>";
           quitWithoutChangingDirectory = "Q";
+          prevPage = "<c-u>";
+          nextPage = "<c-d>";
         };
       };
     };

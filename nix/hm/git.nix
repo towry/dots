@@ -322,6 +322,7 @@ in
       ".opencode/"
       ".roo/"
       ".expert/"
+      "__pycache__/"
       "settings.local.json"
     ];
   };

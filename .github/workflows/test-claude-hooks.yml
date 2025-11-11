@@ -1,0 +1,52 @@
+name: Test Claude Hooks
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "nix/hm/ai/claude/hooks/**"
+            - "tests/claude-hooks/**"
+            - ".github/workflows/test-claude-hooks.yml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "nix/hm/ai/claude/hooks/**"
+            - "tests/claude-hooks/**"
+            - ".github/workflows/test-claude-hooks.yml"
+    workflow_dispatch:
+
+jobs:
+    test-hooks:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python 3.11
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Verify hook files exist
+              run: |
+                  echo "Checking hook files..."
+                  ls -la nix/hm/ai/claude/hooks/
+                  test -f nix/hm/ai/claude/hooks/session_remind.py
+                  test -f nix/hm/ai/claude/hooks/subagent_remind.py
+                  test -f nix/hm/ai/claude/hooks/get_last_agent.py
+
+            - name: Run hook tests
+              run: |
+                  cd tests/claude-hooks
+                  python3 test_hooks.py
+
+            - name: Verify test coverage
+              run: |
+                  echo "Test suite completed successfully"
+                  echo "Coverage includes:"
+                  echo "  - Agent ID extraction validation"
+                  echo "  - False positive prevention (UUIDs, sessionIds)"
+                  echo "  - Input sanitization"
+                  echo "  - File operations"
+                  echo "  - Transcript search"

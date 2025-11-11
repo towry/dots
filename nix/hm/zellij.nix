@@ -60,8 +60,7 @@ in
       ///======
 
       keybinds {
-          unbind "Ctrl g"
-          unbind "Ctrl q"
+          unbind "Ctrl g" "Ctrl q"
 
           normal {
               bind "Super [" { GoToPreviousTab; }
@@ -110,6 +109,18 @@ in
                         y "5%"
                     }
                     SwitchToMode "Normal";
+              }
+
+              bind "g" {
+                  Run "lazygit" {
+                      floating true
+                      close_on_exit true
+                      width "90%"
+                      height "90%"
+                      x "10"
+                      y "5%"
+                  }
+                  SwitchToMode "Normal";
               }
           }
 

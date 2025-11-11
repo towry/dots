@@ -5,35 +5,56 @@
       "model": "glm-4.6",
       "base_url": "https://open.bigmodel.cn/api/coding/paas/v4",
       "api_key": "@ZHIPU_CODING_PLAN@",
-      "provider": "generic-chat-completion-api"
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 204800
     },
     {
       "model_display_name": "xAI: Grok Code Fast 1",
       "model": "x-ai/grok-code-fast-1",
       "base_url": "https://openrouter.ai/api/v1",
       "api_key": "@OPENROUTER_API_KEY@",
-      "provider": "generic-chat-completion-api"
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 10000
+    },
+    {
+      "model_display_name": "xAI: Grok Code Fast 1 (copilot)",
+      "model": "copilot/grok-code-fast-1",
+      "base_url": "http://127.0.0.1:4000",
+      "api_key": "@LITELLM_API_KEY@",
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 10000
     },
     {
       "model_display_name": "GPT-5 (copilot)",
-      "model": "gpt-5",
+      "model": "copilot/gpt-5",
       "base_url": "http://127.0.0.1:4000",
       "api_key": "@LITELLM_API_KEY@",
-      "provider": "generic-chat-completion-api"
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 64000
     },
     {
       "model_display_name": "Claude Haiku 4.5 (copilot)",
-      "model": "claude-haiku-4.5",
+      "model": "copilot/claude-haiku-4.5",
       "base_url": "http://127.0.0.1:4000",
       "api_key": "@LITELLM_API_KEY@",
-      "provider": "generic-chat-completion-api"
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 16000
     },
     {
       "model_display_name": "Claude Sonnet 4.5 (copilot)",
-      "model": "claude-sonnet-4.5",
+      "model": "copilot/claude-sonnet-4.5",
       "base_url": "http://127.0.0.1:4000",
       "api_key": "@LITELLM_API_KEY@",
-      "provider": "generic-chat-completion-api"
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 16000
+    },
+    {
+      "model_display_name": "Raptor Mini (copilot)",
+      "model": "copilot/oswe-vscode-prime",
+      "base_url": "http://127.0.0.1:4000",
+      "api_key": "@LITELLM_API_KEY@",
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 64000
     }
   ]
 }

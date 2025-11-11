@@ -15,6 +15,7 @@ let
     GITHUB_PAT = pkgs.nix-priv.keys.github.accessToken;
     KG_SSE = pkgs.nix-priv.keys.kg.sse;
     KG_API_KEY = pkgs.nix-priv.keys.kg.apiKey;
+    MASTERGO_API_KEY = pkgs.nix-priv.keys.mastergo.token;
   };
 in
 {

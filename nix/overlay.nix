@@ -1,6 +1,6 @@
 { inputs, ... }:
 let
-  chromeUserDataDir = "$HOME/.local/share/chrome-user-data";
+  chromeUserDataDir = "$HOME/.local/state/chrome-user-data";
   versions = builtins.fromJSON (builtins.readFile ./pkgs/versions.json);
 in
 (
@@ -9,7 +9,7 @@ in
 
     codelldb = final.vscode-extensions.vadimcn.vscode-lldb.adapter;
     google-chrome = prev.google-chrome.override {
-      commandLineArgs = "--remote-debugging-port=9222 --disable-gpu --no-first-run --no-default-browser-check --noerrdialogs --user-data-dir=\"${chromeUserDataDir}\"";
+      commandLineArgs = "--remote-debugging-port=9222 --no-first-run --no-default-browser-check --user-data-dir=\"${chromeUserDataDir}\"";
     };
 
     rust-mcp-filesystem = final.callPackage ./pkgs/rust-mcp-filesystem.nix {

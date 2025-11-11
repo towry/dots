@@ -1,6 +1,6 @@
 ---
 name: sage
-model: "glm-4.6"
+model: "copilot/grok-code-fast-1"
 description: Research and analyze codebases to provide concrete information about existing functionality implementation details, including custom services and workarounds, for informed refactoring decisions
 tools: ["Read", "Grep", "Glob", "LS"]
 version: v1
