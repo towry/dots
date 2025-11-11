@@ -6,7 +6,7 @@
   ...
 }:
 let
-  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib; };
+  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib config; };
   copilotConfigDir = "${config.home.homeDirectory}/.copilot";
   mcpConfigFilePath = "${copilotConfigDir}/mcp-config.json";
   copilotMcpJson = builtins.toJSON ({

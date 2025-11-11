@@ -306,6 +306,7 @@ in
     };
 
     ignores = [
+      ".claude/logs/"
       ".DS_Store"
       ".direnv/"
       "Session.vim"

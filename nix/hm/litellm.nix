@@ -35,6 +35,13 @@ let
       litellm_params = {
         model = "openrouter/*";
         api_key = "os.environ/OPENROUTER_API_KEY";
+
+        cache_control_injection_points = [
+          {
+            location = "message";
+            role = "user";
+          }
+        ];
       };
     }
   ];
@@ -82,6 +89,8 @@ let
 
     # xAI models
     "grok-code-fast-1"
+
+    "raptor-mini"
   ];
 
   # GitHub Copilot headers - dynamically use package versions
@@ -104,9 +113,31 @@ let
       litellm_params = {
         model = alias; # LiteLLM uses "github_copilot/claude-haiku-4.5"
         extra_headers = copilotHeaders;
+        cache_control_injection_points = [
+          {
+            location = "message";
+            role = "user";
+          }
+        ];
       };
     }
   ) githubModelNames;
+
+  copilotGpt5Model = [
+    {
+      model_name = "gpt-5";
+      litellm_params = {
+        model = "github_copilot/gpt-5";
+        extra_headers = copilotHeaders;
+        cache_control_injection_points = [
+          {
+            location = "message";
+            role = "user";
+          }
+        ];
+      };
+    }
+  ];
 
   # Zhipu AI models with custom Anthropic-compatible endpoint
   zhipuaiModels =
@@ -127,27 +158,116 @@ let
       )
       [
         "glm-4.6"
+        "glm-4.5-air"
+      ];
+  kimiModels =
+    builtins.map
+      (
+        model:
+        let
+          alias = "kimi/${model}";
+        in
+        {
+          model_name = alias;
+          litellm_params = {
+            model = "openai/${model}"; # Use openai/ prefix for custom endpoint
+            # Ensure correct Moonshot base URL e.g. https://api.moonshot.cn/v1
+            api_base = "https://api.kimi.com/coding/v1";
+            api_key = "${pkgs.nix-priv.keys.kimi.apiKey}";
+            # Roo Code guidance:
+            # - Use legacy OpenAI API format (/v1/chat/completions)
+            # - Enable Reasoning Effort: Medium
+            # - Max Output Tokens: 32768 (maps to max_tokens)
+            reasoning_effort = "medium";
+            max_tokens = 32768;
+            # Some clients use max_output_tokens naming – keep for compatibility.
+            max_output_tokens = 32768;
+          };
+          model_info = {
+            # For observability / documentation only; provider enforces the true limit.
+            advertised_context_window = 262144;
+            notes = "Kimi For Coding - OpenAI-compatible legacy /v1/chat/completions endpoint";
+          };
+        }
+      )
+      [
+        "${pkgs.nix-priv.keys.kimi.kimiForCodingModel}"
       ];
 
-  modelList = deepseekModels ++ googleModels ++ githubModels ++ zhipuaiModels ++ openrouterModels;
+  # Kimi K2 Thinking model (advanced reasoning). Assumes same API base but with potentially higher reasoning tokens.
+  kimiThinkingModels = [
+    {
+      model_name = "kimi/kimi-k2-thinking"; # Alias user will call
+      litellm_params = {
+        model = "openai/kimi-k2-thinking"; # Underlying OpenAI-compatible model id
+        api_base = "https://api.kimi.com/coding/v1"; # Same coding gateway
+        api_key = "${pkgs.nix-priv.keys.kimi.apiKey}";
+        reasoning_effort = "high"; # Default higher reasoning effort
+        # Provide conservative defaults; user can override per request
+        max_tokens = 32768; # Output cap
+        max_output_tokens = 32768;
+      };
+      model_info = {
+        advertised_context_window = 400000; # Hypothetical extended context; adjust if provider clarifies
+        notes = "Kimi K2 Thinking - advanced reasoning variant; uses high reasoning_effort by default.";
+      };
+    }
+  ];
+
+  modelList =
+    deepseekModels
+    ++ googleModels
+    ++ githubModels
+    ++ copilotGpt5Model
+    ++ zhipuaiModels
+    ++ openrouterModels
+    ++ kimiModels
+    ++ kimiThinkingModels;
 
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
     litellm_settings = {
+      default_fallbacks = [ "openrouter/x-ai/grok-4-fast" ];
       master_key = "os.environ/LITELLM_MASTER_KEY";
       drop_params = true;
       # Disable default log file to avoid conflicts with systemd logging
       # All logs will go to stdout/stderr which systemd captures
-      set_verbose = true;
+      # set_verbose deprecated upstream; prefer environment variable LITELLM_LOG=DEBUG
       turn_off_message_logging = true;
+      # Enable custom vision router hook
+      # LiteLLM will load this from ~/.config/litellm/ directory
+      callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
+      # Generic fallbacks (covers remaining error types incl. BadRequestError if not mapped)
+      fallbacks = [
+        { "copilot/claude-haiku-4.5" = [ "openrouter/openai/gpt-5-mini" ]; }
+      ];
+      cache = true;
+      cache_params = {
+        namespace = "litellm.caching.caching";
+        type = "redis";
+        host = "${pkgs.nix-priv.keys.litellm.redisHost}";
+        port = pkgs.nix-priv.keys.litellm.redisPort;
+        password = "${pkgs.nix-priv.keys.litellm.redisPass}";
+      };
     };
+    router_settings = {
+      num_retries = 1;
+      allowed_fails = 3;
+      cooldown_time = 180;
+      # Token counting during pre-call checks can fail for some clients that send
+      # non-standard message content shapes (e.g. sending a single dict instead of
+      # a list of content parts for vision messages). This triggers errors like:
+      # "failed to count tokens ... Invalid content type: <class 'dict'>"
+      # Disable pre-call token counting to avoid hard failures; rely on provider
+      # context-window errors + configured context_window_fallbacks instead.
+      enable_pre_call_checks = false;
+    };
+
   };
 
   # Helper script to start LiteLLM proxy
   startLiteLLMScript = pkgs.writeShellScriptBin "litellm-start" ''
     #!/usr/bin/env bash
-
-    echo "v1====================:)"
 
     # Color codes
     GREEN='\033[1;32m'
@@ -173,15 +293,19 @@ let
 
     # Start LiteLLM proxy using the Nix package
     echo "Starting LiteLLM proxy on http://0.0.0.0:4000"
-    echo "Using config: ${litellmConfig}"
+    echo "Using config: ${config.home.homeDirectory}/.config/litellm/config.yaml"
+    echo -e "''${GREEN}Vision routing enabled:''${NC} conf.llm.litellm_vision_router"
 
     # Ensure proxy env vars are exported for LiteLLM
     export HTTP_PROXY="''${HTTP_PROXY:-''${http_proxy}}"
     export HTTPS_PROXY="''${HTTPS_PROXY:-''${https_proxy}}"
     export NO_PROXY="''${NO_PROXY:-''${no_proxy:-${proxyConfig.noProxyString}}}"
 
+    # Add ~/.config/litellm to PYTHONPATH so LiteLLM can load the vision router
+    export PYTHONPATH="${config.home.homeDirectory}/.config/litellm:''${PYTHONPATH:-}"
+
     # Use the Nix-built litellm package
-    ${pkgs.litellm-proxy}/bin/litellm --config ${litellmConfig} "$@"
+    ${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
   '';
 
 in
@@ -209,10 +333,15 @@ in
       StandardErrorPath = "${config.xdg.stateHome}/litellm/service.log";
       EnvironmentVariables = {
         LITELLM_MASTER_KEY = pkgs.nix-priv.keys.litellm.apiKey;
+        # Use new logging control instead of deprecated set_verbose
+        # LITELLM_LOG = "DEBUG";
+        # Provide provider API keys directly to the service
+        OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
         HTTP_PROXY = proxyConfig.proxies.http;
         HTTPS_PROXY = proxyConfig.proxies.http;
         NO_PROXY = proxyConfig.noProxyString;
         AIOHTTP_TRUST_ENV = "True";
+        PYTHONPATH = "${config.home.homeDirectory}/.config/litellm";
         PATH = "${pkgs.litellm-proxy}/bin:${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
       };
     };
@@ -223,6 +352,10 @@ in
     # LiteLLM proxy configuration
     AIOHTTP_TRUST_ENV = "True"; # Enable HTTP(S)_PROXY environment variable support
     LITELLM_MASTER_KEY = pkgs.nix-priv.keys.litellm.apiKey;
+    # Optional per-shell override of log level (can be INFO to reduce noise)
+    LITELLM_LOG = "INFO";
+    # Make OpenRouter key available to interactive shell usage of litellm-start/litellm-test
+    OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
 
     # Point Claude Code to LiteLLM proxy
     ANTHROPIC_BASE_URL = "http://0.0.0.0:4000";
@@ -230,9 +363,9 @@ in
 
     # Claude Code model selection - configure which models to use for different tiers
     # These map to the model names defined in the LiteLLM config above
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/claude-sonnet-4.5"; # For opus tier and opusplan (Plan Mode active)
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "zhipuai/glm-4.6"; # For sonnet tier and opusplan (Plan Mode inactive)
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "copilot/grok-code-fast-1"; # For haiku tier and background tasks
+    ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/gpt-5"; # For opus tier and opusplan (Plan Mode active)
+    ANTHROPIC_DEFAULT_SONNET_MODEL = "copilot/claude-haiku-4.5"; # For sonnet tier and opusplan (Plan Mode inactive)
+    ANTHROPIC_DEFAULT_HAIKU_MODEL = "openrouter/x-ai/grok-4-fast"; # For haiku tier and background tasks
     ## do not set this variable, otherwise the `model` will not work.
     # CLAUDE_CODE_SUBAGENT_MODEL = "openrouter/google/gemini-2.5-pro"; # For subagent# s
 
@@ -246,6 +379,11 @@ in
       description = "Show LiteLLM configuration info";
       body = ''
         echo "✓ LITELLM_MASTER_KEY configured from nix-priv secrets"
+        if test -n "$OPENROUTER_API_KEY"
+          echo "✓ OPENROUTER_API_KEY configured"
+        else
+          echo "✗ OPENROUTER_API_KEY missing for OpenRouter models"
+        end
         echo "✓ ANTHROPIC_AUTH_TOKEN configured"
         echo "✓ Claude Code model tiers configured:"
         echo "  - Opus: $ANTHROPIC_DEFAULT_OPUS_MODEL"
@@ -253,6 +391,7 @@ in
         echo "  - Haiku: $ANTHROPIC_DEFAULT_HAIKU_MODEL"
         echo "  - Subagent: $CLAUDE_CODE_SUBAGENT_MODEL"
         echo ""
+        echo "LiteLLM log level: $LITELLM_LOG (set via env, replaces deprecated set_verbose)"
         echo "Available commands:"
         echo "  litellm-start          - Start LiteLLM proxy manually"
         echo "  litellm-status         - Check proxy status"
@@ -427,6 +566,14 @@ in
     };
   };
 
-  # Add configuration file to home directory for reference
-  home.file.".config/litellm/config.yaml".source = litellmConfig;
+  # Add configuration files to home directory
+  home.file = {
+    ".config/litellm/config.yaml".source = litellmConfig;
+
+    # Vision router module - LiteLLM loads callbacks relative to config directory
+    ".config/litellm/conf/__init__.py".text = ''"""Configuration files package."""'';
+    ".config/litellm/conf/llm/__init__.py".text = ''"""LLM configuration and utilities package."""'';
+    ".config/litellm/conf/llm/litellm_vision_router.py".source =
+      pkgs.nix-priv.scripts.litellmVisionRouter;
+  };
 }

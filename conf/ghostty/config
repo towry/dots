@@ -4,19 +4,17 @@
 
 
 theme = Neobones Dark
-# font-family = "Berkeley Mono"
-font-family = "IBM Plex Mono"
+font-family = "Berkeley Mono"
+# font-family = "IBM Plex Mono"
 window-title-font-family = "IBM Plex Sans"
 font-feature = "+calt"
 # font-family = "Maple Mono"
 # font-feature = "-zero, +calt, +cv01, +ss03, +ss06, +ss02, -cv35"
-font-size = 13
-bold-is-bright = true
+font-size = 14
 font-thicken = false
-alpha-blending = linear-corrected
 window-theme = system
 font-codepoint-map = U+4E00-U+9FFF,U+3400-U+4DBF=LXGW WenKai Mono
-shell-integration-features = no-cursor,sudo,no-title
+shell-integration-features = no-cursor,sudo,no-title,ssh-terminfo,ssh-env
 cursor-style = block
 cursor-invert-fg-bg = true
 selection-invert-fg-bg = true
@@ -27,13 +25,13 @@ macos-window-shadow  = false
 adjust-underline-position = 15%
 adjust-underline-thickness = -40%
 adjust-box-thickness = -40%
-adjust-cell-height = 0%
+adjust-cell-height = 10%
 mouse-hide-while-typing = true
 focus-follows-mouse = false
 unfocused-split-opacity = 0.9
 window-padding-balance = true
 window-padding-color = background
-window-padding-x = 8
+window-padding-x = 4
 window-padding-y = 0
 window-save-state = default
 
@@ -65,4 +63,4 @@ keybind = super+f12=toggle_fullscreen
 ### custom
 
 # config-file = ?config-tmux
-config-file = ?config-default-keybind
+# config-file = ?config-default-keybind

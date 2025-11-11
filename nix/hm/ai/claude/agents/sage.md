@@ -1,11 +1,13 @@
 ---
 name: sage
+color: yellow
 description: |
   Best for: analyzing existing code patterns, documenting what already exists, visualizing current architecture, tracing dependencies in codebase.
-  How: read-only exploration; uses grep/fd to search local code; generates Mermaid diagrams; summarizes existing docs and implementations.
+  How: read-only exploration; summarizes existing docs and implementations. Please give limited codebase search scope, more context fast searching.
   When: understanding how current code works, finding existing patterns, documenting current state, analyzing project structure.
   NOT for: researching how to implement new features (use oracle), making decisions on best approaches, finding external best practices.
-tools: Read, Grep, Glob, Bash, WebFetch, mcp__mermaid__analyze-flowchart,mcp__mermaid__generate-flowchart, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__fs__read_text_file, mcp__fs__list_directory, mcp__fs__directory_tree, mcp__fs__list_allowed_directories, mcp__fs__read_multiple_text_files, mcp__fs__read_file_lines, mcp__fs__search_files_content, mcp__fs__search_code_ast, mcp__fs__search_files
+  Please output the sage result to the user in detail
+tools: Read, Grep, Glob, Bash(fd:*), Bash(rg:*), Bash(ast-grep:*)
 model: haiku
 ---
 

@@ -6,7 +6,7 @@
 }:
 
 let
-  mcpServers = import ../../modules/ai/mcp.nix { inherit pkgs lib; };
+  mcpServers = import ../../modules/ai/mcp.nix { inherit pkgs lib config; };
   proxyConfig = import ../../lib/proxy.nix { inherit lib; };
   opencodeConfigModule = import ../../modules/ai/opencode-config.nix { inherit lib; };
   opencodeConfig = opencodeConfigModule.config // {

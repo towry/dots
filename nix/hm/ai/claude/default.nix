@@ -5,7 +5,7 @@
   ...
 }:
 let
-  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib; };
+  mcpServers = import ../../../modules/ai/mcp.nix { inherit pkgs lib config; };
   proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
   claudeMcpJson = builtins.toJSON ({
     mcpServers = mcpServers.clients.claude;
@@ -35,7 +35,7 @@ let
     export DISABLE_AUTOUPDATER=1
     export DISABLE_BUG_COMMAND=1
     export DISABLE_TELEMETRY=1
-    export MAX_MCP_OUTPUT_TOKENS=900000
+    export MAX_MCP_OUTPUT_TOKENS=25000
     # Suppress the init-kiro.sh info message
     export KIRO_QUIET=1
   '';
@@ -108,10 +108,10 @@ let
         fi
 
         # Execute claude with kiro system prompt
-        exec claude --system-prompt "$system_prompt" --mcp-config "$HOME/.claude/.mcp.json" "''${args[@]}"
+        exec claude --system-prompt "$system_prompt" --mcp-config "$HOME/.mcp.json" "''${args[@]}"
       else
         # Normal mode: just run claude with all arguments
-        exec claude --mcp-config "$HOME/.claude/.mcp.json" "$@"
+        exec claude --mcp-config "$HOME/.mcp.json" "$@"
       fi
     '';
   };
@@ -133,6 +133,10 @@ in
     };
     ".claude/commands" = {
       source = claudeConfigDir + "/commands";
+      recursive = true;
+    };
+    ".claude/hooks" = {
+      source = claudeConfigDir + "/hooks";
       recursive = true;
     };
   };
@@ -163,4 +167,14 @@ in
   home.packages = (builtins.attrValues claudeScripts) ++ [
     pkgs.minijinja
   ];
+  home.sessionVariables = {
+    CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR = 1;
+    CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = 1;
+    DISABLE_NON_ESSENTIAL_MODEL_CALLS = 1;
+    BASH_MAX_OUTPUT_LENGTH = 2048;
+    CLAUDE_CODE_MAX_OUTPUT_TOKENS = 16000;
+    DISABLE_COST_WARNINGS = 1;
+    MAX_MCP_OUTPUT_TOKENS = 25000;
+    DISABLE_TELEMETRY = 1;
+  };
 }

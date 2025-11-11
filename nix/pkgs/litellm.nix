@@ -1,5 +1,6 @@
 {
-  version ? "0.0.1",
+  # Default version updated to 0.0.2; override via overlay if needed
+  version ? "0.0.2",
   pkgs ? (import <nixpkgs> { }),
   fastuuid ? null,
 }:
@@ -12,7 +13,8 @@ python3Packages.buildPythonPackage {
 
   src = fetchurl {
     url = "https://github.com/towry/litellm/releases/download/nix-build-v${version}/litellm-minimal-${version}.tar.gz";
-    sha256 = "sha256-nFJmB9HxbETOuoyV5Y0a4WURXOpJA4XA+USUbq6SvBg=";
+    # Hash for litellm-minimal-0.0.2.tar.gz (prefetched with nix store prefetch-file)
+    sha256 = "sha256-kjDTnYzlN2xaALr7Xv9zZGj3qgFaGvP7IR1aDMpORGc=";
   };
 
   # Use pyproject.toml for build configuration
@@ -112,7 +114,7 @@ python3Packages.buildPythonPackage {
 
   meta = with lib; {
     description = "Call all LLM APIs using the OpenAI format";
-    homepage = "https://github.com/BerriAI/litellm";
+    homepage = "https://github.com/towry/litellm";
     license = licenses.mit;
     platforms = platforms.unix;
     maintainers = [ ];

@@ -9,10 +9,10 @@ in
 {
   programs = {
     zellij = {
-      enable = false;
-      enableFishIntegration = true;
-      exitShellOnExit = true;
-      attachExistingSession = true;
+      enable = true;
+      enableFishIntegration = false;
+      exitShellOnExit = false;
+      attachExistingSession = false;
     };
     fish = {
       interactiveShellInit = "_update_zellij_tab_name";
@@ -21,7 +21,7 @@ in
         onVariable = "PWD";
         body = ''
           if string match -q "$HOME/workspace/*" "$PWD" || string match -q "$HOME/.dotfiles/*" "$PWD"
-              if test -d .git; or git rev-parse --git-dir > /dev/null 2>&1
+              if test -d .git; or test -d .jj
                 set -l repo_name (basename $PWD)
                 set -l current_branch (git branch --show-current)
 
@@ -101,7 +101,7 @@ in
               }
 
               bind "i" {
-                    Run "opencode" {
+                    Run "ocode" {
                         floating true
                         close_on_exit true
                         width "90%"

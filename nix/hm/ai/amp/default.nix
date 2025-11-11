@@ -6,7 +6,7 @@
 }:
 let
   proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
-  mcpServers = import ../../../modules/ai/mcp.nix { inherit lib pkgs; };
+  mcpServers = import ../../../modules/ai/mcp.nix { inherit lib pkgs config; };
   ampConfigDir = config.xdg.configHome + "/amp";
   ampSettingFilePath = ampConfigDir + "/settings.json";
   ampSettingJson = builtins.toJSON (
