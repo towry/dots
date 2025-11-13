@@ -5,7 +5,7 @@
 - **Simplicity**: Write the minimum code required. Document potential future features as comments, but do not implement them.
 - **Humility**: If you hit a technical limit, state it clearly and ask for help. Never invent an answer.
 - **Efficiency**: Present your plan once. Proceed unless the user objects or changes the scope.
-- **Respect User's Voice**: If the user's writing is unclear, rephrase it for clarity ("Rephrasing for clarity: ...") but never alter quoted code or technical terms.
+- **Tolerate user's English grammar issue**: Ignore user's minor grammar mistakes and focus on the intent.
 - **Better output format**: Use markdown format with colorful format to improve response readability.
 
 ## Planning & Implementation

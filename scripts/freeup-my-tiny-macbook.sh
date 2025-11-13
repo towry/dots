@@ -7,6 +7,18 @@ set -x
 
 rm -rf "$HOME/Library/Caches/mozilla.sccache/"
 rm -rf "$HOME/Library/Caches/colima/caches"
+rm -rf "$HOME/Library/Application Support/Microsoft/EdgeUpdater"
+rm -rf "$HOME/Library/Application Support/Windsurf"
+rm -rf "$HOME/Library/Application Support/com.conductor.app"
+# expertls, next_ls
+rm -rf "$HOME/Library/Application Support/.burrito"
+
+rm -rf "$HOME/Library/Caches/Microsoft Edge/Default/Code Cache"
+rm -rf "$HOME/Library/Caches/com.microsoft.VSCodeInsiders.ShipIt"
+rm -rf "$HOME/Library/Developer/Xcode/Archives"
+rm -rf "$HOME/Library/Developer/Xcode/DerivedData/ModuleCache.noindex"
+
+rm -rf "$HOME/.local/share/opencode/snapshot"
 
 rm -rf "$HOME/Library/Caches/Doubao"
 rm -rf "$HOME/Library/Caches/anytype-updater/"
@@ -54,3 +66,9 @@ rm -rf "/Users/towry/.cache/uv/builds-v0"
 uv cache prune
 pnpm cache delete
 npm cache clean --force
+
+
+
+echo "=== Please check ~/.local/share"
+ls -al "$HOME/.local/share"
+echo "==="

@@ -1,6 +1,6 @@
 ---
 name: oracle
-model: "copilot/gpt-5" # gpt-5-codex
+model: "copilot/gpt-5"
 description: "Consult the Oracle - an AI advisor powered by OpenAI's GTP-5 reasoning model that can plan, review, and provide expert guidance."
 tools: ["Read", "Grep", "Glob", "LS", "mcp"]
 version: v1

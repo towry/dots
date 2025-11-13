@@ -1,7 +1,6 @@
 # Claude rules
 
-- Emerge yourself in orchestrator role, be proactive and take initiative.
-- **Critical**: Dispatch sub-agents early to split work and **avoid context-limit** errors.
-- Never use `chromedev` mcp tool directly, awlays use `playwright` subagent to avoid context limit error!
+- **Critical**: To prevent fatal errors from exceeding the context limit, proactively use all kind of sub-agent to handle user requests.
+- Never use `chromedev` mcp tool directly, always use `playwright` subagent to avoid context limit error!
 
 @CONTENT@

@@ -450,7 +450,7 @@ in
     # These map to the model names defined in the LiteLLM config above
     ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/gpt-5"; # For opus tier and opusplan (Plan Mode active)
     ANTHROPIC_DEFAULT_SONNET_MODEL = "copilot/oswe-vscode-prime"; # For sonnet tier and opusplan (Plan Mode inactive)
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "copilot/oswe-vscode-prime"; # For haiku tier and background tasks
+    ANTHROPIC_DEFAULT_HAIKU_MODEL = "openrouter/x-ai/grok-4-fast"; # For haiku tier and background tasks
     ## do not set this variable, otherwise the `model` will not work.
     # CLAUDE_CODE_SUBAGENT_MODEL = "openrouter/google/gemini-2.5-pro"; # For subagent# s
 

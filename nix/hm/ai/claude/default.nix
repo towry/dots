@@ -125,7 +125,6 @@ in
     ".claude/CLAUDE.md" = {
       source = processedClaudeMd;
     };
-
     # Direct symlinks for agents (read-only, won't be edited)
     ".claude/agents" = {
       source = claudeConfigDir + "/agents";
@@ -137,6 +136,10 @@ in
     };
     ".claude/hooks" = {
       source = claudeConfigDir + "/hooks";
+      recursive = true;
+    };
+    ".claude/skills" = {
+      source = ../../../../conf/claude-local-marketplace/skills;
       recursive = true;
     };
   };

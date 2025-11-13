@@ -1,6 +1,6 @@
 ---
 description: "Save chat context as markdown files in the llm directory; Only tell me the requirements, do not tell me how to do and what folder to save the file; I have convention and guideline to work with, so let me handle the details."
-argument-hint: <task>
+argument-hint: [task]
 ---
 
 Additional info: `$ARGUMENTS`
