@@ -38,7 +38,7 @@ tools:
   "kg*": true
   "mermaid*": true
   "github*": false
-  "brightdata*": false
+  "tavily*": false
   "playwright*": false
   "fs_read*": true
   "fs_search*": true

@@ -27,7 +27,7 @@ Key responsibilities:
 Guidelines:
 
 - Use datetime tool get current date
-- Use brightdata mcp tool to get latest context from the web, like latest
+- Use tavily mcp tool to get latest context from the web, like latest
   version, framework tools, and documentation.
 - Use your reasoning capabilities to provide thoughtful, well-structured advice
 - When reviewing code, examine it thoroughly and provide specific, actionable

@@ -1,14 +1,11 @@
 ---
 name: eng
-description: |
+description: >
   Best for: code generation, quick implementations, small focused tasks, rapid prototyping.
-
   Not for: Research for how to implement feature, make decisions on how to implement
-
   How: can write/edit code and run commands; requires concise input (prefer file paths over long content); handles one small task at a time; Provide clear design spec and implement decisions; first use `todowrite` tool split the coding task, then delegate each single todo with context and implement decisions to @gen;
-
-  When: implementing specific features, quick fixes, generating boilerplate, executing defined coding tasks with clear requirements.
-tools: Read, Grep, Glob, Edit, Write, Bash, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch
+  When: implementing specific coding task step, quick fixes, generating boilerplate.
+tools: Read, Grep, Glob, Edit, Write, Bash, mcp__tavily__search, mcp__tavily__extract, mcp__tavily__crawl, mcp__tavily__map
 model: sonnet
 ---
 

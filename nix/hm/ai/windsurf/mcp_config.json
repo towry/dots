@@ -10,14 +10,6 @@
         "Authorization: Bearer @KG_API_KEY@"
       ]
     },
-    "brightdata": {
-      "command": "bunx",
-      "args": ["@brightdata/mcp"],
-      "env": {
-        "API_TOKEN": "@BRIGHTDATA_API_KEY@"
-      },
-      "disabledTools": []
-    },
     "chromedev": {
       "args": [
         "chrome-devtools-mcp@latest",

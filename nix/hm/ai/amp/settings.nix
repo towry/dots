@@ -60,6 +60,27 @@
       tool = "mcp__kg_*";
       action = "allow";
     }
+    {
+      tool = "Bash";
+      matches = {
+        cmd = "tail *";
+        action = "allow";
+      };
+    }
+    {
+      tool = "Bash";
+      matches = {
+        cmd = "head *";
+        action = "allow";
+      };
+    }
+    {
+      tool = "Bash";
+      matches = {
+        cmd = "cd *";
+        action = "allow";
+      };
+    }
     ## Delegate everything else to a permission helper (must be on $PATH)
     # {
     #   "tool" = "*";

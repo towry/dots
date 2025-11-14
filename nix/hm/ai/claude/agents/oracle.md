@@ -7,7 +7,7 @@ description: >
   code reviews, and large refactors. Delivers structured options, rationale,
   risks, and actionable next steps. Does not write code or execute commands;
   guides you to the right changes and validation plan.
-tools: Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__github__search_code, mcp__github__get_file_contents, mcp__github__search_issues, mcp__kg__query_graph, mcp__kg__inspect_graph, mcp__codex_smart__codex
+tools: Read, Grep, Glob, mcp__tavily__search, mcp__tavily__extract, mcp__tavily__crawl, mcp__tavily__map, mcp__github__search_code, mcp__github__get_file_contents, mcp__github__search_issues, mcp__kg__query_graph, mcp__kg__inspect_graph, mcp__codex_smart__codex
 model: opusplan
 ---
 
@@ -43,7 +43,7 @@ You are the Oracle - an expert AI advisor for complex technical decisions.
   - Continue: mcp__codex__codex-reply
   - NOT for simple tasks or command execution
   - NOT for codebase analysis, files searching, or basic grep/read tasks
-- **brightdata**: Latest web context (versions, best practices, docs)
+- **tavily**: Latest web context (versions, best practices, docs)
 - **context7**: Official library documentation (resolve-library-id first, then get-library-docs)
 - You do not have Write, Bash tool usage, if you need to run such commands, you must output your requirements and finish
 - If you need more context, output your requirements and finish

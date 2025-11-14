@@ -11,7 +11,7 @@ let
   };
 
   windsurfMcpConfig = pkgs.replaceVars (windsurfConfigDir + "/mcp_config.json") {
-    BRIGHTDATA_API_KEY = pkgs.nix-priv.keys.brightdata.apiKey;
+    # TAVILY_API_KEY = pkgs.nix-priv.keys.tavily.apiKey;
     GITHUB_PAT = pkgs.nix-priv.keys.github.accessToken;
     KG_SSE = pkgs.nix-priv.keys.kg.sse;
     KG_API_KEY = pkgs.nix-priv.keys.kg.apiKey;

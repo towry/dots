@@ -114,6 +114,15 @@ rec {
       ];
     };
 
+    tavily = {
+      type = "local";
+      command = "bunx";
+      args = [
+        "mcp-remote"
+        "${pkgs.nix-priv.keys.tavily.mcpUrl}"
+      ];
+    };
+
     brightdata = {
       type = "local";
       command = "bunx";
@@ -152,8 +161,9 @@ rec {
         "fs"
         "chromedev"
         "github"
-        "brightdata"
+        "tavily"
         "mastergo"
+        "sequentialthinking"
       ]
     );
     claude = mapWithClientMk clientMk.claude (
@@ -161,9 +171,10 @@ rec {
         "kg"
         "chromedev"
         "github"
-        "brightdata"
+        "tavily"
         "mastergo"
         "codex_smart"
+        "sequentialthinking"
       ])
     );
     forge = mapWithClientMk clientMk.forge (
@@ -198,7 +209,7 @@ rec {
         "chromedev"
         "github"
         "mermaid"
-        "brightdata"
+        "tavily"
         "sequentialthinking"
         "mastergo"
       ]

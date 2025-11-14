@@ -40,14 +40,11 @@
       "command": "bunx",
       "env": {}
     },
-    "brightdata": {
+    "tavily": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["@brightdata/mcp"],
-      "disabled": false,
-      "env": {
-        "API_TOKEN": "@BRIGHTDATA_API_KEY@"
-      }
+      "args": ["mcp-remote", "@TAVILY_API_KEY@"],
+      "disabled": false
     }
   }
 }

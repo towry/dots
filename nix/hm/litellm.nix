@@ -83,6 +83,9 @@ let
     "gpt-4.1"
     "gpt-5"
     "gpt-5-mini"
+    "gpt-5.1-codex-mini"
+    "gpt-5.1"
+    "gpt-5.1-codex"
 
     # Claude models (require proxy)
     "claude-haiku-4.5"
@@ -202,6 +205,9 @@ let
     in
     {
       model_name = "copilot/${model}"; # User calls with just "claude-haiku-4.5"
+      model_info = {
+        supports_vision = true;
+      };
       litellm_params = {
         model = alias; # LiteLLM uses "github_copilot/claude-haiku-4.5"
         extra_headers = copilotHeaders;
@@ -448,9 +454,9 @@ in
 
     # Claude Code model selection - configure which models to use for different tiers
     # These map to the model names defined in the LiteLLM config above
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/gpt-5"; # For opus tier and opusplan (Plan Mode active)
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "copilot/oswe-vscode-prime"; # For sonnet tier and opusplan (Plan Mode inactive)
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "openrouter/x-ai/grok-4-fast"; # For haiku tier and background tasks
+    # ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/gpt-5"; # For opus tier and opusplan (Plan Mode active)
+    # ANTHROPIC_DEFAULT_SONNET_MODEL = "gpt-5.1-codex-mini"; # For sonnet tier and opusplan (Plan Mode inactive)
+    # ANTHROPIC_DEFAULT_HAIKU_MODEL = "openrouter/x-ai/grok-4-fast"; # For haiku tier and background tasks
     ## do not set this variable, otherwise the `model` will not work.
     # CLAUDE_CODE_SUBAGENT_MODEL = "openrouter/google/gemini-2.5-pro"; # For subagent# s
 
