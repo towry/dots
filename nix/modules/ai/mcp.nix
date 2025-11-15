@@ -181,10 +181,8 @@ rec {
       pick mcpServers [
         "kg"
         "fs"
-        "context7"
         "chromedev"
         "github"
-        "mermaid"
         "brightdata"
         "sequentialthinking"
       ]
@@ -193,7 +191,6 @@ rec {
       pick mcpServers [
         "kg"
         "fs"
-        "context7"
         "chromedev"
         "github"
         "mermaid"
@@ -204,11 +201,8 @@ rec {
     amp = mapWithClientMk clientMk.amp (
       pick mcpServers [
         "kg"
-        "fs"
-        "context7"
         "chromedev"
         "github"
-        "mermaid"
         "tavily"
         "sequentialthinking"
         "mastergo"

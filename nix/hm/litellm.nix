@@ -189,7 +189,7 @@ let
 
   # GitHub Copilot headers - dynamically use package versions
   copilotHeaders = {
-    editor-version = "vscode/${pkgs.vscode.version}";
+    Editor-Version = "vscode/${pkgs.vscode.version}";
     editor-plugin-version = "copilot/${pkgs.vscode-extensions.github.copilot.version}";
     Copilot-Integration-Id = "vscode-chat";
     Copilot-Vision-Request = "true";
@@ -294,6 +294,16 @@ let
 
   moonshotThinkingModels = [
     {
+      model_name = "moonshot/kimi-k2"; # Alias user will call
+      litellm_params = {
+        model = "moonshot/kimi-k2-0905-preview";
+        api_base = "https://api.moonshot.cn/v1";
+        api_key = "${pkgs.nix-priv.keys.moonshot.apiKey}";
+        max_tokens = 262144;
+        max_output_tokens = 262144;
+      };
+    }
+    {
       model_name = "moonshot/kimi-k2-thinking"; # Alias user will call
       litellm_params = {
         model = "moonshot/kimi-k2-thinking";
@@ -305,6 +315,11 @@ let
     }
   ];
 
+  # Import bender-muffin model group from separate module
+  benderMuffinModels = import ./litellm/bender-muffin.nix {
+    inherit pkgs copilotHeaders modelTokenMax;
+  };
+
   modelList =
     deepseekModels
     ++ googleModels
@@ -313,7 +328,8 @@ let
     ++ zhipuaiModels
     ++ openrouterModels
     ++ kimiModels
-    ++ moonshotThinkingModels;
+    ++ moonshotThinkingModels
+    ++ benderMuffinModels;
 
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
@@ -342,6 +358,7 @@ let
       };
     };
     router_settings = {
+      routing_strategy = "simple-shuffle";
       num_retries = 1;
       allowed_fails = 3;
       cooldown_time = 180;

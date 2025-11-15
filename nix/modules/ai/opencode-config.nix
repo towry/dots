@@ -95,7 +95,7 @@
       };
 
       build = {
-        model = "zhipuai-coding-plan/glm-4.6";
+        model = "litellm/bender-muffin";
         tools = {
           write = true;
           edit = true;
@@ -171,7 +171,7 @@
 
       plan = {
         mode = "primary";
-        model = "github-copilot/gpt-5";
+        model = "github-copilot/gpt-5.1";
         prompt = "{file:./roles/oracle.md}";
         tools = {
           write = false;
@@ -253,6 +253,12 @@
         options = {
           apiKey = "{env:LITELLM_MASTER_KEY}";
           baseURL = "http://127.0.0.1:4000";
+        };
+        models = {
+          bender-muffin = {
+            id = "bender-muffin";
+            name = "Bender Muffin";
+          };
         };
       };
 
