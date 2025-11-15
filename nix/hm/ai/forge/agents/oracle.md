@@ -1,7 +1,7 @@
 ---
 id: oracle
 title: "Consult the oracle"
-model: "gpt-5"
+model: "gpt-5.1"
 description: >-
   Best for: researching how to implement new features, deep reasoning on complex technical decisions, multi-option architecture analysis with trade-offs, finding external best practices and solutions, behavior-preserving code review, diagnosing root cause from evidence (logs/errors/behavior), refactoring strategy with constraints.
 

@@ -22,7 +22,7 @@
 
     agent = {
       review = {
-        model = "github-copilot/gpt-5";
+        model = "github-copilot/gpt-5.1";
         prompt = "{file:./roles/lifeguard.md}";
         description = "Code review and code quality assurance";
         mode = "all";
