@@ -22,7 +22,7 @@
 
     agent = {
       review = {
-        model = "github-copilot/gpt-5.1";
+        model = "litellm/frontier-muffin";
         prompt = "{file:./roles/lifeguard.md}";
         description = "Code review and code quality assurance";
         mode = "all";
@@ -68,7 +68,7 @@
       };
 
       kiro = {
-        model = "github-copilot/claude-sonnet-4.5";
+        model = "litellm/bender-muffin";
         prompt = "{file:./roles/kiro.md}";
         description = "Kiro spec workflow";
         mode = "primary";
@@ -131,7 +131,7 @@
       };
 
       super = {
-        model = "github-copilot/claude-sonnet-4.5";
+        model = "litellm/frontier-muffin";
         description = "Super AI developer assistant";
         mode = "primary";
         prompt = "You are Super, a highly capable AI assistant specialized in software development. Your goal is to assist the user in completing their software development tasks efficiently and effectively. Always ensure to follow best practices and maintain code quality.";
@@ -171,7 +171,7 @@
 
       plan = {
         mode = "primary";
-        model = "github-copilot/gpt-5.1";
+        model = "litellm/frontier-muffin";
         prompt = "{file:./roles/oracle.md}";
         tools = {
           write = false;
@@ -258,6 +258,10 @@
           bender-muffin = {
             id = "bender-muffin";
             name = "Bender Muffin";
+          };
+          frontier-muffin = {
+            id = "frontier-muffin";
+            name = "Frontier Muffin";
           };
         };
       };

@@ -1,5 +1,3 @@
-# bender-muffin: Load-balanced model group
-# Randomly routes between copilot/claude-haiku-4.5, openrouter grok-4-fast, qwen3-coder, minimax-m2
 {
   pkgs,
   copilotHeaders,
@@ -8,7 +6,6 @@
 }:
 
 [
-  # Model 1: GitHub Copilot Claude Haiku
   {
     model_name = "bender-muffin";
     litellm_params = {
@@ -18,17 +15,15 @@
       max_output_tokens = modelTokenMax "claude-haiku-4.5";
     };
   }
-  # Model 2: OpenRouter Grok 4 Fast
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openrouter/x-ai/grok-4-fast";
-      api_key = "os.environ/OPENROUTER_API_KEY";
-      max_tokens = 32768;
-      max_output_tokens = 32768;
-    };
-  }
-  # Model 3: OpenRouter Qwen3 Coder
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "github_copilot/oswe-vscode-prime";
+  #     extra_headers = copilotHeaders;
+  #     max_tokens = modelTokenMax "grok-code-fast-1";
+  #     max_output_tokens = modelTokenMax "grok-code-fast-1";
+  #   };
+  # }
   {
     model_name = "bender-muffin";
     litellm_params = {
@@ -38,7 +33,6 @@
       max_output_tokens = 32768;
     };
   }
-  # Model 4: OpenRouter Minimax M2
   {
     model_name = "bender-muffin";
     litellm_params = {

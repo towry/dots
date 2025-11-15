@@ -252,10 +252,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1763128309,
-        "narHash": "sha256-YuSgwayYJFpgqWP3zLliLv/VZucFdSwFDk+tkZa204M=",
+        "lastModified": 1763202161,
+        "narHash": "sha256-a35tY6RDDGzb2y+gKTg1QDH2PY9evx6B9JmXGDWfmOU=",
         "ref": "refs/heads/main",
-        "rev": "3fb32c2f1854bdf07f8c245fbd48ccf19b17f1e8",
+        "rev": "ac3e2a2b5cafdf27fc45bd1a5abfc3ee01fb2da6",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/towry/nix-priv.git"

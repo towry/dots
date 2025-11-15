@@ -173,7 +173,6 @@ rec {
         "github"
         "tavily"
         "mastergo"
-        "codex_smart"
         "sequentialthinking"
       ])
     );

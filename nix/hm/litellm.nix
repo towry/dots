@@ -170,7 +170,7 @@ let
   getModelKey =
     m:
     let
-      toks = builtins.splitString "/" (toString m);
+      toks = lib.splitString "/" (toString m);
     in
     builtins.elemAt toks (builtins.length toks - 1);
   modelTokenMax =
@@ -320,6 +320,11 @@ let
     inherit pkgs copilotHeaders modelTokenMax;
   };
 
+  # Import frontier-muffin model group from separate module
+  frontierMuffinModels = import ./litellm/frontier-muffin.nix {
+    inherit pkgs copilotHeaders modelTokenMax;
+  };
+
   modelList =
     deepseekModels
     ++ googleModels
@@ -329,7 +334,8 @@ let
     ++ openrouterModels
     ++ kimiModels
     ++ moonshotThinkingModels
-    ++ benderMuffinModels;
+    ++ benderMuffinModels
+    ++ frontierMuffinModels;
 
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
@@ -343,7 +349,7 @@ let
       turn_off_message_logging = true;
       # Enable custom vision router hook
       # LiteLLM will load this from ~/.config/litellm/ directory
-      callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
+      # callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
       # Generic fallbacks (covers remaining error types incl. BadRequestError if not mapped)
       fallbacks = [
         { "copilot/claude-haiku-4.5" = [ "openrouter/openai/gpt-5-mini" ]; }

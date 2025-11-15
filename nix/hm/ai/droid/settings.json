@@ -1,5 +1,5 @@
 {
-  "model": "copilot/oswe-vscode-mini",
+  "model": "bender-muffin",
   "reasoningEffort": "medium",
   "cloudSessionSync": true,
   "diffMode": "github",
