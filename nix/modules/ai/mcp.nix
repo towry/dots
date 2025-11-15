@@ -152,6 +152,16 @@ rec {
         "mcp-server"
       ];
     };
+
+    codex_chromedev = {
+      type = "local";
+      command = "codex-ai";
+      args = [
+        "--profile"
+        "chromedev"
+        "mcp-server"
+      ];
+    };
   };
 
   clients = {
@@ -169,12 +179,11 @@ rec {
     claude = mapWithClientMk clientMk.claude (
       (pick mcpServers [
         "kg"
-        "chromedev"
+        # "chromedev"
         "github"
         "tavily"
         "mastergo"
-        "codex_smart"
-        "sequentialthinking"
+        "codex_chromedev"
       ])
     );
     forge = mapWithClientMk clientMk.forge (

@@ -9,7 +9,7 @@
 }:
 
 let
-  proxyConfig = import ../lib/proxy.nix { inherit lib; };
+  proxyConfig = import ../lib/proxy.nix { inherit lib pkgs; };
 
   deepseekModels =
     builtins.map
@@ -32,6 +32,31 @@ let
       [
         "deepseek-chat"
       ];
+
+  # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2880898
+  # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2840914
+  aliCnModels =
+    builtins.map
+      (
+        model:
+        let
+          alias = "dashscope/${model}";
+        in
+        {
+          model_name = alias;
+          litellm_params = {
+            model = alias;
+            api_key = pkgs.nix-priv.keys.alimodel.apiKey;
+            api_base = "https://dashscope.aliyuncs.com/compatible-mode/v1";
+          };
+        }
+      )
+      [
+        "qwen3-coder-plus"
+        "qwen3-coder-480b-a35b-instruct"
+        "qwen3-max"
+      ];
+
   openrouterModels = [
     {
       model_name = "openrouter/*";
@@ -170,7 +195,7 @@ let
   getModelKey =
     m:
     let
-      toks = builtins.splitString "/" (toString m);
+      toks = lib.splitString "/" (toString m);
     in
     builtins.elemAt toks (builtins.length toks - 1);
   modelTokenMax =
@@ -320,6 +345,15 @@ let
     inherit pkgs copilotHeaders modelTokenMax;
   };
 
+  freeMuffinModels = import ./litellm/free-muffin.nix {
+    inherit pkgs copilotHeaders modelTokenMax;
+  };
+
+  # Import frontier-muffin model group from separate module
+  frontierMuffinModels = import ./litellm/frontier-muffin.nix {
+    inherit pkgs copilotHeaders modelTokenMax;
+  };
+
   modelList =
     deepseekModels
     ++ googleModels
@@ -329,7 +363,10 @@ let
     ++ openrouterModels
     ++ kimiModels
     ++ moonshotThinkingModels
-    ++ benderMuffinModels;
+    ++ benderMuffinModels
+    ++ freeMuffinModels
+    ++ frontierMuffinModels
+    ++ aliCnModels;
 
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
@@ -339,11 +376,10 @@ let
       drop_params = true;
       # Disable default log file to avoid conflicts with systemd logging
       # All logs will go to stdout/stderr which systemd captures
-      # set_verbose deprecated upstream; prefer environment variable LITELLM_LOG=DEBUG
-      turn_off_message_logging = true;
+      turn_off_message_logging = false;
       # Enable custom vision router hook
       # LiteLLM will load this from ~/.config/litellm/ directory
-      callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
+      # callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
       # Generic fallbacks (covers remaining error types incl. BadRequestError if not mapped)
       fallbacks = [
         { "copilot/claude-haiku-4.5" = [ "openrouter/openai/gpt-5-mini" ]; }
@@ -355,6 +391,9 @@ let
         host = "${pkgs.nix-priv.keys.litellm.redisHost}";
         port = pkgs.nix-priv.keys.litellm.redisPort;
         password = "${pkgs.nix-priv.keys.litellm.redisPass}";
+        ttl = 3600;
+        socket_timeout = 10;
+        socket_connect_timeout = 10;
       };
     };
     router_settings = {
@@ -442,7 +481,7 @@ in
       EnvironmentVariables = {
         LITELLM_MASTER_KEY = pkgs.nix-priv.keys.litellm.apiKey;
         # Use new logging control instead of deprecated set_verbose
-        # LITELLM_LOG = "DEBUG";
+        LITELLM_LOG = "INFO";
         # Provide provider API keys directly to the service
         OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
         HTTP_PROXY = proxyConfig.proxies.http;
@@ -460,8 +499,6 @@ in
     # LiteLLM proxy configuration
     AIOHTTP_TRUST_ENV = "True"; # Enable HTTP(S)_PROXY environment variable support
     LITELLM_MASTER_KEY = pkgs.nix-priv.keys.litellm.apiKey;
-    # Optional per-shell override of log level (can be INFO to reduce noise)
-    LITELLM_LOG = "INFO";
     # Make OpenRouter key available to interactive shell usage of litellm-start/litellm-test
     OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
 

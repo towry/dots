@@ -41,6 +41,13 @@
     {
       tool = "Bash";
       matches = {
+        cmd = "sleep";
+        action = "allow";
+      };
+    }
+    {
+      tool = "Bash";
+      matches = {
         cmd = "*jj commit*";
         action = "ask";
       };

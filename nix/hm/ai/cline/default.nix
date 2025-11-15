@@ -6,7 +6,7 @@
 }:
 
 let
-  proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
+  proxyConfig = import ../../../lib/proxy.nix { inherit lib pkgs; };
   # Cline global rules directory for macOS
   clineRulesDir = "${config.home.homeDirectory}/Documents/Cline/Rules";
 

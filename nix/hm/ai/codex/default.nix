@@ -5,7 +5,7 @@
   ...
 }:
 let
-  proxyConfig = import ../../../lib/proxy.nix { inherit lib; };
+  proxyConfig = import ../../../lib/proxy.nix { inherit lib pkgs; };
   codex_home = "${config.xdg.configHome}/codex";
   # codex_config_file = "${codex_home}/config.toml";
   # like commands in other agents
@@ -33,17 +33,22 @@ in
     # toml
     "codex/config.toml".text = ''
       model = "gpt-5"
-      model_provider = "openrouter"
+      model_provider = "litellm"
       approval_policy = "untrusted"
       model_reasoning_effort = "low"
       # the AGENTS.md contains instructions for using codex mcp, do not use it
       # experimental_instructions_file = "${config.xdg.configHome}/AGENTS.md"
       sandbox_mode = "read-only"
 
-      [model_providers.openrouter]
-      name = "openrouter"
+      [model_providers.litellm]
+      name = "litellm"
       base_url = "http://127.0.0.1:4000"
       env_key = "LITELLM_MASTER_KEY"
+
+      [model_providers.openrouter]
+      name = "openrouter"
+      base_url = "https://openrouter.ai/api/v1"
+      env_key = "OPENROUTER_API_KEY"
 
       [model_providers.zhipuai-coding-plan]
       name = "zhipuai-coding-plan"
@@ -57,7 +62,7 @@ in
 
       [profiles.gpt]
       model = "copilot/gpt-5"
-      model_provider = "openrouter"
+      model_provider = "litellm"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/oracle-role.md"
       approval_policy = "never"
@@ -66,9 +71,20 @@ in
       hide_agent_reasoning = true
       model_verbosity = "low"
 
+      [profiles.chromedev]
+      model = "x-ai/grok-code-fast-1"
+      model_provider = "openrouter"
+      sandbox_mode = "read-only"
+      experimental_instructions_file = "${codex_home}/instructions/chromedev.md"
+      approval_policy = "never"
+      model_reasoning_effort = "medium"
+      model_reasoning_summary = "concise"
+      hide_agent_reasoning = true
+      model_verbosity = "low"
+
       [profiles.claude]
       model = "copilot/claude-sonnet-4.5"
-      model_provider = "openrouter"
+      model_provider = "litellm"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/oracle-role.md"
       approval_policy = "never"
@@ -124,21 +140,21 @@ in
       set = { HTTP_PROXY = "${proxyConfig.proxies.http}", HTTPS_PROXY = "${proxyConfig.proxies.https}" }
 
       ## MCP
-      # [mcp_servers.playwright]
+      [mcp_servers.chromedev]
+      command = "bunx"
+      args = ["chrome-devtools-mcp@latest", "--browser-url=http://127.0.0.1:9222"]
+
+      # [mcp_servers.context7]
       # command = "bunx"
-      # args = ["@playwright/mcp@latest", "--headless", "--ignore-https-errors", "--save-session"]
+      # args = ["@upstash/context7-mcp"]
 
-      [mcp_servers.context7]
-      command = "bunx"
-      args = ["@upstash/context7-mcp"]
+      # [mcp_servers.mermaid]
+      # command = "bunx"
+      # args = ["@devstefancho/mermaid-mcp"]
 
-      [mcp_servers.mermaid]
-      command = "bunx"
-      args = ["@devstefancho/mermaid-mcp"]
-
-      [mcp_servers.sequentialthinking]
-      command = "bunx"
-      args = ["@modelcontextprotocol/server-sequential-thinking"]
+      # [mcp_servers.sequentialthinking]
+      # command = "bunx"
+      # args = ["@modelcontextprotocol/server-sequential-thinking"]
 
       # [mcp_servers.github]
       # command = "github-mcp-server"
