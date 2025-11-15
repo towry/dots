@@ -22,7 +22,7 @@
 
     agent = {
       review = {
-        model = "github-copilot/gpt-5";
+        model = "github-copilot/gpt-5.1";
         prompt = "{file:./roles/lifeguard.md}";
         description = "Code review and code quality assurance";
         mode = "all";
@@ -37,7 +37,7 @@
           todowrite = false;
           todoread = false;
           webfetch = false;
-          "brightdata*" = true;
+          "tavily*" = true;
           "github*" = true;
           lifeguard = false;
         };
@@ -83,7 +83,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "tavily*" = true;
           lifeguard = true;
           "sequentialthinking*" = true;
         };
@@ -95,7 +95,7 @@
       };
 
       build = {
-        model = "zhipuai-coding-plan/glm-4.6";
+        model = "litellm/bender-muffin";
         tools = {
           write = true;
           edit = true;
@@ -107,7 +107,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "tavily*" = true;
           "github*" = true;
           "fs*" = true;
           lifeguard = true;
@@ -146,7 +146,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "tavily*" = true;
           "github*" = true;
           "fs*" = true;
           lifeguard = true;
@@ -171,7 +171,7 @@
 
       plan = {
         mode = "primary";
-        model = "github-copilot/gpt-5";
+        model = "github-copilot/gpt-5.1";
         prompt = "{file:./roles/oracle.md}";
         tools = {
           write = false;
@@ -184,7 +184,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "tavily*" = true;
           "github*" = true;
           lifeguard = true;
           "fs_read*" = true;
@@ -215,7 +215,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "tavily*" = true;
           "github*" = true;
           lifeguard = true;
           "fs_read*" = true;
@@ -253,6 +253,12 @@
         options = {
           apiKey = "{env:LITELLM_MASTER_KEY}";
           baseURL = "http://127.0.0.1:4000";
+        };
+        models = {
+          bender-muffin = {
+            id = "bender-muffin";
+            name = "Bender Muffin";
+          };
         };
       };
 
@@ -362,7 +368,7 @@
       "github*" = false;
       "context7*" = false;
       "mermaid*" = true;
-      "brightdata*" = true;
+      "tavily*" = true;
       "kg*" = true;
       "sequentialthinking*" = false;
     };

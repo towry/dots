@@ -14,6 +14,7 @@ export const Notify: Plugin = async ({ directory, client, $ }) => {
   const pathParts = directory.split("/").filter(Boolean);
   const projectName = pathParts[pathParts.length - 1] || "";
   const projectCategory = pathParts[pathParts.length - 2] || "";
+  const homeDir = process.env.HOME || "/Users/towry";
 
   const sendNotification = async (options: NotifyOptions) => {
     const {
@@ -23,19 +24,23 @@ export const Notify: Plugin = async ({ directory, client, $ }) => {
       onClick,
     } = options;
 
+    const iconPath = `${homeDir}/.config/opencode/plugin/opencode-icon.png`;
+
     if (onClick) {
       await $`terminal-notifier \
         -title "opencode" \
         -subtitle ${subtitle} \
         -message ${message} \
         -group ${group} \
+        -appIcon ${iconPath} \
         -execute ${onClick}`.quiet();
     } else {
       await $`terminal-notifier \
         -title "opencode" \
         -subtitle ${subtitle} \
         -message ${message} \
-        -group ${group}`.quiet();
+        -group ${group} \
+        -appIcon ${iconPath}`.quiet();
     }
   };
 

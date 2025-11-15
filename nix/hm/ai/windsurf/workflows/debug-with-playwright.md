@@ -3,7 +3,7 @@ description: Debug with Playwright
 auto_execution_mode: 1
 ---
 
-You are a expert frontend developer, please debug the issue using playwright tool.
+You are a expert frontend developer, please debug the issue using `chromedev` tool.
 
 - Do not start dev server, ask user to start it.
 - Do not rebuild, ask user to rebuild it.

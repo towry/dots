@@ -1,45 +1,84 @@
 {
   "mcpServers": {
     "kg": {
-      "serverUrl": "@KG_SSE@",
-      "headers": {
-        "Authorization": "Bearer @KG_API_KEY@"
-      }
-    },
-    "context7": {
-      "serverUrl": "https://mcp.context7.com/mcp"
-    },
-    "brightdata": {
       "command": "bunx",
       "args": [
-        "@brightdata/mcp"
-      ],
-      "env": {
-        "API_TOKEN": "@BRIGHTDATA_API_KEY@"
-      },
-      "disabledTools": []
+        "mcp-remote",
+        "@KG_SSE@",
+        "--allow-http",
+        "--header",
+        "Authorization: Bearer @KG_API_KEY@"
+      ]
     },
-    "playwright": {
-      "command": "bunx",
+    "chromedev": {
       "args": [
-        "@playwright/mcp@latest",
-        "--executable-path",
-        "google-chrome-stable",
-        "--extension"
+        "chrome-devtools-mcp@latest",
+        "--browser-url=http://127.0.0.1:9222"
       ],
-      "disabledTools": [],
+      "command": "bunx",
+      "disabledTools": [
+        "performance_start_trace",
+        "performance_analyze_insight",
+        "performance_stop_trace"
+      ],
       "disabled": false
+    },
+    "mastergo": {
+      "args": [
+        "@mastergo/magic-mcp",
+        "--token",
+        "@MASTERGO_API_KEY@",
+        "--url=https://mastergo.com"
+      ],
+      "command": "bunx",
+      "env": {}
     },
     "github": {
       "command": "github-mcp-server",
-      "args": [
-        "stdio",
-        "--dynamic-toolsets"
-      ],
+      "args": ["stdio", "--dynamic-toolsets"],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PAT@"
       },
-      "disabledTools": []
+      "disabledTools": [
+        "assign_copilot_to_issue",
+        "create_or_update_file",
+        "create_branch",
+        "create_repository",
+        "delete_file",
+        "create_pull_request",
+        "create_issue",
+        "add_sub_issue",
+        "add_issue_comment",
+        "add_comment_to_pending_review",
+        "fork_repository",
+        "get_me",
+        "get_release_by_tag",
+        "get_tag",
+        "get_team_members",
+        "get_teams",
+        "list_branches",
+        "list_commits",
+        "list_issues",
+        "list_label",
+        "list_pull_requests",
+        "list_releases",
+        "list_tags",
+        "list_sub_issues",
+        "merge_pull_request",
+        "pull_request_review_write",
+        "pull_request_read",
+        "push_files",
+        "remove_sub_issue",
+        "reprioritize_sub_issue",
+        "request_copilot_review",
+        "search_users",
+        "update_issue",
+        "update_pull_request_branch",
+        "update_pull_request",
+        "get_issue_comments",
+        "get_label",
+        "get_latest_release"
+      ]
     }
   }
 }

@@ -6,7 +6,7 @@
 }:
 let
   kgApiKey = pkgs.nix-priv.keys.kg.apiKey;
-  chromeUserData = "${config.home.homeDirectory}/.local/share/chrome-user-data";
+  chromeUserData = "${config.home.homeDirectory}/.local/state/chrome-user-data";
   kgSse = pkgs.nix-priv.keys.kg.sse;
   pick = attrs: keys: lib.attrsets.filterAttrs (name: _: lib.lists.elem name keys) attrs;
   clientMk = import ../../lib/mcp-clients.nix { inherit lib; };
@@ -90,9 +90,7 @@ rec {
       command = "bunx";
       args = [
         "chrome-devtools-mcp@latest"
-        "--executablePath='${pkgs.google-chrome}/bin/google-chrome-stable'"
-        "--acceptInsecureCerts"
-        "--chromeArg=--user-data-dir=${chromeUserData}"
+        "--browser-url=http://127.0.0.1:9222"
       ];
     };
 
@@ -113,6 +111,15 @@ rec {
       command = "bunx";
       args = [
         "mcp-mermaid"
+      ];
+    };
+
+    tavily = {
+      type = "local";
+      command = "bunx";
+      args = [
+        "mcp-remote"
+        "${pkgs.nix-priv.keys.tavily.mcpUrl}"
       ];
     };
 
@@ -154,8 +161,9 @@ rec {
         "fs"
         "chromedev"
         "github"
-        "brightdata"
+        "tavily"
         "mastergo"
+        "sequentialthinking"
       ]
     );
     claude = mapWithClientMk clientMk.claude (
@@ -163,19 +171,18 @@ rec {
         "kg"
         "chromedev"
         "github"
-        "brightdata"
+        "tavily"
         "mastergo"
         "codex_smart"
+        "sequentialthinking"
       ])
     );
     forge = mapWithClientMk clientMk.forge (
       pick mcpServers [
         "kg"
         "fs"
-        "context7"
         "chromedev"
         "github"
-        "mermaid"
         "brightdata"
         "sequentialthinking"
       ]
@@ -184,7 +191,6 @@ rec {
       pick mcpServers [
         "kg"
         "fs"
-        "context7"
         "chromedev"
         "github"
         "mermaid"
@@ -195,12 +201,9 @@ rec {
     amp = mapWithClientMk clientMk.amp (
       pick mcpServers [
         "kg"
-        "fs"
-        "context7"
         "chromedev"
         "github"
-        "mermaid"
-        "brightdata"
+        "tavily"
         "sequentialthinking"
         "mastergo"
       ]

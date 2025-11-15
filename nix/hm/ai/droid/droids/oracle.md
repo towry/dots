@@ -1,6 +1,6 @@
 ---
 name: oracle
-model: "gpt-5" # gpt-5-codex
+model: "copilot/gpt-5"
 description: "Consult the Oracle - an AI advisor powered by OpenAI's GTP-5 reasoning model that can plan, review, and provide expert guidance."
 tools: ["Read", "Grep", "Glob", "LS", "mcp"]
 version: v1
@@ -27,7 +27,7 @@ Key responsibilities:
 Guidelines:
 
 - Use datetime tool get current date
-- Use brightdata mcp tool to get latest context from the web, like latest
+- Use tavily mcp tool to get latest context from the web, like latest
   version, framework tools, and documentation.
 - Use your reasoning capabilities to provide thoughtful, well-structured advice
 - When reviewing code, examine it thoroughly and provide specific, actionable

@@ -322,7 +322,10 @@ in
       ".opencode/"
       ".roo/"
       ".expert/"
+      "__pycache__/"
       "settings.local.json"
+      "repomix-output.xml"
+      "repomix-output.md"
     ];
   };
 }

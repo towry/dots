@@ -1,54 +1,50 @@
 {
   "mcpServers": {
-    "playwright": {
+    "chromedev": {
       "type": "stdio",
       "command": "bunx",
       "args": [
-        "@playwright/mcp@latest",
-        "--headless"
+        "chrome-devtools-mcp@latest",
+        "--browser-url=http://127.0.0.1:9222"
       ],
       "disabled": false
     },
     "github": {
       "type": "stdio",
       "command": "github-mcp-server",
-      "args": [
-        "stdio",
-        "--dynamic-toolsets"
-      ],
+      "args": ["stdio", "--dynamic-toolsets"],
       "disabled": false,
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "@GITHUB_PERSONAL_ACCESS_TOKEN@"
       }
     },
-    "mermaid": {
+    "kg": {
       "type": "stdio",
       "command": "bunx",
       "args": [
-        "mcp-mermaid"
+        "mcp-remote",
+        "@KG_SSE@",
+        "--allow-http",
+        "--header",
+        "Authorization: Bearer @KG_API_KEY@"
+      ]
+    },
+    "mastergo": {
+      "type": "stdio",
+      "args": [
+        "@mastergo/magic-mcp",
+        "--token",
+        "@MASTERGO_API_KEY@",
+        "--url=https://mastergo.com"
       ],
-      "disabled": false
+      "command": "bunx",
+      "env": {}
     },
-    "context7": {
-      "type": "http",
-      "url": "https://mcp.context7.com/mcp",
-      "disabled": false
-    },
-    "grep-code": {
-      "type": "http",
-      "url": "https://mcp.grep.app",
-      "disabled": false
-    },
-    "brightdata": {
+    "tavily": {
       "type": "stdio",
       "command": "bunx",
-      "args": [
-        "@brightdata/mcp"
-      ],
-      "disabled": false,
-      "env": {
-        "API_TOKEN": "@BRIGHTDATA_API_KEY@"
-      }
+      "args": ["mcp-remote", "@TAVILY_API_KEY@"],
+      "disabled": false
     }
   }
 }

@@ -17,12 +17,15 @@ let
         model:
         let
           alias = "deepseek/${model}";
+          maxTokens = modelMaxTokens."deepseek-chat" or 8192;
         in
         {
           model_name = alias;
           litellm_params = {
             model = alias;
             api_key = "os.environ/DEEPSEEK_API_KEY";
+            max_tokens = maxTokens;
+            max_output_tokens = maxTokens;
           };
         }
       )
@@ -52,11 +55,14 @@ let
         model:
         let
           alias = "gemini/${model}";
+          maxTokens = modelMaxTokens."${alias}" or (modelMaxTokens."${model}" or 65536);
         in
         {
           model_name = alias;
           litellm_params = {
             model = alias;
+            max_tokens = maxTokens;
+            max_output_tokens = maxTokens;
             api_key = "os.environ/GEMINI_API_KEY";
           };
           model_info = {
@@ -77,6 +83,9 @@ let
     "gpt-4.1"
     "gpt-5"
     "gpt-5-mini"
+    "gpt-5.1-codex-mini"
+    "gpt-5.1"
+    "gpt-5.1-codex"
 
     # Claude models (require proxy)
     "claude-haiku-4.5"
@@ -90,12 +99,97 @@ let
     # xAI models
     "grok-code-fast-1"
 
-    "raptor-mini"
+    # copilot fine-tuned gpt-5-mini
+    "oswe-vscode-prime"
   ];
+
+  modelMaxTokens = {
+    # OpenAI models
+    "openai/gpt-5" = 128000;
+    "openai/gpt-5-mini" = 128000;
+    "openai/gpt-4.1" = 32768;
+    "openai/gpt-4o" = 16384;
+    "gpt-5" = 128000;
+    "gpt-5-mini" = 128000;
+    "gpt-4.1" = 32768;
+    "gpt-4o" = 16384;
+
+    # GitHub Copilot models (use github-copilot provider from models.dev)
+    "github_copilot/gpt-5" = 128000;
+    "github_copilot/gpt-5-mini" = 128000;
+    "github_copilot/gpt-4.1" = 32768;
+    "github_copilot/gpt-4o" = 16384;
+    "github_copilot/claude-haiku-4.5" = 64000;
+    "github_copilot/claude-sonnet-4" = 64000;
+    "github_copilot/claude-sonnet-4.5" = 64000;
+    "github_copilot/claude-opus-41" = 16000;
+    "github_copilot/gemini-2.5-pro" = 65536;
+    "github_copilot/gemini-2.5-flash" = 65536;
+    "github_copilot/grok-code-fast-1" = 10000;
+    "github_copilot/oswe-vscode-prime" = 64000;
+
+    # Claude models
+    "anthropic/claude-haiku-4.5" = 64000;
+    "anthropic/claude-sonnet-4" = 64000;
+    "anthropic/claude-sonnet-4.5" = 64000;
+    "claude-haiku-4.5" = 64000;
+    "claude-sonnet-4" = 64000;
+    "claude-sonnet-4.5" = 64000;
+    "claude-opus-41" = 16000;
+
+    # Google models
+    "google/gemini-2.5-pro" = 65536;
+    "google/gemini-2.5-flash" = 65536;
+    "gemini-2.5-pro" = 65536;
+    "gemini-2.5-flash" = 65536;
+
+    # xAI models
+    "xai/grok-code-fast-1" = 10000;
+    "grok-code-fast-1" = 10000;
+
+    # DeepSeek models
+    "deepseek/deepseek-chat" = 8192;
+    "deepseek-chat" = 8192;
+
+    # Zhipu AI models (Z.AI Coding Plan)
+    "zai-coding-plan/glm-4.6" = 131072;
+    "zai-coding-plan/glm-4.5-air" = 98304;
+    "glm-4.6" = 131072;
+    "glm-4.5-air" = 98304;
+
+    # Kimi models (Moonshot AI)
+    "moonshotai/kimi-k2-thinking" = 262144;
+    "moonshotai-cn/kimi-k2-thinking" = 262144;
+    "kimi-k2-thinking" = 262144;
+
+    # GitHub Copilot specific entries
+    "oswe-vscode-prime" = 64000;
+  };
+
+  # helper functions to extract model key from names like "copilot/gpt-5", "openai/gpt-5" and return the max token
+  getModelKey =
+    m:
+    let
+      toks = builtins.splitString "/" (toString m);
+    in
+    builtins.elemAt toks (builtins.length toks - 1);
+  modelTokenMax =
+    m:
+    let
+      fullKey = toString m;
+      shortKey = getModelKey m;
+    in
+    # Try full key first (e.g., "github_copilot/gpt-5"), then fall back to short key (e.g., "gpt-5")
+    if lib.hasAttr fullKey modelMaxTokens then
+      builtins.getAttr fullKey modelMaxTokens
+    else if lib.hasAttr shortKey modelMaxTokens then
+      builtins.getAttr shortKey modelMaxTokens
+    else
+      8192; # Conservative fallback
 
   # GitHub Copilot headers - dynamically use package versions
   copilotHeaders = {
-    editor-version = "vscode/${pkgs.vscode.version}";
+    Editor-Version = "vscode/${pkgs.vscode.version}";
     editor-plugin-version = "copilot/${pkgs.vscode-extensions.github.copilot.version}";
     Copilot-Integration-Id = "vscode-chat";
     Copilot-Vision-Request = "true";
@@ -107,12 +201,18 @@ let
     let
       # Use the model name as-is for the user-facing alias
       alias = "github_copilot/${model}";
+      maxTokens = modelMaxTokens."${alias}" or (modelMaxTokens."${model}" or 8192);
     in
     {
       model_name = "copilot/${model}"; # User calls with just "claude-haiku-4.5"
+      model_info = {
+        supports_vision = true;
+      };
       litellm_params = {
         model = alias; # LiteLLM uses "github_copilot/claude-haiku-4.5"
         extra_headers = copilotHeaders;
+        max_tokens = maxTokens;
+        max_output_tokens = maxTokens;
         cache_control_injection_points = [
           {
             location = "message";
@@ -135,6 +235,8 @@ let
             role = "user";
           }
         ];
+        max_tokens = 128000;
+        max_output_tokens = 128000;
       };
     }
   ];
@@ -146,6 +248,8 @@ let
         model:
         let
           alias = "zhipuai/${model}";
+          # zhipuai uses "openai/${model}" as the actual model value, check both
+          maxTokens = modelMaxTokens."openai/${model}" or (modelMaxTokens."${model}" or 131072);
         in
         {
           model_name = alias;
@@ -153,6 +257,8 @@ let
             model = "openai/${model}"; # Use openai/ prefix for custom endpoint
             api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
             api_key = pkgs.nix-priv.keys.zai.apiKey;
+            max_tokens = maxTokens;
+            max_output_tokens = maxTokens;
           };
         }
       )
@@ -160,33 +266,25 @@ let
         "glm-4.6"
         "glm-4.5-air"
       ];
+
   kimiModels =
     builtins.map
       (
         model:
         let
           alias = "kimi/${model}";
+          # kimi uses "openai/${model}" as the actual model value
+          maxTokens = modelMaxTokens."openai/${model}" or (modelMaxTokens."${model}" or 262144);
         in
         {
           model_name = alias;
           litellm_params = {
-            model = "openai/${model}"; # Use openai/ prefix for custom endpoint
-            # Ensure correct Moonshot base URL e.g. https://api.moonshot.cn/v1
+            model = "openai/${model}";
             api_base = "https://api.kimi.com/coding/v1";
             api_key = "${pkgs.nix-priv.keys.kimi.apiKey}";
-            # Roo Code guidance:
-            # - Use legacy OpenAI API format (/v1/chat/completions)
-            # - Enable Reasoning Effort: Medium
-            # - Max Output Tokens: 32768 (maps to max_tokens)
             reasoning_effort = "medium";
-            max_tokens = 32768;
-            # Some clients use max_output_tokens naming – keep for compatibility.
-            max_output_tokens = 32768;
-          };
-          model_info = {
-            # For observability / documentation only; provider enforces the true limit.
-            advertised_context_window = 262144;
-            notes = "Kimi For Coding - OpenAI-compatible legacy /v1/chat/completions endpoint";
+            max_tokens = maxTokens;
+            max_output_tokens = maxTokens;
           };
         }
       )
@@ -194,25 +292,33 @@ let
         "${pkgs.nix-priv.keys.kimi.kimiForCodingModel}"
       ];
 
-  # Kimi K2 Thinking model (advanced reasoning). Assumes same API base but with potentially higher reasoning tokens.
-  kimiThinkingModels = [
+  moonshotThinkingModels = [
     {
-      model_name = "kimi/kimi-k2-thinking"; # Alias user will call
+      model_name = "moonshot/kimi-k2"; # Alias user will call
       litellm_params = {
-        model = "openai/kimi-k2-thinking"; # Underlying OpenAI-compatible model id
-        api_base = "https://api.kimi.com/coding/v1"; # Same coding gateway
-        api_key = "${pkgs.nix-priv.keys.kimi.apiKey}";
-        reasoning_effort = "high"; # Default higher reasoning effort
-        # Provide conservative defaults; user can override per request
-        max_tokens = 32768; # Output cap
-        max_output_tokens = 32768;
+        model = "moonshot/kimi-k2-0905-preview";
+        api_base = "https://api.moonshot.cn/v1";
+        api_key = "${pkgs.nix-priv.keys.moonshot.apiKey}";
+        max_tokens = 262144;
+        max_output_tokens = 262144;
       };
-      model_info = {
-        advertised_context_window = 400000; # Hypothetical extended context; adjust if provider clarifies
-        notes = "Kimi K2 Thinking - advanced reasoning variant; uses high reasoning_effort by default.";
+    }
+    {
+      model_name = "moonshot/kimi-k2-thinking"; # Alias user will call
+      litellm_params = {
+        model = "moonshot/kimi-k2-thinking";
+        api_base = "https://api.moonshot.cn/v1";
+        api_key = "${pkgs.nix-priv.keys.moonshot.apiKey}";
+        max_tokens = 262144;
+        max_output_tokens = 262144;
       };
     }
   ];
+
+  # Import bender-muffin model group from separate module
+  benderMuffinModels = import ./litellm/bender-muffin.nix {
+    inherit pkgs copilotHeaders modelTokenMax;
+  };
 
   modelList =
     deepseekModels
@@ -222,7 +328,8 @@ let
     ++ zhipuaiModels
     ++ openrouterModels
     ++ kimiModels
-    ++ kimiThinkingModels;
+    ++ moonshotThinkingModels
+    ++ benderMuffinModels;
 
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
@@ -251,6 +358,7 @@ let
       };
     };
     router_settings = {
+      routing_strategy = "simple-shuffle";
       num_retries = 1;
       allowed_fails = 3;
       cooldown_time = 180;
@@ -363,9 +471,9 @@ in
 
     # Claude Code model selection - configure which models to use for different tiers
     # These map to the model names defined in the LiteLLM config above
-    ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/gpt-5"; # For opus tier and opusplan (Plan Mode active)
-    ANTHROPIC_DEFAULT_SONNET_MODEL = "copilot/claude-haiku-4.5"; # For sonnet tier and opusplan (Plan Mode inactive)
-    ANTHROPIC_DEFAULT_HAIKU_MODEL = "openrouter/x-ai/grok-4-fast"; # For haiku tier and background tasks
+    # ANTHROPIC_DEFAULT_OPUS_MODEL = "copilot/gpt-5"; # For opus tier and opusplan (Plan Mode active)
+    # ANTHROPIC_DEFAULT_SONNET_MODEL = "gpt-5.1-codex-mini"; # For sonnet tier and opusplan (Plan Mode inactive)
+    # ANTHROPIC_DEFAULT_HAIKU_MODEL = "openrouter/x-ai/grok-4-fast"; # For haiku tier and background tasks
     ## do not set this variable, otherwise the `model` will not work.
     # CLAUDE_CODE_SUBAGENT_MODEL = "openrouter/google/gemini-2.5-pro"; # For subagent# s
 

@@ -19,7 +19,7 @@ tools:
   glob: true
   fs*: true
   lifeguard: false
-  brightdata*: false
+  tavily*: false
   github*: false
 permission:
   edit: allow

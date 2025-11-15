@@ -18,6 +18,12 @@
       "Bash(pwd:*)",
       "Bash(rg:*)",
       "Read(/tmp/**)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(tail:*)",
+      "Bash(head:*)",
+      "Bash(cat:*)",
+      "Bash(bunx repomix:*)",
       "Bash(jj df:*)",
       "Bash(jj diff:*)",
       "Bash(jj st:*)",
@@ -45,8 +51,9 @@
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
       "Search(*)",
-      "mcp__brightdata__search_engine",
-      "mcp__brightdata__scrape_as_markdown",
+      "mcp__tavily__search",
+      "mcp__tavily__extract",
+      "mcp__tavily__crawl",
       "mcp__chromedev__click",
       "mcp__chromedev__drag",
       "mcp__chromedev__fill",
@@ -115,10 +122,7 @@
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)"
     ],
-    "additionalDirectories": [
-      "/Users/towry/workspace",
-      "/tmp"
-    ],
+    "additionalDirectories": ["/Users/towry/workspace", "/tmp"],
     "defaultMode": "default"
   },
   "env": {
@@ -138,6 +142,39 @@
           {
             "type": "command",
             "command": "uv run ~/.claude/hooks/pre_compact.py"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/session_remind.py"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/subagent_remind.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/get_last_agent.py"
           }
         ]
       }

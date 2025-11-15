@@ -1,7 +1,7 @@
 ---
 description: "Review code changes in a jj revision for adherence to project guidelines and best practices"
 argument-hint: [revset]
-allowed-tools: Bash(jj log:*), Bash(jj diff:*), Bash(jj operation log:*), Bash(jj show:*), Bash(jj status:*), Bash(jj file show:*), Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__brightdata__scrape_batch, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__codex__codex, mcp__codex__codex-reply
+allowed-tools: Bash(jj log:*), Bash(jj diff:*), Bash(jj operation log:*), Bash(jj show:*), Bash(jj status:*), Bash(jj file show:*), Read, Grep, Glob, mcp__tavily__search, mcp__tavily__extract, mcp__tavily__crawl, mcp__tavily__map, mcp__context7, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__codex__codex, mcp__codex__codex-reply
 ---
 
 User provided input: `$ARGUMENTS`

@@ -26,7 +26,10 @@ let
   # Process mcp.json with variable substitution
   processedMcp = pkgs.replaceVars (droidConfigDir + "/mcp.json") {
     GITHUB_PERSONAL_ACCESS_TOKEN = pkgs.nix-priv.keys.github.accessToken;
-    BRIGHTDATA_API_KEY = pkgs.nix-priv.keys.brightdata.apiKey;
+    TAVILY_API_KEY = pkgs.nix-priv.keys.tavily.mcpUrl;
+    KG_SSE = pkgs.nix-priv.keys.kg.sse;
+    KG_API_KEY = pkgs.nix-priv.keys.kg.apiKey;
+    MASTERGO_API_KEY = pkgs.nix-priv.keys.mastergo.token;
   };
 
   # Wrapper to run droid with HTTP proxy configured

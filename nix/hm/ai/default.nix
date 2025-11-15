@@ -13,7 +13,7 @@
     ./forge
     ./windsurf
     # ./cline
-    # ./droid
+    ./droid
     ./copilot
     ./amp
   ];

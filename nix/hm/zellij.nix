@@ -21,9 +21,17 @@ in
         onVariable = "PWD";
         body = ''
           if string match -q "$HOME/workspace/*" "$PWD" || string match -q "$HOME/.dotfiles/*" "$PWD"
-              if test -d .git; or test -d .jj
+              if test -d .git
                 set -l repo_name (basename $PWD)
                 set -l current_branch (git branch --show-current)
+
+                if test -n current_branch
+                    set current_branch ":$current_branch"
+                end
+              else if test -d .jj
+                set -l repo_name (basename $PWD)
+                set -l bookmarks_str (jj log --ignore-working-copy -r 'ancestors(@) & bookmarks()' --no-graph -T 'bookmarks.map(|b| b.name()).join(", ")' --limit 1)
+                set -l current_branch (string split -m1 ", " $bookmarks_str | head -1)
 
                 if test -n current_branch
                     set current_branch ":$current_branch"
@@ -60,8 +68,7 @@ in
       ///======
 
       keybinds {
-          unbind "Ctrl g"
-          unbind "Ctrl q"
+          unbind "Ctrl g" "Ctrl q"
 
           normal {
               bind "Super [" { GoToPreviousTab; }
@@ -110,6 +117,18 @@ in
                         y "5%"
                     }
                     SwitchToMode "Normal";
+              }
+
+              bind "g" {
+                  Run "lazygit" {
+                      floating true
+                      close_on_exit true
+                      width "90%"
+                      height "90%"
+                      x "10"
+                      y "5%"
+                  }
+                  SwitchToMode "Normal";
               }
           }
 

@@ -140,11 +140,6 @@ in
       command = "bunx"
       args = ["@modelcontextprotocol/server-sequential-thinking"]
 
-      # [mcp_servers.brightdata]
-      # command = "bunx"
-      # args = ["@brightdata/mcp"]
-      # env = { "API_TOKEN" = "${pkgs.nix-priv.keys.brightdata.apiKey}" }
-
       # [mcp_servers.github]
       # command = "github-mcp-server"
       # args = ["stdio", "--dynamic-toolsets"]
