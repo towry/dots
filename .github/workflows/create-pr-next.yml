@@ -1,0 +1,55 @@
+name: Auto open PR for next branch
+on:
+  push:
+    branches:
+      - next
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  open-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create pull request if none exists
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo
+            const head = context.ref.replace('refs/heads/', '')
+            const base = 'main'
+
+            // Verify this is the next branch
+            if (head !== 'next') {
+              core.info(`Branch is '${head}', not 'next'. Skipping PR creation.`)
+              return
+            }
+
+            // Check if a PR already exists from next to main
+            const { data: existingPRs } = await github.rest.pulls.list({
+              owner: owner,
+              repo: repo,
+              state: 'open',
+              base: base,
+              head: `${owner}:${head}`
+            })
+
+            if (existingPRs.length > 0) {
+              core.info(`Open pull request already exists (#${existingPRs[0].number}).`)
+              return
+            }
+
+            // Create the PR
+            const title = `Auto PR: ${head} → ${base}`
+            const body = 'Automatically opened pull request for the `next` branch.'
+
+            const { data: newPR } = await github.rest.pulls.create({
+              owner: owner,
+              repo: repo,
+              title: title,
+              head: head,
+              base: base,
+              body: body
+            })
+
+            core.info(`Created pull request #${newPR.number}.`)

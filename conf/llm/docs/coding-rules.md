@@ -29,3 +29,5 @@
 - **User Preferences**:
     - VCS: `jj`
     - Search: `fd` and `rg`
+- **git**:
+    - Only run git commit commands after user confirm the changes is ok.
