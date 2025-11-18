@@ -5,7 +5,7 @@ description: >
   Not for: Research for how to implement feature, make decisions on how to implement
   How: can write/edit code and run commands; requires concise input (prefer file paths over long content); handles one small task at a time; Provide clear design spec and implement decisions; first use `todowrite` tool split the coding task, then delegate each single todo with context and implement decisions to @gen;
   When: implementing specific coding task step, quick fixes, generating boilerplate.
-tools: Read, Grep, Glob, Edit, Write, Bash, mcp__tavily__tavily_search, mcp__tavily__tavily_extract, mcp__tavily__tavily_crawl, mcp__tavily__tavily_map
+tools: Read, Grep, Glob, Edit, Write, Bash, mcp__brightdata__brightdata_search, mcp__brightdata__brightdata_extract, mcp__brightdata__brightdata_crawl, mcp__brightdata__brightdata_map
 model: sonnet
 ---
 

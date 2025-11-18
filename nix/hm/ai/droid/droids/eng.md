@@ -1,7 +1,7 @@
 ---
 name: eng
 description: General-purpose software engineering assistant for code analysis, debugging, testing, and project setup
-model: 'glm-4.6'
+model: 'free-muffin'
 tools: ["Read", "Grep", "Glob", "LS", "Edit", "MultiEdit", "Create", "Execute", "mcp"]
 version: v1
 ---

@@ -1,5 +1,5 @@
 {
-  "model": "bender-muffin",
+  "model": "custom-model",
   "reasoningEffort": "medium",
   "cloudSessionSync": true,
   "diffMode": "github",
@@ -25,8 +25,17 @@
     "glob",
     "rg",
     "fd",
+    "ast-grep",
+    "git show",
+    "git diff",
+    "git status",
+    "git log",
+    "git --no-pager",
+    "mkdir",
     "jj git-diff",
-    "pnpm turbo run build:dev"
+    "pnpm turbo run build:dev",
+    "lsof",
+    "ps"
   ],
   "commandDenylist": [
     "rm -rf /",
