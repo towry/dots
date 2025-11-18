@@ -34,6 +34,13 @@
     {
       tool = "Bash";
       matches = {
+        cmd = "curl";
+        action = "allow";
+      };
+    }
+    {
+      tool = "Bash";
+      matches = {
         cmd = "*git ci*";
         action = "ask";
       };

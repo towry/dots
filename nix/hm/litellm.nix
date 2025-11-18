@@ -120,6 +120,7 @@ let
 
     # Google models
     "gemini-2.5-pro"
+    "gemini-3-pro-preview"
 
     # xAI models
     "grok-code-fast-1"
@@ -149,6 +150,7 @@ let
     "github_copilot/claude-sonnet-4.5" = 64000;
     "github_copilot/claude-opus-41" = 16000;
     "github_copilot/gemini-2.5-pro" = 65536;
+    "github_copilot/gemini-3-pro-preview" = 65000;
     "github_copilot/gemini-2.5-flash" = 65536;
     "github_copilot/grok-code-fast-1" = 10000;
     "github_copilot/oswe-vscode-prime" = 64000;
@@ -371,7 +373,7 @@ let
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
     litellm_settings = {
-      default_fallbacks = [ "openrouter/x-ai/grok-4-fast" ];
+      default_fallbacks = [ "openrouter/openai/gpt-5" ];
       master_key = "os.environ/LITELLM_MASTER_KEY";
       drop_params = true;
       # Disable default log file to avoid conflicts with systemd logging
@@ -383,6 +385,7 @@ let
       # Generic fallbacks (covers remaining error types incl. BadRequestError if not mapped)
       fallbacks = [
         { "copilot/claude-haiku-4.5" = [ "openrouter/openai/gpt-5-mini" ]; }
+        { "openai/minimax-m2" = [ "zhipuai/glm-4.6" ]; }
       ];
       cache = true;
       cache_params = {
@@ -392,15 +395,15 @@ let
         port = pkgs.nix-priv.keys.litellm.redisPort;
         password = "${pkgs.nix-priv.keys.litellm.redisPass}";
         ttl = 3600;
-        socket_timeout = 10;
-        socket_connect_timeout = 10;
+        socket_timeout = 20;
+        socket_connect_timeout = 20;
       };
     };
     router_settings = {
       routing_strategy = "simple-shuffle";
       num_retries = 1;
       allowed_fails = 3;
-      cooldown_time = 180;
+      cooldown_time = 30;
       # Token counting during pre-call checks can fail for some clients that send
       # non-standard message content shapes (e.g. sending a single dict instead of
       # a list of content parts for vision messages). This triggers errors like:
@@ -453,6 +456,7 @@ let
 
     # Use the Nix-built litellm package
     ${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
+    # ${pkgs.uv}/bin/uvx --with 'litellm[proxy]==1.80.0' --with 'httpx[socks]' litellm --config ${litellmConfig} "$@"
   '';
 
 in
@@ -490,6 +494,7 @@ in
         AIOHTTP_TRUST_ENV = "True";
         PYTHONPATH = "${config.home.homeDirectory}/.config/litellm";
         PATH = "${pkgs.litellm-proxy}/bin:${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
+        # PATH = "${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
       };
     };
   };

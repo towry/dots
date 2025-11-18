@@ -20,14 +20,6 @@ rules:
     description: "Details about another rule ..."
 ```
 
-# Validation 
-
-Use python to validate the lifeguard.yaml file format, ensure the file have no yaml syntax error.
-
-```
-uv run --with pyyaml -- python -c "import sys, yaml; yaml.safe_load(sys.stdin)" < lifeguard.yaml && echo "VALID" || ECHO "NOT VALID"
-```
-
 # Rule content guidelines
 
 When generating rules, please follow these guidelines:
@@ -40,3 +32,15 @@ When generating rules, please follow these guidelines:
 - When you create rules, avoid generate rule that enforce single case or rare case, for example, a function with a specific name should not be a rule, unless that function name is widely used in the codebase and have specific meaning.
 - General rules to prevent bugs.
 - General rules to avoid complex code, hack, work-around code.
+- Dependency import path correctness.
+
+
+# Validation 
+
+Use python to validate the lifeguard.yaml file format, ensure the file have no yaml syntax error.
+
+```
+uv run --with pyyaml -- python -c "import sys, yaml; yaml.safe_load(sys.stdin)" < lifeguard.yaml && echo "VALID" || ECHO "NOT VALID"
+```
+
+Lifeguard content review after created: ask oracle subagent to verify the content of the lifeguard.yaml file, ensure the lifeguard rules are reasonable and useful for code review.

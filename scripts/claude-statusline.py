@@ -141,9 +141,9 @@ def format_lines(added, removed):
 
     parts = []
     if added and added > 0:
-        parts.append(f"+{added}")
+        parts.append(f"\033[32m+{added}\033[0m")  # Green for additions
     if removed and removed > 0:
-        parts.append(f"-{removed}")
+        parts.append(f"\033[31m-{removed}\033[0m")  # Red for deletions
 
     return f" | {ICON_LINES} {'/'.join(parts)}" if parts else ""
 
@@ -175,7 +175,16 @@ def format_context_stats(token_metrics):
     max_tokens = 200000
     percentage = min(100, (context_length / max_tokens) * 100)
 
-    return f" | {ICON_CONTEXT} {format_tokens(context_length)} ({percentage:.1f}%)"
+    # Color coding for percentage
+    if percentage < 50:
+        color_code = "\033[32m"  # Green
+    elif percentage > 80:
+        color_code = "\033[31m"  # Red
+    else:
+        color_code = "\033[33m"  # Yellow/Orange for 50-80
+    reset_code = "\033[0m"  # Reset color
+
+    return f" | {ICON_CONTEXT} {format_tokens(context_length)} ({color_code}{percentage:.1f}%{reset_code})"
 
 
 def format_session_id(session_id):

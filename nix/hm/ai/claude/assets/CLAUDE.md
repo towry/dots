@@ -8,6 +8,8 @@
 - When using markdown in assistant messages, use backticks to format file, directory, function, and class names. Use \( and \) for inline math, \[ and \] for block math.
 - When user says "please research ...", you should never make code changes, only research and provide findings with availble tools, skills, subagents.
 - When making decisions, always think step by step and ask oracle subagent to help make better decisions.
+- If you attempt the same task a second time, stop and consult the oracle subagent for assistance.
+- Your thinking tool `outbox`: Prompt the outbox subagent for rapid ideation and problem reframing after you proposed an idea, solution.
 
 ## `Task` tool with `subagent_type` usage rules
 

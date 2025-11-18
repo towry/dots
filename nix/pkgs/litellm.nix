@@ -1,6 +1,5 @@
 {
-  # Default version updated to 0.0.4; override via overlay if needed
-  version ? "0.0.4",
+  version ? "0.0.6",
   pkgs ? (import <nixpkgs> { }),
   fastuuid ? null,
 }:
@@ -13,8 +12,7 @@ python3Packages.buildPythonPackage {
 
   src = fetchurl {
     url = "https://github.com/towry/litellm/releases/download/nix-build-v${version}/litellm-minimal-${version}.tar.gz";
-    # Hash for litellm-minimal-0.0.4.tar.gz (prefetched with nix store prefetch-file)
-    sha256 = "sha256-Mel9FASExafBP1rA0ehtjpm7C0ppknB34toy5FbWZDk=";
+    sha256 = "sha256-WaJJLyeq0qcxC1AQBeHcuqxME7/DwaQD4rIyLEsO0gc=";
   };
 
   # Use pyproject.toml for build configuration

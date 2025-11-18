@@ -26,7 +26,7 @@ in
   home.packages =
     (with pkgs; [
       ## code counter
-      scc
+      # scc
       argc
       # bore-cli
       # termshark
