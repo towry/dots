@@ -23,7 +23,7 @@ tools:
   list: true
   glob: true
   webfetch: false
-  tavily*: true
+  brightdata*: true
   github*: true
   fs*: true
 permission:

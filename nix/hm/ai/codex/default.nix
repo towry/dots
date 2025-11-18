@@ -72,7 +72,7 @@ in
       model_verbosity = "low"
 
       [profiles.chromedev]
-      model = "x-ai/grok-code-fast-1"
+      model = "x-ai/grok-4-fast"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/chromedev.md"

@@ -65,6 +65,13 @@
       "max_tokens": 16000
     },
     {
+      "model_display_name": "Free Muffin",
+      "model": "free-muffin",
+      "base_url": "http://127.0.0.1:4000",
+      "api_key": "@LITELLM_API_KEY@",
+      "provider": "generic-chat-completion-api"
+    },
+    {
       "model_display_name": "Claude Sonnet 4.5 (copilot)",
       "model": "copilot/claude-sonnet-4.5",
       "base_url": "http://127.0.0.1:4000",

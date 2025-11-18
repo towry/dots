@@ -1,0 +1,46 @@
+# Lifeguard rules for dotfiles code review
+rules:
+  - name: "Shell scripts must have proper error handling"
+    description: "All shell scripts should include 'set -euo pipefail' to ensure proper error handling and exit on errors"
+
+  - name: "Shell scripts must have shebang"
+    description: "All shell scripts should start with an appropriate shebang like '#!/bin/bash' or '#!/bin/sh'"
+
+  - name: "No hardcoded paths in scripts"
+    description: "Avoid hardcoding paths like '/Users/username' or '/home/username'. Use environment variables or relative paths instead"
+
+  - name: "Variables should be quoted"
+    description: "All variable references should be properly quoted to prevent word splitting and globbing issues"
+
+  - name: "Use descriptive variable names"
+    description: "Variable names should be descriptive and follow snake_case or camelCase conventions"
+
+  - name: "Functions should be documented"
+    description: "Shell functions should include comments explaining their purpose, parameters, and return values"
+
+  - name: "YAML files must be valid"
+    description: "All YAML files should be syntactically correct and pass validation"
+
+  - name: "YAML indentation consistency"
+    description: "YAML files should use consistent indentation (2 spaces) throughout the file"
+
+  - name: "No sensitive data in configs"
+    description: "Configuration files should not contain sensitive information like passwords, API keys, or tokens"
+
+  - name: "EditorConfig compliance"
+    description: "Files should comply with the project's .editorconfig settings for consistent formatting"
+
+  - name: "Proper error handling in functions"
+    description: "Functions should handle errors appropriately and return meaningful exit codes"
+
+  - name: "Avoid deprecated commands"
+    description: "Avoid using deprecated commands and prefer modern alternatives"
+
+  - name: "Scripts should be tested"
+    description: "New scripts should include basic tests or usage examples"
+
+  - name: "Commit messages should follow convention"
+    description: "Commit messages should follow conventional commit format (e.g., 'feat:', 'fix:', 'chore:')"
+
+  - name: "Documentation for complex logic"
+    description: "Complex logic in configuration files or scripts should be documented with comments"

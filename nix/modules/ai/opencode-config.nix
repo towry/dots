@@ -37,7 +37,7 @@
           todowrite = false;
           todoread = false;
           webfetch = false;
-          "tavily*" = true;
+          "brightdata*" = true;
           "github*" = true;
           lifeguard = false;
         };
@@ -83,7 +83,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "tavily*" = true;
+          "brightdata*" = true;
           lifeguard = true;
           "sequentialthinking*" = true;
         };
@@ -95,7 +95,7 @@
       };
 
       build = {
-        model = "litellm/bender-muffin";
+        model = "litellm/free-muffin";
         tools = {
           write = true;
           edit = true;
@@ -107,7 +107,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "tavily*" = true;
+          "brightdata*" = true;
           "github*" = true;
           "fs*" = true;
           lifeguard = true;
@@ -146,7 +146,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "tavily*" = true;
+          "brightdata*" = true;
           "github*" = true;
           "fs*" = true;
           lifeguard = true;
@@ -184,7 +184,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "tavily*" = true;
+          "brightdata*" = true;
           "github*" = true;
           lifeguard = true;
           "fs_read*" = true;
@@ -215,7 +215,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "tavily*" = true;
+          "brightdata*" = true;
           "github*" = true;
           lifeguard = true;
           "fs_read*" = true;
@@ -255,6 +255,10 @@
           baseURL = "http://127.0.0.1:4000";
         };
         models = {
+          free-muffin = {
+            id = "free-muffin";
+            name = "Free Muffin";
+          };
           bender-muffin = {
             id = "bender-muffin";
             name = "Bender Muffin";
@@ -372,7 +376,7 @@
       "github*" = false;
       "context7*" = false;
       "mermaid*" = true;
-      "tavily*" = true;
+      "brightdata*" = true;
       "kg*" = true;
       "sequentialthinking*" = false;
     };

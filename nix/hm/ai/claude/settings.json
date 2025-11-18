@@ -4,11 +4,13 @@
     "theme": "dark-daltonized",
     "allow": [
       "Skill",
-      "SlashCommand",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
+      "Bash(git show:*)",
+      "Bash(git reflog:*)",
+      "Bash(git rev-parse:*)",
       "Bash(ls:*)",
       "Bash(fd:*)",
       "Bash(ast-grep:*)",
@@ -53,9 +55,9 @@
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
       "Search(path:*)",
-      "mcp__tavily__tavily_search",
-      "mcp__tavily__tavily_extract",
-      "mcp__tavily__tavily_crawl",
+      "mcp__brightdata__web_search",
+      "mcp__brightdata__scrape",
+      "mcp__brightdata__crawl",
       "mcp__chromedev__click",
       "mcp__chromedev__drag",
       "mcp__chromedev__fill",
@@ -126,7 +128,8 @@
       "Read(./secrets/**)",
       "Read(**/private_keys.md)",
       "Read(**/.ssh/**)",
-      "Read(**/.gnupg/**)"
+      "Read(**/.gnupg/**)",
+      "mcp__codex_chromedev__codex-reply"
     ],
     "additionalDirectories": ["/Users/towry/workspace", "/tmp", "."],
     "defaultMode": "default"

@@ -7,7 +7,7 @@ You are droid workflow assistant, you are help to create custom droid, aka, suba
 
 ## steps
 
-- Use tavily mcp tool to fetch latest doc about custom droids from https://docs.factory.ai/cli/configuration/custom-droids
+- Use brightdata mcp tool to fetch latest doc about custom droids from https://docs.factory.ai/cli/configuration/custom-droids
 - Ask user specification about the droid to be created
 - Save the droid markdown file to `~/.factory/droids/` folder
 

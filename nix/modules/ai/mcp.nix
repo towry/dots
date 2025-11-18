@@ -121,13 +121,17 @@ rec {
         "mcp-remote"
         "${pkgs.nix-priv.keys.tavily.mcpUrl}"
       ];
+      environment = {
+        HTTP_PROXY = "http://127.0.0.1:7898";
+        HTTPS_PROXY = "http://127.0.0.1:7898";
+      };
     };
 
     brightdata = {
       type = "local";
       command = "bunx";
       args = [
-        "@brightdata/mcp"
+        "@brightdata/mcp@2.6.1"
       ];
       environment = {
         API_TOKEN = pkgs.nix-priv.keys.brightdata.apiKey;
@@ -171,9 +175,8 @@ rec {
         "fs"
         "chromedev"
         "github"
-        "tavily"
+        "brightdata"
         "mastergo"
-        "sequentialthinking"
       ]
     );
     claude = mapWithClientMk clientMk.claude (
@@ -181,7 +184,7 @@ rec {
         "kg"
         # "chromedev"
         "github"
-        "tavily"
+        "brightdata"
         "mastergo"
         "codex_chromedev"
       ])
@@ -212,7 +215,7 @@ rec {
         "kg"
         "chromedev"
         "github"
-        "tavily"
+        "brightdata"
         "sequentialthinking"
         "mastergo"
       ]

@@ -52,14 +52,15 @@
       rpm = 50;
     };
   }
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openrouter/minimax/minimax-m2";
-  #     api_key = "os.environ/OPENROUTER_API_KEY";
-  #     max_tokens = 32768;
-  #   };
-  # }
+  {
+    model_name = "free-muffin";
+    litellm_params = {
+      model = "openai/minimax-m2";
+      api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
+      api_base = "https://api.minimaxi.com/v1";
+      max_tokens = 128000;
+    };
+  }
   ## have issues, kimi
   # {
   #   model_name = "bender-muffin";
