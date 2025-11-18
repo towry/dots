@@ -7,7 +7,8 @@ description: >
   code reviews, and large refactors. Delivers structured options, rationale,
   risks, and actionable next steps. Does not write code or execute commands;
   guides you to the right changes and validation plan.
-tools: Read, Grep, Glob, mcp__tavily__search, mcp__tavily__extract, mcp__tavily__crawl, mcp__tavily__map, mcp__github__search_code, mcp__github__get_file_contents, mcp__github__search_issues, mcp__kg__query_graph, mcp__kg__inspect_graph, mcp__codex_smart__codex
+  Use `model: opus` when using this subagent.
+tools: Read, Grep, Glob, mcp__tavily__tavily_search, mcp__tavily__tavily_extract, mcp__tavily__tavily_crawl, mcp__tavily__tavily_map, mcp__github__search_code, mcp__github__get_file_contents, mcp__github__search_issues, mcp__kg__query_graph, mcp__kg__inspect_graph, mcp__codex_smart__codex
 model: opusplan
 ---
 

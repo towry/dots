@@ -5,7 +5,6 @@
     "allow": [
       "Skill",
       "SlashCommand",
-      "Bash(minimize-git-diff-llm:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -22,6 +21,8 @@
       "Bash(find:*)",
       "Bash(tail:*)",
       "Bash(head:*)",
+      "Bash(lsof:*)",
+      "Bash(ps:*)",
       "Bash(cat:*)",
       "Bash(bunx repomix:*)",
       "Bash(jj df:*)",
@@ -47,13 +48,14 @@
       "Bash(nix flake:*)",
       "Bash(jj bookmark list:*)",
       "Bash(cargo check:*)",
+      "Bash(cargo clippy:*)",
       "Read(~/.dotfiles/**)",
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
-      "Search(*)",
-      "mcp__tavily__search",
-      "mcp__tavily__extract",
-      "mcp__tavily__crawl",
+      "Search(path:*)",
+      "mcp__tavily__tavily_search",
+      "mcp__tavily__tavily_extract",
+      "mcp__tavily__tavily_crawl",
       "mcp__chromedev__click",
       "mcp__chromedev__drag",
       "mcp__chromedev__fill",
@@ -86,8 +88,10 @@
       "mcp__github__enable_toolset",
       "mcp__github__search_code",
       "mcp__codex_smart__codex",
+      "mcp__codex_chromedev__codex",
       "mcp__kg__query_graph",
-      "mcp__kg__inspect_graph"
+      "mcp__kg__inspect_graph",
+      "mcp__sequentialthinking__sequentialthinking"
     ],
     "ask": [
       "Bash(pnpm turbo:*)",
@@ -114,6 +118,8 @@
       "Bash(home-manager switch:*)"
     ],
     "deny": [
+      "WebFetch",
+      "WebSearch",
       "Read(./.env)",
       "Read(./.env.*)",
       "Read(.private.*)",
@@ -122,7 +128,7 @@
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)"
     ],
-    "additionalDirectories": ["/Users/towry/workspace", "/tmp"],
+    "additionalDirectories": ["/Users/towry/workspace", "/tmp", "."],
     "defaultMode": "default"
   },
   "env": {
@@ -179,5 +185,10 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "uv run ~/.dotfiles/scripts/claude-statusline.py",
+    "padding": 0
   }
 }

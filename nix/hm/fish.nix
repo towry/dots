@@ -8,7 +8,7 @@
 }:
 
 let
-  proxyConfig = import ../lib/proxy.nix { inherit lib; };
+  proxyConfig = import ../lib/proxy.nix { inherit lib pkgs; };
 in
 {
   home.sessionVariables = {
@@ -148,7 +148,7 @@ in
 
     for mode in default insert
         # Bind ctrl-f to move forward one word (accepts autosuggestion word by word when at end)
-        bind --mode $mode ctrl-f forward-bigword
+        # bind --mode $mode ctrl-f forward-bigword
         # Bind ctrl+shift+w to move backward one bigword
         # bind --mode $mode ctrl-W backward-bigword
     end

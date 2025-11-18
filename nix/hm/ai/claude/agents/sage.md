@@ -7,6 +7,7 @@ description: >
   When: understanding how current code works, finding existing patterns, documenting current state, analyzing project structure.
   NOT for: implementing new features, choosing solution approaches, or external best-practice research (use oracle). Does not write code or run mutating commands.
   Outputs detailed, objective reports for the user.
+  Use `model: haiku` when using this subagent.
 tools: Read, Grep, Glob, Bash(fd:*), Bash(rg:*), Bash(ast-grep:*), Bash(bunx repomix:*), mcp__kg__query_graph, Bash(ls), Bash(head), Bash(tail), Bash(find), Bash(grep)
 model: haiku
 ---

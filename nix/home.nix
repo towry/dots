@@ -28,10 +28,11 @@ let
       ibm-plex
       # utils
       ## man page tldr
-      tlrc
+      # tlrc
       ## image view support
-      imagemagick
-      luajitPackages.magick
+      # imagemagick
+      # luajitPackages.magick
+      hurl
     ]
     ++ lib.lists.optionals pkgs.stdenv.isDarwin [
       # macOs packages

@@ -8,7 +8,7 @@
 }:
 let
   # python3 = import ../lib/python3.nix { inherit pkgs; };
-  proxyConfig = import ../lib/proxy.nix { inherit lib; };
+  proxyConfig = import ../lib/proxy.nix { inherit lib pkgs; };
 in
 {
   home.sessionVariables = {
