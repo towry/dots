@@ -4,6 +4,19 @@ Claude Code statusline script
 Displays contextual information about the current session
 """
 
+# Customize these icons to your preference
+# Examples:
+# - Use emojis: "📂", "⏳", "💰", etc.
+# - Use nerdfonts: "", "", "", etc.
+# - Use simple symbols: "📁", "⏱️", "$", etc.
+ICON_DIR = "󰋜"
+ICON_BRANCH = "󰊢"
+ICON_SESSION = "󰓹"
+ICON_CONTEXT = ""
+ICON_COST = ""
+ICON_LINES = ""
+ICON_DURATION = "󱑆"
+
 import json
 import sys
 import os
@@ -19,10 +32,7 @@ def get_git_branch(cwd):
 
         # Check if we're in a git repo
         result = subprocess.run(
-            ["git", "rev-parse", "--git-dir"],
-            capture_output=True,
-            text=True,
-            timeout=1
+            ["git", "rev-parse", "--git-dir"], capture_output=True, text=True, timeout=1
         )
 
         if result.returncode != 0:
@@ -34,13 +44,13 @@ def get_git_branch(cwd):
             ["git", "branch", "--show-current"],
             capture_output=True,
             text=True,
-            timeout=1
+            timeout=1,
         )
 
         os.chdir(original_cwd)
 
         branch = result.stdout.strip()
-        return f" | 🌿 {branch}" if branch else ""
+        return f" | {ICON_BRANCH} {branch}" if branch else ""
     except Exception:
         return ""
 
@@ -51,8 +61,8 @@ def get_token_metrics(transcript_path):
         if not os.path.exists(transcript_path):
             return None
 
-        with open(transcript_path, 'r') as f:
-            lines = f.read().strip().split('\n')
+        with open(transcript_path, "r") as f:
+            lines = f.read().strip().split("\n")
 
         input_tokens = 0
         output_tokens = 0
@@ -65,39 +75,44 @@ def get_token_metrics(transcript_path):
         for line in lines:
             try:
                 data = json.loads(line)
-                if data.get('message', {}).get('usage'):
-                    usage = data['message']['usage']
-                    input_tokens += usage.get('input_tokens', 0)
-                    output_tokens += usage.get('output_tokens', 0)
-                    cached_tokens += usage.get('cache_read_input_tokens', 0)
-                    cached_tokens += usage.get('cache_creation_input_tokens', 0)
+                if data.get("message", {}).get("usage"):
+                    usage = data["message"]["usage"]
+                    input_tokens += usage.get("input_tokens", 0)
+                    output_tokens += usage.get("output_tokens", 0)
+                    cached_tokens += usage.get("cache_read_input_tokens", 0)
+                    cached_tokens += usage.get("cache_creation_input_tokens", 0)
 
                     # Track most recent main chain entry
-                    if not data.get('isSidechain', False) and data.get('timestamp'):
-                        timestamp = data['timestamp']
-                        if most_recent_timestamp is None or timestamp > most_recent_timestamp:
+                    if not data.get("isSidechain", False) and data.get("timestamp"):
+                        timestamp = data["timestamp"]
+                        if (
+                            most_recent_timestamp is None
+                            or timestamp > most_recent_timestamp
+                        ):
                             most_recent_timestamp = timestamp
                             most_recent_main_chain_entry = data
             except:
                 continue
 
         # Calculate context length from most recent main chain message
-        if most_recent_main_chain_entry and most_recent_main_chain_entry.get('message', {}).get('usage'):
-            usage = most_recent_main_chain_entry['message']['usage']
+        if most_recent_main_chain_entry and most_recent_main_chain_entry.get(
+            "message", {}
+        ).get("usage"):
+            usage = most_recent_main_chain_entry["message"]["usage"]
             context_length = (
-                usage.get('input_tokens', 0) +
-                usage.get('cache_read_input_tokens', 0) +
-                usage.get('cache_creation_input_tokens', 0)
+                usage.get("input_tokens", 0)
+                + usage.get("cache_read_input_tokens", 0)
+                + usage.get("cache_creation_input_tokens", 0)
             )
 
         total_tokens = input_tokens + output_tokens + cached_tokens
 
         return {
-            'input_tokens': input_tokens,
-            'output_tokens': output_tokens,
-            'cached_tokens': cached_tokens,
-            'total_tokens': total_tokens,
-            'context_length': context_length
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "cached_tokens": cached_tokens,
+            "total_tokens": total_tokens,
+            "context_length": context_length,
         }
     except:
         return None
@@ -116,7 +131,7 @@ def format_cost(cost_usd):
     """Format cost in USD"""
     if cost_usd is None or cost_usd == 0:
         return ""
-    return f" | 💰 ${cost_usd:.4f}"
+    return f" | {ICON_COST} ${cost_usd:.4f}"
 
 
 def format_lines(added, removed):
@@ -130,7 +145,7 @@ def format_lines(added, removed):
     if removed and removed > 0:
         parts.append(f"-{removed}")
 
-    return f" | 📝 {'/'.join(parts)}" if parts else ""
+    return f" | {ICON_LINES} {'/'.join(parts)}" if parts else ""
 
 
 def format_duration(duration_ms):
@@ -140,11 +155,11 @@ def format_duration(duration_ms):
 
     seconds = duration_ms / 1000
     if seconds < 60:
-        return f" | ⏱️ {seconds:.1f}s"
+        return f" | {ICON_DURATION} {seconds:.1f}s"
     else:
         minutes = int(seconds // 60)
         secs = int(seconds % 60)
-        return f" | ⏱️ {minutes}m {secs}s"
+        return f" | {ICON_DURATION} {minutes}m {secs}s"
 
 
 def format_context_stats(token_metrics):
@@ -152,7 +167,7 @@ def format_context_stats(token_metrics):
     if not token_metrics:
         return ""
 
-    context_length = token_metrics.get('context_length', 0)
+    context_length = token_metrics.get("context_length", 0)
     if context_length == 0:
         return ""
 
@@ -160,7 +175,7 @@ def format_context_stats(token_metrics):
     max_tokens = 200000
     percentage = min(100, (context_length / max_tokens) * 100)
 
-    return f" | 📊 {format_tokens(context_length)} ({percentage:.1f}%)"
+    return f" | {ICON_CONTEXT} {format_tokens(context_length)} ({percentage:.1f}%)"
 
 
 def format_session_id(session_id):
@@ -168,7 +183,7 @@ def format_session_id(session_id):
     if not session_id:
         return ""
     # Show first 8 characters of session ID
-    return f" | 🔖 {session_id[:8]}"
+    return f" | {ICON_SESSION} {session_id[:8]}"
 
 
 def main():
@@ -190,8 +205,7 @@ def main():
 
         # Optional: Get lines changed
         lines_info = format_lines(
-            cost.get("total_lines_added"),
-            cost.get("total_lines_removed")
+            cost.get("total_lines_added"), cost.get("total_lines_removed")
         )
 
         # Optional: Get context states
@@ -207,7 +221,7 @@ def main():
         context_stats = format_context_stats(token_metrics)
 
         # Build status line
-        status = f"[{model}] 📁 {dir_name}{git_branch}{session_info}{context_stats}{cost_info}{lines_info}{duration_info}"
+        status = f"[{model}]  {dir_name}{git_branch}{session_info}{context_stats}{cost_info}{lines_info}{duration_info}"
 
         print(status)
 
