@@ -1,16 +1,18 @@
 {
-  "model": "custom-model",
-  "reasoningEffort": "medium",
+  "model": "gemini-3-pro-preview",
+  "reasoningEffort": "none",
   "cloudSessionSync": true,
   "diffMode": "github",
   "ideExtensionPromptedAt": {
     "vscode": 1759932859860
   },
-  "autonomyLevel": "normal",
   "ideActivationNudgedForVersion": {
     "vscode": "0.1.9"
   },
   "enableCompletionBell": true,
+  "completionSound": "fx-ok01",
+  "awaitingInputSound": "fx-ack01",
+  "soundFocusMode": "always",
   "commandAllowlist": [
     "ls",
     "pwd",
@@ -20,6 +22,7 @@
     "echo",
     "head",
     "tail",
+    "curl",
     "grep",
     "find",
     "glob",
@@ -70,6 +73,13 @@
     "powershell Remove-Item -Recurse -Force"
   ],
   "enableCustomDroids": true,
+  "enableHooks": false,
   "includeCoAuthoredByDroid": true,
-  "specSaveEnabled": true
+  "enableDroidShield": true,
+  "enableReadinessReport": false,
+  "todoDisplayMode": "pinned",
+  "autonomyLevel": "normal",
+  "specSaveEnabled": true,
+  "specModeModel": "gemini-3-pro-preview",
+  "specModeReasoningEffort": "high"
 }

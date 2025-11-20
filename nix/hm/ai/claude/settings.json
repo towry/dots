@@ -131,7 +131,12 @@
       "Read(**/.gnupg/**)",
       "mcp__codex_chromedev__codex-reply"
     ],
-    "additionalDirectories": ["/Users/towry/workspace", "/tmp", "."],
+    "additionalDirectories": [
+      "/Users/towry/workspace",
+      "/tmp",
+      ".",
+      "/Users/towry/.factory/specs"
+    ],
     "defaultMode": "default"
   },
   "env": {

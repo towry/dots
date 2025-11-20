@@ -21,7 +21,7 @@ buildc:
 update-input:
 	nix flake update --
 boot:
-	nix --extra-experimental-features nix-command --extra-experimental-features flakes run nix-darwin -- switch --flake .
+	sudo nix --extra-experimental-features nix-command --extra-experimental-features flakes run nix-darwin -- switch --flake .
 rebuild:
 	sudo darwin-rebuild switch --flake .
 format:

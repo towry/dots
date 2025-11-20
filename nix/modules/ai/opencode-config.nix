@@ -6,6 +6,8 @@
     small_model = "github-copilot/grok-code-fast-1";
     autoupdate = false;
     username = "TOWRY 😜";
+    lsp = false;
+    formatter = false;
     disabled_providers = [
       "openai"
       "gemini"
@@ -379,25 +381,6 @@
       "brightdata*" = true;
       "kg*" = true;
       "sequentialthinking*" = false;
-    };
-
-    lsp = {
-      typescript.disabled = true;
-      deno.disabled = true;
-      eslint.disabled = true;
-      gopls.disabled = true;
-      ruby-lsp.disabled = true;
-      pyright.disabled = true;
-      elixir-ls.disabled = true;
-      zls.disabled = true;
-      csharp.disabled = true;
-      vue.disabled = true;
-      rust.disabled = true;
-      clangd.disabled = true;
-      svelte.disabled = true;
-      astro.disabled = true;
-      jdtls.disabled = true;
-      lua-ls.disabled = true;
     };
   };
 }

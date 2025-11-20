@@ -37,14 +37,18 @@
         "@MASTERGO_API_KEY@",
         "--url=https://mastergo.com"
       ],
+      "disabled": true,
       "command": "bunx",
       "env": {}
     },
-    "tavily": {
+    "brightdata": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["mcp-remote", "@TAVILY_API_KEY@"],
-      "disabled": false
+      "args": ["@brightdata/mcp@2.6.1"],
+      "disabled": false,
+      "env": {
+        "API_TOKEN": "@BRIGHTDATA_API_TOKEN@"
+      }
     }
   }
 }

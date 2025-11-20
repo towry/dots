@@ -16,11 +16,11 @@
     ];
     brews = [
       "asdf"
-      "rift"
+      # "rift"
       # "html2markdown"
     ];
     casks = [
-      "amethyst"
+      # "amethyst"
       "raycast"
       # "sublime-merge"
       # "font-maple-mono"

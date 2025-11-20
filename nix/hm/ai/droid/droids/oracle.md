@@ -1,6 +1,6 @@
 ---
 name: oracle
-model: "copilot/gpt-5"
+model: "gemini-3-pro-preview"
 description: "Consult the Oracle - an AI advisor powered by OpenAI's GTP-5 reasoning model that can plan, review, and provide expert guidance."
 tools: ["Read", "Grep", "Glob", "LS", "mcp"]
 version: v1
