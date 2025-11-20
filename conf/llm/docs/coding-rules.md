@@ -12,9 +12,9 @@
 - **Reuse, Don't Rebuild**: Before writing new code, search the codebase for existing utilities, components, or patterns.
 - **Follow Precedent**: Model new features on existing ones unless instructed otherwise.
 - **Structured Plan**: Each implementation step must specify the target file and the exact changes.
-- **Clear Boundaries**: Keep business logic out of UI components. Isolate mock or demo code to the highest application layer.
+- **Clear Boundaries**: Keep business logic out of UI components. Isolate mock or demo code to the highest application layer. Never change working implementation code just for debug logs.
 - **Fail Fast**: Do not hide bugs with `try-catch` or optional chaining (`?.`). Let errors surface immediately to prevent harder-to-debug deferred failures.
-- **Document Intent**: Use `FIXME`, `TODO`, and `NOTE` to flag areas needing attention. Document non-obvious logic.
+- **Document Intent**: Use `FIXME`, `TODO`, and `NOTE` to flag areas needing attention. Document non-obvious logic, code changes that may confuse future maintainers, and any trade-offs made.
 
 ## Code Review
 - **Deep Review**: Go beyond static checks. Manually walk through edge cases, failure modes, and performance impacts.
@@ -24,12 +24,15 @@
 #### Knowledge & Tools
 - **Knowledge Graph (`kg`)**:
     - Use `kg` to store important information like summaries, facts, and user preferences for long-term memory.
+    - When batch query `kg`, always use `limit` and `summary` output to avoid too much irrelevant information.
     - Use `group_id` to organize information by project (e.g., `<repo_name>_TODOS`, `<repo_name>_CHAT`).
     - After completing a task, save key takeaways to `group_id: "lesson_learned"`.
-    - Keep content concise and focused on facts, only contain neccessary information.
+    - Keep content concise and focused on facts, key insights, only contain neccessary information, to reduce noise when retrieving later.
     - **critical**: Do not save assertions from debugging task that are not verified as facts.
+    - When user want to update an epsode/memory in `kg`, first delete the old one, then create a new one, kg does not support `update` action.
 - **User Preferences**:
     - VCS: `jj`
     - Search: `fd` and `rg`
 - **git**:
     - Only run git commit commands after user confirm the changes is ok.
+    - Before git commit and git add, check current branch, prevent accidental commit to main/staging branch.

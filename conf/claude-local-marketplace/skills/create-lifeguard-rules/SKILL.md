@@ -3,7 +3,7 @@ name: create-lifeguard-rules
 description: This skill should be used when creating lifeguard rules for code review
 ---
 
-Lifeguard rules is used to guide code review.
+Lifeguard rules is used to guide code review, to ensure code quality.
 
 # Lifeguard rule spec
 
@@ -14,11 +14,16 @@ Lifeguard rules is used to guide code review.
 ```yaml
 # comment
 rules:
-  - name: "Rule name ..., like: No magic numbers"
+  # section description in comment (if needed)
+  - name: "LG-<keyword>-001 Rule name ..., like: No magic numbers"
     description: "Details about the rule ..."
-  - name: "Another rule..."
+  - name: "LG-<keyword>-002 Another rule..."
     description: "Details about another rule ..."
+
+  # section description in comment (if needed)
 ```
+
+`<keyword>` is a short keyword that represents the rule category, like `vue-style`, `react-perf`, `security`, etc, keep it as short as possible.
 
 # Rule content guidelines
 
@@ -33,6 +38,7 @@ When generating rules, please follow these guidelines:
 - General rules to prevent bugs.
 - General rules to avoid complex code, hack, work-around code.
 - Dependency import path correctness.
+- **Rule items order**: General rules come first, speicific/project-only rules come later.
 
 
 # Validation 
@@ -40,7 +46,7 @@ When generating rules, please follow these guidelines:
 Use python to validate the lifeguard.yaml file format, ensure the file have no yaml syntax error.
 
 ```
-uv run --with pyyaml -- python -c "import sys, yaml; yaml.safe_load(sys.stdin)" < lifeguard.yaml && echo "VALID" || ECHO "NOT VALID"
+uv run --with pyyaml -- python -c "import sys, yaml; yaml.safe_load(sys.stdin)" < lifeguard.yaml && echo "✅ VALID" || ECHO "❌ NOT VALID"
 ```
 
-Lifeguard content review after created: ask oracle subagent to verify the content of the lifeguard.yaml file, ensure the lifeguard rules are reasonable and useful for code review.
+Lifeguard content review after created: ask oracle subagent to verify the content of the lifeguard.yaml file, ensure the lifeguard rules are reasonable and useful for code review, ask it to review existing rules, not to fully rewrite.

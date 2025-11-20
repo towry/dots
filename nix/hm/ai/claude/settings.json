@@ -19,8 +19,6 @@
       "Bash(pwd:*)",
       "Bash(rg:*)",
       "Read(/tmp/**)",
-      "Bash(grep:*)",
-      "Bash(find:*)",
       "Bash(tail:*)",
       "Bash(head:*)",
       "Bash(lsof:*)",
@@ -55,9 +53,9 @@
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
       "Search(path:*)",
-      "mcp__brightdata__web_search",
-      "mcp__brightdata__scrape",
-      "mcp__brightdata__crawl",
+      "mcp__brightdata__search_engine",
+      "mcp__brightdata__scrape_as_markdown",
+      "mcp__brightdata__search_engine_batch",
       "mcp__chromedev__click",
       "mcp__chromedev__drag",
       "mcp__chromedev__fill",
@@ -189,6 +187,17 @@
           {
             "type": "command",
             "command": "uv run ~/.claude/hooks/get_last_agent.py"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/prevent_forbidden_bash.py"
           }
         ]
       }

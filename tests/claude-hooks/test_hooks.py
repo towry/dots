@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test suite for Claude hooks (session_remind, subagent_remind, get_last_agent)
+Test suite for Claude hooks (session_remind, subagent_remind, get_last_agent, prevent_forbidden_bash)
 
 Tests:
 - Agent ID extraction validation
@@ -8,6 +8,7 @@ Tests:
 - Input sanitization
 - File operations and permissions
 - Transcript fallback logic
+- Bash command prevention (find/grep blocking)
 """
 
 import json
@@ -23,6 +24,7 @@ sys.path.insert(0, str(HOOKS_DIR))
 
 # Import hook functions
 from get_last_agent import extract_agent_id_from_obj, search_transcript_for_agent_id
+from prevent_forbidden_bash import check_forbidden_bash_commands
 
 
 class TestResults:
@@ -229,6 +231,69 @@ def test_file_operations(results):
             results.record_pass("file_operations_permissions (note: hooks set 0600 explicitly)")
 
 
+def test_prevent_forbidden_bash(results):
+    """Test prevent_forbidden_bash.py hook functionality"""
+
+    # Test 1: find command should be blocked
+    test_input_find = {
+        "tool_name": "Bash",
+        "tool_input": {
+            "command": "find . -name '*.py' -type f",
+            "description": "Find Python files"
+        }
+    }
+
+    forbidden = check_forbidden_bash_commands(test_input_find.get("tool_name", ""), test_input_find.get("tool_input", {}))
+    if forbidden and forbidden["name"] == "find":
+        results.record_pass("prevent_bash_blocks_find")
+    else:
+        results.record_fail("prevent_bash_blocks_find", f"Expected 'find' to be blocked, got {forbidden}")
+
+    # Test 2: grep command should be blocked
+    test_input_grep = {
+        "tool_name": "Bash",
+        "tool_input": {
+            "command": "grep -r 'import' .",
+            "description": "Search for import statements"
+        }
+    }
+
+    forbidden = check_forbidden_bash_commands(test_input_grep.get("tool_name", ""), test_input_grep.get("tool_input", {}))
+    if forbidden and forbidden["name"] == "grep":
+        results.record_pass("prevent_bash_blocks_grep")
+    else:
+        results.record_fail("prevent_bash_blocks_grep", f"Expected 'grep' to be blocked, got {forbidden}")
+
+    # Test 3: other Bash commands should pass through
+    test_input_clean = {
+        "tool_name": "Bash",
+        "tool_input": {
+            "command": "ls -la",
+            "description": "List files"
+        }
+    }
+
+    forbidden = check_forbidden_bash_commands(test_input_clean.get("tool_name", ""), test_input_clean.get("tool_input", {}))
+    if forbidden is None:
+        results.record_pass("prevent_bash_allows_clean_commands")
+    else:
+        results.record_fail("prevent_bash_allows_clean_commands", f"Expected clean command to pass, got {forbidden}")
+
+    # Test 4: non-Bash tools should pass through
+    test_input_other_tool = {
+        "tool_name": "Read",
+        "tool_input": {
+            "file_path": "/tmp/test.txt"
+        }
+    }
+
+    forbidden = check_forbidden_bash_commands(test_input_other_tool.get("tool_name", ""), test_input_other_tool.get("tool_input", {}))
+    if forbidden is None:
+        results.record_pass("prevent_bash_allows_other_tools")
+    else:
+        results.record_fail("prevent_bash_allows_other_tools", f"Expected non-Bash tool to pass, got {forbidden}")
+
+
 def main():
     results = TestResults()
 
@@ -251,6 +316,10 @@ def main():
     # File operations tests
     print("\nTesting file operations:")
     test_file_operations(results)
+
+    # Prevent forbidden bash tests
+    print("\nTesting prevent forbidden bash:")
+    test_prevent_forbidden_bash(results)
 
     # Print summary
     success = results.print_summary()

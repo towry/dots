@@ -15,7 +15,7 @@ Efficiently retrieve repository context for code search and analysis without loa
 
 - [ ] **Step 1**: Check repomix-output.xml freshness with `ls -lh repomix-output.xml`
 - [ ] **Step 2**: If file is missing or >2 days old, regenerate with `bunx repomix --output-show-line-numbers`
-- [ ] **Step 3**: Search repomix-output.xml with grep/Grep tool (PRIMARY search method)
+- [ ] **Step 3**: Search repomix-output.xml with Bash(rg)/Grep tool (PRIMARY search method)
 - [ ] **Step 4** (OPTIONAL): Query knowledge graph using `mcp__kg__query_graph` only if repomix search is insufficient
 
 ### 🚫 CRITICAL CONSTRAINTS
@@ -23,7 +23,7 @@ Efficiently retrieve repository context for code search and analysis without loa
 - **FORBIDDEN**: Do NOT skip directly to Grep/Glob on source files without checking repomix first
 - **FORBIDDEN**: Do NOT use `Grep` tool on source code directories (src/, lib/, etc.) as your first action
 - **REQUIRED**: Always start with repomix freshness check, then search repomix-output.xml
-- **PRIMARY TOOL**: grep/search on repomix-output.xml is the main search method
+- **PRIMARY TOOL**: Bash(rg)/search on repomix-output.xml is the main search method
 - **OPTIONAL TOOL**: KG query is a fallback/supplement, not mandatory
 - **REQUIRED**: Document which steps you completed in your response
 
@@ -39,7 +39,7 @@ Use this skill when:
 
 ### What This Skill Is NOT
 
-This is **NOT** a shortcut to run grep/Glob directly on source files. It's a systematic approach to:
+This is **NOT** a shortcut to run Bash(rg)/Glob directly on source files. It's a systematic approach to:
 1. Maintain a queryable code snapshot (repomix)
 2. Leverage semantic search (kg)
 3. Then perform targeted code searches
@@ -140,13 +140,13 @@ Once `repomix-output.xml` is available and current:
    # Use Read tool to load repomix-output.xml into context
    ```
 
-2. **Search efficiently** using grep or XML parsing:
+2. **Search efficiently** using rg or XML parsing:
    ```bash
    # Search for specific functions, classes, or patterns
-   grep -n "function_name" repomix-output.xml
+   rg -n "function_name" repomix-output.xml
 
    # Search for file paths
-   grep -n "path.*specific_file" repomix-output.xml
+   rg -n "path.*specific_file" repomix-output.xml
    ```
 
 3. **Extract relevant sections** rather than loading the entire file when possible
@@ -208,7 +208,7 @@ Step 1: Check repomix freshness
 └─ Fresh? → Continue to Step 2
 
 Step 2: Search repomix-output.xml (PRIMARY METHOD)
-├─ Use grep/Grep tool on repomix-output.xml (NOT source files!)
+├─ Use rg/Grep tool on repomix-output.xml (NOT source files!)
 ├─ Extract relevant code sections
 ├─ Found what you need? → DONE
 └─ Insufficient results? → Consider Step 3
@@ -226,7 +226,7 @@ Step 4 (OPTIONAL): Direct source file access
 
 ```bash
 # WRONG: Jumping directly to source code search
-grep -r "候选人详情" src/
+rg "候选人详情" src/
 rg "phone.*country" lib/
 ```
 
@@ -238,8 +238,8 @@ rg "phone.*country" lib/
 ls -lh repomix-output.xml
 
 # Step 2: Search repomix output FIRST (PRIMARY METHOD)
-grep -n "候选人详情" repomix-output.xml
-grep -n "phone.*country" repomix-output.xml
+rg -n "候选人详情" repomix-output.xml
+rg -n "phone.*country" repomix-output.xml
 
 # Step 3 (OPTIONAL): Query kg only if needed for semantic context
 # operation='search_memory', query='候选人详情 architecture pattern'
@@ -247,7 +247,7 @@ grep -n "phone.*country" repomix-output.xml
 
 ## Best Practices
 
-1. **Prefer targeted queries over full loads**: Use grep, search patterns, or specific file reads rather than loading entire repomix output into context
+1. **Prefer targeted queries over full loads**: Use rg, search patterns, or specific file reads rather than loading entire repomix output into context
 
 2. **Keep repomix output fresh**: Regenerate after significant code changes or at the start of a session
 
@@ -263,7 +263,7 @@ grep -n "phone.*country" repomix-output.xml
 
 ### Pattern 1: Finding a Specific Function Implementation
 
-1. Search repomix-output.xml with grep for the function name
+1. Search repomix-output.xml with rg for the function name
 2. Extract the implementation from search results
 3. (Optional) Query kg if you need architectural context about how this function fits into the system
 
@@ -310,10 +310,10 @@ grep -n "phone.*country" repomix-output.xml
    - If NO: Run `ls -lh repomix-output.xml` now
 
 2. ✅ **Have I searched repomix-output.xml first?**
-   - If NO: Use grep/Grep tool on `repomix-output.xml` now
+   - If NO: Use rg/Grep tool on `repomix-output.xml` now
 
 3. ✅ **Am I searching repomix output, not source files directly?**
-   - If NO: Change your grep/search target to `repomix-output.xml`
+   - If NO: Change your rg/search target to `repomix-output.xml`
 
 4. ✅ **Do I really need KG, or did repomix already provide the answer?**
    - Only query KG if you need semantic/architectural context beyond the code
