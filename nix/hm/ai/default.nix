@@ -10,11 +10,11 @@
     ./legacy.nix
     ./claude
     ./codex
-    ./forge
-    ./windsurf
+    # ./forge
+    # ./windsurf
     # ./cline
     ./droid
-    ./copilot
+    # ./copilot
     ./amp
   ];
   home.activation = {

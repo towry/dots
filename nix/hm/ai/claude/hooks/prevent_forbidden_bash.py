@@ -61,6 +61,51 @@ def check_forbidden_bash_commands(tool_name: str, tool_input: dict):
             ],
             "benefits": "",
         },
+        {
+            "name": "jj git init",
+            "pattern": r"\bjj\s+git\s+init\b",
+            "alternative": "ask user to run it",
+            "examples": [
+                "User, please initialize the jj git repo.",
+            ],
+            "benefits": "Prevents accidental jj repo creation",
+        },
+        {
+            "name": "jj git push",
+            "pattern": r"\bjj\s+git\s+push\b",
+            "alternative": "ask user to run it",
+            "examples": [
+                "User, please push the changes with jj.",
+            ],
+            "benefits": "Prevents accidental jj pushes",
+        },
+        {
+            "name": "git init",
+            "pattern": r"\bgit\s+init\b",
+            "alternative": "ask user to run it",
+            "examples": [
+                "User, please initialize the git repository.",
+            ],
+            "benefits": "Prevents accidental repo creation",
+        },
+        {
+            "name": "git push",
+            "pattern": r"\bgit\s+push\b",
+            "alternative": "ask user to run it",
+            "examples": [
+                "User, please push the changes.",
+            ],
+            "benefits": "Prevents accidental pushes",
+        },
+        {
+            "name": "git clean",
+            "pattern": r"\bgit\s+clean\b",
+            "alternative": "ask user to run it",
+            "examples": [
+                "User, please clean the repository.",
+            ],
+            "benefits": "Prevents accidental deletion of untracked files",
+        },
     ]
 
     for forbidden in forbidden_patterns:
@@ -95,12 +140,18 @@ def generate_help_message(forbidden_command: dict, original_command: str):
         [
             "",
             f"💡 To continue, replace your Bash({name}) call with appropriate {alt} command.",
-            "",
-            f"📖 Common {alt} options:",
-            "   fd: --hidden, --no-ignore, -e [ext], -d [depth], -i",
-            "   rg: -t[type], --glob, -C [lines], -i, --no-ignore",
         ]
     )
+
+    if alt in ["fd", "rg"]:
+        message.extend(
+            [
+                "",
+                f"📖 Common {alt} options:",
+                "   fd: --hidden, --no-ignore, -e [ext], -d [depth], -i",
+                "   rg: -t[type], --glob, -C [lines], -i, --no-ignore",
+            ]
+        )
 
     return "\n".join(message)
 
