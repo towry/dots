@@ -1,0 +1,342 @@
+#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = []
+# ///
+"""UserPromptSubmit hook to intercept /handoff command and generate conversation summary.
+
+This hook:
+1. Detects when user types "/handoff"
+2. Reads the session transcript to extract all messages
+3. Calls `claude -p` to generate a handoff summary
+4. Returns the summary as additional context to be shown to the user
+"""
+
+import json
+import sys
+import subprocess
+from pathlib import Path
+
+
+def extract_messages(transcript_path: str, max_messages: int = 50) -> list[dict]:
+    """Extract user and assistant messages from transcript JSONL file.
+
+    Args:
+        transcript_path: Path to the transcript JSONL file
+        max_messages: Maximum number of recent messages to include
+
+    Returns:
+        List of message dicts with 'role' and 'content'
+    """
+    messages = []
+
+    try:
+        with open(transcript_path, "r") as f:
+            for line in f:
+                try:
+                    entry = json.loads(line)
+
+                    # Skip non-message entries
+                    if entry.get("type") not in ("user", "assistant"):
+                        continue
+
+                    # Extract message content
+                    message = entry.get("message", {})
+                    role = message.get("role")
+                    content = message.get("content")
+
+                    if not role or not content:
+                        continue
+
+                    # Handle different content formats
+                    if isinstance(content, str):
+                        text = content
+                    elif isinstance(content, list):
+                        # Extract text from content blocks
+                        text_parts = []
+                        for block in content:
+                            if isinstance(block, dict):
+                                if block.get("type") == "text":
+                                    text_parts.append(block.get("text", ""))
+                                elif block.get("type") == "tool_use":
+                                    # Include tool usage for context
+                                    tool_name = block.get("name", "unknown")
+                                    text_parts.append(f"[Used tool: {tool_name}]")
+                                elif block.get("type") == "tool_result":
+                                    # Skip verbose tool results
+                                    continue
+                            elif isinstance(block, str):
+                                text_parts.append(block)
+                        text = " ".join(text_parts)
+                    else:
+                        continue
+
+                    # Skip empty messages
+                    text = text.strip()
+                    if not text or text == "(no content)":
+                        continue
+
+                    messages.append({"role": role, "content": text})
+
+                except json.JSONDecodeError:
+                    continue
+    except FileNotFoundError:
+        print(f"Transcript file not found: {transcript_path}", file=sys.stderr)
+        return []
+
+    # Return most recent messages
+    return messages[-max_messages:] if len(messages) > max_messages else messages
+
+
+def format_conversation(messages: list[dict]) -> str:
+    """Format messages as a readable conversation."""
+    lines = []
+    for msg in messages:
+        role = msg["role"].upper()
+        content = msg["content"]
+        lines.append(f"{role}: {content}\n")
+    return "\n".join(lines)
+
+
+def generate_slug_from_messages(messages: list[dict]) -> str:
+    """Generate a short slug from conversation messages.
+
+    Args:
+        messages: List of conversation messages
+
+    Returns:
+        A short slug (kebab-case)
+    """
+    # Get first few user messages to understand context
+    user_messages = [m for m in messages if m["role"] == "user"][:3]
+
+    if not user_messages:
+        return "handoff"
+
+    # Combine first few messages
+    combined = " ".join(m["content"][:100] for m in user_messages)
+
+    # Extract key words (simple approach)
+    words = combined.lower().split()
+    # Filter out common words
+    stop_words = {
+        "the",
+        "a",
+        "an",
+        "and",
+        "or",
+        "but",
+        "in",
+        "on",
+        "at",
+        "to",
+        "for",
+        "of",
+        "with",
+        "by",
+    }
+    keywords = [w for w in words if w.isalnum() and len(w) > 3 and w not in stop_words][
+        :3
+    ]
+
+    if keywords:
+        return "-".join(keywords)
+    else:
+        return "handoff"
+
+
+def generate_handoff_summary(messages: list[dict]) -> str:
+    """Generate handoff summary using claude -p.
+
+    Args:
+        messages: List of conversation messages
+
+    Returns:
+        Generated summary text
+    """
+    if not messages:
+        return "No conversation history available for handoff."
+
+    conversation = format_conversation(messages)
+
+    # Create prompt for summarization
+    prompt = f"""You are creating a handoff summary for a coding session. Analyze this conversation and create a comprehensive handoff document that includes:
+
+1. **Session Overview**: What was being worked on?
+2. **Key Decisions**: Important technical decisions made
+3. **Work Completed**: What was successfully implemented
+4. **Pending Tasks**: What remains to be done
+5. **Todo List(if has unfinished todo items)**: List of todo items that not finished
+5. **Context for Next Session**: Critical information the next person needs to know
+6. **Files Modified**: Key files that were changed (if mentioned)
+
+Be concise but thorough. Format the output in markdown.
+
+# Conversation:
+
+{conversation}
+
+# Handoff Summary:"""
+
+    try:
+        # Call claude in print mode for non-interactive summarization
+        result = subprocess.run(
+            [
+                "claude",
+                "--model",
+                "opencodeai/claude-haiku-4-5",
+                "--allowedTools",
+                "Write,Read,Bash(mkdir:*),Bash(touch:*),Bash(ls:*)",
+                "-p",
+                prompt,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+
+        if result.returncode == 0:
+            return result.stdout.strip()
+        else:
+            error_msg = result.stderr.strip() if result.stderr else "Unknown error"
+            return f"Error generating summary: {error_msg}"
+
+    except subprocess.TimeoutExpired:
+        return "Error: Summary generation timed out after 60 seconds"
+    except FileNotFoundError:
+        return "Error: 'claude' command not found. Is Claude CLI installed?"
+    except Exception as e:
+        return f"Error calling claude: {str(e)}"
+
+
+def save_handoff_to_file(
+    summary: str, messages: list[dict], project_dir: str, user_note: str = ""
+) -> str:
+    """Save handoff summary to .claude/handoffs/ directory.
+
+    Args:
+        summary: The generated handoff summary
+        messages: List of conversation messages (for slug generation)
+        project_dir: Project root directory
+        user_note: Optional custom note from user (not sent to LLM)
+
+    Returns:
+        Filename of the saved handoff (relative to project)
+    """
+    from datetime import datetime
+
+    # Create handoffs directory if it doesn't exist
+    handoffs_dir = Path(project_dir) / ".claude" / "handoffs"
+    handoffs_dir.mkdir(parents=True, exist_ok=True)
+
+    # Generate slug and timestamp
+    slug = generate_slug_from_messages(messages)
+    timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
+    filename = f"{slug}-{timestamp}.md"
+    filepath = handoffs_dir / filename
+
+    # Write the handoff summary
+    with open(filepath, "w") as f:
+        f.write(f"# Handoff: {slug}\n\n")
+        f.write(f"**Created**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+
+        # Include user note if provided
+        if user_note:
+            f.write("## User Note\n\n")
+            f.write(f"> {user_note}\n\n")
+
+        f.write("---\n\n")
+        f.write(summary)
+        f.write("\n\n---\n\n")
+        f.write(f"**To resume**: Run `/pickup {filename}` in a new session\n")
+
+    # Return relative path from project root
+    return f".claude/handoffs/{filename}"
+
+
+def main():
+    """Main hook entry point."""
+    try:
+        # Read input from stdin
+        input_data = json.load(sys.stdin)
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON input: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    prompt = input_data.get("prompt", "").strip()
+
+    # Check if this is a /handoff command
+    if not prompt.startswith("/handoff"):
+        # Not a handoff command, allow it to proceed normally
+        return
+
+    # This is a handoff command - intercept it
+    # Extract custom message after "/handoff" (e.g., "/handoff custom msg" → "custom msg")
+    user_note = prompt[len("/handoff"):].strip()
+    
+    transcript_path = input_data.get("transcript_path", "")
+
+    if not transcript_path:
+        print("Error: No transcript_path provided", file=sys.stderr)
+        sys.exit(2)
+
+    # Extract messages from transcript
+    messages = extract_messages(transcript_path)
+
+    if not messages:
+        error_msg = "No conversation history found to summarize."
+        output = {
+            "decision": "block",
+            "reason": error_msg,
+            "hookSpecificOutput": {"hookEventName": "UserPromptSubmit"},
+        }
+        print(json.dumps(output))
+        sys.exit(0)
+
+    # Get project directory (cwd or current working directory)
+    project_dir = input_data.get("cwd", ".")
+
+    # Generate handoff summary
+    summary = generate_handoff_summary(messages)
+
+    # Save handoff to file
+    try:
+        handoff_file = save_handoff_to_file(summary, messages, project_dir, user_note)
+    except Exception as e:
+        error_msg = f"Error saving handoff: {str(e)}"
+        output = {
+            "decision": "block",
+            "reason": error_msg,
+            "hookSpecificOutput": {"hookEventName": "UserPromptSubmit"},
+        }
+        print(json.dumps(output))
+        sys.exit(0)
+
+    # Format the response message
+    formatted_message = f"""✅ **Handoff Created Successfully**
+
+📝 **File**: `{handoff_file}`
+
+🔄 **Next Steps**:
+1. Run `/new` to start a fresh session
+2. Copy and run the command below to resume:
+
+/pickup {Path(handoff_file).name}
+"""
+
+    # Return JSON output using Claude's standard format
+    # "decision": "block" prevents the /handoff prompt from reaching Claude
+    # "reason" is shown to the user
+    output = {
+        "decision": "block",
+        "reason": formatted_message.strip(),
+        "hookSpecificOutput": {"hookEventName": "UserPromptSubmit"},
+    }
+
+    # Print JSON to stdout with exit code 0
+    print(json.dumps(output))
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()

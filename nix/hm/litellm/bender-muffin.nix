@@ -12,20 +12,24 @@
       model = "github_copilot/claude-haiku-4.5";
       extra_headers = copilotHeaders;
       max_tokens = modelTokenMax "claude-haiku-4.5";
-      rpm = 2;
+      rpm = 3;
+    };
+    model_info = {
+      max_input_tokens = 128000;
+      max_output_tokens = 16000;
     };
   }
   # 64,000
 
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "github_copilot/gpt-5-mini";
-      extra_headers = copilotHeaders;
-      max_tokens = modelTokenMax "gpt-5-mini";
-      rpm = 1;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "github_copilot/gpt-5-mini";
+  #     extra_headers = copilotHeaders;
+  #     max_tokens = modelTokenMax "gpt-5-mini";
+  #     rpm = 1;
+  #   };
+  # }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -53,7 +57,11 @@
       api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
       api_key = pkgs.nix-priv.keys.zai.apiKey;
       max_tokens = 131072;
-      rpm = 3;
+      rpm = 2;
+    };
+    model_info = {
+      max_input_tokens = 204800;
+      max_output_tokens = 131072;
     };
   }
   {
@@ -65,6 +73,10 @@
       max_tokens = 128000;
       rpm = 20;
     };
+    model_info = {
+      max_input_tokens = 200000;
+      max_output_tokens = 128000;
+    };
   }
   {
     model_name = "bender-muffin";
@@ -73,7 +85,11 @@
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 64000;
-      rpm = 1;
+      rpm = 3;
+    };
+    model_info = {
+      max_input_tokens = 200000;
+      max_output_tokens = 64000;
     };
   }
 ]

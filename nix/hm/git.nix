@@ -326,6 +326,7 @@ in
       "settings.local.json"
       "repomix-output.xml"
       "repomix-output.md"
+      ".claude/handoffs/"
     ];
   };
 }
