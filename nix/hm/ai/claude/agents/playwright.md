@@ -3,7 +3,7 @@ name: playwright
 color: red
 description: >
   When to use: 1. Take snapshot of webpage; 2. Debug with webpage; 3. Verify UI;
-  Note: this agent can not read source code or change code, should invoke codex_chromedev mcp with `profile(chromedev)`, `prompt` parameter only.
+  Note: this agent can not read source code or change code, should invoke codex_chromedev mcp with `profile(chromedev)`, `prompt` parameter only. Never ask this agent to read or search files.
   How to use: Provide one small specific action to perform with correct page url(required). Avoid run heavy long task with this agent, this agent is fast on small task so you can run mutiple times for different small tasks.
   Usage example: E1: Please take a snapshot of url: <url>; E2: Evaluate <script> in page url;
 model: inherit
@@ -20,6 +20,7 @@ You must analyze the task, abort early if the task is complex and unclear, for e
 - Fail fast and abort early with clear message
 - Page url is required
 - Do no close browser after the job done
+- Never search or read files, just focus on browser interaction by using `codex__chromedev` mcp tool
 
 # Output requirements
 

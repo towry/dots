@@ -15,6 +15,7 @@ Automated tests for Claude session/agent tracking hooks.
   - ✅ Input sanitization (newline/injection prevention)
   - ✅ File operations and permissions (0600)
   - ✅ Transcript search with isolated environment
+  - ✅ Bash command prevention (blocks find/grep, allows clean commands)
 
 ## Running Tests
 
@@ -48,8 +49,14 @@ Testing file operations:
 ✓ file_operations_create
 ✓ file_operations_permissions
 
+Testing prevent forbidden bash:
+✓ prevent_bash_blocks_find
+✓ prevent_bash_blocks_grep
+✓ prevent_bash_allows_clean_commands
+✓ prevent_bash_allows_other_tools
+
 ============================================================
-Test Results: 13/13 passed
+Test Results: 17/17 passed
 ============================================================
 ```
 

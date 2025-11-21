@@ -43,13 +43,13 @@ This document provides real-world examples of correct and incorrect usage of the
   ✓ File exists and is fresh (modified today)
 
 **Step 2: Searching repomix output (PRIMARY METHOD)**
-⏺ Bash(command: "grep -n 'UserProfile\\|userProfile' repomix-output.xml | head -20")
+⏺ Bash(command: "rg -n 'UserProfile|userProfile' repomix-output.xml | head -20")
 
   Found relevant files:
   - Line 1523: src/components/UserProfile.tsx
   - Line 2847: src/pages/ProfilePage.tsx
 
-⏺ Bash(command: "grep -B5 -A10 'avatar' repomix-output.xml | grep -A10 'UserProfile'")
+⏺ Bash(command: "rg -B5 -A10 'avatar' repomix-output.xml | rg -A10 'UserProfile'")
 
   Key finding: In ProfilePage.tsx, line 45:
   <UserProfile user={currentUser} />
@@ -138,14 +138,14 @@ Fix: Add the avatar prop:
   Generated: repomix-output.xml (1.8MB)
 
 **Step 2: Searching repomix output (PRIMARY)**
-⏺ Bash: grep -n "class.*Auth\|export.*auth\|authentication" repomix-output.xml | head -30
+⏺ Bash: rg -n "class.*Auth|export.*auth|authentication" repomix-output.xml | head -30
 
   Identified core classes:
   - AuthService (line 1234 in repomix)
   - TokenManager (line 2456)
   - AuthMiddleware (line 3678)
 
-⏺ Bash: grep -B5 -A15 "AuthService\|TokenManager\|AuthMiddleware" repomix-output.xml
+⏺ Bash: rg -B5 -A15 "AuthService|TokenManager|AuthMiddleware" repomix-output.xml
 
   Found module structure:
   - JWT token management (lib/auth/jwt.ts)
@@ -213,7 +213,7 @@ Architecture follows a layered pattern with clear separation of concerns.
   Status: Fresh (1 hour old) ✓
 
 **Step 2: Search in repomix (PRIMARY)**
-⏺ Bash: grep -n "getUserProfile" repomix-output.xml
+⏺ Bash: rg -n "getUserProfile" repomix-output.xml
 
   Lines found:
   - 1234: export function getUserProfile() { ... }
@@ -296,7 +296,7 @@ Question: Should I invoke fast-context skill?
   [Check if exists and is fresh]
 
 **Step 2: Search repomix (PRIMARY)**
-⏺ Bash: grep -n "router\|@Get\|@Post\|app\.get\|app\.post" repomix-output.xml | grep -i "user"
+⏺ Bash: rg -n "router|@Get|@Post|app\.get|app\.post" repomix-output.xml | rg -i "user"
 
 **Step 3 (OPTIONAL): Query kg if needed**
 ⏺ mcp__kg__query_graph

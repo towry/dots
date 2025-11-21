@@ -18,7 +18,7 @@
           role = "user";
         }
       ];
-      rpm = 2;
+      rpm = 4;
     };
   }
   {
@@ -45,7 +45,7 @@
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 64000;
-      rpm = 2;
+      rpm = 1;
     };
   }
 ]

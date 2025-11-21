@@ -268,6 +268,35 @@ let
     }
   ];
 
+  opencodeModels =
+    builtins.map
+      (
+        model:
+        let
+          alias = "opencodeai/${model}";
+          maxTokens = modelMaxTokens."openai/${model}" or (modelMaxTokens."${model}" or 131072);
+        in
+        {
+          model_name = alias;
+          litellm_params = {
+            model = "openai/${model}";
+            api_base = "https://opencode.ai/zen/v1";
+            api_key = pkgs.nix-priv.keys.opencode.apiKey;
+            max_tokens = maxTokens;
+          };
+        }
+      )
+      [
+        "gpt-5.1"
+        "gpt-5.1-codex"
+        "claude-sonnet-4-5"
+        "claude-haiku-4-5"
+        "gemini-3-pro"
+        "kimi-k2"
+        "big-pickle"
+        "grok-code"
+      ];
+
   # Zhipu AI models with custom Anthropic-compatible endpoint
   zhipuaiModels =
     builtins.map
@@ -368,23 +397,24 @@ let
     ++ benderMuffinModels
     ++ freeMuffinModels
     ++ frontierMuffinModels
+    ++ opencodeModels
     ++ aliCnModels;
 
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
     litellm_settings = {
-      default_fallbacks = [ "openrouter/openai/gpt-5" ];
+      default_fallbacks = [ "opencodeai/gpt-5.1" ];
       master_key = "os.environ/LITELLM_MASTER_KEY";
       drop_params = true;
       # Disable default log file to avoid conflicts with systemd logging
       # All logs will go to stdout/stderr which systemd captures
-      turn_off_message_logging = false;
+      turn_off_message_logging = true;
       # Enable custom vision router hook
       # LiteLLM will load this from ~/.config/litellm/ directory
       # callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
       # Generic fallbacks (covers remaining error types incl. BadRequestError if not mapped)
       fallbacks = [
-        { "copilot/claude-haiku-4.5" = [ "openrouter/openai/gpt-5-mini" ]; }
+        { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "openai/minimax-m2" = [ "zhipuai/glm-4.6" ]; }
       ];
       cache = true;
