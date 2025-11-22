@@ -18,7 +18,7 @@
           role = "user";
         }
       ];
-      rpm = 4;
+      rpm = 3;
     };
   }
   {
@@ -28,6 +28,27 @@
       extra_headers = copilotHeaders;
       max_tokens = modelTokenMax "github_copilot/gpt-5";
       rpm = 1;
+    };
+  }
+  {
+    model_name = "frontier-muffin";
+    litellm_params = {
+      model = "openai/claude-sonnet-4-5";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 64000;
+      rpm = 1;
+    };
+  }
+  # gpt-5.1-codex
+  {
+    model_name = "frontier-muffin";
+    litellm_params = {
+      model = "openai/gpt-5.1-codex";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 128000;
+      rpm = 2;
     };
   }
   # {
