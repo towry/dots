@@ -486,14 +486,14 @@ let
     export PYTHONPATH="${config.home.homeDirectory}/.config/litellm:''${PYTHONPATH:-}"
 
     # Use the Nix-built litellm package
-    ${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
-    # ${pkgs.uv}/bin/uvx --with 'litellm[proxy]==1.80.0' --with 'httpx[socks]' litellm --config ${litellmConfig} "$@"
+    # $${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
+    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.5' --with 'httpx[socks]' litellm --config ${litellmConfig} "$@"
   '';
 
 in
 {
   home.packages = [
-    pkgs.litellm-proxy
+    # pkgs.litellm-proxy
     # Helper scripts
     startLiteLLMScript
   ];
@@ -524,8 +524,8 @@ in
         NO_PROXY = proxyConfig.noProxyString;
         AIOHTTP_TRUST_ENV = "True";
         PYTHONPATH = "${config.home.homeDirectory}/.config/litellm";
-        PATH = "${pkgs.litellm-proxy}/bin:${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
-        # PATH = "${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
+        # PATH = "${pkgs.litellm-proxy}/bin:${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
+        PATH = "${config.home.sessionVariables.PATH or "/usr/bin:/bin"}";
       };
     };
   };
