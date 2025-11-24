@@ -36,7 +36,7 @@ def check_forbidden_bash_commands(tool_name: str, tool_input: dict):
     forbidden_patterns = [
         {
             "name": "find",
-            "pattern": r"\bfind\b",
+            "pattern": r"(^|[\s|;&])\bfind\b",
             "alternative": "fd",
             "examples": [
                 'fd "*.py"                       # Find Python files',
@@ -49,7 +49,7 @@ def check_forbidden_bash_commands(tool_name: str, tool_input: dict):
         },
         {
             "name": "grep",
-            "pattern": r"\bgrep\b",
+            "pattern": r"(^|[\s|;&])\bgrep\b",
             "alternative": "rg",
             "examples": [
                 'rg "TODO"                         # Search for TODO in all files',
