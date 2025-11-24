@@ -1,7 +1,9 @@
 {
   pkgs,
   copilotHeaders,
-  modelTokenMax,
+  getMaxInputTokens,
+  getMaxOutputTokens,
+  getMaxTokens,
   ...
 }:
 
