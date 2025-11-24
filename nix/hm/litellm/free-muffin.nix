@@ -1,7 +1,9 @@
 {
   pkgs,
   copilotHeaders,
-  modelTokenMax,
+  getMaxInputTokens,
+  getMaxOutputTokens,
+  getMaxTokens,
   ...
 }:
 
@@ -21,7 +23,7 @@
     litellm_params = {
       model = "github_copilot/oswe-vscode-prime";
       extra_headers = copilotHeaders;
-      max_tokens = modelTokenMax "oswe-vscode-prime";
+      max_tokens = getMaxOutputTokens "oswe-vscode-prime";
       rpm = 2;
     };
   }

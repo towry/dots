@@ -10,6 +10,10 @@
 
 let
   proxyConfig = import ../lib/proxy.nix { inherit lib pkgs; };
+  
+  # Import model token limits module
+  tokenModule = import ./litellm/model-tokens.nix { inherit lib; };
+  inherit (tokenModule) getMaxInputTokens getMaxOutputTokens getMaxTokens;
 
   deepseekModels =
     builtins.map
@@ -17,15 +21,20 @@ let
         model:
         let
           alias = "deepseek/${model}";
-          maxTokens = modelMaxTokens."deepseek-chat" or 8192;
+          maxInputTokens = getMaxInputTokens "deepseek/${model}";
+          maxOutputTokens = getMaxOutputTokens "deepseek/${model}";
         in
         {
           model_name = alias;
           litellm_params = {
             model = alias;
             api_key = "os.environ/DEEPSEEK_API_KEY";
-            max_tokens = maxTokens;
-            max_output_tokens = maxTokens;
+            max_tokens = maxOutputTokens;
+            max_output_tokens = maxOutputTokens;
+          };
+          model_info = {
+            max_input_tokens = maxInputTokens;
+            max_output_tokens = maxOutputTokens;
           };
         }
       )
@@ -41,6 +50,8 @@ let
         model:
         let
           alias = "dashscope/${model}";
+          maxInputTokens = getMaxInputTokens "dashscope/${model}";
+          maxOutputTokens = getMaxOutputTokens "dashscope/${model}";
         in
         {
           model_name = alias;
@@ -48,6 +59,10 @@ let
             model = alias;
             api_key = pkgs.nix-priv.keys.alimodel.apiKey;
             api_base = "https://dashscope.aliyuncs.com/compatible-mode/v1";
+          };
+          model_info = {
+            max_input_tokens = maxInputTokens;
+            max_output_tokens = maxOutputTokens;
           };
         }
       )
@@ -80,18 +95,22 @@ let
         model:
         let
           alias = "gemini/${model}";
-          maxTokens = modelMaxTokens."${alias}" or (modelMaxTokens."${model}" or 65536);
+          # Use google provider (not gemini) for token limits
+          maxInputTokens = getMaxInputTokens "google/${model}";
+          maxOutputTokens = getMaxOutputTokens "google/${model}";
         in
         {
           model_name = alias;
           litellm_params = {
             model = alias;
-            max_tokens = maxTokens;
-            max_output_tokens = maxTokens;
+            max_tokens = maxOutputTokens;
+            max_output_tokens = maxOutputTokens;
             api_key = "os.environ/GEMINI_API_KEY";
           };
           model_info = {
             base_model = "gemini/${model}";
+            max_input_tokens = maxInputTokens;
+            max_output_tokens = maxOutputTokens;
           };
         }
       )
@@ -129,90 +148,8 @@ let
     "oswe-vscode-prime"
   ];
 
-  modelMaxTokens = {
-    # OpenAI models
-    "openai/gpt-5" = 128000;
-    "openai/gpt-5-mini" = 128000;
-    "openai/gpt-4.1" = 32768;
-    "openai/gpt-4o" = 16384;
-    "gpt-5" = 128000;
-    "gpt-5-mini" = 128000;
-    "gpt-4.1" = 32768;
-    "gpt-4o" = 16384;
-
-    # GitHub Copilot models (use github-copilot provider from models.dev)
-    "github_copilot/gpt-5" = 128000;
-    "github_copilot/gpt-5-mini" = 128000;
-    "github_copilot/gpt-4.1" = 32768;
-    "github_copilot/gpt-4o" = 16384;
-    "github_copilot/claude-haiku-4.5" = 64000;
-    "github_copilot/claude-sonnet-4" = 64000;
-    "github_copilot/claude-sonnet-4.5" = 64000;
-    "github_copilot/claude-opus-41" = 16000;
-    "github_copilot/gemini-2.5-pro" = 65536;
-    "github_copilot/gemini-3-pro-preview" = 65000;
-    "github_copilot/gemini-2.5-flash" = 65536;
-    "github_copilot/grok-code-fast-1" = 10000;
-    "github_copilot/oswe-vscode-prime" = 64000;
-
-    # Claude models
-    "anthropic/claude-haiku-4.5" = 64000;
-    "anthropic/claude-sonnet-4" = 64000;
-    "anthropic/claude-sonnet-4.5" = 64000;
-    "claude-haiku-4.5" = 64000;
-    "claude-sonnet-4" = 64000;
-    "claude-sonnet-4.5" = 64000;
-    "claude-opus-41" = 16000;
-
-    # Google models
-    "google/gemini-2.5-pro" = 65536;
-    "google/gemini-2.5-flash" = 65536;
-    "gemini-2.5-pro" = 65536;
-    "gemini-2.5-flash" = 65536;
-
-    # xAI models
-    "xai/grok-code-fast-1" = 10000;
-    "grok-code-fast-1" = 10000;
-
-    # DeepSeek models
-    "deepseek/deepseek-chat" = 8192;
-    "deepseek-chat" = 8192;
-
-    # Zhipu AI models (Z.AI Coding Plan)
-    "zai-coding-plan/glm-4.6" = 131072;
-    "zai-coding-plan/glm-4.5-air" = 98304;
-    "glm-4.6" = 131072;
-    "glm-4.5-air" = 98304;
-
-    # Kimi models (Moonshot AI)
-    "moonshotai/kimi-k2-thinking" = 262144;
-    "moonshotai-cn/kimi-k2-thinking" = 262144;
-    "kimi-k2-thinking" = 262144;
-
-    # GitHub Copilot specific entries
-    "oswe-vscode-prime" = 64000;
-  };
-
-  # helper functions to extract model key from names like "copilot/gpt-5", "openai/gpt-5" and return the max token
-  getModelKey =
-    m:
-    let
-      toks = lib.splitString "/" (toString m);
-    in
-    builtins.elemAt toks (builtins.length toks - 1);
-  modelTokenMax =
-    m:
-    let
-      fullKey = toString m;
-      shortKey = getModelKey m;
-    in
-    # Try full key first (e.g., "github_copilot/gpt-5"), then fall back to short key (e.g., "gpt-5")
-    if lib.hasAttr fullKey modelMaxTokens then
-      builtins.getAttr fullKey modelMaxTokens
-    else if lib.hasAttr shortKey modelMaxTokens then
-      builtins.getAttr shortKey modelMaxTokens
-    else
-      8192; # Conservative fallback
+  # Legacy compatibility wrapper (deprecated - use getMaxOutputTokens directly)
+  modelTokenMax = getMaxOutputTokens;
 
   # GitHub Copilot headers - dynamically use package versions
   copilotHeaders = {
@@ -228,18 +165,22 @@ let
     let
       # Use the model name as-is for the user-facing alias
       alias = "github_copilot/${model}";
-      maxTokens = modelMaxTokens."${alias}" or (modelMaxTokens."${model}" or 8192);
+      # Use github_copilot provider-specific token limits
+      maxInputTokens = getMaxInputTokens "github_copilot/${model}";
+      maxOutputTokens = getMaxOutputTokens "github_copilot/${model}";
     in
     {
       model_name = "copilot/${model}"; # User calls with just "claude-haiku-4.5"
       model_info = {
         supports_vision = true;
+        max_input_tokens = maxInputTokens;
+        max_output_tokens = maxOutputTokens;
       };
       litellm_params = {
         model = alias; # LiteLLM uses "github_copilot/claude-haiku-4.5"
         extra_headers = copilotHeaders;
-        max_tokens = maxTokens;
-        max_output_tokens = maxTokens;
+        max_tokens = maxOutputTokens;
+        max_output_tokens = maxOutputTokens;
         cache_control_injection_points = [
           {
             location = "message";
@@ -262,8 +203,12 @@ let
             role = "user";
           }
         ];
-        max_tokens = 128000;
-        max_output_tokens = 128000;
+        max_tokens = getMaxOutputTokens "github_copilot/gpt-5";
+        max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5";
+      };
+      model_info = {
+        max_input_tokens = getMaxInputTokens "github_copilot/gpt-5";
+        max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5";
       };
     }
   ];
@@ -274,7 +219,9 @@ let
         model:
         let
           alias = "opencodeai/${model}";
-          maxTokens = modelMaxTokens."openai/${model}" or (modelMaxTokens."${model}" or 131072);
+          # Use opencodeai provider-specific token limits (use model name as-is)
+          maxInputTokens = getMaxInputTokens "opencodeai/${model}";
+          maxOutputTokens = getMaxOutputTokens "opencodeai/${model}";
         in
         {
           model_name = alias;
@@ -282,7 +229,11 @@ let
             model = "openai/${model}";
             api_base = "https://opencode.ai/zen/v1";
             api_key = pkgs.nix-priv.keys.opencode.apiKey;
-            max_tokens = maxTokens;
+            max_tokens = maxOutputTokens;
+          };
+          model_info = {
+            max_input_tokens = maxInputTokens;
+            max_output_tokens = maxOutputTokens;
           };
         }
       )
@@ -304,8 +255,8 @@ let
         model:
         let
           alias = "zhipuai/${model}";
-          # zhipuai uses "openai/${model}" as the actual model value, check both
-          maxTokens = modelMaxTokens."openai/${model}" or (modelMaxTokens."${model}" or 131072);
+          maxInputTokens = getMaxInputTokens "zhipuai/${model}";
+          maxOutputTokens = getMaxOutputTokens "zhipuai/${model}";
         in
         {
           model_name = alias;
@@ -313,8 +264,12 @@ let
             model = "openai/${model}"; # Use openai/ prefix for custom endpoint
             api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
             api_key = pkgs.nix-priv.keys.zai.apiKey;
-            max_tokens = maxTokens;
-            max_output_tokens = maxTokens;
+            max_tokens = maxOutputTokens;
+            max_output_tokens = maxOutputTokens;
+          };
+          model_info = {
+            max_input_tokens = maxInputTokens;
+            max_output_tokens = maxOutputTokens;
           };
         }
       )
@@ -329,8 +284,9 @@ let
         model:
         let
           alias = "kimi/${model}";
-          # kimi uses "openai/${model}" as the actual model value
-          maxTokens = modelMaxTokens."openai/${model}" or (modelMaxTokens."${model}" or 262144);
+          # Use moonshot provider for kimi-k2-thinking token limits
+          maxInputTokens = getMaxInputTokens "moonshot/kimi-k2-thinking";
+          maxOutputTokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
         in
         {
           model_name = alias;
@@ -339,8 +295,12 @@ let
             api_base = "https://api.kimi.com/coding/v1";
             api_key = "${pkgs.nix-priv.keys.kimi.apiKey}";
             reasoning_effort = "medium";
-            max_tokens = maxTokens;
-            max_output_tokens = maxTokens;
+            max_tokens = maxOutputTokens;
+            max_output_tokens = maxOutputTokens;
+          };
+          model_info = {
+            max_input_tokens = maxInputTokens;
+            max_output_tokens = maxOutputTokens;
           };
         }
       )
@@ -355,8 +315,12 @@ let
         model = "moonshot/kimi-k2-0905-preview";
         api_base = "https://api.moonshot.cn/v1";
         api_key = "${pkgs.nix-priv.keys.moonshot.apiKey}";
-        max_tokens = 262144;
-        max_output_tokens = 262144;
+        max_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
+        max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
+      };
+      model_info = {
+        max_input_tokens = getMaxInputTokens "moonshot/kimi-k2-thinking";
+        max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
     }
     {
@@ -365,24 +329,31 @@ let
         model = "moonshot/kimi-k2-thinking";
         api_base = "https://api.moonshot.cn/v1";
         api_key = "${pkgs.nix-priv.keys.moonshot.apiKey}";
-        max_tokens = 262144;
-        max_output_tokens = 262144;
+        max_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
+        max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
+      };
+      model_info = {
+        max_input_tokens = getMaxInputTokens "moonshot/kimi-k2-thinking";
+        max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
     }
   ];
 
   # Import bender-muffin model group from separate module
   benderMuffinModels = import ./litellm/bender-muffin.nix {
-    inherit pkgs copilotHeaders modelTokenMax;
+    inherit pkgs copilotHeaders;
+    inherit (tokenModule) getMaxInputTokens getMaxOutputTokens getMaxTokens;
   };
 
   freeMuffinModels = import ./litellm/free-muffin.nix {
-    inherit pkgs copilotHeaders modelTokenMax;
+    inherit pkgs copilotHeaders;
+    inherit (tokenModule) getMaxInputTokens getMaxOutputTokens getMaxTokens;
   };
 
   # Import frontier-muffin model group from separate module
   frontierMuffinModels = import ./litellm/frontier-muffin.nix {
-    inherit pkgs copilotHeaders modelTokenMax;
+    inherit pkgs copilotHeaders;
+    inherit (tokenModule) getMaxInputTokens getMaxOutputTokens getMaxTokens;
   };
 
   modelList =
