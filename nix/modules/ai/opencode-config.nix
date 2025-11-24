@@ -97,7 +97,7 @@
       };
 
       build = {
-        model = "litellm/free-muffin";
+        model = "litellm/bender-muffin";
         tools = {
           write = true;
           edit = true;

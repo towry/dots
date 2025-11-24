@@ -180,33 +180,9 @@ def main():
             if not args.quiet:
                 print('No session id provided in hook input; attempting fallback behavior')
 
-        # Try to find an existing last_agent file
+        # Try to find an existing last_agent file for THIS session only
         if session_id:
             fpath = find_last_agent_file(project_dir, session_id)
-
-        # If the exact session file doesn't exist, look for the newest last_agent file
-        if not fpath:
-            try:
-                logs_dir = Path(project_dir) / '.claude' / 'logs'
-                if logs_dir.exists() and logs_dir.is_dir():
-                    candidates = list(logs_dir.glob('last_agent_id_*.txt'))
-                    if candidates:
-                        # Pick the newest by mtime
-                        candidates.sort(key=lambda p: p.stat().st_mtime, reverse=True)
-                        fpath = candidates[0]
-                        if not args.quiet and args.verbose:
-                            print(f'Found fallback last_agent file: {fpath}')
-                        # Write debug JSONL line
-                        debug_enabled = args.debug or os.environ.get('CLAUDE_HOOK_DEBUG') == '1'
-                        try:
-                            if debug_enabled:
-                                dbg_file = logs_dir / f'get_last_agent_debug_{session_id or "unknown"}.jsonl'
-                                with open(dbg_file, 'a') as fh:
-                                    fh.write(json.dumps({'timestamp': datetime.now().isoformat(), 'event': 'fallback_file', 'found_fpath': str(fpath)}) + '\n')
-                        except Exception:
-                            pass
-            except Exception:
-                pass
 
         # Try to read agent_id from file if we found one
         if fpath:

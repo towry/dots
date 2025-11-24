@@ -49,7 +49,9 @@
       "Bash(jj bookmark list:*)",
       "Bash(cargo check:*)",
       "Bash(cargo clippy:*)",
+      "Bash(cargo test:*)",
       "Read(~/.dotfiles/**)",
+      "Bash(mkdir:*)",
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
       "Search(path:*)",
@@ -187,6 +189,14 @@
           {
             "type": "command",
             "command": "uv run ~/.claude/hooks/get_last_agent.py"
+          },
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/handoff_interceptor.py"
+          },
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/pickup_hook.py"
           }
         ]
       }
@@ -198,6 +208,17 @@
           {
             "type": "command",
             "command": "uv run ~/.claude/hooks/prevent_forbidden_bash.py"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -sound default -message 'Claude Code: Awaiting your input'"
           }
         ]
       }

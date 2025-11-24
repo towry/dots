@@ -148,6 +148,12 @@ in
       source = ../../../conf/llm/opencode/command;
       recursive = true;
     };
+    "opencode/command/handoff.md" = {
+      source = ./claude/commands/handoff.md;
+    };
+    "opencode/command/pickup.md" = {
+      source = ./claude/commands/pickup.md;
+    };
     "opencode/roles" = {
       source = ../../../conf/llm/opencode/roles;
       recursive = true;

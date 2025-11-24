@@ -414,8 +414,9 @@ let
       # callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
       # Generic fallbacks (covers remaining error types incl. BadRequestError if not mapped)
       fallbacks = [
-        { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
+        { "github_copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "openai/minimax-m2" = [ "zhipuai/glm-4.6" ]; }
+        { "github_copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
       ];
       cache = true;
       cache_params = {
@@ -440,7 +441,7 @@ let
       # "failed to count tokens ... Invalid content type: <class 'dict'>"
       # Disable pre-call token counting to avoid hard failures; rely on provider
       # context-window errors + configured context_window_fallbacks instead.
-      enable_pre_call_checks = false;
+      enable_pre_call_checks = true;
     };
 
   };

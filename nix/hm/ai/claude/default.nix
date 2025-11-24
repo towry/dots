@@ -108,10 +108,10 @@ let
         fi
 
         # Execute claude with kiro system prompt
-        exec claude --system-prompt "$system_prompt" --mcp-config "$HOME/.mcp.json" "''${args[@]}"
+        exec claude --allow-dangerously-skip-permissions --system-prompt "$system_prompt" --mcp-config "$HOME/.mcp.json" "''${args[@]}"
       else
         # Normal mode: just run claude with all arguments
-        exec claude --mcp-config "$HOME/.mcp.json" "$@"
+        exec claude --allow-dangerously-skip-permissions --mcp-config "$HOME/.mcp.json" "$@"
       fi
     '';
   };
