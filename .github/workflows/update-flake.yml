@@ -9,7 +9,7 @@ jobs:
   update-dependencies:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup SSH for private flake inputs
         uses: webfactory/ssh-agent@v0.9.0
         with:
