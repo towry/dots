@@ -207,7 +207,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uv run ~/.claude/hooks/prevent_forbidden_bash.py"
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/prevent_forbidden_bash.py"
           }
         ]
       }
