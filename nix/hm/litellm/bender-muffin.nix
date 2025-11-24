@@ -71,10 +71,24 @@
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 128000;
-      rpm = 20;
+      rpm = 10;
     };
     model_info = {
       max_input_tokens = 200000;
+      max_output_tokens = 128000;
+    };
+  }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openai/gpt-5.1-codex";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 128000;
+      rpm = 1;
+    };
+    model_info = {
+      max_input_tokens = 400000;
       max_output_tokens = 128000;
     };
   }
@@ -85,7 +99,7 @@
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 64000;
-      rpm = 3;
+      rpm = 2;
     };
     model_info = {
       max_input_tokens = 200000;
