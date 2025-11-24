@@ -11,7 +11,8 @@
 This hook runs before any tool is executed and can block execution.
 It specifically blocks:
 - Bash tool calls with commands containing 'find' -> suggests using 'fd' instead
-- Bash tool calls with commands containing 'grep' -> suggests using 'rg' instead
+- Bash tool calls with standalone 'grep' -> suggests using 'rg' instead
+  (grep in pipelines like "cat file | grep pattern" is allowed for limited scope)
 
 The hook exits with code 2 to block execution when forbidden commands are detected.
 """
@@ -20,6 +21,34 @@ import argparse
 import json
 import re
 import sys
+
+
+def is_grep_in_pipeline(command: str) -> bool:
+    """Check if grep is used in a pipeline (after a pipe), which is limited scope."""
+    # Find all grep occurrences
+    for match in re.finditer(r'\bgrep\b', command, re.IGNORECASE):
+        grep_pos = match.start()
+        
+        # Check if there's a pipe before this grep
+        before_grep = command[:grep_pos]
+        
+        # If there's a pipe before grep, check if it's the immediately preceding command
+        if '|' in before_grep:
+            # Find the last pipe position
+            last_pipe_pos = before_grep.rfind('|')
+            # Check what's between the pipe and grep (should be mostly whitespace)
+            between = before_grep[last_pipe_pos + 1:].strip()
+            
+            # If grep is immediately after pipe (or after whitespace), it's in a pipeline
+            if not between:
+                continue
+        
+        # If we get here, this grep is NOT in a pipeline (limited scope)
+        # It's standalone or part of a larger command chain
+        return False
+    
+    # All grep occurrences are in pipelines
+    return True
 
 
 def check_forbidden_bash_commands(tool_name: str, tool_input: dict):
@@ -110,6 +139,9 @@ def check_forbidden_bash_commands(tool_name: str, tool_input: dict):
 
     for forbidden in forbidden_patterns:
         if re.search(forbidden["pattern"], command, re.IGNORECASE):
+            # Special handling for grep: allow if it's in a pipeline (limited scope)
+            if forbidden["name"] == "grep" and is_grep_in_pipeline(command):
+                continue
             return forbidden
 
     return None
