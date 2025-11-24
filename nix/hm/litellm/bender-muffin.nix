@@ -55,11 +55,25 @@
   {
     model_name = "bender-muffin";
     litellm_params = {
+      model = "openrouter/minimax/minimax-m2";
+      api_key = "os.environ/OPENROUTER_API_KEY";
+      cache_control_injection_points = [
+        {
+          location = "message";
+          role = "user";
+        }
+      ];
+      rpm = 6;
+    };
+  }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
       model = "openai/glm-4.6";
       api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
       api_key = pkgs.nix-priv.keys.zai.apiKey;
       max_tokens = 131072;
-      rpm = 4;
+      rpm = 2;
     };
     model_info = {
       max_input_tokens = 204800;
@@ -73,7 +87,7 @@
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 65536;
-      rpm = 3;
+      rpm = 2;
     };
     model_info = {
       max_input_tokens = 262144;
@@ -101,7 +115,7 @@
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 64000;
-      rpm = 8;
+      rpm = 10;
     };
     model_info = {
       max_input_tokens = 200000;
