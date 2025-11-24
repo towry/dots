@@ -119,18 +119,18 @@
       max_output_tokens = 64000;
     };
   }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openai/claude-sonnet-4-5";
-      api_base = "https://opencode.ai/zen/v1";
-      api_key = pkgs.nix-priv.keys.opencode.apiKey;
-      max_tokens = 64000;
-      rpm = 1;
-    };
-    model_info = {
-      max_input_tokens = 1000000;
-      max_output_tokens = 64000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openai/claude-sonnet-4-5";
+  #     api_base = "https://opencode.ai/zen/v1";
+  #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
+  #     max_tokens = 64000;
+  #     rpm = 1;
+  #   };
+  #   model_info = {
+  #     max_input_tokens = 1000000;
+  #     max_output_tokens = 64000;
+  #   };
+  # }
 ]
