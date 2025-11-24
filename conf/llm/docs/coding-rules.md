@@ -30,6 +30,7 @@
     - Keep content concise and focused on facts, key insights, only contain neccessary information, to reduce noise when retrieving later.
     - **critical**: Do not save assertions from debugging task that are not verified as facts.
     - When user want to update an epsode/memory in `kg`, first delete the old one, then create a new one, kg does not support `update` action.
+    - Always include `episode_id` in output after new episode created with kg.
 - **User Preferences**:
     - VCS: `jj`
     - Search: `fd` and `rg`

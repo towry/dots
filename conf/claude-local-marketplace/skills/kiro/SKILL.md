@@ -95,7 +95,7 @@ Read /path/to/kiro-spec/claude.md
 3. **Update requirements.md**
    - Add user stories in format: "As a [role], I want to [action], so that [benefit]"
    - Define acceptance criteria for each requirement
-   - Use the template structure from `/Users/towry/.dotfiles/nix/hm/agpod/templates/default/requirements.md.j2`
+   - Follow the existing structure already present in the generated `requirements.md` file
 
 4. **Update claude.md status**
    - Change `requirements.md: draft` when in progress
@@ -137,7 +137,7 @@ Read /path/to/kiro-spec/claude.md
    - Let user choose the preferred approach
 
 4. **Update design.md**
-   - Use the template structure from `/Users/towry/.dotfiles/nix/hm/agpod/templates/default/design.md.j2`
+   - Follow the existing structure already present in the generated `design.md` file
    - Include ASCII diagrams for system architecture
    - Keep it focused and scannable
 
@@ -176,7 +176,7 @@ Read /path/to/kiro-spec/claude.md
      - **Files**: List of files to modify
 
 3. **Update tasks.md**
-   - Use the template structure from `/Users/towry/.dotfiles/nix/hm/agpod/templates/default/tasks.md.j2`
+   - Follow the existing structure already present in the generated `tasks.md` file
    - Keep tasks atomic and independently executable
    - Order tasks by dependencies
 
