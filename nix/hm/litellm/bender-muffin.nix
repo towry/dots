@@ -6,19 +6,19 @@
 }:
 
 [
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "github_copilot/claude-haiku-4.5";
-      extra_headers = copilotHeaders;
-      max_tokens = modelTokenMax "claude-haiku-4.5";
-      rpm = 3;
-    };
-    model_info = {
-      max_input_tokens = 128000;
-      max_output_tokens = 16000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "github_copilot/claude-haiku-4.5";
+  #     extra_headers = copilotHeaders;
+  #     max_tokens = modelTokenMax "claude-haiku-4.5";
+  #     rpm = 3;
+  #   };
+  #   model_info = {
+  #     max_input_tokens = 128000;
+  #     max_output_tokens = 16000;
+  #   };
+  # }
   # 64,000
 
   # {
@@ -57,11 +57,25 @@
       api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
       api_key = pkgs.nix-priv.keys.zai.apiKey;
       max_tokens = 131072;
-      rpm = 2;
+      rpm = 4;
     };
     model_info = {
       max_input_tokens = 204800;
       max_output_tokens = 131072;
+    };
+  }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openai/qwen3-coder";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 65536;
+      rpm = 3;
+    };
+    model_info = {
+      max_input_tokens = 262144;
+      max_output_tokens = 65536;
     };
   }
   {
@@ -81,28 +95,28 @@
   {
     model_name = "bender-muffin";
     litellm_params = {
-      model = "openai/gpt-5.1-codex";
+      model = "openai/claude-haiku-4-5";
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
-      max_tokens = 128000;
-      rpm = 1;
+      max_tokens = 64000;
+      rpm = 8;
     };
     model_info = {
-      max_input_tokens = 400000;
-      max_output_tokens = 128000;
+      max_input_tokens = 200000;
+      max_output_tokens = 64000;
     };
   }
   {
     model_name = "bender-muffin";
     litellm_params = {
-      model = "openai/claude-haiku-4-5";
+      model = "openai/claude-sonnet-4-5";
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 64000;
-      rpm = 2;
+      rpm = 1;
     };
     model_info = {
-      max_input_tokens = 200000;
+      max_input_tokens = 1000000;
       max_output_tokens = 64000;
     };
   }
