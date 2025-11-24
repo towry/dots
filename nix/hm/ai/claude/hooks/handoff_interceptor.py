@@ -145,11 +145,12 @@ def generate_slug_from_messages(messages: list[dict]) -> str:
         return "handoff"
 
 
-def generate_handoff_summary(messages: list[dict]) -> str:
+def generate_handoff_summary(messages: list[dict], project_dir: str = ".") -> str:
     """Generate handoff summary using claude -p.
 
     Args:
         messages: List of conversation messages
+        project_dir: Project directory to run Claude in
 
     Returns:
         Generated summary text
@@ -157,18 +158,23 @@ def generate_handoff_summary(messages: list[dict]) -> str:
     if not messages:
         return "No conversation history available for handoff."
 
+    from pathlib import Path
+    absolute_project_dir = Path(project_dir).resolve().absolute()
+
     conversation = format_conversation(messages)
 
     # Create prompt for summarization
-    prompt = f"""You are creating a handoff summary for a coding session. Analyze this conversation and create a comprehensive handoff document that includes:
+    prompt = f"""You are creating a handoff summary for a coding session in project directory: `{absolute_project_dir}`
+
+Analyze this conversation and create a comprehensive handoff document that includes:
 
 1. **Session Overview**: What was being worked on?
 2. **Key Decisions**: Important technical decisions made
 3. **Work Completed**: What was successfully implemented
 4. **Pending Tasks**: What remains to be done
 5. **Todo List(if has unfinished todo items)**: List of todo items that not finished
-5. **Context for Next Session**: Critical information the next person needs to know
-6. **Files Modified**: Key files that were changed (if mentioned)
+6. **Context for Next Session**: Critical information the next person needs to know
+7. **Files Modified**: Key files that were changed (if mentioned) - use absolute paths relative to `{absolute_project_dir}`
 
 Be concise but thorough. Format the output in markdown.
 
@@ -180,6 +186,7 @@ Be concise but thorough. Format the output in markdown.
 
     try:
         # Call claude in print mode for non-interactive summarization
+        # Set cwd to project directory so Claude has correct context
         result = subprocess.run(
             [
                 "claude",
@@ -190,6 +197,7 @@ Be concise but thorough. Format the output in markdown.
                 "-p",
                 prompt,
             ],
+            cwd=project_dir,
             capture_output=True,
             text=True,
             timeout=60,
@@ -296,8 +304,8 @@ def main():
     # Get project directory (cwd or current working directory)
     project_dir = input_data.get("cwd", ".")
 
-    # Generate handoff summary
-    summary = generate_handoff_summary(messages)
+    # Generate handoff summary with correct project directory context
+    summary = generate_handoff_summary(messages, project_dir)
 
     # Save handoff to file
     try:
