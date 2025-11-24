@@ -14,12 +14,6 @@
       model = "github_copilot/claude-sonnet-4.5";
       extra_headers = copilotHeaders;
       max_tokens = getMaxOutputTokens "github_copilot/claude-sonnet-4.5";
-      cache_control_injection_points = [
-        {
-          location = "message";
-          role = "user";
-        }
-      ];
       rpm = 3;
     };
     model_info = {

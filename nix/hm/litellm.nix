@@ -10,7 +10,7 @@
 
 let
   proxyConfig = import ../lib/proxy.nix { inherit lib pkgs; };
-  
+
   # Import model token limits module
   tokenModule = import ./litellm/model-tokens.nix { inherit lib; };
   inherit (tokenModule) getMaxInputTokens getMaxOutputTokens getMaxTokens;
@@ -78,13 +78,6 @@ let
       litellm_params = {
         model = "openrouter/*";
         api_key = "os.environ/OPENROUTER_API_KEY";
-
-        cache_control_injection_points = [
-          {
-            location = "message";
-            role = "user";
-          }
-        ];
       };
     }
   ];
@@ -180,13 +173,6 @@ let
         model = alias; # LiteLLM uses "github_copilot/claude-haiku-4.5"
         extra_headers = copilotHeaders;
         max_tokens = maxOutputTokens;
-        max_output_tokens = maxOutputTokens;
-        cache_control_injection_points = [
-          {
-            location = "message";
-            role = "user";
-          }
-        ];
       };
     }
   ) githubModelNames;
@@ -197,14 +183,7 @@ let
       litellm_params = {
         model = "github_copilot/gpt-5";
         extra_headers = copilotHeaders;
-        cache_control_injection_points = [
-          {
-            location = "message";
-            role = "user";
-          }
-        ];
         max_tokens = getMaxOutputTokens "github_copilot/gpt-5";
-        max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5";
       };
       model_info = {
         max_input_tokens = getMaxInputTokens "github_copilot/gpt-5";
@@ -238,6 +217,7 @@ let
         }
       )
       [
+        "gpt-5"
         "gpt-5.1"
         "gpt-5.1-codex"
         "claude-sonnet-4-5"
@@ -374,7 +354,7 @@ let
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
     litellm_settings = {
-      default_fallbacks = [ "opencodeai/gpt-5.1" ];
+      default_fallbacks = [ "opencodeai/gpt-5" ];
       master_key = "os.environ/LITELLM_MASTER_KEY";
       drop_params = true;
       # Disable default log file to avoid conflicts with systemd logging
@@ -385,9 +365,9 @@ let
       # callbacks = "conf.llm.litellm_vision_router.vision_router_instance";
       # Generic fallbacks (covers remaining error types incl. BadRequestError if not mapped)
       fallbacks = [
-        { "github_copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
-        { "openai/minimax-m2" = [ "zhipuai/glm-4.6" ]; }
-        { "github_copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
+        { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
+        { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
+        { "bender-muffin" = [ "opencodeai/gpt-5" ]; }
       ];
       cache = true;
       cache_params = {
