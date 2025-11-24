@@ -8,7 +8,7 @@ let
     aarch64-darwin = "https://github.com/towry/agpod/releases/download/v${version}/agpod-${version}-aarch64-apple-darwin.tar.gz";
   };
   sha256-map = {
-    aarch64-darwin = "1pacn1srv3v3ivlhfdj9366l3aj2i20y03ks7njnmwl3gfhkvyz2";
+    aarch64-darwin = "sha256-f7DO96PhNmOBW9DxNBO0P58uO3mAcCrzzwNIRGLdCKY=";
   };
 in
 with pkgs;
