@@ -90,7 +90,9 @@ Read /path/to/kiro-spec/claude.md
 2. **Gather requirements from user**
    - Ask clarifying questions about user stories
    - Define acceptance criteria with WHEN/THEN format
-   - Document each requirement as REQ-001, REQ-002, etc.
+   - Document each requirement using semantic IDs (e.g., REQ-AUTH-LOGIN, REQ-DATA-EXPORT)
+   - Use pattern: REQ-{DOMAIN}-{ACTION} for stable, descriptive identifiers
+   - Add all requirement IDs to the "Requirements Order" section at the top of requirements.md
 
 3. **Update requirements.md**
    - Add user stories in format: "As a [role], I want to [action], so that [benefit]"
@@ -119,7 +121,7 @@ Read /path/to/kiro-spec/claude.md
 
 2. **Create design for each requirement**
 
-   For each REQ-XXX, create a corresponding design section with:
+   For each requirement ID (e.g., REQ-AUTH-LOGIN), create a corresponding design section with:
 
    - **Overview**: Purpose, key objectives, non-goals
    - **Architecture**: System design diagrams, data flow
@@ -164,14 +166,14 @@ Read /path/to/kiro-spec/claude.md
 
 2. **Break down each requirement into tasks**
 
-   For each REQ-XXX, create TASK-REQ-XXX section with:
+   For each requirement ID (e.g., REQ-AUTH-LOGIN), create corresponding TASK-REQ-{ID} section (e.g., TASK-REQ-AUTH-LOGIN) with:
 
    - **Phases**: Group related tasks (e.g., Phase 1: Core Implementation, Phase 2: Integration)
    - **Task details** for each item:
      - Checkbox for completion tracking
      - **Status**: ⬜ Not Started / 🟡 In Progress / ✅ Completed / ⚠️ Blocked
      - **Prompt**: Detailed implementation instructions
-     - **Requirements**: Reference to REQ-XXX
+     - **Requirements**: Reference to requirement ID (e.g., REQ-AUTH-LOGIN)
      - **Design ref**: Section reference in design.md
      - **Files**: List of files to modify
 
