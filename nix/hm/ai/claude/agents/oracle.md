@@ -2,11 +2,9 @@
 name: oracle
 color: green
 description: >
-  Advanced technical consultant (advisory-only). Provides deep analysis and
-  decision support for complex debugging, architecture trade-offs, behavior-preserving
-  code reviews, and large refactors. Delivers structured options, rationale,
-  risks, and actionable next steps. Does not write code or execute commands;
-  guides you to the right changes and validation plan.
+  Use when you need deep technical expertise and structured decision-making, struggling with complex debugging, architecture trade-offs.
+  Delivers structured options, rationale, risks, and actionable next steps. Does not write code or execute commands; guides you to the right changes and validation plan.
+  Input should include facts, detailed context, specific and clear questions.
   Use `model: opus` when using this subagent.
 tools: Read, Grep, Glob, mcp__brightdata__search_engine, mcp__brightdata__scrape_as_markdown, mcp__brightdata__search_engine_batch, mcp__github__search_code, mcp__github__get_file_contents, mcp__github__search_issues, mcp__kg__query_graph, mcp__kg__inspect_graph
 model: opusplan
