@@ -195,6 +195,19 @@ def format_session_id(session_id):
     return f" | {ICON_SESSION} {session_id[:8]}"
 
 
+def format_model_name(model):
+    """Format model name with red color for specific models"""
+    # Model fragments that should be displayed in red (partial match)
+    red_model_patterns = {"frontier", "sonnet", "gemini-3"}
+
+    # Check if model contains any of the red patterns (case-insensitive)
+    model_lower = model.lower()
+    for pattern in red_model_patterns:
+        if pattern in model_lower:
+            return f"\033[31m{model}\033[0m"  # Red color
+    return model
+
+
 def main():
     try:
         # Read JSON from stdin
@@ -204,6 +217,9 @@ def main():
         model = data.get("model", {}).get("display_name", "Unknown")
         current_dir = data.get("workspace", {}).get("current_dir", os.getcwd())
         dir_name = os.path.basename(current_dir)
+
+        # Format model name with color if needed
+        formatted_model = format_model_name(model)
 
         # Optional: Get git branch
         git_branch = get_git_branch(current_dir)
@@ -230,7 +246,7 @@ def main():
         context_stats = format_context_stats(token_metrics)
 
         # Build status line
-        status = f"[{model}]  {dir_name}{git_branch}{session_info}{context_stats}{cost_info}{lines_info}{duration_info}"
+        status = f"[{formatted_model}]  {dir_name}{git_branch}{session_info}{context_stats}{cost_info}{lines_info}{duration_info}"
 
         print(status)
 
