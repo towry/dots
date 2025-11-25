@@ -217,6 +217,25 @@ Be concise but thorough. Format the output in markdown.
         return f"Error calling claude: {str(e)}"
 
 
+def copy_to_clipboard(text: str) -> bool:
+    """Copy text to clipboard using pbcopy.
+
+    Args:
+        text: Text to copy to clipboard
+
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        process = subprocess.Popen(["pbcopy"], stdin=subprocess.PIPE)
+        process.communicate(text.encode("utf-8"))
+        return process.returncode == 0
+    except FileNotFoundError:
+        return False
+    except Exception:
+        return False
+
+
 def save_handoff_to_file(
     summary: str, messages: list[dict], project_dir: str, user_note: str = ""
 ) -> str:
@@ -321,15 +340,23 @@ def main():
         sys.exit(0)
 
     # Format the response message
+    pickup_command = f"/pickup {Path(handoff_file).name}"
+
+    # Try to copy pickup command to clipboard
+    clipboard_copied = copy_to_clipboard(pickup_command)
+
+    clipboard_status = "📋 Copied to clipboard!" if clipboard_copied else ""
+
     formatted_message = f"""✅ **Handoff Created Successfully**
 
 📝 **File**: `{handoff_file}`
 
 🔄 **Next Steps**:
 1. Run `/new` to start a fresh session
-2. Copy and run the command below to resume:
+2. Run the command below to resume:
 
-/pickup {Path(handoff_file).name}
+{pickup_command}
+{clipboard_status}
 """
 
     # Return JSON output using Claude's standard format
