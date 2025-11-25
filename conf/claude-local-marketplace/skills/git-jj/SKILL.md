@@ -163,7 +163,12 @@ Summary:
 ### 4. Commit Changes
 - **CRITICAL**: NEVER commit without explicit user confirmation
 - Before committing: Show summary of changes and ask user to confirm
-- **JJ**: Check status with `jj --no-pager status` first, then `jj commit -m "message"` or `jj describe -m "message"`, after commit, run `jj --no-pager log -n 4 --no-graph` to verify commit op is ok.
+- **JJ**:
+  - Check status with `jj --no-pager status` first.
+  - Prefer non-interactive commands: use `jj commit -m "message"` to create a new child commit, or `jj describe -m "message"` to update the current working-copy commit.
+  - IMPORTANT: `jj commit` without `-m` opens an interactive editor and will block the non-interactive LLM agent. Do not run bare `jj commit`.
+  - Common pattern: `jj describe -m "WIP: ..."` during development, then finalize with `jj commit -m "feat: ..."`.
+  - After committing, run `jj --no-pager log -n 4 --no-graph` to verify the operation.
 - **Git**: `git commit -m "message"`
 - Follow project commit message conventions if documented
 
