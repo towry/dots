@@ -1,6 +1,6 @@
 ---
 name: git-jj
-description: "This skill should be used when working with vcs task, triggered by phrase like [git], [git commit], [diff], [push], [check git status], [create git branch], [git worktree], [git sqaush], [review with changes], [review with lifeguard], [jj], [jj commit], [jj changes]"
+description: "This skill should be used when working with vcs task, triggered by phrase like [git], [git commit], [diff], [push], [check git status], [create git branch], [git worktree], [git sqaush], [review with changes], [review with lifeguard], [jj], [jj commit], [jj changes], [commit changes]"
 ---
 
 # Git/JJ VCS Skill
@@ -41,8 +41,8 @@ The script outputs one of three values to stdout:
 
 | Output | Action |
 |--------|--------|
-| `jj` | Follow **JJ Branch** workflow. Load `conf/claude-local-marketplace/skills/git-jj/references/jj_workflows.md` for core commands and working copy model. |
-| `git` | Follow **Git Branch** workflow. Load `conf/claude-local-marketplace/skills/git-jj/references/git_workflows.md` for command syntax. |
+| `jj` | Follow **JJ Branch** workflow. Load `~/.claude/skills/git-jj/references/jj_workflows.md` for core commands and working copy model. |
+| `git` | Follow **Git Branch** workflow. Load `~/.claude/skills/git-jj/references/git_workflows.md` for command syntax. |
 | `no-repo` | Proceed to **Repository Initialization** workflow below. |
 
 #### JJ Branch: Conditional Reference Loading
@@ -165,7 +165,7 @@ Summary:
 - Before committing: Show summary of changes and ask user to confirm
 - **JJ**:
   - Check status with `jj --no-pager status` first.
-  - Prefer non-interactive commands: use `jj commit -m "message"` to create a new child commit, or `jj describe -m "message"` to update the current working-copy commit.
+  - Prefer non-interactive commands: use `jj commit -m "message"` to create a new child commit, or `jj describe -m "message"` to update the current working-copy commit(when already have commit message).
   - IMPORTANT: `jj commit` without `-m` opens an interactive editor and will block the non-interactive LLM agent. Do not run bare `jj commit`.
   - Common pattern: `jj describe -m "WIP: ..."` during development, then finalize with `jj commit -m "feat: ..."`.
   - After committing, run `jj --no-pager log -n 4 --no-graph` to verify the operation.
@@ -247,9 +247,9 @@ Workflow:
    - Check if working copy is empty and parent commit has "WIP:" description
    - If WIP commit detected, ask user: "Parent commit is WIP. Options:"
      - "Squash into WIP" → `jj squash` (amend changes to WIP commit)
-     - "Create new commit" → `jj commit -m "<message>"`
+     - "Create new commit" → `jj commit -m "<message>"`, this will commit working copy changes and new a empty working copy ontop.
      - "Edit WIP description" → `jj describe -r @- -m "<new message>"`
-   - If working copy has changes with no description: `jj describe -m "<message>"` first
+   - If working copy has changes with no description, proceed to step 4 ready to commit.
    - If working copy is ready: proceed to step 4
 4. **ASK USER**: "Commit with message: '<suggest message>'? Proceed?"
 5. Only if user confirms:
