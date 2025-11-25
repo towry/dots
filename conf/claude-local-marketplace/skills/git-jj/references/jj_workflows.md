@@ -80,6 +80,7 @@ Decision tree:
 
 ## Commits
 - Create commit with message: `jj commit -m "message"` or `jj describe -m "message"`
+- **IMPORTANT**: `jj commit` without `-m` opens an interactive editor - avoid in non-interactive contexts (LLM agents, scripts)
 - Show commit details: `jj show` (current) or `jj show <revision>`
 - Edit commit description: `jj describe -r <revision> -m "new message"`
 - Amend commit: `jj squash` (squash working changes into parent)
@@ -303,6 +304,7 @@ jj diff -r 'feature-x' 'glob:"**/test_*.rs"'
 3. **Conflicts as objects**: Can commit and share conflicted states
 4. **Use `jj describe`** for quick commit message updates
 5. **Use `jj new`** to create checkpoints before experimental changes
+6. **Interactive commands**: Some jj commands open editors when run without arguments (e.g., `jj commit`, `jj describe`, `jj split`). Always use `-m` flag or other non-interactive options in scripting/automation contexts to avoid blocking.
 
 ## CLI Command Reference (Condensed)
 

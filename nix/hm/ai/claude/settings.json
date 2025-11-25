@@ -23,6 +23,8 @@
       "Bash(tail:*)",
       "Bash(bash /Users/towry/.claude/skills/git-jj/scripts/repo_check.sh)",
       "Bash(bash ~/.claude/skills/git-jj/scripts/repo_check.sh)",
+      "Write(~/workspace/llm/research/*.md)",
+      "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py:*)",
       "Bash(head:*)",
       "Bash(lsof:*)",
       "Bash(ps:*)",
