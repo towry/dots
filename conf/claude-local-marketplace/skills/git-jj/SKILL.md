@@ -1,11 +1,11 @@
 ---
-name: git
-description: "This skill should be used when working with git, triggered by phrase like [git], [git commit], [diff], [push], [check git status], [create git branch], [git worktree], [git sqaush], [review with changes], [review with lifeguard]"
+name: git-jj
+description: "This skill should be used when working with vcs task, triggered by phrase like [git], [git commit], [diff], [push], [check git status], [create git branch], [git worktree], [git sqaush], [review with changes], [review with lifeguard], [jj], [jj commit], [jj changes]"
 ---
 
 # Git/JJ VCS Skill
 
-**Note**: `<skill-base-dir>` refers to the git skill directory containing this SKILL.md file.
+**Note**: `<skill-base-dir>` refers to the git skill directory (~/.claude/skills/git-jj/) containing this SKILL.md file.
 
 ## Purpose
 Provide specialized workflows for Git and Jujutsu (jj) version control systems with automatic repository detection, command reference lookup, and safe operation practices.
@@ -25,7 +25,7 @@ Activate this skill for VCS tasks involving Git or Jujutsu (jj), such as:
 Run the repository detection script using the Bash tool:
 
 ```bash
-bash conf/claude-local-marketplace/skills/git/scripts/repo_check.sh
+bash ~/.claude/skills/git-jj/scripts/repo_check.sh
 ```
 
 **Important**: Execute this command from the repository root (user's current working directory). The script checks for `.jj` or `.git` folders in the current directory.
@@ -41,20 +41,20 @@ The script outputs one of three values to stdout:
 
 | Output | Action |
 |--------|--------|
-| `jj` | Follow **JJ Branch** workflow. Load `conf/claude-local-marketplace/skills/git/references/jj_workflows.md` for core commands and working copy model. |
-| `git` | Follow **Git Branch** workflow. Load `conf/claude-local-marketplace/skills/git/references/git_workflows.md` for command syntax. |
+| `jj` | Follow **JJ Branch** workflow. Load `conf/claude-local-marketplace/skills/git-jj/references/jj_workflows.md` for core commands and working copy model. |
+| `git` | Follow **Git Branch** workflow. Load `conf/claude-local-marketplace/skills/git-jj/references/git_workflows.md` for command syntax. |
 | `no-repo` | Proceed to **Repository Initialization** workflow below. |
 
 #### JJ Branch: Conditional Reference Loading
 When following the JJ branch, load additional references based on task complexity:
 
 **Always load first:**
-- `/Users/towry/.dotfiles/conf/claude-local-marketplace/skills/git/references/jj_workflows.md` - Core commands, working copy model, WIP pattern, filesets
+- `~/.claude/skills/git-jj/references/jj_workflows.md` - Core commands, working copy model, WIP pattern, filesets
 
 **Load conditionally when needed:**
-- **Bookmark operations** (create, track, push, conflicts): Read `/Users/towry/.dotfiles/conf/claude-local-marketplace/skills/git/references/jj_bookmarks.md`
-- **Complex history queries** (ranges, filtering, ancestry): Read `/Users/towry/.dotfiles/conf/claude-local-marketplace/skills/git/references/jj_revset.md`
-- **Automation/structured output** (CI scripts, release notes): Read `/Users/towry/.dotfiles/conf/claude-local-marketplace/skills/git/references/jj_template.md`
+- **Bookmark operations** (create, track, push, conflicts): Read `~/.claude/skills/git-jj/references/jj_bookmarks.md`
+- **Complex history queries** (ranges, filtering, ancestry): Read `~/.claude/skills/git-jj/references/jj_revset.md`
+- **Automation/structured output** (CI scripts, release notes): Read `~/.claude/skills/git-jj/references/jj_template.md`
 
 **Reference selection rules:**
 - User mentions "bookmark", "track remote", "push bookmark" → Load `jj_bookmarks.md`
@@ -83,10 +83,78 @@ Handle user intent with these steps, adapting commands per VCS branch:
 - Always gather diff output via `Bash` tool BEFORE invoking other tools
 
 ### 2. Review Changes with Lifeguard
-- First collect diff/changes using step 1
-- Launch `Task` tool with `subagent_type: "lifeguard"` providing the diff content
-- For large diffs (>500 lines), chunk review by file or use grep to extract relevant sections
-- Lifeguard natively supports git; for jj, provide context that jj commands were used
+- Run `scripts/repo_check.sh` first to confirm VCS type.
+- Git workflow (small diff <500 lines): you MAY embed the git diff directly. For larger diffs, prefer letting lifeguard fetch them itself.
+- JJ workflow (preferred): DO NOT paste full `jj diff` output unless very small (<200 lines). Instead launch the lifeguard subagent with an execution plan listing jj commands it should run to gather its own context.
+- Rationale: JJ diffs can be large and lifeguard has Bash(jj:*) capability; letting it execute jj commands avoids prompt bloat and enables multi‑commit exploration.
+- Skill loading directive: In every lifeguard prompt include either (a) explicit phrase: `please load git claude skill` (this triggers skill reference loading), OR (b) inline list of reference file paths you want it to consult. Prefer phrase for brevity; attach paths when focusing on specialized areas (revsets, bookmarks, templates).
+
+Reference file path list (for attachment when needed):
+```
+~/.claude/skills/git-jj/references/git_workflows.md
+~/.claude/skills/git-jj/references/jj_workflows.md
+~/.claude/skills/git-jj/references/jj_bookmarks.md
+~/.claude/skills/git-jj/references/jj_revset.md
+~/.claude/skills/git-jj/references/jj_template.md
+```
+(Attach only those relevant; avoid dumping all unless broad audit.)
+
+Use this canonical jj command set in the lifeguard prompt (adjust as needed):
+```
+# Core context collection
+jj --no-pager status
+jj --no-pager log -n 20 --no-graph
+jj --no-pager diff          # working copy changes
+
+# Targeted commit review (replace <rev>)
+jj --no-pager show <rev>
+
+# Compare parent vs current working copy commit
+jj --no-pager diff -r @-..@
+
+# Multi-commit / ancestry exploration examples
+jj --no-pager log -r "ancestors(@, 10)"
+jj --no-pager log -r "descendants(@, 5)"
+```
+Optional revset queries when user asks for filtering:
+```
+# Author filter
+jj --no-pager log -r "author('name@example.com') & ancestors(@, 20)"
+# Files touched
+jj --no-pager log -r "file('src/**') & ancestors(@, 30)"
+```
+Bookmark/WIP context to include in the lifeguard prompt (if applicable):
+- Current bookmark name
+- Whether parent description starts with "WIP:" and intended final message
+
+Prompt template example (JJ):
+```
+Please load git claude skill.
+Review JJ working copy and recent commits. Run the listed jj commands (modify as needed) to inspect changes; focus on correctness, style, and potential refactors. Repository uses JJ atop git.
+Commands to run:
+1. jj --no-pager status
+2. jj --no-pager diff
+3. jj --no-pager log -n 20 --no-graph
+4. jj --no-pager diff -r @-..@
+If needed: jj --no-pager show <rev>, jj --no-pager log -r "ancestors(@, 10)".
+Bookmark: <bookmark-name>
+Parent commit description: <parent-desc>
+Relevant references (if needed): ~/.claude/skills/git-jj/references/jj_revset.md
+```
+Git prompt template (large diff scenario):
+```
+Please load git claude skill.
+Review pending changes. Fetch diffs yourself; do NOT rely on inline diff copy. Focus on correctness, style, and commit structuring.
+Commands to run:
+1. git status
+2. git diff
+3. git log --oneline -n 20
+```
+When focusing on a subset of files, pass a short list of paths (not full diff). Lifeguard will retrieve their diffs directly.
+
+Summary:
+- Git: small diff inline OK; large diff let lifeguard fetch; always include skill loading phrase.
+- JJ: pass command plan + context, not full diff; include skill loading phrase or attach needed reference paths.
 
 ### 3. Stage Changes
 - **JJ**: `jj` auto-tracks all changes in the working copy (no explicit staging needed)
@@ -95,7 +163,7 @@ Handle user intent with these steps, adapting commands per VCS branch:
 ### 4. Commit Changes
 - **CRITICAL**: NEVER commit without explicit user confirmation
 - Before committing: Show summary of changes and ask user to confirm
-- **JJ**: Check status with `jj --no-pager status` first, then `jj commit -m "message"` or `jj describe -m "message"`
+- **JJ**: Check status with `jj --no-pager status` first, then `jj commit -m "message"` or `jj describe -m "message"`, after commit, run `jj --no-pager log -n 4 --no-graph` to verify commit op is ok.
 - **Git**: `git commit -m "message"`
 - Follow project commit message conventions if documented
 
@@ -153,7 +221,7 @@ User: I'd like to work on this feature in a new worktree/workspace
 ```
 
 Workflow:
-1. Run `scripts/repo_check.sh` → Determine VCS type
+1. Run `bash ~/.claude/skills/git-jj/scripts/repo_check.sh` → Determine VCS type
 2. Ask user for workspace/worktree name and branch (if needed)
 3. Execute appropriate command:
    - **JJ**: `jj workspace add <path>`

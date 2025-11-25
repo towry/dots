@@ -64,10 +64,10 @@ Decision tree:
 - **Clean working copy**: Ready for new work
 
 ## Repository Status
-- View status: `jj status` or `jj st` (auto-snapshots working copy)
-- Show working copy changes: `jj diff`
-- Show changes in specific revision: `jj diff -r <revision>`
-- Show summary statistics: `jj diff --stat`
+- View status: `jj --no-pager status` or `jj st` (auto-snapshots working copy)
+- Show working copy changes: `jj --no-pager diff --git`
+- Show changes in specific revision: `jj --no-pager diff --git -r <revision>`
+- Show summary statistics: `jj --no-pager diff --stat`
 - Check without pager: `jj --no-pager status` (for scripting)
 
 ## Working with Changes
@@ -86,10 +86,10 @@ Decision tree:
 
 ## History & Navigation
 - Show log: `jj log`
-- Show log with graph: `jj log` (graph is default)
-- Limit log entries: `jj log -n 10`
-- Show log for specific file: `jj log <file>` or `jj log -r "file('<path>')"`
-- Show ancestors of revision: `jj log -r '<revision>::'`
+- Show log with graph: `jj --no-pager log --no-graph` (graph is default)
+- Limit log entries: `jj --no-pager log -n 10 --no-graph`
+- Show log for specific file: `jj --no-pager log <file>` or `jj --no-pager log -r "file('<path>')"`
+- Show ancestors of revision: `jj --no-pager log -r '<revision>::'`
 
 ## Branches (Bookmarks)
 - List bookmarks: `jj bookmark list` or `jj bookmark`
@@ -141,12 +141,12 @@ jj new <conflicted-commit>
 # ... resolve conflicts in your editor ...
 
 # Inspect your resolutions
-jj diff
+jj --no-pager diff
 
 # Move resolutions into the conflicted commit
 jj squash
 ```
-**Advantage**: Easy to review conflict resolutions with `jj diff` before finalizing.
+**Advantage**: Easy to review conflict resolutions with `jj --no-pager diff` before finalizing.
 
 #### Strategy 2: Resolve Directly in Conflicted Commit
 ```bash
@@ -198,7 +198,7 @@ jj status  # Shows remaining conflicts
 | Git Command | jj Equivalent | Notes |
 |-------------|---------------|-------|
 | `git status` | `jj status` | Similar output |
-| `git diff` | `jj diff` | Shows working copy changes |
+| `git diff` | `jj --no-pager diff --git` | Shows working copy changes |
 | `git diff --staged` | `jj diff` | No staging area in jj |
 | `git add .` | (automatic) | jj tracks all changes automatically |
 | `git commit -m "msg"` | `jj commit -m "msg"` or `jj describe -m "msg"` | describe updates current, commit creates new |
@@ -265,6 +265,7 @@ Filesets select sets of files for operations like `jj diff`, `jj file list`, `jj
 | Split commit keeping only foo | `jj split '~foo'` (moves non-foo to new commit) |
 | Diff excluding vendored | `jj diff '~vendor'` |
 | List modified test files | `jj file list 'glob:"**/*test*.rs"'` |
+| Diff changes between <rev:@> and main/master(trunk) branch | `jj diff --git -f "trunk()" -t "@"` |
 
 ### Practical Examples
 ```bash
