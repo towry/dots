@@ -55,13 +55,20 @@
   {
     model_name = "bender-muffin";
     litellm_params = {
-      model = "openrouter/x-ai/grok-4.1-fast";
+      model = "openrouter/minimax/minimax-m2";
       api_key = "os.environ/OPENROUTER_API_KEY";
       rpm = 5;
+      provider = {
+        sort = "throughput";
+      };
+      reasoning = {
+        effort = "high";
+      };
+      verbosity = "medium";
     };
     model_info = {
-      max_input_tokens = 2000000;
-      max_output_tokens = 30000;
+      max_input_tokens = 204800;
+      max_output_tokens = 131100;
     };
   }
   {
