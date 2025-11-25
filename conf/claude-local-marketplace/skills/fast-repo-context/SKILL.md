@@ -1,6 +1,6 @@
 ---
 name: fast-repo-context
-description: This skill should be used when needing to efficiently retrieve repository context for code search, analysis, or understanding. It provides systematic approaches to access repo structure, files, and code content through repomix-generated XML output and knowledge graph queries, avoiding the need to load entire codebases into context.
+description: "This skill should be used when needing to efficiently retrieve repository context for code search, analysis, or understanding. Triggered by phrases like [fast context], [please analyze codebase], [search repo], [Explore code], [understand which files/code...]"
 ---
 
 # Fast Context

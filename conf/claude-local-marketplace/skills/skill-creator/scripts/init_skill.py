@@ -266,7 +266,6 @@ def init_skill(skill_name, path):
     print(
         "2. Customize or delete the example files in scripts/, references/, and assets/"
     )
-    print("3. Run the validator when ready to check the skill structure")
 
     return skill_dir
 
