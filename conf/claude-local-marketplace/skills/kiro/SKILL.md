@@ -140,6 +140,7 @@ Read <spec-path>/claude.md
    - Offer multiple approaches when applicable
    - Explain trade-offs clearly
    - Let user choose the preferred approach
+   - Ask oracle subagent with `Task` tool to review the design
 
 4. **Update design.md**
    - Follow the existing structure already present in the generated `design.md` file
