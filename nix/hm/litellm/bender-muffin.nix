@@ -8,19 +8,19 @@
 }:
 
 [
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "github_copilot/claude-haiku-4.5";
-  #     extra_headers = copilotHeaders;
-  #     max_tokens = 16000;
-  #     rpm = 4;
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 128000;
-  #     max_output_tokens = 16000;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "github_copilot/claude-haiku-4.5";
+      extra_headers = copilotHeaders;
+      max_tokens = 16000;
+      rpm = 10;
+    };
+    model_info = {
+      max_input_tokens = 128000;
+      max_output_tokens = 16000;
+    };
+  }
   # 64,000
 
   # {
@@ -57,12 +57,12 @@
     litellm_params = {
       model = "openrouter/minimax/minimax-m2";
       api_key = "os.environ/OPENROUTER_API_KEY";
-      rpm = 5;
+      rpm = 2;
       provider = {
         sort = "throughput";
       };
       reasoning = {
-        effort = "high";
+        effort = "none";
       };
       verbosity = "medium";
     };
@@ -78,27 +78,27 @@
       api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
       api_key = pkgs.nix-priv.keys.zai.apiKey;
       max_tokens = 131072;
-      rpm = 2;
+      rpm = 10;
     };
     model_info = {
       max_input_tokens = 204800;
       max_output_tokens = 131072;
     };
   }
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openai/qwen3-coder";
-  #     api_base = "https://opencode.ai/zen/v1";
-  #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
-  #     max_tokens = 65536;
-  #     rpm = 2;
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 262144;
-  #     max_output_tokens = 65536;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openai/qwen3-coder";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 65536;
+      rpm = 4;
+    };
+    model_info = {
+      max_input_tokens = 262144;
+      max_output_tokens = 65536;
+    };
+  }
   {
     model_name = "bender-muffin";
     litellm_params = {

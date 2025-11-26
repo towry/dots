@@ -256,6 +256,7 @@ let
       [
         "glm-4.6"
         "glm-4.5-air"
+        "glm-4.5-flash"
       ];
 
   kimiModels =
@@ -354,8 +355,14 @@ let
   litellmConfig = (pkgs.formats.yaml { }).generate "litellm-config.yaml" {
     model_list = modelList;
     litellm_settings = {
+      REPEATED_STREAMING_CHUNK_LIMIT = 100;
+      image_generation_model = "openrouter/x-ai/grok-4-fast";
       default_fallbacks = [ "opencodeai/gpt-5" ];
       master_key = "os.environ/LITELLM_MASTER_KEY";
+      request_timeout = 30;
+      num_retries = 2;
+      allowed_fails = 3;
+      cooldown_time = 30;
       drop_params = true;
       # Disable default log file to avoid conflicts with systemd logging
       # All logs will go to stdout/stderr which systemd captures
@@ -367,7 +374,7 @@ let
       fallbacks = [
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
-        { "bender-muffin" = [ "opencodeai/gpt-5" ]; }
+        { "bender-muffin" = [ "openrouter/anthropic/claude-haiku-4.5" ]; }
       ];
       cache = true;
       cache_params = {
@@ -380,12 +387,17 @@ let
         socket_timeout = 20;
         socket_connect_timeout = 20;
       };
+      disable_copilot_system_to_assistant = false;
+      enable_json_schema_validation = false;
+    };
+    general_settings = {
+      health_check_interval = 300;
     };
     router_settings = {
-      routing_strategy = "simple-shuffle";
-      num_retries = 1;
+      num_retries = 2;
       allowed_fails = 3;
       cooldown_time = 30;
+      routing_strategy = "simple-shuffle";
       # Token counting during pre-call checks can fail for some clients that send
       # non-standard message content shapes (e.g. sending a single dict instead of
       # a list of content parts for vision messages). This triggers errors like:
@@ -393,6 +405,9 @@ let
       # Disable pre-call token counting to avoid hard failures; rely on provider
       # context-window errors + configured context_window_fallbacks instead.
       enable_pre_call_checks = true;
+      retry_policy = {
+        TimeoutErrorAllowedFails = 1;
+      };
     };
 
   };
