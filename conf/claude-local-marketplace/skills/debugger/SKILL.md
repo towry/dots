@@ -12,7 +12,7 @@ description: Systematically trace bugs backward through call stack to find the o
 
 - `rg`, `fd` 
 - `kg` knowledge graph search
-- `git-jj` claude skill for vcs operations (logs, blame, diff etc)
+- load `git-jj` claude skill for vcs operations (logs, blame, diff etc), use `bash ~/.claude/skills/git-jj/scripts/repo_check.sh` to check repo is jj or git managed.
   - **Debugging-specific commands:**
     - `git blame <file>` / `jj file annotate <file>` - find who changed a line and when
     - `git log -p <file>` / `jj log -p <file>` - see all changes to a specific file
