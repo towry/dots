@@ -1,39 +1,109 @@
 ---
 name: debugger
-description: Systematically trace bugs backward through call stack to find original trigger, use this skill when user want to debug complex issues, have bug that is hard to spot; user syas 'not work' and you are debugging an issue.
+description: Systematically trace bugs backward through call stack to find the original trigger. Use this skill when user wants to debug complex issues or has a bug that is hard to spot; user says "not working" and you are debugging an issue.
 ---
 
 # When to use
 
-- User are frustated about your attemps
-- Bugs are blur and not easy to spot
+- User is frustrated about your attempts
+- Bugs are vague and not easy to spot
 
-# Tools, subagents, skills that might be helpfull
+# Tools, subagents, skills that might be helpful
 
 - `rg`, `fd` 
 - `kg` knowledge graph search
 - `git-jj` claude skill for vcs operations (logs, blame, diff etc)
+  - **Debugging-specific commands:**
+    - `git blame <file>` / `jj file annotate <file>` - find who changed a line and when
+    - `git log -p <file>` / `jj log -p <file>` - see all changes to a specific file
+    - `git bisect` - binary search for the commit that introduced a bug
+    - `git diff <a>..<b>` / `jj diff -r <a>..<b>` - compare specific revisions
+    - `jj log -r "file('path')"` - find commits that touched a file
 - `outbox` subagent for high level debugging ideas and strategies
 - `oracle` subagent for advanced reasoning about complex issues, decision making
-- other commands tools that you already know.
-- Ultimate, the final expensive tool is run bash `claude --model openrouter/anthropic/claude-opus-4.5 -p "<detail prompt about the issue and question you want to ask>" --tools "Read,Grep,Glob"` to get help from the most advanced swe llm. This tool is very expensive, so use it wisely, and compose the prompt carefully.
+- Other command tools that you already know
+- As a last resort, run `claude --model openrouter/anthropic/claude-opus-4.5 -p "<detailed prompt about the issue>" --tools "Read,Grep,Glob"` for help from the most advanced SWE LLM. This is expensive, so use it wisely and compose the prompt carefully.
+
+## When to use git history for debugging
+
+Use git history when:
+- **Regression bugs**: User says "it worked before" or "it broke after update"
+- **Unknown code changes**: You find suspicious code but don't understand why it was written that way
+- **Recent breakage**: Bug appeared recently and might correlate with recent commits
+- **Blame investigation**: Need to find the original author/context of problematic code
+
+Skip git history when:
+- Bug is clearly a logic error in current code
+- Issue is configuration or environment related
+- User confirms this is new code, not a regression
 
 # Debugging process 
 
-- 1. Understanding the issue/bug 
-- 2. Fetch a shallow context of the codebase, do not go deep; Use kg to search in knlowledge graph, incase we solved this before; Try use `rg` to search the codebase with possible keywords, and read for comments or documents.
-- 3. Review what tools or subagents do you have, (fd, rg, kg, git etc)
-- 4. Start debugging
-  - 4.1 Get debugging idea from `outbox` subagent with context and information from step 2 and step 3, it is important to tell what tool and subagents you have to the `outbox`, in the prompt you should include the tools and subagent you have, and what they does, so `outbox` can decide how to give you adivce based on the tools you have.
-  - 4.2 Follow instructions from `outbox`, trace back to the root cause of the bug/issue 
-  - 4.3 Adding logs, tweak code, verify the fix 
-  - 4.4 Ask user for confirm of the fix 
-- 5. Re-run Step 4 until user have confirmed the bug/issue is resolved, the important part is keep the key findings in each iteration, and feed all the findings and methods you have tried to `outbox` subagent for next iteration.
+1. **Understand** the issue/bug 
+2. **Fetch shallow context** of the codebase (avoid deep dives). Use `kg` to search the knowledge graph in case we solved this before. Use `rg` to search the codebase with possible keywords, and read comments or documents.
+3. **Review available tools** and subagents (fd, rg, kg, git, etc.)
+4. **Start debugging iterations** - Each iteration MUST be explicitly labeled (e.g., "**Iteration 1**", "**Iteration 2**")
+   - 4.1 Get debugging ideas from `outbox` subagent with context from steps 2 and 3. Include the tools and subagents you have and what they do, so `outbox` can give advice based on your available tools.
+   - 4.2 **Check git history** (if applicable): Use `git-jj` skill to investigate version history when the bug might be a regression. Run blame on suspicious lines, check recent file changes, or use bisect to find the breaking commit. See "When to use git history" section above.
+   - 4.3 Follow instructions from `outbox`, trace back to the root cause of the bug/issue 
+   - 4.4 Add logs, tweak code, verify the fix 
+   - 4.5 Ask user to confirm the fix 
+5. **Iterate** Step 4 until user has confirmed the bug/issue is resolved. Keep key findings from each iteration and feed all findings and attempted methods to `outbox` for the next iteration.
+
+## Iteration tracking
+
+- **Always announce iteration number** at the start: "**Iteration N**: Trying X approach..."
+- Keep a mental log of what was tried in each iteration
+- When consulting `outbox` after iteration 1, always include findings from ALL previous iterations
+
+## Outbox prompt template
+
+**Note**: `outbox` is a readonly/thinking agent. It cannot use tools (no Read, Write, Execute). It can only reason and advise. You must provide all relevant context in the prompt.
+
+### First iteration:
+```
+**Bug**: <one-line description>
+**Symptoms**: <what user observed, error messages>
+**Relevant files**: <file paths found in step 2>
+**Code context**: <brief snippet or description of suspicious area>
+
+**Available tools** (I can execute these):
+- rg, fd (search)
+- kg (knowledge graph - check past solutions)
+- git-jj (blame, file history, bisect, diff)
+- Read, Grep, Glob (file inspection)
+- Execute (run commands, add logs)
+
+**Ask**: Given this bug and these tools, what debugging strategy should I follow? Provide specific actionable steps. At the end of your advice, include a "feedback request" like: "If this doesn't work, tell me [specific info] for next iteration."
+```
+
+### Subsequent iterations:
+```
+**Iteration**: N (where N > 1)
+
+**Bug**: <one-line description>
+**Symptoms**: <what user observed, error messages>
+**Relevant files**: <file paths>
+**Code context**: <brief snippet or description of suspicious area>
+
+**Available tools** (I can execute these):
+- rg, fd (search)
+- kg (knowledge graph - check past solutions)
+- git-jj (blame, file history, bisect, diff)
+- Read, Grep, Glob (file inspection)
+- Execute (run commands, add logs)
+
+**What I tried**: <methods attempted in previous iterations>
+**Findings**: <key observations, what was ruled out>
+**Current hypothesis**: <if any>
+
+**Ask**: Based on findings, what should I try next? At the end of your advice, include a "feedback request" like: "If this doesn't work, tell me [specific info] for next iteration."
+```
 
 ## Notes
 
-- `kg` should be used for finding key information related to the issues, do not use it to save not verified debugging assumptions. After user confirmed the fix, you can ask user wether to save the fix to knowledge graph.
-- You have advanced tools, subagents and skills to debug complex issues, do not hesitate to use them to help you.
+- `kg` should be used for finding key information related to the issues. Do not use it to save unverified debugging assumptions. After user confirms the fix, you can ask whether to save the fix to the knowledge graph.
+- You have advanced tools, subagents and skills to debug complex issues. Do not hesitate to use them.
 
 # Real world example 
 
@@ -41,26 +111,25 @@ description: Systematically trace bugs backward through call stack to find origi
 The tree city picker does nothing when I click the input 
 </user>
 
-<assitant>
-I will gather the code modules related to this issue .. 
+<assistant>
+I will gather the code modules related to this issue...
 
 > next phase 
 
-Ok, I have located the files, now let me check what tools and subagent might help me debugging this issue, and ask `outbox` subagent for ideas.
+Ok, I have located the files. Now let me check what tools and subagents might help me debug this issue, and ask `outbox` subagent for ideas.
 
 > next phase 
 
 Great, I will start debugging and verify...
 
-> next phase after code fix have been verified 
+> next phase after code fix has been verified 
 
 Hi, here is the root cause of this issue/bug: 
 
 > -- omit for demo 
 
-Please confirm it
- 
-</assitant>
+Please confirm it.
+</assistant>
 
 <user>
 great work!
