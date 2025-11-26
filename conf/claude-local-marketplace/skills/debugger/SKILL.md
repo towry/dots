@@ -19,8 +19,8 @@ description: Systematically trace bugs backward through call stack to find the o
     - `git bisect` - binary search for the commit that introduced a bug
     - `git diff <a>..<b>` / `jj diff -r <a>..<b>` - compare specific revisions
     - `jj log -r "file('path')"` - find commits that touched a file
-- `outbox` subagent for high level debugging ideas and strategies
-- `oracle` subagent for advanced reasoning about complex issues, decision making
+- `outbox` subagent for high level debugging ideas and strategies; Invoke the `Task` tool with `outbox`.
+- `oracle` subagent for advanced reasoning about complex issues, decision making; Invoke the `Task` tool with `oracle`.
 - Other command tools that you already know
 - As a last resort, run `claude --model openrouter/anthropic/claude-opus-4.5 -p "<detailed prompt about the issue>" --tools "Read,Grep,Glob"` for help from the most advanced SWE LLM. This is expensive, so use it wisely and compose the prompt carefully.
 
