@@ -14,7 +14,7 @@
       model = "github_copilot/claude-sonnet-4.5";
       extra_headers = copilotHeaders;
       max_tokens = getMaxOutputTokens "github_copilot/claude-sonnet-4.5";
-      rpm = 3;
+      rpm = 4;
     };
     model_info = {
       max_input_tokens = getMaxInputTokens "github_copilot/claude-sonnet-4.5";

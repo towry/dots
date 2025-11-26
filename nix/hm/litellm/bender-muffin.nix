@@ -119,7 +119,7 @@
       model = "openrouter/anthropic/claude-haiku-4.5";
       api_key = "os.environ/OPENROUTER_API_KEY";
       max_tokens = 64000;
-      rpm = 4;
+      rpm = 1;
     };
     model_info = {
       max_input_tokens = 200000;
