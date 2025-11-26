@@ -14,7 +14,7 @@
 - **Structured Plan**: Each implementation step must specify the target file and the exact changes.
 - **Clear Boundaries**: Keep business logic out of UI components. Isolate mock or demo code to the highest application layer. Never change working implementation code just for debug logs.
 - **Fail Fast**: Do not hide bugs with `try-catch` or optional chaining (`?.`). Let errors surface immediately to prevent harder-to-debug deferred failures.
-- **Document Intent**: Use `FIXME`, `TODO`, and `NOTE` to flag areas needing attention. Document non-obvious logic, code changes that may confuse future maintainers, and any trade-offs made.
+- **Document Intent in code comment**: Use `FIXME`, `TODO`, and `NOTE` to flag areas needing attention; Document non-obvious logic, change intention, code changes, and any trade-offs made.
 
 ## Code Review
 - **Deep Review**: Go beyond static checks. Manually walk through edge cases, failure modes, and performance impacts.
