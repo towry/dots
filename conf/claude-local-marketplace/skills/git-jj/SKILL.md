@@ -75,12 +75,12 @@ When following the JJ branch, load additional references based on task complexit
 3. After initialization, proceed with original user intent
 
 ## Common Workflows
-Handle user intent with these steps, adapting commands per VCS branch:
+
+For command syntax, see reference files. This section covers workflow orchestration.
 
 ### 1. Show Status/Diff
-- **JJ**: `jj --no-pager status` for status; `jj --no-pager diff` for unstaged changes
-- **Git**: `git status` for status; `git diff` for unstaged; `git diff --staged` for staged changes
 - Always gather diff output via `Bash` tool BEFORE invoking other tools
+- See `jj_workflows.md` or `git_workflows.md` for commands
 
 ### 2. Review Changes with Lifeguard
 - Run `scripts/repo_check.sh` first to confirm VCS type.
@@ -157,138 +157,48 @@ Summary:
 - JJ: pass command plan + context, not full diff; include skill loading phrase or attach needed reference paths.
 
 ### 3. Stage Changes
-- **JJ**: `jj` auto-tracks all changes in the working copy (no explicit staging needed)
-- **Git**: `git add <files>` or `git add .` for all
+- **JJ**: Auto-tracks all changes (no staging needed)
+- **Git**: Standard `git add` workflow
 
 ### 4. Commit Changes
 - **CRITICAL**: NEVER commit without explicit user confirmation
-- Before committing: Show summary of changes and ask user to confirm
-- **JJ**:
-  - Check status with `jj --no-pager status` first.
-  - Prefer non-interactive commands: use `jj commit -m "message"` to create a new child commit, or `jj describe -m "message"` to update the current working-copy commit(when already have commit message).
-  - IMPORTANT: `jj commit` without `-m` opens an interactive editor and will block the non-interactive LLM agent. Do not run bare `jj commit`.
-  - Common pattern: `jj describe -m "WIP: ..."` when not sure about the changes, update wip commit with `jj describe -r <wip-rev-or-commit-id> -m "feat: ..."`; Must handle wip commits first when user ask to commit changes.
-  - After committing, run `jj --no-pager log -n 4 --no-graph` to verify the operation, make sure no wip commits left.
-- **Git**: `git commit -m "message"`
-- Follow project commit message conventions if documented
+- Before committing: Show summary and ask user to confirm
+- **JJ**: Always use `-m` flag (bare `jj commit` opens editor, blocks agent). See `jj_workflows.md` for WIP pattern.
+- After JJ commit: verify with `jj --no-pager log -n 4 --no-graph`
 
-### 5. Show History/Logs
-- **JJ**: `jj --no-pager log` or `jj --no-pager log -n 10` for limited entries
-- **Git**: `git log` or `git log --graph --oneline --all`
-
-### 6. Create Branch/Bookmark
-- **JJ**: `jj bookmark create <name>` then `jj edit <bookmark>` to work on it
-- **Git**: `git checkout -b <name>` or `git switch -c <name>`
-
-### 7. Push to Remote
+### 5. Push to Remote
 - **CRITICAL**: NEVER push without explicit user confirmation
-- Check branch tracking status first
-- **JJ**: `jj git push` (pushes current bookmark)
-- **Git**: `git push origin <branch>` or `git push -u origin <branch>` for first push
-- NEVER use `--force` unless explicitly requested by user
+- NEVER use `--force` unless explicitly requested
 
-### 8. Worktree/Workspace Management
-- **JJ**: `jj workspace add <path>` creates new workspace
-- **Git**: `git worktree add <path> <branch>` creates new worktree
-- See reference files for list/remove commands
+### 6. Other Operations
+- History, branches/bookmarks, worktrees: See reference files
 
-## Conceptual Differences Between JJ and Git
+## Key JJ vs Git Differences
 
-| Concept | Git | Jujutsu (jj) |
-|---------|-----|--------------|
-| **Staging** | Explicit index (`git add`) | Automatic working copy tracking |
-| **Branch concept** | `refs/heads/<name>` pointers | Bookmarks (lightweight refs) |
-| **History model** | Mutable (rebase/amend) | Immutable DAG (creates descendants) |
-| **Working state** | Working dir + index + HEAD | Working copy commit |
-| **Conflicts** | Block operations | First-class objects, can commit |
+- **JJ colocated**: When `.jj` + `.git` coexist, prefer jj commands
+- **No staging in JJ**: All changes auto-tracked
+- **JJ conflicts**: First-class objects (can commit conflicts)
+- See `git_workflows.md` for full mapping table
 
-**Important**: JJ often operates atop a git backend (`.jj` + `.git` coexist). When both present, prefer jj commands but be aware git operations may affect jj state.
+## Example: Commit Workflow
 
-## Examples
-
-### Example 1: Review unstaged changes
-```
-User: please check unstaged changes and review with lifeguard subagent
-```
-
-Workflow:
-1. Run `scripts/repo_check.sh` → Output: `jj`
-2. Run `jj diff` (consult `references/jj_workflows.md` for syntax)
-3. Capture diff output
-4. Launch `Task(subagent_type: "lifeguard")` with diff content in prompt
-5. Report lifeguard findings to user
-
-Note: For git repos, use `git diff` instead in step 2.
-
-### Example 2: New worktree/workspace for feature
-```
-User: I'd like to work on this feature in a new worktree/workspace
-```
-
-Workflow:
-1. Run `bash ~/.claude/skills/git-jj/scripts/repo_check.sh` → Determine VCS type
-2. Ask user for workspace/worktree name and branch (if needed)
-3. Execute appropriate command:
-   - **JJ**: `jj workspace add <path>`
-   - **Git**: `git worktree add <path> <branch>` (branch must exist or be created)
-4. Confirm creation with `jj workspace list` or `git worktree list`
-5. Inform user of new workspace location
-
-### Example 3: Commit workflow with safety
-```
-User: commit these changes
-```
-
-Workflow:
-1. Run `<skill-base-dir>/scripts/repo_check.sh` → Determine VCS type
+1. Run `scripts/repo_check.sh` → Determine VCS type
 2. Show current status/diff
-3. **For JJ branch**:
-   - Run `jj --no-pager status` to check working copy state
-   - Check if working copy is empty and parent commit has "WIP:" description
-   - If WIP commit detected, ask user: "Parent commit is WIP. Options:"
-     - "Squash into WIP" → `jj squash` (amend changes to WIP commit)
-     - "Create new commit" → `jj commit -m "<message>"`, this will commit working copy changes and new a empty working copy ontop.
-     - "Edit WIP description" → `jj describe -r @- -m "<new message>"`
-   - If working copy has changes with no description, proceed to step 4 ready to commit.
-   - If working copy is ready: proceed to step 4
-4. **ASK USER**: "Commit with message: '<suggest message>'? Proceed?"
-5. Only if user confirms:
-   - **JJ**: `jj commit -m "<message>"` (creates new commit, moves working copy)
-   - **Git**: `git add .` then `git commit -m "<message>"`
-6. Show commit result with `jj log -n 2` or `git log -1`
-
-**Note**: JJ's commit semantics differ from Git. Always check status first to avoid committing empty working copy. See `references/jj_workflows.md` for WIP pattern details.
+3. **JJ**: Check for WIP commits (see `jj_workflows.md` WIP pattern)
+4. **ASK USER** to confirm commit message
+5. Execute commit only after confirmation
+6. Verify with log output
 
 ## Safety Guidelines
 
-### Critical Rules
 1. **NEVER commit or push without explicit user confirmation**
-2. **NEVER use force push** (`git push --force`, `jj git push --force`) unless user explicitly requests it
-3. **ALWAYS verify branch/bookmark** before pushing to prevent accidental pushes to main/master
-4. **For large operations**: Use `TodoWrite` to track multi-step workflows
-
-### Pre-Commit Checks
-- Verify you're not on protected branch (main, master, staging, production)
-- Show summary of what will be committed
-- Suggest meaningful commit message following project conventions
-- Wait for explicit user approval
-
-### Pre-Push Checks
-- Check remote tracking status: `git status` or `jj status`
-- Show what will be pushed: commits ahead of remote
-- Verify target branch/bookmark is correct
-- Wait for explicit user approval
+2. **NEVER use force push** unless user explicitly requests it
+3. **Verify branch/bookmark** before pushing (avoid main/master/staging)
+4. **Pre-commit**: Show summary, suggest message, wait for approval
+5. **Pre-push**: Show commits ahead of remote, verify target
 
 ## Integration Notes
-- **Project preference**: Favor `jj` when available (per user Claude config)
-- **TodoWrite usage**: Use for multi-step VCS workflows (e.g., feature branch creation → changes → commit → push)
-- **Reference file loading**: Load `references/jj_workflows.md` or `references/git_workflows.md` only when command syntax is uncertain
-- **Lifeguard integration**: Provide VCS context when invoking (e.g., "using jj diff output")
 
-## Future Enhancements (TODO)
-- Add conflict resolution workflows (`jj resolve`, `git mergetool`)
-- Add rebase/history editing patterns
-- Add cherry-pick equivalents (jj: `duplicate` command)
-- Add bisect workflow (git native; jj: manual narrowing strategy)
-- Add branch/bookmark cleanup scripts
-- Add commit message linting integration
+- Favor `jj` when `.jj` folder exists
+- Use `TodoWrite` for multi-step VCS workflows
+- Load reference files only when command syntax is uncertain
