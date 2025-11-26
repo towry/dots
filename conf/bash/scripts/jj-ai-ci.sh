@@ -8,6 +8,7 @@ bashScriptsDir="$HOME/.local/bash/scripts"
 extra_context=""
 rev=""
 debug_mode=false
+paths=()
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -24,14 +25,17 @@ while [[ $# -gt 0 ]]; do
       debug_mode=true
       echo "[AI-CI] Debug mode enabled"
       ;;
-    *)
-      if [[ -z "$rev" ]]; then
-        rev="$1"
-      else
-        echo "[AI-CI] ERROR: Unexpected argument: $1" >&2
-        echo "Usage: jj ai-ci [--debug] [-m <extra_context>] [revision]" >&2
+    -r)
+      shift
+      if [[ $# -eq 0 ]]; then
+        echo "[AI-CI] ERROR: -r flag requires a revision argument" >&2
         exit 1
       fi
+      rev="$1"
+      ;;
+    *)
+      # All positional arguments are treated as paths
+      paths+=("$1")
       ;;
   esac
   shift
@@ -43,6 +47,10 @@ debug_log() {
     echo "$1"
   fi
 }
+
+if [[ ${#paths[@]} -gt 0 ]]; then
+  debug_log "[AI-CI] Paths filter: ${paths[*]}"
+fi
 
 if [[ -z "$rev" ]]; then
   # No revision provided - create interactive commit first
@@ -56,7 +64,8 @@ if [[ -z "$rev" ]]; then
   fi
 
   # Run interactive commit (let it be truly interactive)
-  if ! jj commit -m 'WIP: empty message' --color=never --no-pager -i; then
+  # Pass paths if provided to restrict which files to include
+  if ! jj commit -m 'WIP: empty message' --color=never --no-pager -i "${paths[@]}"; then
     exit_code=$?
     echo "[AI-CI] ERROR: Interactive commit failed or was cancelled (exit code: $exit_code)" >&2
     exit $exit_code
