@@ -110,17 +110,18 @@ in
             set -euo pipefail
 
             msg=""
+            paths=()
 
             # Parse arguments
             while [[ $# -gt 0 ]]; do
               case "$1" in
-                -m|--message|-i)
+                -m|--message)
                   shift
                   msg="$1"
                   ;;
                 *)
-                  # If it's not a flag, treat it as the message
-                  msg="$1"
+                  # All positional arguments are treated as paths
+                  paths+=("$1")
                   ;;
               esac
               shift || true
@@ -128,9 +129,9 @@ in
 
             # Use custom message if provided, otherwise use default
             if [[ -n "$msg" ]]; then
-              jj commit -i --message "WIP: $msg"
+              jj commit -i --message "WIP: $msg" "''${paths[@]}"
             else
-              jj commit -i --message "WIP: empty message"
+              jj commit -i --message "WIP: empty message" "''${paths[@]}"
             fi
           ''
           ""
