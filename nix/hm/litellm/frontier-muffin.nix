@@ -24,14 +24,19 @@
   {
     model_name = "frontier-muffin";
     litellm_params = {
-      model = "github_copilot/gpt-5";
-      extra_headers = copilotHeaders;
-      max_tokens = getMaxOutputTokens "github_copilot/gpt-5";
-      rpm = 3;
+      model = "openrouter/anthropic/claude-opus-4.5";
+      max_tokens = 32000;
+      rpm = 1;
+      provider = {
+        sort = "price";
+      };
+      reasoning = {
+        effort = "high";
+      };
     };
     model_info = {
-      max_input_tokens = getMaxInputTokens "github_copilot/gpt-5";
-      max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5";
+      max_input_tokens = 200000;
+      max_output_tokens = 32000;
     };
   }
   {
