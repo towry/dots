@@ -718,12 +718,17 @@ in
         return
         end
 
-        if not git rev-parse --is-inside-work-tree > /dev/null 2>&1
-        _cd-gitroot_print_error 'Not in a git repository'
-        return 2
+        set -l root_path
+        # Try jj first, then fall back to git
+        if set root_path (jj root 2>/dev/null)
+          # jj repo found
+        else if git rev-parse --is-inside-work-tree > /dev/null 2>&1
+          set root_path (git rev-parse --show-toplevel)
+        else
+          _cd-gitroot_print_error 'Not in a git or jj repository'
+          return 2
         end
 
-        set -l root_path (git rev-parse --show-toplevel)
         set -l relative_path $argv[1]
 
         if test -z "$relative_path"
@@ -735,9 +740,9 @@ in
 
         function _cd-gitroot_print_help
         echo 'Usage: cd-gitroot [OPTION] [PATH]
-        Change directory to current git repository root directory.
+        Change directory to current git/jj repository root directory.
         If PATH is specified, change directory to PATH instead of it.
-        PATH is treated relative path in git root directory.
+        PATH is treated relative path in repository root directory.
 
         -h, --help    display this help and exit'
 
@@ -747,7 +752,7 @@ in
         echo "cd-gitroot: $argv
         Try '-h' or '--help' option for more information." 1>&2
       '';
-      description = "Cd into git root";
+      description = "Cd into git/jj root";
     };
     resort-fish-paths = {
       description = "reverse fish paths";
