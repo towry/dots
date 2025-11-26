@@ -143,7 +143,6 @@ in
           "--ignore-working-copy"
           "--no-pager"
           "--name-only"
-          "-r"
         ];
         df-names-all = [
           "diff"
