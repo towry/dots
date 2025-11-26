@@ -17,6 +17,8 @@ in
     pkgs.sccache
     pkgs.iconv
     pkgs.libiconv
+    # needed in snow? project
+    pkgs.protobuf
     pkgs.gettext
     pkgs.sqlite
     # pkgs.vscode-extensions.vadimcn.vscode-lldb
