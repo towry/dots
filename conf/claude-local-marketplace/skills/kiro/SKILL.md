@@ -9,6 +9,8 @@ description: "This skill should be used when managing structured spec-driven dev
 
 Kiro is a workflow management system for structured spec-driven development that uses spec files to track progress through requirements gathering, design, and implementation phases. This skill enables Claude to manage the complete lifecycle of a kiro spec, from initial requirements to final implementation.
 
+The kiro spec dir default to <project-root>/llm/kiro/<spec-name>/ but can be customized per spec.
+
 ## Core Workflow Structure
 
 Every kiro spec contains four key spec files:
@@ -48,11 +50,13 @@ agpod kiro --json pr-list
 [
   {
     "name": "spec-name",
-    "path": "/path/to/kiro-spec",
+    "path": "<spec-path>",
     "created": "2024-01-15T10:30:00Z"
   }
 ]
 ```
+
+Note, the `path` should be relatieve to the project root or is absolute path if it starts with `/`.
 
 ### Step 2: Parse User Selection
 
@@ -71,8 +75,7 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
 
 **Example:**
 ```bash
-# If spec path is /path/to/kiro-spec
-Read /path/to/kiro-spec/claude.md
+Read <spec-path>/claude.md
 ```
 
 ## Phase 2: Requirements Gathering
