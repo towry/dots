@@ -13,7 +13,7 @@ The kiro spec dir default to <project-root>/llm/kiro/<spec-name>/ but can be cus
 
 ## Core Workflow Structure
 
-Every kiro spec contains four key spec files:
+Every kiro spec contains four key spec files, which need to be updated and tracked throughout the workflow:
 
 1. **`claude.md`** - Control board with session notes, decisions, and spec status tracking
 2. **`requirements.md`** - User stories and acceptance criteria
