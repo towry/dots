@@ -11,9 +11,10 @@
 
 set -e
 
-# Check for jj repository (.jj folder) - priority 1
+# Check for jj repository - priority 1
 # Note: jj often operates atop git, so check .jj first
-if [ -d ".jj" ]; then
+# Use `jj root` to detect jj workspace from any subdirectory
+if jj root > /dev/null 2>&1; then
     echo "jj"
     exit 0
 fi
