@@ -167,8 +167,8 @@ Summary:
   - Check status with `jj --no-pager status` first.
   - Prefer non-interactive commands: use `jj commit -m "message"` to create a new child commit, or `jj describe -m "message"` to update the current working-copy commit(when already have commit message).
   - IMPORTANT: `jj commit` without `-m` opens an interactive editor and will block the non-interactive LLM agent. Do not run bare `jj commit`.
-  - Common pattern: `jj describe -m "WIP: ..."` during development, then finalize with `jj commit -m "feat: ..."`.
-  - After committing, run `jj --no-pager log -n 4 --no-graph` to verify the operation.
+  - Common pattern: `jj describe -m "WIP: ..."` when not sure about the changes, update wip commit with `jj describe -r <wip-rev-or-commit-id> -m "feat: ..."`; Must handle wip commits first when user ask to commit changes.
+  - After committing, run `jj --no-pager log -n 4 --no-graph` to verify the operation, make sure no wip commits left.
 - **Git**: `git commit -m "message"`
 - Follow project commit message conventions if documented
 
