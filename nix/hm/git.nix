@@ -307,6 +307,7 @@ in
 
     ignores = [
       ".claude/logs/"
+      ".claude/sessions/"
       ".DS_Store"
       ".direnv/"
       "Session.vim"

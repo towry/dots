@@ -13,7 +13,9 @@
 - If you attempt the same task a second time, stop and consult the oracle subagent for assistance.
 - Your thinking tool `outbox`: Prompt the outbox subagent for rapid ideation and problem reframing after you proposed an idea, solution.
 - After you made bunch of code changes, ask `lifeguard` subagent to review your changes.
-- bash `find` and `grep` are blocked, please use `fd`, `rg` instead.
+- Use `fast-repo-context` claude skill when you or user want to do codebase research, codebase Q&A, codebase analysis.
+- When user ask about codebase, like "How does X work?", "Where is Y located?", "Find all Z", always consider using `fast-repo-context` skill first, load `fast-repo-context` with `Skill` tool.
+- bash `find` and `grep` are blocked, please use `fd`, `rg` instead, but consider load `fast-repo-context` skill for codebase research and query.
 
 ## `Task` tool with `subagent_type` usage rules
 

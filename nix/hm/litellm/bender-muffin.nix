@@ -78,7 +78,7 @@
   #     api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
   #     api_key = pkgs.nix-priv.keys.zai.apiKey;
   #     max_tokens = 131072;
-  #     rpm = 10;
+  #     rpm = 5;
   #   };
   #   model_info = {
   #     max_input_tokens = 204800;
