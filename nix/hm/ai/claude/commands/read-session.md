@@ -1,4 +1,4 @@
-Read saved session transcripts from `.claude/sessions/` to find information from past conversations.
+Read saved session transcripts from `<project-root>/.claude/sessions/` to find information from past conversations.
 
 Session files are named: `session-<description>-<timestamp>.txt`
 
@@ -41,4 +41,4 @@ Sessions contain conversation in this format:
 
 - Sessions are saved when Claude session ends (via SessionEnd hook)
 - Filenames include a short description from the first user message
-- If `.claude/sessions/` doesn't exist, no sessions have been saved yet
+- If `<project-root>/.claude/sessions/` doesn't exist, no sessions have been saved yet

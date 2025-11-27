@@ -23,7 +23,7 @@
 
 #### Knowledge & Tools
 - **Knowledge Graph (`kg`)**:
-    - Use `kg` to store important information like summaries, facts, and user preferences for long-term memory.
+    - Use `kg` to store important information like summaries, facts, and user preferences for long-term memory after task is resolved or finished.
     - When batch query `kg`, always use `limit` and `summary` output to avoid too much irrelevant information.
     - Use `group_id` to organize information by project (e.g., `<repo_name>_TODOS`, `<repo_name>_CHAT`).
     - After completing a task, save key takeaways to `group_id: "lesson_learned"`.
