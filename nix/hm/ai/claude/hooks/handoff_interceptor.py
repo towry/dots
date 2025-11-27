@@ -18,12 +18,47 @@ import subprocess
 from pathlib import Path
 
 
-def extract_messages(transcript_path: str, max_messages: int = 50) -> list[dict]:
+def extract_todos(transcript_path: str) -> list[dict]:
+    """Extract current todo list from transcript JSONL file.
+
+    Args:
+        transcript_path: Path to the transcript JSONL file
+
+    Returns:
+        List of todo items with 'content', 'status', and 'activeForm'
+    """
+    latest_todos = []
+
+    try:
+        with open(transcript_path, "r") as f:
+            for line in f:
+                try:
+                    entry = json.loads(line)
+
+                    # Look for user type entries with toolUseResult containing todos
+                    if entry.get("type") == "user" and "toolUseResult" in entry:
+                        tool_result = entry["toolUseResult"]
+                        # Get the latest todos from newTodos field
+                        if "newTodos" in tool_result:
+                            latest_todos = tool_result["newTodos"]
+
+                except json.JSONDecodeError:
+                    continue
+    except FileNotFoundError:
+        return []
+
+    return latest_todos
+
+
+def extract_messages(
+    transcript_path: str, max_messages: int = 30, max_content_len: int = 500
+) -> list[dict]:
     """Extract user and assistant messages from transcript JSONL file.
 
     Args:
         transcript_path: Path to the transcript JSONL file
         max_messages: Maximum number of recent messages to include
+        max_content_len: Maximum length of each message content
 
     Returns:
         List of message dicts with 'role' and 'content'
@@ -36,7 +71,7 @@ def extract_messages(transcript_path: str, max_messages: int = 50) -> list[dict]
                 try:
                     entry = json.loads(line)
 
-                    # Skip non-message entries
+                    # Skip non-message entries (file-history-snapshot, etc.)
                     if entry.get("type") not in ("user", "assistant"):
                         continue
 
@@ -52,29 +87,49 @@ def extract_messages(transcript_path: str, max_messages: int = 50) -> list[dict]
                     if isinstance(content, str):
                         text = content
                     elif isinstance(content, list):
-                        # Extract text from content blocks
+                        # Check if this is a tool_result message (user messages with tool output)
+                        # These contain verbose file contents - skip entirely
+                        is_tool_result = any(
+                            isinstance(b, dict) and b.get("type") == "tool_result"
+                            for b in content
+                        )
+                        if is_tool_result:
+                            continue
+                        
+                        # Extract text from content blocks (assistant messages)
                         text_parts = []
+                        tool_count = 0
                         for block in content:
                             if isinstance(block, dict):
                                 if block.get("type") == "text":
-                                    text_parts.append(block.get("text", ""))
+                                    block_text = block.get("text", "")
+                                    # Skip "(no content)" placeholder
+                                    if block_text.strip() and block_text.strip() != "(no content)":
+                                        text_parts.append(block_text)
                                 elif block.get("type") == "tool_use":
-                                    # Include tool usage for context
-                                    tool_name = block.get("name", "unknown")
-                                    text_parts.append(f"[Used tool: {tool_name}]")
-                                elif block.get("type") == "tool_result":
-                                    # Skip verbose tool results
-                                    continue
+                                    tool_count += 1
                             elif isinstance(block, str):
                                 text_parts.append(block)
-                        text = " ".join(text_parts)
+                        
+                        # Skip messages with only tool calls and no meaningful text
+                        if not text_parts:
+                            continue
+                            
+                        text = "\n".join(text_parts)
+                        # Append tool count summary if tools were used
+                        if tool_count > 0:
+                            text += f" [+{tool_count} tool call(s)]"
                     else:
                         continue
 
                     # Skip empty messages
                     text = text.strip()
-                    if not text or text == "(no content)":
+                    if not text:
                         continue
+
+                    # Truncate long messages
+                    if len(text) > max_content_len:
+                        text = text[:max_content_len] + "..."
 
                     messages.append({"role": role, "content": text})
 
@@ -95,6 +150,36 @@ def format_conversation(messages: list[dict]) -> str:
         role = msg["role"].upper()
         content = msg["content"]
         lines.append(f"{role}: {content}\n")
+    return "\n".join(lines)
+
+
+def format_todos(todos: list[dict]) -> str:
+    """Format todos as a readable list with status markers.
+
+    Args:
+        todos: List of todo items with 'content' and 'status'
+
+    Returns:
+        Formatted todo list string
+    """
+    if not todos:
+        return ""
+
+    lines = []
+    for todo in todos:
+        content = todo.get("content", "")
+        status = todo.get("status", "pending")
+
+        # Use checkboxes to show status
+        if status == "completed":
+            marker = "☑"
+        elif status == "in_progress":
+            marker = "▶"
+        else:  # pending
+            marker = "☐"
+
+        lines.append(f"  {marker} {content}")
+
     return "\n".join(lines)
 
 
@@ -145,12 +230,15 @@ def generate_slug_from_messages(messages: list[dict]) -> str:
         return "handoff"
 
 
-def generate_handoff_summary(messages: list[dict], project_dir: str = ".") -> str:
+def generate_handoff_summary(
+    messages: list[dict], project_dir: str = ".", todos: list[dict] = None
+) -> str:
     """Generate handoff summary using claude -p.
 
     Args:
         messages: List of conversation messages
         project_dir: Project directory to run Claude in
+        todos: List of todo items from transcript (optional)
 
     Returns:
         Generated summary text
@@ -159,9 +247,23 @@ def generate_handoff_summary(messages: list[dict], project_dir: str = ".") -> st
         return "No conversation history available for handoff."
 
     from pathlib import Path
+
     absolute_project_dir = Path(project_dir).resolve().absolute()
 
     conversation = format_conversation(messages)
+
+    # Format todos section if available
+    todos_section = ""
+    if todos:
+        formatted_todos = format_todos(todos)
+        if formatted_todos:
+            todos_section = f"""
+# Current Todo List (from session):
+The following is the EXACT todo list from the session. Include ALL items in your handoff summary, preserving EXACT wording:
+
+{formatted_todos}
+
+"""
 
     # Create prompt for summarization
     prompt = f"""You are creating a handoff summary for a coding session in project directory: `{absolute_project_dir}`
@@ -172,12 +274,13 @@ Analyze this conversation and create a comprehensive handoff document that inclu
 2. **Key Decisions**: Important technical decisions made
 3. **Work Completed**: What was successfully implemented
 4. **Pending Tasks**: What remains to be done
-5. **Todo List(if has unfinished todo items)**: List of todo items that not finished
+5. **Todo List**: List ALL todo items below in the "Current Todo List" section - copy them EXACTLY as shown, preserving markers (☑/▶/☐) and text verbatim
 6. **Context for Next Session**: Critical information the next person needs to know
 7. **Files Modified**: Key files that were changed (if mentioned) - use absolute paths relative to `{absolute_project_dir}`
 
 Be concise but thorough. Format the output in markdown.
-
+CRITICAL: The "Current Todo List" section below contains the EXACT todo items. You MUST copy them verbatim - do NOT paraphrase or summarize.
+{todos_section}
 # Conversation:
 
 {conversation}
@@ -300,15 +403,16 @@ def main():
     # This is a handoff command - intercept it
     # Extract custom message after "/handoff" (e.g., "/handoff custom msg" → "custom msg")
     user_note = prompt[len("/handoff"):].strip()
-    
+
     transcript_path = input_data.get("transcript_path", "")
 
     if not transcript_path:
         print("Error: No transcript_path provided", file=sys.stderr)
         sys.exit(2)
 
-    # Extract messages from transcript
+    # Extract messages and todos from transcript
     messages = extract_messages(transcript_path)
+    todos = extract_todos(transcript_path)
 
     if not messages:
         error_msg = "No conversation history found to summarize."
@@ -323,8 +427,8 @@ def main():
     # Get project directory (cwd or current working directory)
     project_dir = input_data.get("cwd", ".")
 
-    # Generate handoff summary with correct project directory context
-    summary = generate_handoff_summary(messages, project_dir)
+    # Generate handoff summary with correct project directory context and todos
+    summary = generate_handoff_summary(messages, project_dir, todos)
 
     # Save handoff to file
     try:

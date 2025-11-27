@@ -178,6 +178,15 @@
             "command": "uv run ~/.claude/hooks/session_remind.py"
           }
         ]
+      },
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_start_handoff.py"
+          }
+        ]
       }
     ],
     "SubagentStop": [
