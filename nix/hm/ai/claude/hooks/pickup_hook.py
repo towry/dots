@@ -7,15 +7,46 @@
 
 This hook:
 1. Detects when user types "/pickup"
-2. Scans .claude/handoffs/ directory for available handoff files
-3. Appends the list of available handoffs as context to the prompt
-4. Allows the command to proceed with enhanced context
+2. If a specific handoff file is provided, marks it as handled (moves to handled/)
+3. Scans .claude/handoffs/ directory for available handoff files
+4. Appends the list of available handoffs as context to the prompt
 """
 
 import json
+import os
+import shutil
 import sys
 from pathlib import Path
 from datetime import datetime
+
+
+def mark_handoff_as_handled(project_dir: str, handoff_name: str) -> bool:
+    """Move a handoff file to the handled/ subdirectory.
+
+    Args:
+        project_dir: Project root directory
+        handoff_name: Name of the handoff file (just filename, not path)
+
+    Returns:
+        True if successfully moved, False otherwise
+    """
+    handoffs_dir = Path(project_dir) / ".claude" / "handoffs"
+    handled_dir = handoffs_dir / "handled"
+    
+    source = handoffs_dir / handoff_name
+    if not source.exists():
+        return False
+    
+    # Create handled/ directory if it doesn't exist
+    handled_dir.mkdir(parents=True, exist_ok=True)
+    
+    dest = handled_dir / handoff_name
+    try:
+        shutil.move(str(source), str(dest))
+        return True
+    except Exception as e:
+        print(f"Failed to move handoff to handled/: {e}", file=sys.stderr)
+        return False
 
 
 def scan_handoffs_directory(project_dir: str) -> list[dict]:
@@ -36,6 +67,10 @@ def scan_handoffs_directory(project_dir: str) -> list[dict]:
     for filepath in sorted(
         handoffs_dir.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True
     ):
+        # Skip files in handled/ subdirectory
+        if "handled" in filepath.parts:
+            continue
+            
         stat = filepath.stat()
         handoffs.append(
             {
@@ -83,20 +118,32 @@ def main():
     # Check if this is a /pickup command
     if not prompt.startswith("/pickup"):
         # Not a pickup command, allow it to proceed normally
-        output = {"hookSpecificOutput": {"hookEventName": "UserPromptSubmit"}}
-        print(json.dumps(output))
         sys.exit(0)
     
-    print("Detected /pickup command, listing handoffs...", file=sys.stderr)
+    print("Detected /pickup command, processing...", file=sys.stderr)
 
-    # Get project directory
-    project_dir = input_data.get("cwd", ".")
+    # Get project directory (prefer CLAUDE_PROJECT_DIR env var)
+    project_dir = os.environ.get("CLAUDE_PROJECT_DIR") or input_data.get("cwd", ".")
 
-    # Scan handoffs directory
+    # Extract handoff filename if provided (e.g., "/pickup my-handoff.md")
+    parts = prompt.split(maxsplit=1)
+    handoff_arg = parts[1].strip() if len(parts) > 1 else ""
+    
+    # If a specific handoff file is provided, mark it as handled
+    if handoff_arg:
+        # Clean up the argument - handle potential paths
+        handoff_name = Path(handoff_arg).name
+        if handoff_name.endswith(".md"):
+            if mark_handoff_as_handled(project_dir, handoff_name):
+                print(f"Marked handoff as handled: {handoff_name}", file=sys.stderr)
+            else:
+                print(f"Could not mark handoff as handled: {handoff_name}", file=sys.stderr)
+
+    # Scan handoffs directory for remaining handoffs
     handoffs = scan_handoffs_directory(project_dir)
 
-    if not handoffs:
-        # No handoffs found
+    if not handoffs and not handoff_arg:
+        # No handoffs found and none specified
         output = {
             "hookSpecificOutput": {
                 "hookEventName": "UserPromptSubmit",
@@ -107,10 +154,11 @@ def main():
         sys.exit(0)
 
     # Format list of available handoffs
-    context = format_handoffs_context(handoffs)
+    context = format_handoffs_context(handoffs) if handoffs else ""
     
     # Print to stderr for debugging/logging purposes only
-    print(context, file=sys.stderr)
+    if context:
+        print(context, file=sys.stderr)
 
     # Return JSON output with additional context
     output = {

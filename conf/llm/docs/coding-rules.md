@@ -35,6 +35,7 @@
     - VCS: `jj`
     - Search: `fd` and `rg`
     - `ls` alternative: `exa`
+    - When user says `sgrep XXX`, run `bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "XXX"` to search code semantically and fast.
 - **git**:
     - Only run git commit commands after user confirm the changes is ok.
     - Before git commit and git add, check current branch, prevent accidental commit to main/staging branch.
