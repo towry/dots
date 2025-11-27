@@ -7,10 +7,11 @@ description: Systematically trace bugs backward through call stack to find the o
 
 - User is frustrated about your attempts
 - Bugs are vague and not easy to spot
+- User says debug this or debug it something like that
 
 # Tools, subagents, skills that might be helpful
 
-- `rg`, `fd` 
+- **Critical**: `fast-repo-context` claude skill for fast codebase search and analysis, this is highly recommended to use, load it with `Skill` tool; Can use it to search on current project or other projects.
 - `kg` knowledge graph search
 - load `git-jj` claude skill for vcs operations (logs, blame, diff etc), use `bash ~/.claude/skills/git-jj/scripts/repo_check.sh` to check repo is jj or git managed.
   - **Debugging-specific commands:**
@@ -42,13 +43,14 @@ Skip git history when:
 # Debugging process 
 
 1. **Understand** the issue/bug 
-2. **Fetch shallow context** of the codebase (avoid deep dives). Use `kg` to search the knowledge graph in case we solved this before. Use `rg` to search the codebase with possible keywords, and read comments or documents.
+2. **Fetch context with fast-repo-context skill** of the codebases. Use `kg` to search the knowledge graph in case we solved this before. Use `fast-repo-context` skill(recommended) or `rg` bash tool to search the codebases with possible keywords, and read comments or documents.
 3. **Review available tools** and subagents (fd, rg, kg, git, etc.)
 4. **Start debugging iterations** - Each iteration MUST be explicitly labeled (e.g., "**Iteration 1**", "**Iteration 2**")
    - 4.1 Get debugging ideas from `outbox` subagent with context from steps 2 and 3. Include the tools and subagents you have and what they do, so `outbox` can give advice based on your available tools.
    - 4.2 **Check git history** (if applicable): Use `git-jj` skill to investigate version history when the bug might be a regression. Run blame on suspicious lines, check recent file changes, or use bisect to find the breaking commit. See "When to use git history" section above.
    - 4.3 Follow instructions from `outbox`, trace back to the root cause of the bug/issue 
-   - 4.4 Add logs, tweak code, verify the fix 
+   - 4.4 Propose a fix or the root of cause to user, let user review it.
+   - 4.5 Apply the fix if user agrees.
    - 4.5 Ask user to confirm the fix 
 5. **Iterate** Step 4 until user has confirmed the bug/issue is resolved. Keep key findings from each iteration and feed all findings and attempted methods to `outbox` for the next iteration.
 

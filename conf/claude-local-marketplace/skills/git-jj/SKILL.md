@@ -1,6 +1,6 @@
 ---
 name: git-jj
-description: "This skill should be used when working with vcs task, triggered by phrase like [git], [git commit], [diff], [push], [check git status], [create git branch], [git worktree], [git sqaush], [review with changes], [review with lifeguard], [jj], [jj commit], [jj changes], [commit changes]"
+description: "Used when working with vcs/git/jj/commit task, triggered by phrase like [git], [git commit], [diff], [push], [check git status], [create git branch], [git worktree], [git sqaush], [review with changes], [review with lifeguard], [jj], [jj commit], [jj changes], [commit changes]"
 ---
 
 # Git/JJ VCS Skill
@@ -41,17 +41,19 @@ The script outputs one of three values to stdout:
 
 | Output | Action |
 |--------|--------|
-| `jj` | Follow **JJ Branch** workflow. Load `~/.claude/skills/git-jj/references/jj_workflows.md` for core commands and working copy model. |
-| `git` | Follow **Git Branch** workflow. Load `~/.claude/skills/git-jj/references/git_workflows.md` for command syntax. |
+| `jj` | Follow **JJ Branch** workflow. Read `~/.claude/skills/git-jj/references/jj_workflows.md` for core commands and working copy model. |
+| `git` | Follow **Git Branch** workflow. Read `~/.claude/skills/git-jj/references/git_workflows.md` for command syntax. |
 | `no-repo` | Proceed to **Repository Initialization** workflow below. |
 
-#### JJ Branch: Conditional Reference Loading
+#### JJ Branch: Conditional Reference read
+
 When following the JJ branch, load additional references based on task complexity:
 
-**Always load first:**
+**Always read first:**
+
 - `~/.claude/skills/git-jj/references/jj_workflows.md` - Core commands, working copy model, WIP pattern, filesets
 
-**Load conditionally when needed:**
+**Read conditionally when needed:**
 - **Bookmark operations** (create, track, push, conflicts): Read `~/.claude/skills/git-jj/references/jj_bookmarks.md`
 - **Complex history queries** (ranges, filtering, ancestry): Read `~/.claude/skills/git-jj/references/jj_revset.md`
 - **Automation/structured output** (CI scripts, release notes): Read `~/.claude/skills/git-jj/references/jj_template.md`
@@ -63,7 +65,7 @@ When following the JJ branch, load additional references based on task complexit
 - Multiple file path filtering (globs, exclude patterns) → Already covered in `jj_workflows.md` (Fileset section)
 
 #### Git Branch: Reference Loading
-- Load `<skill-base-dir>/references/git_workflows.md` for all Git operations (covers branches, worktrees, stashing, troubleshooting)
+- Read `<skill-base-dir>/references/git_workflows.md` for all Git operations (covers branches, worktrees, stashing, troubleshooting)
 
 ### Step 3: Repository Initialization (if no-repo)
 1. Use `AskUserQuestion` tool to ask: "No repository found. Initialize jj or git?"
@@ -89,17 +91,16 @@ For command syntax, see reference files. This section covers workflow orchestrat
 - Rationale: JJ diffs can be large and lifeguard has Bash(jj:*) capability; letting it execute jj commands avoids prompt bloat and enables multi‑commit exploration.
 - Skill loading directive: In every lifeguard prompt include either (a) explicit phrase: `please load git claude skill` (this triggers skill reference loading), OR (b) inline list of reference file paths you want it to consult. Prefer phrase for brevity; attach paths when focusing on specialized areas (revsets, bookmarks, templates).
 
-Reference file path list (for attachment when needed):
-```
-~/.claude/skills/git-jj/references/git_workflows.md
-~/.claude/skills/git-jj/references/jj_workflows.md
-~/.claude/skills/git-jj/references/jj_bookmarks.md
-~/.claude/skills/git-jj/references/jj_revset.md
-~/.claude/skills/git-jj/references/jj_template.md
-```
-(Attach only those relevant; avoid dumping all unless broad audit.)
+Reference file path list
+
+- ~/.claude/skills/git-jj/references/git_workflows.md
+- Read ~/.claude/skills/git-jj/references/jj_workflows.md (when commit changes, logs, review with jj etc)
+- ~/.claude/skills/git-jj/references/jj_bookmarks.md
+- ~/.claude/skills/git-jj/references/jj_revset.md
+- ~/.claude/skills/git-jj/references/jj_template.md
 
 Use this canonical jj command set in the lifeguard prompt (adjust as needed):
+
 ```
 # Core context collection
 jj --no-pager status
@@ -163,7 +164,7 @@ Summary:
 ### 4. Commit Changes
 - **CRITICAL**: NEVER commit without explicit user confirmation
 - Before committing: Show summary and ask user to confirm
-- **JJ**: Always use `-m` flag (bare `jj commit` opens editor, blocks agent). See `jj_workflows.md` for WIP pattern.
+- **JJ**: Always use `-m` flag (bare `jj commit` opens editor, blocks agent). See `~/.claude/skills/git-jj/references/jj_workflows.md` for WIP pattern.
 - After JJ commit: verify with `jj --no-pager log -n 4 --no-graph`
 
 ### 5. Push to Remote
@@ -201,4 +202,4 @@ Summary:
 
 - Favor `jj` when `.jj` folder exists
 - Use `TodoWrite` for multi-step VCS workflows
-- Load reference files only when command syntax is uncertain
+- Read reference files only when command syntax is uncertain

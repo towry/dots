@@ -34,6 +34,7 @@
 - **User Preferences**:
     - VCS: `jj`
     - Search: `fd` and `rg`
+    - `ls` alternative: `exa`
 - **git**:
     - Only run git commit commands after user confirm the changes is ok.
     - Before git commit and git add, check current branch, prevent accidental commit to main/staging branch.

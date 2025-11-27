@@ -359,7 +359,7 @@ let
       image_generation_model = "openrouter/x-ai/grok-4-fast";
       default_fallbacks = [ "opencodeai/gpt-5" ];
       master_key = "os.environ/LITELLM_MASTER_KEY";
-      request_timeout = 30;
+      request_timeout = 600;
       num_retries = 2;
       allowed_fails = 3;
       cooldown_time = 30;

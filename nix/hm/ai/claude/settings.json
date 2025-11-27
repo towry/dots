@@ -9,6 +9,7 @@
       "Bash(git diff:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
+      "Bash(exa:*)",
       "Bash(git show:*)",
       "Bash(git reflog:*)",
       "Bash(git rev-parse:*)",
@@ -23,6 +24,8 @@
       "Bash(tail:*)",
       "Bash(bash /Users/towry/.claude/skills/git-jj/scripts/repo_check.sh)",
       "Bash(bash ~/.claude/skills/git-jj/scripts/repo_check.sh)",
+      "Bash(bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*)",
+      "Bash(~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*)",
       "Write(~/workspace/llm/research/*.md)",
       "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py:*)",
       "Bash(head:*)",
@@ -225,6 +228,17 @@
           {
             "type": "command",
             "command": "terminal-notifier -sound default -message 'Claude Code: Awaiting your input'"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/session_save.py"
           }
         ]
       }
