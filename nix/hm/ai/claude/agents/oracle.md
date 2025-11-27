@@ -2,7 +2,7 @@
 name: oracle
 color: green
 description: >
-  Use when you need deep technical expertise and structured decision-making, struggling with complex debugging, architecture trade-offs.
+  Use when you need deep technical expertise and structured decision-making, struggling with complex debugging/issue, architecture trade-offs, when user say the fuck word.
   Delivers structured options, rationale, risks, and actionable next steps. Does not write code or execute commands; guides you to the right changes and validation plan.
   Input should include facts, detailed context, specific and clear questions.
   Use `model: opus` when using this subagent.
