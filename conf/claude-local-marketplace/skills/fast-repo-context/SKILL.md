@@ -5,7 +5,7 @@ description: "Semantic code search using sgrep. Use when: exploring code, search
 
 # Fast Repo Context
 
-Semantic grep (`sgrep script`) for natural language code search.
+Semantic grep (`sgrep script`) for code search with natural language queries. Note: it only give code snippets/what/where, not how or code explanations, so your query need to be focus on what/where.
 
 ## Tool
 
