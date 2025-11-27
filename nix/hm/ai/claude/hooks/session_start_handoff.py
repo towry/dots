@@ -31,6 +31,16 @@ def scan_pending_handoffs(project_dir: str) -> list[dict]:
     if not handoffs_dir.exists():
         return []
 
+    # Load handled handoffs from metadata file
+    metadata_file = handoffs_dir / ".handled.json"
+    handled_set = set()
+    if metadata_file.exists():
+        try:
+            handled_data = json.loads(metadata_file.read_text())
+            handled_set = set(handled_data.keys())
+        except Exception:
+            pass
+
     pending = []
     for filepath in sorted(
         handoffs_dir.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True
@@ -38,14 +48,24 @@ def scan_pending_handoffs(project_dir: str) -> list[dict]:
         # Skip files in handled/ subdirectory (should not match anyway with glob)
         if "handled" in filepath.parts:
             continue
-        
+
+        # Skip files that are marked as handled in metadata
+        if filepath.name in handled_set:
+            continue
+
         stat = filepath.stat()
-        pending.append({
-            "name": filepath.name,
-            "path": str(filepath.relative_to(project_dir)),
-            "modified": datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S"),
-            "age_seconds": (datetime.now() - datetime.fromtimestamp(stat.st_mtime)).total_seconds(),
-        })
+        pending.append(
+            {
+                "name": filepath.name,
+                "path": str(filepath.relative_to(project_dir)),
+                "modified": datetime.fromtimestamp(stat.st_mtime).strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                ),
+                "age_seconds": (
+                    datetime.now() - datetime.fromtimestamp(stat.st_mtime)
+                ).total_seconds(),
+            }
+        )
 
     return pending
 
@@ -63,21 +83,21 @@ def format_handoff_prompt(handoffs: list[dict]) -> str:
         return ""
 
     latest = handoffs[0]
-    
-    # Build context message
+
+    # Build concise context message with clear action trigger
     lines = [
-        "📋 **Pending Handoff Detected**",
+        "## AUTO-PICKUP TRIGGER",
         "",
-        f"There is a handoff from a previous session waiting to be picked up:",
-        f"- `{latest['name']}` (created: {latest['modified']})",
+        "When user sends single dot '.' or 'start' or 'go', you MUST immediately execute:",
+        "```",
+        f"/pickup {latest['name']}",
+        "```",
+        "Do NOT ask questions. Do NOT explain. Just run the SlashCommand tool with that command.",
         "",
-        f"**To continue the previous work, run:** `/pickup {latest['name']}`",
-        "",
-        "If you want to start fresh instead, just proceed with your task.",
+        f"Pending handoff: `{latest['name']}`",
     ]
 
     if len(handoffs) > 1:
-        lines.append("")
         lines.append(f"({len(handoffs) - 1} older handoff(s) also available)")
 
     return "\n".join(lines)
@@ -111,14 +131,21 @@ def main():
 
     # Format prompt for agent
     context = format_handoff_prompt(pending)
-    
-    print(f"Found {len(pending)} pending handoff(s)", file=sys.stderr)
+
+    latest = pending[0]
+
+    # Create a visible system message that displays immediately
+    system_msg = f"📋 Pending handoff detected: `{latest['name']}` (created: {latest['modified']})\nRun `/pickup {latest['name']}` to continue, or proceed with a new task."
+
+    if len(pending) > 1:
+        system_msg += f"\n({len(pending) - 1} older handoff(s) also available)"
 
     output = {
+        "systemMessage": system_msg,
         "hookSpecificOutput": {
             "hookEventName": "SessionStart",
             "additionalContext": context,
-        }
+        },
     }
 
     print(json.dumps(output))
@@ -126,4 +153,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        # If anything fails, exit silently to avoid breaking Claude
+        sys.exit(0)

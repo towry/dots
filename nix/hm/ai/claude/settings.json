@@ -5,6 +5,7 @@
     "allow": [
       "Skill",
       "Skill(git-jj)",
+      "SlashCommand(/pickup:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -105,6 +106,7 @@
       "mcp__sequentialthinking__sequentialthinking"
     ],
     "ask": [
+      "Bash(agpod kiro pr-new:*)",
       "Bash(pnpm turbo:*)",
       "Bash(pnpm run:*)",
       "Bash(turbo:*)",
@@ -226,6 +228,17 @@
           {
             "type": "command",
             "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/prevent_forbidden_bash.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "SlashCommand",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/post_pickup_handler.py"
           }
         ]
       }
