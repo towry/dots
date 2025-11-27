@@ -175,7 +175,6 @@ rec {
         "fs"
         "chromedev"
         "github"
-        "brightdata"
         "mastergo"
       ]
     );
