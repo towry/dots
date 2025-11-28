@@ -34,7 +34,7 @@ Use this skill when:
 
 **Critical**: If no research file found, just tell user and finish, do not create. Only read one research file, do not read multiple files.
 
-1. **List Research Files**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py list`
+1. **List Research Files**: `ls ~/workspace/llm/research/`
 2. **Pick only one file(no read)**: Match user keywords to research names/content to find the most relevant research file, do not read, ask user to confirm if is this one, and list other possible match files if any.
 3. User choose with file index, then you proceed to read the file.
 
