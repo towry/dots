@@ -54,6 +54,11 @@ in
       recursive = true;
     };
 
+    "factory/skills" = {
+      source = ../../../../conf/claude-local-marketplace/skills;
+      recursive = true;
+    };
+
     # Generated files for activation script to copy
     ".factory/generated/settings.json" = {
       source = processedSettings;
