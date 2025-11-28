@@ -63,25 +63,25 @@
   #     rpm = 1;
   #   };
   # }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openrouter/minimax/minimax-m2";
-      api_key = "os.environ/OPENROUTER_API_KEY";
-      rpm = 1;
-      provider = {
-        sort = "throughput";
-      };
-      reasoning = {
-        effort = "medium";
-      };
-      verbosity = "medium";
-    };
-    model_info = {
-      max_input_tokens = 204800;
-      max_output_tokens = 131100;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openrouter/minimax/minimax-m2";
+  #     api_key = "os.environ/OPENROUTER_API_KEY";
+  #     rpm = 1;
+  #     provider = {
+  #       sort = "throughput";
+  #     };
+  #     reasoning = {
+  #       effort = "medium";
+  #     };
+  #     verbosity = "medium";
+  #   };
+  #   model_info = {
+  #     max_input_tokens = 204800;
+  #     max_output_tokens = 131100;
+  #   };
+  # }
   {
     model_name = "bender-muffin";
     litellm_params = {
