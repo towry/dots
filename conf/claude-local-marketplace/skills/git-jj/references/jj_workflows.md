@@ -105,7 +105,7 @@ jj squash                          # Merge back into parent
 ```bash
 jj edit <conflicted-commit>
 # ... resolve conflicts ...
-jj describe -m "resolved conflicts"
+jj describe -m "chore: resolved conflicts"
 ```
 
 ### External Tool
