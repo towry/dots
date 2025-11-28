@@ -33,9 +33,10 @@ Use this skill when:
 
 1. **Generate Research Name**: Create descriptive research name based on user input as `<user-query>`, user input may contain typos, improve it.
 2. **Create Research File**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py create "<user-query>"`
-3. **Ask Clarifying Questions**: Ask user for more details about research scope
+3. **Ask Clarifying Questions**: Ask user for more details about research scope, this step is required to ensure accurate research direction.
 4. **Execute Research Workflow**: Use integrated tools to gather information
 5. **Document Findings**: Write results to research markdown file, use absolute file path when writting, do not use `~` path abbreviation.
+6. **Iterate the research doc with user**: Present findings to user, ask for feedback or additional areas to explore, update the research doc accordingly.
 
 ### Loading Research Process (when user mention load or update doc, or provided doc keywords)
 
@@ -185,5 +186,27 @@ please load local research on "authentication system analysis" and update the do
 python3 ~/.claude/skills/local-research/scripts/research_ops.py locate authentication system analysis
 ```
 Good, found the research file at `<file-path>`. Now loading the content and summarizing the key points for you.
+</assistant>
+</example>
+
+<example>
+<user>
+new research, city picker in ve form.
+</user>
+
+<assistant>
+Let me first check if there are existing research files related to "city picker in ve form".
+
+```bash
+python3 ~/.claude/skills/local-research/scripts/research_ops.py list
+```
+
+No existing research found. I will create a new research file for "city picker in ve form".
+
+```bash
+python3 ~/.claude/skills/local-research/scripts/research_ops.py create "city picker in ve form"
+```
+
+Great, I've created a new research file for "city picker in ve form". Could you please provide more details about the scope of this research? Are there specific aspects you would like me to focus on? Or some files/keywords let do the codebase search with fast-repo-context skill?
 </assistant>
 </example>
