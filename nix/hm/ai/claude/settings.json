@@ -180,7 +180,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uv run ~/.claude/hooks/session_remind.py"
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_remind.py"
           }
         ]
       },

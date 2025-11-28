@@ -103,7 +103,7 @@
       api_base = "https://opencode.ai/zen/v1";
       api_key = pkgs.nix-priv.keys.opencode.apiKey;
       max_tokens = 65536;
-      rpm = 3;
+      rpm = 2;
     };
     model_info = {
       max_input_tokens = 262144;

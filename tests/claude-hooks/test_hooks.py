@@ -23,7 +23,6 @@ HOOKS_DIR = Path(__file__).parent.parent.parent / "nix" / "hm" / "ai" / "claude"
 sys.path.insert(0, str(HOOKS_DIR))
 
 # Import hook functions
-from get_last_agent import extract_agent_id_from_obj, search_transcript_for_agent_id
 from prevent_forbidden_bash import check_forbidden_bash_commands
 
 
@@ -54,133 +53,7 @@ class TestResults:
         return self.failed == 0
 
 
-def test_extract_agent_id_valid(results):
-    """Test extraction of valid agentId from toolUseResult"""
-    test_obj = {
-        "toolUseResult": {
-            "agentId": "abcd1234",
-            "status": "completed"
-        }
-    }
 
-    agent_id = extract_agent_id_from_obj(test_obj)
-    if agent_id == "abcd1234":
-        results.record_pass("extract_agent_id_valid")
-    else:
-        results.record_fail("extract_agent_id_valid", f"Expected 'abcd1234', got '{agent_id}'")
-
-
-def test_extract_agent_id_false_positives(results):
-    """Test that UUIDs, sessionIds, leafUuids are NOT extracted"""
-
-    # Test 1: UUID should be ignored
-    test_obj_uuid = {
-        "uuid": "12345678-1234-1234-1234-123456789abc",
-        "message": "some message"
-    }
-    agent_id = extract_agent_id_from_obj(test_obj_uuid)
-    if agent_id is None:
-        results.record_pass("extract_agent_id_rejects_uuid")
-    else:
-        results.record_fail("extract_agent_id_rejects_uuid", f"Should not extract UUID, got '{agent_id}'")
-
-    # Test 2: sessionId should be ignored
-    test_obj_session = {
-        "sessionId": "demo-session-12345678-1234-1234-1234-123456789abc"
-    }
-    agent_id = extract_agent_id_from_obj(test_obj_session)
-    if agent_id is None:
-        results.record_pass("extract_agent_id_rejects_sessionId")
-    else:
-        results.record_fail("extract_agent_id_rejects_sessionId", f"Should not extract sessionId, got '{agent_id}'")
-
-    # Test 3: leafUuid should be ignored
-    test_obj_leaf = {
-        "leafUuid": "abc12345-0000-0000-0000-000000000001"
-    }
-    agent_id = extract_agent_id_from_obj(test_obj_leaf)
-    if agent_id is None:
-        results.record_pass("extract_agent_id_rejects_leafUuid")
-    else:
-        results.record_fail("extract_agent_id_rejects_leafUuid", f"Should not extract leafUuid, got '{agent_id}'")
-
-
-def test_extract_agent_id_format_validation(results):
-    """Test that only 8-hex-char agentIds are accepted"""
-
-    # Valid format: 8 hex chars
-    test_obj_valid = {"toolUseResult": {"agentId": "abcd1234"}}
-    agent_id = extract_agent_id_from_obj(test_obj_valid)
-    if agent_id == "abcd1234":
-        results.record_pass("extract_agent_id_valid_format")
-    else:
-        results.record_fail("extract_agent_id_valid_format", f"Expected 'abcd1234', got '{agent_id}'")
-
-    # Invalid: too short
-    test_obj_short = {"toolUseResult": {"agentId": "abc123"}}
-    agent_id = extract_agent_id_from_obj(test_obj_short)
-    if agent_id is None:
-        results.record_pass("extract_agent_id_rejects_short")
-    else:
-        results.record_fail("extract_agent_id_rejects_short", f"Should reject short ID, got '{agent_id}'")
-
-    # Invalid: too long
-    test_obj_long = {"toolUseResult": {"agentId": "abcd123456789"}}
-    agent_id = extract_agent_id_from_obj(test_obj_long)
-    if agent_id is None:
-        results.record_pass("extract_agent_id_rejects_long")
-    else:
-        results.record_fail("extract_agent_id_rejects_long", f"Should reject long ID, got '{agent_id}'")
-
-    # Invalid: non-hex chars
-    test_obj_nonhex = {"toolUseResult": {"agentId": "abcdxyz1"}}
-    agent_id = extract_agent_id_from_obj(test_obj_nonhex)
-    if agent_id is None:
-        results.record_pass("extract_agent_id_rejects_nonhex")
-    else:
-        results.record_fail("extract_agent_id_rejects_nonhex", f"Should reject non-hex ID, got '{agent_id}'")
-
-
-def test_search_transcript(results):
-    """Test transcript search functionality"""
-    test_dir = Path(__file__).parent
-    demo_transcript = test_dir / "demo-transcript.jsonl"
-
-    if not demo_transcript.exists():
-        results.record_fail("search_transcript", "demo-transcript.jsonl not found")
-        return
-
-    # Create a temporary "project" directory structure for the test
-    # We'll use a temporary HOME to isolate from real transcripts
-    with tempfile.TemporaryDirectory() as tmpdir:
-        # Set up fake HOME with .claude/projects structure
-        fake_home = Path(tmpdir) / "home"
-        transcript_dir = fake_home / ".claude" / "projects" / "-test-project"
-        transcript_dir.mkdir(parents=True, exist_ok=True)
-
-        # Copy demo transcript with session ID in filename
-        session_id = "demo-session-12345678-1234-1234-1234-123456789abc"
-        dest_transcript = transcript_dir / f"{session_id}.jsonl"
-        shutil.copy(demo_transcript, dest_transcript)
-
-        # Temporarily override HOME to use our isolated environment
-        old_home = os.environ.get('HOME')
-        try:
-            os.environ['HOME'] = str(fake_home)
-            # Search for agentId in copied transcript
-            project_path = Path(tmpdir) / "project"
-            agent_id = search_transcript_for_agent_id(session_id, str(project_path))
-
-            if agent_id == "abcd1234":
-                results.record_pass("search_transcript")
-            else:
-                results.record_fail("search_transcript", f"Expected 'abcd1234', got '{agent_id}'")
-        finally:
-            # Restore original HOME
-            if old_home:
-                os.environ['HOME'] = old_home
-            else:
-                os.environ.pop('HOME', None)
 
 
 def test_sanitize_input(results):
@@ -299,18 +172,8 @@ def main():
 
     print("Running Claude hooks test suite...\n")
 
-    # Agent ID extraction tests
-    print("Testing agent ID extraction:")
-    test_extract_agent_id_valid(results)
-    test_extract_agent_id_false_positives(results)
-    test_extract_agent_id_format_validation(results)
-
-    # Transcript search tests
-    print("\nTesting transcript search:")
-    test_search_transcript(results)
-
     # Input sanitization tests
-    print("\nTesting input sanitization:")
+    print("Testing input sanitization:")
     test_sanitize_input(results)
 
     # File operations tests

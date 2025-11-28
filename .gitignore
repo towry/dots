@@ -18,3 +18,4 @@ nix/foo.nix
 .roo/
 .pmdaemon/
 pnpm-lock.yaml
+forge.yaml
