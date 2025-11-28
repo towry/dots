@@ -23,6 +23,8 @@
       "Bash(rg:*)",
       "Read(/tmp/**)",
       "Bash(tail:*)",
+      "Bash(cd ~/workspace/llm/research/ && sgrep index)",
+      "Bash(cd ~/workspace/llm/research/ && sgrep search:*)",
       "Bash(bash /Users/towry/.claude/skills/git-jj/scripts/repo_check.sh)",
       "Bash(bash ~/.claude/skills/git-jj/scripts/repo_check.sh)",
       "Bash(bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*)",
