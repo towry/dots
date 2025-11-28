@@ -20,7 +20,8 @@
 ## `Task` tool with `subagent_type` usage rules
 
 - Use `model: opus` when `subagent_type` is `oracle` (opus for research task).
-- Use `model: haiku` when `subagent_type` is `sage`.
-- Use `model: opusplan` when `subagent_type` is `Plan`.
+- Use `model: haiku` when `subagent_type` is `sage`(code search agent).
+- Use `model: haiku` when `subagent_type` is `eng` (light coding task agent).
+- Use `model: opusplan` when `subagent_type` is `Plan` (plan agent).
 
 @CONTENT@

@@ -30,7 +30,7 @@
       "Bash(bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*)",
       "Bash(~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*)",
       "Write(~/workspace/llm/research/*.md)",
-      "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py:*)",
+      "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py list:*)",
       "Bash(head:*)",
       "Bash(lsof:*)",
       "Bash(ps:*)",
@@ -108,6 +108,7 @@
       "mcp__sequentialthinking__sequentialthinking"
     ],
     "ask": [
+      "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py create:*)",
       "Bash(agpod kiro pr-new:*)",
       "Bash(pnpm turbo:*)",
       "Bash(pnpm run:*)",

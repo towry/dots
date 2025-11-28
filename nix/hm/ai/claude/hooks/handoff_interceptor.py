@@ -280,7 +280,7 @@ Analyze this conversation and create a comprehensive handoff document that inclu
 5. **Todo List**: List ALL todo items below in the "Current Todo List" section - copy them EXACTLY as shown, preserving markers (☑/▶/☐) and text verbatim
 6. **Context for Next Session**: Critical information the next person needs to know
 7. **Files Modified**: Key files that were changed (if mentioned) - use absolute paths relative to `{absolute_project_dir}`
-8. **Claude skills**: List skills that used in this session, those skills might need to be load in next session with the handoff file.
+8. **Claude skills**: List skills that used in this session, those skills might need to be load in next session with the handoff file, include the skills in the next action section, for example: "Load the following skills with Skill tool:"
 
 Be concise but thorough. Format the output in markdown.
 CRITICAL: The "Current Todo List" section below contains the EXACT todo items. You MUST copy them verbatim - do NOT paraphrase or summarize.
@@ -298,7 +298,7 @@ CRITICAL: The "Current Todo List" section below contains the EXACT todo items. Y
             [
                 "claude",
                 "--model",
-                "opencodeai/claude-haiku-4-5",
+                "opencodeai/big-pickle",
                 "--allowedTools",
                 "Write,Read,Bash(mkdir:*),Bash(touch:*),Bash(ls:*)",
                 "-p",

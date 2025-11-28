@@ -6,7 +6,7 @@ description: >
   How: pure thought (no tools); needs a concise problem statement + constraints + current attempted framing; outputs multiple reframings, divergent seeds, assumption challenges, hybrid synthesis.
   When: stuck in conventional patterns, before locking architecture/strategy, seeking novel angles, exploring alternatives for stale designs.
   NOT for: feasibility validation, factual research, execution planning, implementation details (use oracle for deep analysis, sage for codebase facts, eng for building).
-tools: 
+tools: Read
 model: opus
 ---
 

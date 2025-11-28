@@ -21,15 +21,6 @@ Use this skill when:
 
 ## Core Workflow
 
-### When user requests new research to be created explictly
-
-1. **Generate Research Name**: Create descriptive research name based on user input as `<user-query>`, user input may contain typos, improve it.
-2. **Create Research File**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py create "<user-query>"`
-3. **Ask Clarifying Questions**: Ask user for more details about research scope, this step is required to ensure accurate research direction.
-4. **Execute Research Workflow**: Use integrated tools to gather information
-5. **Document Findings**: Write results to research markdown file, use absolute file path when writting, do not use `~` path abbreviation.
-6. **Iterate the research doc with user**: Present findings to user, ask for feedback or additional areas to explore, update the research doc accordingly.
-
 ### Loading Research Process (when user mention load or want to update a research doc, or provided doc keywords)
 
 **Critical**: If no research file found, just tell user and finish, do not create. Only read one research file, do not read multiple files.
@@ -44,6 +35,15 @@ Alternative way to fast load it:
 2. `cd ~/workspace/llm/research/ && sgrep search <keywords-or-user-input...>`
 
 Read the results and load the correct research file.
+
+### When user requests new research to be created explictly
+
+1. **Generate Research Name**: Create descriptive research name based on user input as `<user-query>`, user input may contain typos, improve it.
+2. **Create Research File**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py create "<user-query>"`
+3. **Ask Clarifying Questions**: Ask user for more details about research scope, this step is required to ensure accurate research direction.
+4. **Execute Research Workflow**: Use integrated tools to gather information
+5. **Document Findings**: Write results to research markdown file, use absolute file path when writting, do not use `~` path abbreviation.
+6. **Iterate the research doc with user**: Present findings to user, ask for feedback or additional areas to explore, update the research doc accordingly.
 
 ## Research Tools and Methods
 
@@ -129,22 +129,6 @@ When user wants to load existing research:
 2. **Search Matching**: Match user keywords to research names/content
 3. **Display Findings**: Present the complete research file content
 
-### Script Commands
-
-```bash
-# Create new research file
-python3 ~/.claude/skills/local-research/scripts/research_ops.py create "<user-query>"
-
-# List all research files (sorted by timestamp)
-python3 ~/.claude/skills/local-research/scripts/research_ops.py list
-
-# Locate research file by keywords
-python3 ~/.claude/skills/local-research/scripts/research_ops.py locate <keywords...>
-
-# Read specific research file
-cat ~/workspace/llm/research/<research-name>-<timestamp>.md
-```
-
 ## Integration with Other Skills
 
 ### Fast Context Integration
@@ -183,7 +167,7 @@ please load local research on "authentication system analysis" and update the do
 
 <assistant>
 ```bash
-python3 ~/.claude/skills/local-research/scripts/research_ops.py locate authentication system analysis
+python3 ~/.claude/skills/local-research/scripts/research_ops.py list
 ```
 Good, found the research file at `<file-path>`. Now loading the content and summarizing the key points for you.
 </assistant>
@@ -201,7 +185,22 @@ Let me first check if there are existing research files related to "city picker 
 python3 ~/.claude/skills/local-research/scripts/research_ops.py list
 ```
 
-No existing research found. I will create a new research file for "city picker in ve form".
+No existing research found. Do you want me to create research file for "city picker in ve form".
+
+<user>
+No
+</user>
+
+<assistant>
+Ok, let me know if you need anything else.
+</assistant>
+
+<user>
+Ok, create it
+</user>
+
+<assistant>
+Confirm received.
 
 ```bash
 python3 ~/.claude/skills/local-research/scripts/research_ops.py create "city picker in ve form"
