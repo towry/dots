@@ -26,7 +26,7 @@
   {
     model_name = "bender-muffin";
     litellm_params = {
-      model = "github_copilot/gpt-5-mini";
+      model = "github_copilot/oswe-vscode-prime";
       extra_headers = copilotHeaders;
       max_tokens = 64000;
       rpm = 4;
