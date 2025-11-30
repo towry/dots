@@ -71,9 +71,15 @@ detect_os() {
     esac
 }
 
-# Get latest release info
-get_latest_release() {
-    log_info "Fetching latest release information..." >&2
+# Get release info for a specific version or latest
+get_release_info() {
+    local version="${1:-latest}"
+
+    if [[ "$version" == "latest" ]]; then
+        log_info "Fetching latest release information..." >&2
+    else
+        log_info "Fetching release information for version $version..." >&2
+    fi
 
     # Use curl instead of gh to avoid bash variable assignment issues
     local auth_header=""
@@ -86,11 +92,19 @@ get_latest_release() {
         fi
     fi
 
+    # GitHub API format: /releases/latest or /releases/tags/{tag}
+    local url
+    if [[ "$version" == "latest" ]]; then
+        url="https://api.github.com/repos/sst/opencode/releases/latest"
+    else
+        url="https://api.github.com/repos/sst/opencode/releases/tags/$version"
+    fi
+
     if [[ -n "$auth_header" ]]; then
-        curl -s -H "$auth_header" "https://api.github.com/repos/sst/opencode/releases/latest"
+        curl -s -H "$auth_header" "$url"
     else
         # Fallback to unauthenticated request (rate limited but works)
-        curl -s "https://api.github.com/repos/sst/opencode/releases/latest"
+        curl -s "$url"
     fi
 }
 
@@ -228,9 +242,51 @@ verify_installation() {
     fi
 }
 
+# Show usage information
+show_usage() {
+    cat << EOF
+Usage: $0 [OPTIONS]
+
+Options:
+    -v, --version VERSION    Install a specific version (e.g., v0.1.0)
+                            Omit for latest version
+    -h, --help              Show this help message
+
+Examples:
+    $0                      Install latest version
+    $0 --version v0.1.0     Install version v0.1.0
+    $0 -v v0.2.0           Install version v0.2.0
+
+EOF
+}
+
 # Main function
 main() {
+    local target_version="latest"
+
+    # Parse command line arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -v|--version)
+                target_version="$2"
+                shift 2
+                ;;
+            -h|--help)
+                show_usage
+                exit 0
+                ;;
+            *)
+                log_error "Unknown option: $1"
+                show_usage
+                exit 1
+                ;;
+        esac
+    done
+
     log_info "Starting OpenCode CLI installation..."
+    if [[ "$target_version" != "latest" ]]; then
+        log_info "Target version: $target_version"
+    fi
 
     # Check prerequisites
     check_gh_command
@@ -250,23 +306,35 @@ main() {
     log_info "Detected architecture: $arch"
     log_info "Detected OS: $os"
 
-    # Get latest release and process it
+    # Get release information
     log_info "Getting release information..."
     local release_info version download_url
-    release_info=$(get_latest_release)
+    release_info=$(get_release_info "$target_version")
 
     if [[ $? -ne 0 ]] || [[ -z "$release_info" ]]; then
         log_error "Failed to get release information"
         exit 1
     fi
 
+    # Check for API errors
+    if echo "$release_info" | jq -e '.message' >/dev/null 2>&1; then
+        local error_msg
+        error_msg=$(echo "$release_info" | jq -r '.message')
+        log_error "GitHub API error: $error_msg"
+        if [[ "$target_version" != "latest" ]]; then
+            log_error "Version '$target_version' may not exist. Check available releases at:"
+            log_error "https://github.com/sst/opencode/releases"
+        fi
+        exit 1
+    fi
+
     log_info "Parsing version..."
     version=$(echo "$release_info" | jq -r '.tag_name')
-    if [[ $? -ne 0 ]]; then
+    if [[ -z "$version" || "$version" == "null" ]]; then
         log_error "Failed to parse version from release info"
         exit 1
     fi
-    log_info "Latest version: $version"
+    log_info "Version: $version"
 
     # Find download URL
     download_url=$(find_download_url "$release_info" "$arch" "$os")
