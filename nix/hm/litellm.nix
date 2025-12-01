@@ -1,6 +1,7 @@
 # Some models have region restrictions, like anthropic's Claude models.
 # Make sure using http proxy if needed.
 # doc: https://docs.litellm.ai/docs/
+# curl -H "Authorization: Bearer $(cat ~/.config/litellm/github_copilot/access-token)" https://api.githubcopilot.com/models > model.md
 {
   pkgs,
   config,
@@ -453,7 +454,7 @@ let
 
     # Use the Nix-built litellm package
     # $${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
-    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.5' --with 'httpx[socks]' litellm --config ${litellmConfig} "$@"
+    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.7' --with 'httpx[socks]' litellm==1.80.7 --config ${litellmConfig} "$@"
   '';
 
 in

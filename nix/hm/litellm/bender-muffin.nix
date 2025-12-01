@@ -14,7 +14,7 @@
       model = "github_copilot/claude-haiku-4.5";
       extra_headers = copilotHeaders;
       max_tokens = 16000;
-      rpm = 2;
+      rpm = 10;
     };
     model_info = {
       max_input_tokens = 128000;
@@ -43,7 +43,7 @@
       api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
       api_base = "https://api.minimaxi.com/v1";
       max_tokens = 128000;
-      rpm = 10;
+      rpm = 8;
       extra_body = {
         reasoning_split = true;
       };
@@ -110,33 +110,33 @@
       max_output_tokens = 65536;
     };
   }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openai/big-pickle";
-      api_base = "https://opencode.ai/zen/v1";
-      api_key = pkgs.nix-priv.keys.opencode.apiKey;
-      max_tokens = 128000;
-      rpm = 2;
-    };
-    model_info = {
-      max_input_tokens = 200000;
-      max_output_tokens = 128000;
-    };
-  }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
-  #     model = "openrouter/anthropic/claude-haiku-4.5";
-  #     api_key = "os.environ/OPENROUTER_API_KEY";
-  #     max_tokens = 64000;
-  #     rpm = 1;
+  #     model = "openai/big-pickle";
+  #     api_base = "https://opencode.ai/zen/v1";
+  #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
+  #     max_tokens = 128000;
+  #     rpm = 2;
   #   };
   #   model_info = {
   #     max_input_tokens = 200000;
-  #     max_output_tokens = 64000;
+  #     max_output_tokens = 128000;
   #   };
   # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openrouter/anthropic/claude-haiku-4.5";
+      api_key = "os.environ/OPENROUTER_API_KEY";
+      max_tokens = 64000;
+      rpm = 1;
+    };
+    model_info = {
+      max_input_tokens = 200000;
+      max_output_tokens = 64000;
+    };
+  }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -147,7 +147,7 @@
   #     rpm = 1;
   #   };
   #   model_info = {
-  #     max_input_tokens = 1000000;
+  #     max_input_tokens = 200000;
   #     max_output_tokens = 64000;
   #   };
   # }
