@@ -20,7 +20,7 @@ description: Systematically trace bugs backward through call stack to find the o
     - `git bisect` - binary search for the commit that introduced a bug
     - `git diff <a>..<b>` / `jj diff -r <a>..<b>` - compare specific revisions
     - `jj log -r "file('path')"` - find commits that touched a file
-- `outbox` subagent for high level debugging ideas and strategies; Invoke the `Task` tool with `outbox`.
+- `outbox` subagent for high level debugging ideas, strategies, and issue qualitative analysis; Invoke the `Task` tool with `outbox`.
 - `oracle` subagent for advanced reasoning about complex issues, decision making; Invoke the `Task` tool with `oracle`.
 - `brightdata` mcp tool: use it to search on the web for similar issues, error messages, stack traces.
 - `github` mcp tool: use it to search library related issues in github issues.
@@ -43,10 +43,10 @@ Skip git history when:
 # Debugging process 
 
 1. **Understand** the issue/bug 
-2. **Fetch context with fast-repo-context skill** of the codebases. Use `kg` to search the knowledge graph in case we solved this before. Use `fast-repo-context` skill(recommended) or `rg` bash tool to search the codebases with possible keywords, and read comments or documents.
+2. **Fetch context with fast-repo-context skill** of the codebases. Use `kg` to search the knowledge graph in case we solved this before. Use `fast-repo-context` skill(recommended) or `rg` bash tool to search the codebases with possible keywords, and read comments or documents. Attach current project root path when applicable, this is needed for other tools to work properly, include the `outbox` agent.
 3. **Review available tools** and subagents (fd, rg, kg, git, etc.)
 4. **Start debugging iterations** - Each iteration MUST be explicitly labeled (e.g., "**Iteration 1**", "**Iteration 2**")
-   - 4.1 Get debugging ideas from `outbox` subagent with context from steps 2 and 3. Include the tools and subagents you have and what they do, so `outbox` can give advice based on your available tools.
+   - 4.1 Get debugging ideas/strategy or issue qualitative analysis from `outbox` subagent with context from steps 2 and 3. Include the tools and subagents you have and what they do, so `outbox` can give advice based on your available tools.
    - 4.2 **Check git history** (if applicable): Use `git-jj` skill to investigate version history when the bug might be a regression. Run blame on suspicious lines, check recent file changes, or use bisect to find the breaking commit. See "When to use git history" section above.
    - 4.3 Follow instructions from `outbox`, trace back to the root cause of the bug/issue 
    - 4.4 Propose a fix or the root of cause to user, let user review it.

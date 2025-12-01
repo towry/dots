@@ -79,7 +79,7 @@ def build_reminder_message(session_id, project_dir):
     msg += f"Session ID: {session_id}\n"
     msg += f"Today is: {today}\n"
     if project_dir:
-        msg += f"Project directory: {project_dir} \n"
+        msg += f"Current project root: {project_dir}"
     return msg
 
 
@@ -132,7 +132,7 @@ def main():
             )
 
         output_json = {
-            "systemMessage": "Session remind hook activated.",
+            "systemMessage": f"Remind - Project: {project_dir}",
             "hookSpecificOutput": {
                 "hookEventName": "SessionStart",
                 "additionalContext": reminder_msg,

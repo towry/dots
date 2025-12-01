@@ -8,6 +8,8 @@
       "SlashCommand(/pickup:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
+      "Bash(jj help:*)",
+      "Bash(jj --no-pager help:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
       "Bash(exa:*)",

@@ -1,8 +1,8 @@
 # JJ Revset Language Reference
 
-Source: https://docs.jj-vcs.dev/latest/revsets/
-
-Revsets select sets of revisions for inspection, history manipulation, and automation.
+- Source: https://docs.jj-vcs.dev/latest/revsets/
+- Revsets select sets of revisions for inspection, history manipulation, and automation.
+- Run bash command `jj --no-pager help -k revsets` to see full documentation, in case doc is outdated and you keep run into issues with revsets.
 
 ## Atoms
 
@@ -31,24 +31,29 @@ Revsets select sets of revisions for inspection, history manipulation, and autom
 
 | Function | Purpose |
 |----------|---------|
-| `all()` | All commits (visible + hidden) |
-| `visible()` | Non-abandoned commits |
+| `all()` | All visible commits|
 | `ancestors(X)` / `descendants(X)` | Ancestry traversal |
+| `git_refs()` | All Git refs as of the last import with jj git import |
+| `git_head()` | The Git HEAD target as of the last import with jj git import |
 | `parents(X)` / `children(X)` | Direct relatives |
-| `heads(X)` | Commits with no descendants in X |
-| `author("name")` | By author substring |
-| `description("regex")` | By description regex |
-| `file("path")` | Commits affecting path |
+| `heads(X)` | Commits in X that are not ancestors of other commits in X. |
+| `visible_heads()` | All visible heads (same as heads(all()) if no hidden revisions are mentioned). |
+| `author(pattern)` | By author substring |
+| `author_name(pattern)` | By author name |
+| `author_email(pattern)` | By author email |
+| `merges()` | Merge commits |
+| `description(pattern)` | By description regex |
+| `files("path")` | Commits affecting path |
 | `present(X)` | Filter to visible form |
 
 ## Common Patterns
 
-```bash
+```md
 # Work since branching from main
 main..@
 
 # Commits affecting file
-descendants(main) & file("src/lib.rs")
+descendants(main) & files("src/lib.rs")
 
 # Ahead of remote (push candidates)
 feature - feature@origin
@@ -64,17 +69,14 @@ author("alice") & main..@
 
 # Divergent heads (conflicts)
 heads(<change-id>)
-
-# Hidden/abandoned commits
-all() - visible()
 ```
 
 ## File Filtering
 
-```bash
-file("src/")                              # Commits under src/
-file("src/") - file("src/test/")          # Exclude test dir
-descendants(main) & file("*.rs")          # Rust files since main
+```md
+files("src/")                              # Commits under src/
+files("src/") - file("src/test/")          # Exclude test dir
+descendants(main) & files("*.rs")          # Rust files since main
 ```
 
 ## Pitfalls
@@ -82,6 +84,5 @@ descendants(main) & file("*.rs")          # Rust files since main
 | Issue | Fix |
 |-------|-----|
 | `A..B` direction confusion | B's ancestors minus A's ancestors |
-| Using `all()` unnecessarily | Use `visible()` for normal queries |
 | Hidden commits not showing | Use `all()` or `present()` |
 | Shell expansion | Quote paths and regex |
