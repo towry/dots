@@ -75,9 +75,9 @@
         description = "Kiro spec workflow";
         mode = "primary";
         tools = {
-          write = false;
+          write = true;
           edit = true;
-          bash = false;
+          bash = true;
           grep = true;
           read = true;
           list = true;
@@ -91,7 +91,7 @@
         };
         permission = {
           edit = "allow";
-          bash = "deny";
+          bash = "allow";
           webfetch = "deny";
         };
       };
