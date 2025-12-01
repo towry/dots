@@ -14,7 +14,7 @@
       model = "github_copilot/claude-haiku-4.5";
       extra_headers = copilotHeaders;
       max_tokens = 16000;
-      rpm = 10;
+      rpm = 3;
     };
     model_info = {
       max_input_tokens = 128000;
@@ -23,19 +23,19 @@
   }
   # 64,000
 
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "github_copilot/oswe-vscode-prime";
-  #     extra_headers = copilotHeaders;
-  #     max_tokens = 64000;
-  #     rpm = 4;
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 128000;
-  #     max_output_tokens = 64000;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "github_copilot/gpt-5-mini";
+      extra_headers = copilotHeaders;
+      max_tokens = 64000;
+      rpm = 1;
+    };
+    model_info = {
+      max_input_tokens = 128000;
+      max_output_tokens = 64000;
+    };
+  }
   {
     model_name = "bender-muffin";
     litellm_params = {
@@ -63,25 +63,26 @@
   #     rpm = 1;
   #   };
   # }
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openrouter/minimax/minimax-m2";
-  #     api_key = "os.environ/OPENROUTER_API_KEY";
-  #     rpm = 1;
-  #     provider = {
-  #       sort = "throughput";
-  #     };
-  #     reasoning = {
-  #       effort = "medium";
-  #     };
-  #     verbosity = "medium";
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 204800;
-  #     max_output_tokens = 131100;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openrouter/openai/gpt-5.1-codex-mini";
+      api_key = "os.environ/OPENROUTER_API_KEY";
+      rpm = 1;
+      max_tokens = 400000;
+      # provider = {
+      #   sort = "throughput";
+      # };
+      # reasoning = {
+      #   effort = "medium";
+      # };
+      # verbosity = "medium";
+    };
+    model_info = {
+      max_input_tokens = 400000;
+      max_output_tokens = 100000;
+    };
+  }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -89,7 +90,7 @@
   #     api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
   #     api_key = pkgs.nix-priv.keys.zai.apiKey;
   #     max_tokens = 131072;
-  #     rpm = 1;
+  #     rpm = 2;
   #   };
   #   model_info = {
   #     max_input_tokens = 204800;
@@ -124,19 +125,19 @@
   #     max_output_tokens = 128000;
   #   };
   # }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openrouter/anthropic/claude-haiku-4.5";
-      api_key = "os.environ/OPENROUTER_API_KEY";
-      max_tokens = 64000;
-      rpm = 1;
-    };
-    model_info = {
-      max_input_tokens = 200000;
-      max_output_tokens = 64000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openrouter/anthropic/claude-haiku-4.5";
+  #     api_key = "os.environ/OPENROUTER_API_KEY";
+  #     max_tokens = 64000;
+  #     rpm = 1;
+  #   };
+  #   model_info = {
+  #     max_input_tokens = 200000;
+  #     max_output_tokens = 64000;
+  #   };
+  # }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {

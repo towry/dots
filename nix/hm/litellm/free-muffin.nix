@@ -26,7 +26,7 @@
     };
   }
   {
-    model_name = "bender-muffin";
+    model_name = "free-muffin";
     litellm_params = {
       model = "github_copilot/oswe-vscode-prime";
       extra_headers = copilotHeaders;

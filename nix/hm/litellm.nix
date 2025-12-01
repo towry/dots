@@ -375,6 +375,7 @@ let
       fallbacks = [
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
+        { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
         { "bender-muffin" = [ "openrouter/anthropic/claude-haiku-4.5" ]; }
       ];
       cache = true;
