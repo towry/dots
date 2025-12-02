@@ -16,6 +16,7 @@
 - Use `fast-repo-context` claude skill when you or user want to do codebase research, codebase Q&A, codebase analysis.
 - When user ask about codebase, like "How does X work?", "Where is Y located?", "Find all Z", always consider using `fast-repo-context` skill first, load `fast-repo-context` with `Skill` tool.
 - bash `find` and `grep` are blocked, please use `fd`, `rg` instead, but consider load `fast-repo-context` skill for codebase research and query.
+- When using `codex_chromedev` mcp, always pass `profile: chromedev` parameter. 
 
 ## `Task` tool with `subagent_type` usage rules
 

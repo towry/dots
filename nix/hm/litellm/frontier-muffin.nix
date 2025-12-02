@@ -14,7 +14,7 @@
       model = "github_copilot/claude-sonnet-4.5";
       extra_headers = copilotHeaders;
       max_tokens = getMaxOutputTokens "github_copilot/claude-sonnet-4.5";
-      rpm = 5;
+      rpm = 3;
     };
     model_info = {
       max_input_tokens = getMaxInputTokens "github_copilot/claude-sonnet-4.5";
@@ -24,14 +24,14 @@
   {
     model_name = "frontier-muffin";
     litellm_params = {
-      model = "github_copilot/gpt-5";
+      model = "github_copilot/gpt-5.1";
       extra_headers = copilotHeaders;
-      max_tokens = getMaxOutputTokens "github_copilot/gpt-5";
-      rpm = 2;
+      max_tokens = getMaxOutputTokens "github_copilot/gpt-5.1";
+      rpm = 5;
     };
     model_info = {
-      max_input_tokens = getMaxInputTokens "github_copilot/gpt-5";
-      max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5";
+      max_input_tokens = getMaxInputTokens "github_copilot/gpt-5.1";
+      max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5.1";
     };
   }
   # {
@@ -67,19 +67,18 @@
     };
   }
 
-  ## keep get auth issue
-  # {
-  #   model_name = "frontier-muffin";
-  #   litellm_params = {
-  #     model = "openai/gemini-3-pro";
-  #     api_base = "https://opencode.ai/zen/v1";
-  #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
-  #     max_tokens = 64000;
-  #     rpm = 1;
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 1000000;
-  #     max_output_tokens = 64000;
-  #   };
-  # }
+  {
+    model_name = "frontier-muffin";
+    litellm_params = {
+      model = "openai/kimi-k2-thinking";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 262144;
+      rpm = 6;
+    };
+    model_info = {
+      max_input_tokens = 262144;
+      max_output_tokens = 262144;
+    };
+  }
 ]

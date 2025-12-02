@@ -23,36 +23,36 @@
   }
   # 64,000
 
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "github_copilot/gpt-5-mini";
-      extra_headers = copilotHeaders;
-      max_tokens = 64000;
-      rpm = 1;
-    };
-    model_info = {
-      max_input_tokens = 128000;
-      max_output_tokens = 64000;
-    };
-  }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openai/minimax-m2";
-      api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
-      api_base = "https://api.minimaxi.com/v1";
-      max_tokens = 128000;
-      rpm = 8;
-      extra_body = {
-        reasoning_split = true;
-      };
-    };
-    model_info = {
-      max_input_tokens = 204800;
-      max_output_tokens = 128000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "github_copilot/gpt-5-mini";
+  #     extra_headers = copilotHeaders;
+  #     max_tokens = 64000;
+  #     rpm = 1;
+  #   };
+  #   model_info = {
+  #     max_input_tokens = 128000;
+  #     max_output_tokens = 64000;
+  #   };
+  # }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openai/minimax-m2";
+  #     api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
+  #     api_base = "https://api.minimaxi.com/v1";
+  #     max_tokens = 128000;
+  #     rpm = 8;
+  #     extra_body = {
+  #       reasoning_split = true;
+  #     };
+  #   };
+  #   model_info = {
+  #     max_input_tokens = 204800;
+  #     max_output_tokens = 128000;
+  #   };
+  # }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -138,18 +138,19 @@
   #     max_output_tokens = 64000;
   #   };
   # }
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openai/claude-sonnet-4-5";
-  #     api_base = "https://opencode.ai/zen/v1";
-  #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
-  #     max_tokens = 64000;
-  #     rpm = 1;
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 200000;
-  #     max_output_tokens = 64000;
-  #   };
-  # }
+
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openai/grok-code";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 256000;
+      rpm = 10;
+    };
+    model_info = {
+      max_input_tokens = 256000;
+      max_output_tokens = 256000;
+    };
+  }
 ]
