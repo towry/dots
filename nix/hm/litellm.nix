@@ -34,7 +34,6 @@ let
             max_output_tokens = maxOutputTokens;
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -62,7 +61,6 @@ let
             api_base = "https://dashscope.aliyuncs.com/compatible-mode/v1";
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -103,7 +101,6 @@ let
           };
           model_info = {
             base_model = "gemini/${model}";
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -168,7 +165,6 @@ let
       model_name = "copilot/${model}"; # User calls with just "claude-haiku-4.5"
       model_info = {
         supports_vision = true;
-        max_input_tokens = maxInputTokens;
         max_output_tokens = maxOutputTokens;
       };
       litellm_params = {
@@ -188,7 +184,6 @@ let
         max_tokens = getMaxOutputTokens "github_copilot/gpt-5";
       };
       model_info = {
-        max_input_tokens = getMaxInputTokens "github_copilot/gpt-5";
         max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5";
       };
     }
@@ -213,7 +208,6 @@ let
             max_tokens = maxOutputTokens;
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -250,7 +244,6 @@ let
             max_output_tokens = maxOutputTokens;
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -282,7 +275,6 @@ let
             max_output_tokens = maxOutputTokens;
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -302,7 +294,6 @@ let
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
       model_info = {
-        max_input_tokens = getMaxInputTokens "moonshot/kimi-k2-thinking";
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
     }
@@ -316,7 +307,6 @@ let
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
       model_info = {
-        max_input_tokens = getMaxInputTokens "moonshot/kimi-k2-thinking";
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
     }

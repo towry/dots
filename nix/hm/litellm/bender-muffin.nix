@@ -17,25 +17,23 @@
       rpm = 3;
     };
     model_info = {
-      max_input_tokens = 128000;
       max_output_tokens = 16000;
     };
   }
   # 64,000
 
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "github_copilot/gpt-5-mini";
-  #     extra_headers = copilotHeaders;
-  #     max_tokens = 64000;
-  #     rpm = 1;
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 128000;
-  #     max_output_tokens = 64000;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "github_copilot/gpt-5-mini";
+      extra_headers = copilotHeaders;
+      max_tokens = 16000;
+      rpm = 1;
+    };
+    model_info = {
+      max_output_tokens = 16000;
+    };
+  }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -69,7 +67,7 @@
       model = "openrouter/openai/gpt-5.1-codex-mini";
       api_key = "os.environ/OPENROUTER_API_KEY";
       rpm = 1;
-      max_tokens = 400000;
+      max_tokens = 16000;
       # provider = {
       #   sort = "throughput";
       # };
@@ -79,8 +77,7 @@
       # verbosity = "medium";
     };
     model_info = {
-      max_input_tokens = 400000;
-      max_output_tokens = 100000;
+      max_output_tokens = 16000;
     };
   }
   # {
@@ -107,7 +104,6 @@
       rpm = 2;
     };
     model_info = {
-      max_input_tokens = 262144;
       max_output_tokens = 65536;
     };
   }
@@ -139,18 +135,17 @@
   #   };
   # }
 
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openai/grok-code";
-      api_base = "https://opencode.ai/zen/v1";
-      api_key = pkgs.nix-priv.keys.opencode.apiKey;
-      max_tokens = 256000;
-      rpm = 10;
-    };
-    model_info = {
-      max_input_tokens = 256000;
-      max_output_tokens = 256000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openai/grok-code";
+  #     api_base = "https://opencode.ai/zen/v1";
+  #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
+  #     max_tokens = 256000;
+  #     rpm = 10;
+  #   };
+  #   model_info = {
+  #     max_output_tokens = 256000;
+  #   };
+  # }
 ]

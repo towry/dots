@@ -4,18 +4,12 @@ export const Kiro: Plugin = async ({ client }) => {
   return {
     async event({ event }) {
       // https://github.com/sst/opencode/pull/3413#issuecomment-3451988873
-      if (
-        (event.type === "session.started" ||
-          event.type === "session.created") &&
-        process.env.KIRO_SYSTEM_PROMPT
-      ) {
-        const sessionID = event.properties.sessionID as string;
+      if (event.type === "session.created" && process.env.KIRO_SYSTEM_PROMPT) {
+        const sessionID = event.properties.info.id as string;
 
         const SystemPromptFromEnv = [
           process.env.KIRO_SYSTEM_PROMPT || "Kiro spec not found",
-        ].concat([
-          "🌸 Just a reminder, no need to reply; For quick summary, you can use sage subagent",
-        ]);
+        ].concat([""]);
 
         await client.session.prompt({
           path: { id: sessionID },
@@ -40,7 +34,7 @@ export const Kiro: Plugin = async ({ client }) => {
         // to the chat. otherwise, agent will forget it on next runs.
         const SystemPromptFromEnv = [
           process.env.KIRO_SYSTEM_PROMPT || "Kiro spec not found",
-        ].concat(["You are in kiro mode, just a reminder, no need to replay"]);
+        ].concat([""]);
 
         const sessionID = event.properties.sessionID as string;
         await client.session.prompt({
