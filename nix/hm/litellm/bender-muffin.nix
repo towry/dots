@@ -20,6 +20,20 @@
       max_output_tokens = 16000;
     };
   }
+
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openai/kimi-k2-thinking";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 16000;
+      rpm = 2;
+    };
+    model_info = {
+      max_output_tokens = 16000;
+    };
+  }
   # 64,000
 
   {

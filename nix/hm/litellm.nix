@@ -356,6 +356,7 @@ let
       allowed_fails = 3;
       cooldown_time = 30;
       drop_params = true;
+      json_logs = false;
       # Disable default log file to avoid conflicts with systemd logging
       # All logs will go to stdout/stderr which systemd captures
       turn_off_message_logging = true;
