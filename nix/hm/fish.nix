@@ -101,11 +101,6 @@ in
     set -x GPG_TTY (tty)
     set -x DARKMODE dark
 
-    #########
-    if test -e $HOME/.private.fish
-        source $HOME/.private.fish
-    end
-
     # fish_add_path /etc/profiles/per-user/${username}/bin
     # temp for elixir
     fish_add_path --path --append /Users/towry/.asdf/shims
@@ -120,6 +115,11 @@ in
   '';
 
   programs.fish.interactiveShellInit = ''
+    # must in interactive shell init, otherwise change to it need session restart
+    if test -e $HOME/.private.fish
+        source $HOME/.private.fish
+    end
+
     if test -n "$COPILOT" -o -n "$AGENT"
         set -x PAGER cat
         set -x GIT_PAGER cat
