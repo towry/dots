@@ -4,6 +4,7 @@
 - Analyze next action complex, spawn subagent with `Task` tool when necessary to keep main context clean, leverage claude skills for better task handling.
 - If the task is about to search code in codebase, consider spawn multiple `sage` subagent in parallel to help you speed up the process.
 - If the task is about to use kg to search memory, consider spawn `sage` subagent to avoid context bloat.
+- If the task is about web search, github issues search, consider spawn multiple `eng` subagent in parallel to speed up the research.
 </session_start>
 
 <subagent_triggers>Spawn a subagent with `Task` tool when:
@@ -23,6 +24,11 @@ Do it yourself when:
 - Simple or multiple step codebase exploration.
 - When you about to say `Let me search for the ...`
 </search_code_with_sage_subagent>
+
+<errand_tasks_with_coding_web_search_abilities>When to use `eng` subagent. 
+- Small or quick coding tasks with explicit implementation instructions
+- External resources research from web, github, knowledge graph, provide comprehensive research output
+</errand_tasks_with_coding_web_search_abilities>
 
 <subagent_oracle_trigger> When to use `oracle` subagent.
 - Architecture decisions with multiple valid approaches

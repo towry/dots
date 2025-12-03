@@ -28,6 +28,7 @@ in
       ## code counter
       # scc
       argc
+      grpcurl
       # bore-cli
       # termshark
       # inetutils
