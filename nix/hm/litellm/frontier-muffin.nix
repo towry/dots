@@ -17,7 +17,6 @@
       rpm = 3;
     };
     model_info = {
-      max_input_tokens = getMaxInputTokens "github_copilot/claude-sonnet-4.5";
       max_output_tokens = getMaxOutputTokens "github_copilot/claude-sonnet-4.5";
     };
   }
@@ -30,7 +29,6 @@
       rpm = 5;
     };
     model_info = {
-      max_input_tokens = getMaxInputTokens "github_copilot/gpt-5.1";
       max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5.1";
     };
   }
@@ -62,7 +60,6 @@
       rpm = 1;
     };
     model_info = {
-      max_input_tokens = 272000;
       max_output_tokens = 128000;
     };
   }
@@ -77,7 +74,6 @@
       rpm = 6;
     };
     model_info = {
-      max_input_tokens = 262144;
       max_output_tokens = 262144;
     };
   }

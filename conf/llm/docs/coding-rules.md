@@ -19,6 +19,7 @@
 - **Clear Boundaries**: Keep business logic out of UI components. Isolate mock or demo code to the highest application layer. Never change working implementation code just for debug logs.
 - **Fail Fast**: Do not hide bugs with `try-catch` or optional chaining (`?.`). Let errors surface immediately to prevent harder-to-debug deferred failures.
 - **Document Intent in code comment**: Use `FIXME`, `TODO`, and `NOTE` to flag areas needing attention; Document non-obvious logic, change intention, code changes, and any trade-offs made.
+- When you want to create plan doc, eighter use Plan tool or write it down in markdown file, choose the simple way.
 </plan_or_implementation>
 
 <code_review>
@@ -40,12 +41,11 @@
 
 <tool_code_research_preference>
 - Search: `fd` and `rg`
-- `ls` alternative: `exa`
 - When user says `sgrep XXX`, run `bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "XXX"` to search code semantically and fast.
 </tool_code_research_preference>
 
 <tool_vcs_preference>
-- VCS: `jj`
+- VCS: `jj`, read `~/.claude/skills/git-jj/references/jj_workflows.md` for usage.
 - Only run git commit commands after user confirm the changes is ok.
 - Before git commit and git add, check current branch, prevent accidental commit to main/staging branch.
 </tool_vcs_preference>

@@ -18,7 +18,7 @@ tools:
   glob: true
   fs*: true
   lifeguard: false
-  brightdata*: false
+  exa*: false
   github*: false
 permission:
   edit: allow

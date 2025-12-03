@@ -166,6 +166,18 @@ rec {
         "mcp-server"
       ];
     };
+
+    exa = {
+      type = "local";
+      command = "bunx";
+      args = [
+        "exa-mcp-server"
+        "tools=web_search_exa,get_code_context_exa,crawling_exa"
+      ];
+      environment = {
+        EXA_API_KEY = pkgs.nix-priv.keys.exa.apiKey;
+      };
+    };
   };
 
   clients = {
@@ -183,7 +195,7 @@ rec {
         "kg"
         # "chromedev"
         "github"
-        "brightdata"
+        "exa"
         "mastergo"
         "codex_chromedev"
       ])
@@ -194,7 +206,6 @@ rec {
         "fs"
         "chromedev"
         "github"
-        "brightdata"
         "sequentialthinking"
       ]
     );
@@ -205,7 +216,6 @@ rec {
         "chromedev"
         "github"
         "mermaid"
-        "brightdata"
         "sequentialthinking"
       ]
     );
@@ -214,7 +224,7 @@ rec {
         "kg"
         "chromedev"
         "github"
-        "brightdata"
+        "exa"
         "sequentialthinking"
         "mastergo"
       ]

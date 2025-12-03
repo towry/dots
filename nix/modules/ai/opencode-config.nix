@@ -39,7 +39,7 @@
           todowrite = false;
           todoread = false;
           webfetch = false;
-          "brightdata*" = true;
+          "exa*" = true;
           "github*" = true;
           lifeguard = false;
         };
@@ -85,7 +85,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "exa*" = true;
           lifeguard = true;
           "sequentialthinking*" = true;
         };
@@ -109,7 +109,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "exa*" = true;
           "github*" = true;
           "fs*" = true;
           lifeguard = true;
@@ -148,7 +148,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "exa*" = true;
           "github*" = true;
           "fs*" = true;
           lifeguard = true;
@@ -186,7 +186,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "exa*" = true;
           "github*" = true;
           lifeguard = true;
           "fs_read*" = true;
@@ -217,7 +217,7 @@
           todowrite = true;
           todoread = true;
           webfetch = false;
-          "brightdata*" = true;
+          "exa*" = true;
           "github*" = true;
           lifeguard = true;
           "fs_read*" = true;
@@ -378,7 +378,7 @@
       "github*" = false;
       "context7*" = false;
       "mermaid*" = true;
-      "brightdata*" = true;
+      "exa*" = true;
       "kg*" = true;
       "sequentialthinking*" = false;
     };

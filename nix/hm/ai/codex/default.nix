@@ -72,12 +72,12 @@ in
       model_verbosity = "low"
 
       [profiles.chromedev]
-      model = "anthropic/claude-haiku-4.5"
+      model = "openai/gpt-5.1-codex-mini"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/chromedev.md"
       approval_policy = "never"
-      model_reasoning_effort = "low"
+      model_reasoning_effort = "medium"
       model_reasoning_summary = "concise"
       hide_agent_reasoning = true
       model_verbosity = "low"

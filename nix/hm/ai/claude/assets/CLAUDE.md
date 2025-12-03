@@ -1,5 +1,11 @@
 # Rules that matters
 
+<session_start>
+- Analyze next action complex, spawn subagent with `Task` tool when necessary to keep main context clean, leverage claude skills for better task handling.
+- If the task is about to search code in codebase, consider spawn multiple `sage` subagent in parallel to help you speed up the process.
+- If the task is about to use kg to search memory, consider spawn `sage` subagent to avoid context bloat.
+</session_start>
+
 <subagent_triggers>Spawn a subagent with `Task` tool when:
 - Exploring unfamiliar codebase areas (keeps main context clean)
 - Running parallel investigations (multiple hypotheses)
@@ -12,12 +18,11 @@ Do it yourself when:
 - Context is already loaded and explictly available, like direct file path or code location has been given
 - File edits where you need to see the result immediately </subagent_triggers>
 
-<subagent_sage_trigger>When to use `sage` subagent.
-- Try to understand unfamiliar code in local codebase.
-- Try to find location of specific function, class, variable, or file in codebase.
-- When user asks "How does X work?" about codebase.
-- When user asks "What files are related to Y?" about codebase.
-</subagent_sage_trigger>
+<search_code_with_sage_subagent>When to use `sage` subagent.
+- Try to search for some code in codebase.
+- Simple or multiple step codebase exploration.
+- When you about to say `Let me search for the ...`
+</search_code_with_sage_subagent>
 
 <subagent_oracle_trigger> When to use `oracle` subagent.
 - Architecture decisions with multiple valid approaches
@@ -34,6 +39,7 @@ Do it yourself when:
 - Brainstorming pros and cons of various approaches
 - Seeking alternative viewpoints on a proposed plan
 - When you feel stuck and need fresh inspiration
+- You have a comprehensive analysis and plan, but want to explore more options or second opinions before proceeding
 </subagent_outbox_trigger>
 
 <subagent_with_correct_model_usage>`Task` tool with `subagent_type` usage rules
@@ -42,5 +48,12 @@ Do it yourself when:
 - Use `model: haiku` when `subagent_type` is `eng` (light coding task agent).
 - Use `model: opusplan` when `subagent_type` is `Plan` (plan agent).
 </subagent_with_correct_model_usage>
+
+<webpage_debug>
+- Use `codex_chromedev` mcp tool to debug webpage with page url.
+- **critical**: Always use `profile: chromedev` when using `codex_chromedev` tool.
+- chromedev only support browser interactions, it can not read or search files. So You need give it specfic task like "What is the logs that related to X eror?" or "Take screenshot of element Y check if it is visible".
+- Call chromedev in multiple iterations if necessary to accomplish the task, don't try to do everything in one call.
+</webpage_debug>
 
 @CONTENT@

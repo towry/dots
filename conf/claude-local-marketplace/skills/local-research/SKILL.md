@@ -60,7 +60,7 @@ Read the results and load the correct research file.
    - Set `group_id` to organize research by project/topics
 
 3. **External Resources**:
-   - **Brightdata**: Use `mcp__brightdata__search_engine` for web research
+   - **Exa**: Use `mcp__exa__web_search_exa` for web research and `mcp__exa__crawling_exa` for scraping content
    - **GitHub**: Use `mcp__github__search_code` or `mcp__github__search_repositories` for external code reference
 
 ### Research Execution Order
@@ -80,7 +80,7 @@ Read the results and load the correct research file.
    - Integrate findings into research documentation
 
 4. **External Research** (if needed):
-   - Use Brightdata for web research on related topics
+   - Use Exa for web research on related topics (search, scraping, code context)
    - Use GitHub tools for external examples and best practices
    - Add external insights to research file
 
