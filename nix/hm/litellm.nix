@@ -31,7 +31,12 @@ let
             model = alias;
             api_key = "os.environ/DEEPSEEK_API_KEY";
             max_tokens = maxOutputTokens;
-            max_output_tokens = maxOutputTokens;
+            # stream = false;
+            # drop_params = false;
+            thinking = {
+              type = "enabled";
+              budget_tokens = 1024;
+            };
           };
           model_info = {
             max_output_tokens = maxOutputTokens;
@@ -40,6 +45,7 @@ let
       )
       [
         "deepseek-chat"
+        "deepseek-reasoner"
       ];
 
   # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2880898
@@ -479,6 +485,7 @@ in
         LITELLM_LOG = "INFO";
         # Provide provider API keys directly to the service
         OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
+        DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apiKey;
         HTTP_PROXY = proxyConfig.proxies.http;
         HTTPS_PROXY = proxyConfig.proxies.http;
         NO_PROXY = proxyConfig.noProxyString;
