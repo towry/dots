@@ -39,6 +39,7 @@ Context is important for any tasks, prepare concise and accurate context fast is
 - <post_action>Save key takeaways to `group_id: "lesson_learned"`</post_action>
 - Keep content concise and focused on facts, key insights, only contain necessary information, to reduce noise when retrieving later.
 - **critical**: Do not save assertions from debugging task that are not verified as facts.
+- Facts are information that has been verified through testing or execution, or gathered from reliable sources such as Stack Overflow answers or official documentation.
 - When user want to update an epsode/memory in `kg`, first delete the old one, then create a new one, kg does not support `update` action.
 - Always include `episode_id` in output after new episode created with kg.
 </tool_knowledge_graph_kg>
