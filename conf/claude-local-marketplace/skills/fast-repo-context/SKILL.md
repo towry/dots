@@ -1,6 +1,6 @@
 ---
 name: fast-repo-context
-description: "Semantic code search using sgrep. Use when: exploring code, search code snippets, finding implementations by intent, understanding how features work. Triggers(semantic or similiar meaning): [fast context], [search code], [find where], [how does X work], [understand codebase], [research codebase], [find X], [locate X], [code search], [grep code], [where is], [let me search]."
+description: "Semantic code search using sgrep. Use when: exploring code, search code snippets, finding implementations by intent, understanding how features work. Triggers(semantic or similar meaning): [fast context], [search code], [find where], [how does X work], [understand codebase], [research codebase], [find X], [locate X], [code search], [grep code], [where is], [let me search]."
 ---
 
 # Fast Repo Context

@@ -1,11 +1,7 @@
 ---
 name: outbox
 color: black
-description: >
-  Best for: lateral ideation, unconventional solution exploration, problem reframing, generating orthogonal approaches.
-  How: pure thought (no tools); needs a concise problem statement + constraints + current attempted framing; outputs multiple reframings, divergent seeds, assumption challenges, hybrid synthesis.
-  When: stuck in conventional patterns, before locking architecture/strategy, seeking novel angles, exploring alternatives for stale designs.
-  NOT for: feasibility validation, factual research, execution planning, implementation details (use oracle for deep analysis, sage for codebase facts, eng for building).
+description: "An ideation and brainstorming agent focused on generating creative solutions and alternative perspectives. | Intended Use Cases: |  - Generating multiple ideas or solutions for a problem |  - Reframing problems from different perspectives |  - Brainstorming pros and cons of various approaches |  - Seeking alternative viewpoints on proposed plans |  - When feeling stuck and needing fresh inspiration |  - Exploring more options or second opinions before proceeding | Tool Access: |  - Powerful brainstorming tools |  - Perspective-shifting frameworks"
 tools: Read
 model: opus
 ---
