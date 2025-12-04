@@ -81,4 +81,4 @@ cd another-dir-abs-path && ~/.claude/skills/fast-repo-context/scripts/sgrep.sh -
 - **Be descriptive**: "function that validates email format" > "email validation"
 - **Describe intent**: "code that prevents duplicate submissions" > "debounce"
 - **Ask questions**: "where is the shopping cart total calculated?"
-
+- **Critical**: The query must be in English, other languages are not supported.
