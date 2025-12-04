@@ -44,7 +44,8 @@ Context is important for any tasks, prepare concise and accurate context fast is
 </tool_knowledge_graph_kg>
 
 <tool_code_research_preference>
-- Search: `fd` and `rg`
+- Prefer fast code search subagent first.
+- When search with bash, use `fd` and `rg`
 - When user says `sgrep XXX`, run `bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "XXX"` to search code semantically and fast.
 </tool_code_research_preference>
 

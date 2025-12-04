@@ -225,6 +225,7 @@ let
         "claude-sonnet-4-5"
         "claude-haiku-4-5"
         "gemini-3-pro"
+        "qwen3-coder"
         "kimi-k2"
         "big-pickle"
         "grok-code"

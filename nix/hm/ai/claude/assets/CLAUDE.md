@@ -1,10 +1,26 @@
 # Rules that matters
 
+<task_tool_usage>
+Think Primary task as `process`, and subagent as threads, use subagents to offload indenpendent tasks that server the primary task, keep our `process` clean and efficient.
+
+```
+Task(
+    # Must use existing subagent types
+    subagent_type: string
+    # Task description, if you are find X, describe why you are finding it.
+    description: string 
+    # Prompt to give to the subagent, need to be specific and clear.
+    prompt: string
+)
+```
+</task_tool_usage>
+
 <deprecated_subagent>
 - Explore: replaced by `sage` subagent.
 </deprecated_subagent>
 
 <subagent_triggers>Spawn a subagent with `Task` tool when:
+- **Critical**: Spawn a subagent when new task is independent from current primary task.
 - Keep a clean and concise context timeline for better continuous work.
 - Exploring unfamiliar codebase areas (keeps main context clean)
 - Running parallel investigations (multiple hypotheses)
