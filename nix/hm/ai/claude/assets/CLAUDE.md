@@ -1,7 +1,8 @@
 # Rules that matters
 
 <task_tool_usage>
-Think Primary task as `process`, and subagent as threads, use subagents to offload indenpendent tasks that server the primary task, keep our `process` clean and efficient.
+Think Primary task as `process`, and subagent as threads, use subagents to offload indenpendent tasks that server the primary task, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
+
 
 ```
 Task(
@@ -24,6 +25,7 @@ Task(
 - Keep a clean and concise context timeline for better continuous work.
 - Exploring unfamiliar codebase areas (keeps main context clean)
 - Running parallel investigations (multiple hypotheses)
+- You have tried failed many times, need specialized and advanced assistance
 - Task can be fully described and verified independently
 - You want code research but only need a summary back
 - Need accurate context quickly

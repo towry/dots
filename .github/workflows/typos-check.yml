@@ -40,85 +40,152 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install typos CLI
+        run: |
+          curl -LsSf https://github.com/crate-ci/typos/releases/download/v1.40.0/typos-v1.40.0-x86_64-unknown-linux-musl.tar.gz | sudo tar xzf - -C /usr/local/bin
+
       - name: Check for typos
         id: typos_check
-        continue-on-error: true
-        uses: crate-ci/typos@v1.40.0
-        with:
-          config: ./typos.toml
-          files: .
-          exclude: |
-            .git/
-            node_modules/
-            target/
-            .next/
-            coverage/
-            dist/
-            build/
-            vendor/
-
-      - name: Capture detailed typos output
-        if: failure() && steps.typos_check.outcome == 'failure'
-        id: typos_output
-        continue-on-error: true
         run: |
-          OUTPUT=$(typos --config ./typos.toml . 2>&1 || true)
-          echo "typos_errors<<EOF" >> $GITHUB_OUTPUT
-          echo "$OUTPUT" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          # Run typos with JSON output format
+          typos --config ./typos.toml . --format json > typos-output.json 2>&1 || true
+
+          # Check if typos were found (exit code 2) or other errors occurred
+          if [ -f typos-output.json ] && [ -s typos-output.json ]; then
+            # Typos found - use base64 encoding to handle special characters and newlines
+            ERRORS_B64=$(cat typos-output.json | base64 -w 0)
+            echo "typos_errors=$ERRORS_B64" >> $GITHUB_OUTPUT
+            echo "found_typos=true" >> $GITHUB_OUTPUT
+            exit 1
+          else
+            # No typos found or errors
+            echo "typos_errors=" >> $GITHUB_OUTPUT
+            echo "found_typos=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Comment on PR with typos results
-        if: failure() && steps.typos_check.outcome == 'failure' && github.event_name == 'pull_request'
+        if: failure() && steps.typos_check.outputs.found_typos == 'true' && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const typosErrors = `${{ steps.typos_output.outputs.typos_errors }}`;
+            try {
+              // The output is base64-encoded to safely handle multiline data
+              const encodedErrors = `${{ steps.typos_check.outputs.typos_errors }}`;
 
-            const commentBody = `## ❌ Typos Check Failed
+              // Handle case when there are no errors
+              if (!encodedErrors || encodedErrors.trim() === '') {
+                throw new Error('Typos check failed but no error details were captured.');
+              }
 
-            Found spelling errors that need to be corrected:
+              const typosJson = Buffer.from(encodedErrors, 'base64').toString('utf8');
 
-            \`\`\`
-            ${typosErrors}
-            \`\`\`
+              // Split the JSON Lines format into individual objects
+              const typosLines = typosJson.trim().split('\n').filter(line => line.trim() !== '');
+              const typos = typosLines.map(line => JSON.parse(line));
 
-            Please fix these typos before merging. For more information, see [typos documentation](https://github.com/crate-ci/typos).
-
-            *Automated comment from typos-check workflow* 🤖`;
-
-            // Check if a comment already exists
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const existingComment = comments.find(comment =>
-              comment.user.login === 'github-actions[bot]' &&
-              comment.body.includes('Typos Check Failed')
-            );
-
-            if (existingComment) {
-              // Update existing comment
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body: commentBody
+              // Group typos by file for better organization
+              const typosByFile = {};
+              typos.forEach(typo => {
+                if (!typosByFile[typo.path]) {
+                  typosByFile[typo.path] = [];
+                }
+                typosByFile[typo.path].push(typo);
               });
-              console.log('Updated existing comment:', existingComment.id);
-            } else {
-              // Create new comment
-              const newComment = await github.rest.issues.createComment({
+
+              // Create formatted comment with links
+              let commentBody = `## ❌ Typos Check Failed\n\n`;
+              commentBody += `Found ${typos.length} spelling error(s) that need to be corrected:\n\n`;
+
+              // Add each file's typos with GitHub links
+              for (const [filePath, fileTypos] of Object.entries(typosByFile)) {
+                fileTypos.forEach(typo => {
+                  // Create GitHub permalink with ?plain=1 parameter for proper file display
+                  const lineNum = typo.line_num || 'unknown';
+                  const permalink = lineNum !== 'unknown'
+                    ? `https://github.com/${context.repo.owner}/${context.repo.repo}/blob/${context.sha}/${filePath}?plain=1#L${lineNum}`
+                    : `https://github.com/${context.repo.owner}/${context.repo.repo}/blob/${context.sha}/${filePath}?plain=1`;
+
+                  // Handle corrections - typos output may have different field names
+                  const corrections = typo.corrections || typo.correction || [typo.replacement] || [];
+                  if (corrections.length === 0) {
+                    commentBody += `- [${filePath}:${lineNum}](${permalink}): \`${typo.typo}\`\n`;
+                  } else {
+                    commentBody += `- [${filePath}:${lineNum}](${permalink}): \`${typo.typo}\` should be \`${corrections.join('\`, \`')}\`\n`;
+                  }
+                });
+
+                commentBody += `\n`;
+              }
+
+              commentBody += `Please fix these typos before merging. For more information, see [typos documentation](https://github.com/crate-ci/typos).\n\n`;
+              commentBody += `*Automated comment from typos-check workflow* 🤖`;
+
+              // Check if a comment already exists
+              const { data: comments } = await github.rest.issues.listComments({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: commentBody
               });
-              console.log('Created new comment:', newComment.data.id);
-            }
 
-      - name: Fail the job if typos were found
-        if: failure() && steps.typos_check.outcome == 'failure'
-        run: exit 1
+              const botComments = comments.filter(comment =>
+                comment.user.login === 'github-actions[bot]' &&
+                comment.body.includes('Typos Check Failed')
+              );
+
+              if (botComments.length > 0) {
+                // Update existing comment
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComments[0].id,
+                  body: commentBody
+                });
+                console.log('Updated existing comment:', botComments[0].id);
+              } else {
+                // Create new comment
+                const newComment = await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: commentBody
+                });
+                console.log('Created new comment:', newComment.data.id);
+              }
+            } catch (error) {
+              console.error('Error in comment creation:', error);
+              // If parsing fails, create a simple comment with raw output
+              try {
+                const rawOutput = `${{ steps.typos_check.outputs.typos_errors }}`;
+                const simpleComment = `## ❌ Typos Check Failed\n\nFound spelling errors that need to be corrected:\n\n\`\`\`\n${rawOutput}\n\`\`\`\n\nPlease fix these typos before merging.\n\n*Automated comment from typos-check workflow* 🤖`;
+
+                const { data: comments } = await github.rest.issues.listComments({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                });
+
+                const botComments = comments.filter(comment =>
+                  comment.user.login === 'github-actions[bot]' &&
+                  comment.body.includes('Typos Check Failed')
+                );
+
+                if (botComments.length > 0) {
+                  await github.rest.issues.updateComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: botComments[0].id,
+                    body: simpleComment
+                  });
+                } else {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.issue.number,
+                    body: simpleComment
+                  });
+                }
+              } catch (fallbackError) {
+                console.error('Fallback comment creation also failed:', fallbackError);
+              }
+            }
