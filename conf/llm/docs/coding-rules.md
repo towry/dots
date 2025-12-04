@@ -53,4 +53,5 @@ Context is important for any tasks, prepare concise and accurate context fast is
 - VCS: `jj`, read `~/.claude/skills/git-jj/references/jj_workflows.md` for usage.
 - Only run git commit commands after user confirm the changes is ok.
 - Before git commit and git add, check current branch, prevent accidental commit to main/staging branch.
+- Git commit message should follow conventional commit format `topic(scope): message`.
 </tool_vcs_preference>
