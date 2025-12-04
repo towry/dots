@@ -1,0 +1,41 @@
+# Configuration for the typos checker
+# https://github.com/crate-ci/typos
+
+[files]
+# Extend the default exclude patterns with our custom ones
+extend-exclude = [
+    "flake.lock",
+    "result",
+    "result-*",
+    ".direnv",
+    ".devenv",
+    "node_modules",
+    ".git",
+]
+
+[default]
+# Extend the default set of allowed identifiers
+extend-ignore-identifiers-re = [
+    # Nix-related terms that might be flagged
+    "nixpkgs",
+    "home-manager",
+    "flake-utils",
+    "rustPlatform",
+    "stdenv",
+    "mkShell",
+    # SSH and security related terms
+    "ssh-private-key",
+    "known_hosts",
+    # Common technical terms
+    "flakehub",
+    "webfactory",
+    # CLI tools
+    "ssh-keyscan",
+]
+
+# Define any custom corrections for false positives
+[default.extend-words]
+# If there are specific words that are being incorrectly flagged, add them here
+# Example:
+# "ser" = "ser"
+# "DeterminateSystems" = "DeterminateSystems"

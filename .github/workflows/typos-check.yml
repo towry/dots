@@ -1,0 +1,56 @@
+name: Typos Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "**/*.md"
+      - "**/*.markdown"
+      - "**/*.sh"
+      - "**/*.bash"
+      - "**/*.txt"
+      - "**/*.py"
+      - "**/*.js"
+      - "**/*.ts"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "**/*.json"
+      - "**/*.toml"
+  push:
+    branches: [main]
+    paths:
+      - "**/*.md"
+      - "**/*.markdown"
+      - "**/*.sh"
+      - "**/*.bash"
+      - "**/*.txt"
+      - "**/*.py"
+      - "**/*.js"
+      - "**/*.ts"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "**/*.json"
+      - "**/*.toml"
+  workflow_dispatch:
+
+jobs:
+  typos-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for typos
+        uses: crate-ci/typos@v1.40.0
+        with:
+          config: ./typos.toml
+          files: .
+          exclude: |
+            .git/
+            node_modules/
+            target/
+            .next/
+            coverage/
+            dist/
+            build/
+            vendor/
