@@ -2,9 +2,9 @@
   "name": "opencode",
   "version": "1.0.1",
   "dependencies": {
-    "@opencode-ai/plugin": "^0.15.18",
+    "@opencode-ai/plugin": "latest",
     "@ai-sdk/openai-compatible": "latest",
-    "ai": "^5.0.79",
+    "ai": "^5.0.106",
     "opencode-anthropic-auth": "*"
   },
   "devDependencies": {

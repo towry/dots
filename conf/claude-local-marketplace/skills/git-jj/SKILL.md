@@ -5,7 +5,10 @@ description: "Used when working with vcs/git/jj/commit task, triggered by phrase
 
 # Git/JJ VCS Skill
 
-**Note**: `<skill-base-dir>` refers to the git skill directory (~/.claude/skills/git-jj/) containing this SKILL.md file.
+**Note**: 
+
+- `<skill-base-dir>` refers to the git skill directory (~/.claude/skills/git-jj/) containing this SKILL.md file.
+- When committing, the commit message must follow the "Conventional Commits" format: `<type>(<scope>): <description>`
 
 ## Purpose
 Provide specialized workflows for Git and Jujutsu (jj) version control systems with automatic repository detection, command reference lookup, and safe operation practices.

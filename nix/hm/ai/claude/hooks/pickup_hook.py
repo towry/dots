@@ -14,38 +14,38 @@ This hook:
 
 import json
 import os
-import shutil
 import sys
 from pathlib import Path
 from datetime import datetime
 
 
 def mark_handoff_as_handled(project_dir: str, handoff_name: str) -> bool:
-    """Move a handoff file to the handled/ subdirectory.
+    """Mark a handoff file as handled via metadata file.
 
     Args:
         project_dir: Project root directory
         handoff_name: Name of the handoff file (just filename, not path)
 
     Returns:
-        True if successfully moved, False otherwise
+        True if successfully marked, False otherwise
     """
     handoffs_dir = Path(project_dir) / ".claude" / "handoffs"
-    handled_dir = handoffs_dir / "handled"
-    
-    source = handoffs_dir / handoff_name
-    if not source.exists():
-        return False
-    
-    # Create handled/ directory if it doesn't exist
-    handled_dir.mkdir(parents=True, exist_ok=True)
-    
-    dest = handled_dir / handoff_name
+    metadata_file = handoffs_dir / ".handled.json"
+
     try:
-        shutil.move(str(source), str(dest))
+        # Load existing metadata
+        handled = {}
+        if metadata_file.exists():
+            handled = json.loads(metadata_file.read_text())
+
+        # Add this handoff with timestamp
+        handled[handoff_name] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Write back
+        metadata_file.write_text(json.dumps(handled, indent=2))
         return True
     except Exception as e:
-        print(f"Failed to move handoff to handled/: {e}", file=sys.stderr)
+        print(f"Failed to mark handoff as handled: {e}", file=sys.stderr)
         return False
 
 

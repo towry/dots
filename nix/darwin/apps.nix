@@ -20,6 +20,7 @@
       # "html2markdown"
     ];
     casks = [
+      "bruno"
       # "amethyst"
       "raycast"
       # "sublime-merge"

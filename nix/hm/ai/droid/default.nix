@@ -26,7 +26,7 @@ let
   # Process mcp.json with variable substitution
   processedMcp = pkgs.replaceVars (droidConfigDir + "/mcp.json") {
     GITHUB_PERSONAL_ACCESS_TOKEN = pkgs.nix-priv.keys.github.accessToken;
-    BRIGHTDATA_API_TOKEN = pkgs.nix-priv.keys.brightdata.apiKey;
+    EXA_API_KEY = pkgs.nix-priv.keys.exa.apiKey;
     KG_SSE = pkgs.nix-priv.keys.kg.sse;
     KG_API_KEY = pkgs.nix-priv.keys.kg.apiKey;
     MASTERGO_API_KEY = pkgs.nix-priv.keys.mastergo.token;
@@ -51,6 +51,11 @@ in
 
     ".factory/commands" = {
       source = droidConfigDir + "/commands";
+      recursive = true;
+    };
+
+    "factory/skills" = {
+      source = ../../../../conf/claude-local-marketplace/skills;
       recursive = true;
     };
 

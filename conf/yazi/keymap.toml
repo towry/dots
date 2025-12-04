@@ -148,7 +148,10 @@ keymap = [
   # Operation
   { on = [
     "o",
-  ], run = "open", desc = "Open the selected files" },
+  ], run = "open", desc = "Open selected files (uses rules)" },
+  { on = [
+    "<Enter>",
+  ], run = "open", desc = "Open selected files (uses rules)" },
   { on = [
     "O",
   ], run = "open --interactive", desc = "Open the selected files interactively" },

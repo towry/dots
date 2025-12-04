@@ -168,7 +168,11 @@ let
     deepseek = {
       "deepseek-chat" = {
         input = 64000;
-        output = 8192;
+        output = 32000;
+      };
+      "deepseek-reasoner" = {
+        input = 128000;
+        output = 32000;
       };
     };
 

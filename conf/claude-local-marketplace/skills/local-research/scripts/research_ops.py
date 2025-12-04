@@ -140,56 +140,6 @@ def list_research_files() -> list:
     return [file_path for _, file_path in files]
 
 
-def locate_research_file(keywords: list) -> str:
-    """
-    Find research file matching keywords.
-
-    Args:
-        keywords: List of keywords to search for
-
-    Returns:
-        Path to the best matching file or None if not found
-    """
-    files = list_research_files()
-    if not files:
-        return None
-
-    if not keywords:
-        # Return most recent file
-        return str(files[0]) if files else None
-
-    # Simple keyword matching in filename and content
-    best_match = None
-    best_score = 0
-
-    for file_path in files:
-        score = 0
-        filename = file_path.name.lower()
-
-        # Check filename match
-        for keyword in keywords:
-            keyword_lower = keyword.lower()
-            if keyword_lower in filename:
-                score += 3
-
-        # Check content match
-        try:
-            with open(file_path, "r") as f:
-                content = f.read().lower()
-                for keyword in keywords:
-                    keyword_lower = keyword.lower()
-                    if keyword_lower in content:
-                        score += 1
-        except Exception:
-            pass
-
-        if score > best_score:
-            best_score = score
-            best_match = file_path
-
-    return str(best_match) if best_match else None
-
-
 def main():
     """CLI interface for the research helper."""
     if len(sys.argv) < 2:
@@ -197,7 +147,6 @@ def main():
         print("Commands:")
         print("  create <user_query> - Create new research file")
         print("  list - List all research files")
-        print("  locate <keywords...> - Locate research file by keywords")
         sys.exit(1)
 
     command = sys.argv[1]
@@ -217,15 +166,6 @@ def main():
         for file_path in files:
             print(f"{file_path}")
 
-    elif command == "locate":
-        keywords = sys.argv[2:] if len(sys.argv) > 2 else []
-        filepath = locate_research_file(keywords)
-        if filepath:
-            print(filepath)
-        else:
-            print("No matching research file found")
-            sys.exit(1)
-
     else:
         print(f"Error: Unknown command '{command}'")
         sys.exit(1)
@@ -233,4 +173,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

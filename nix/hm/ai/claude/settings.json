@@ -5,8 +5,11 @@
     "allow": [
       "Skill",
       "Skill(git-jj)",
+      "SlashCommand(/pickup:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
+      "Bash(jj help:*)",
+      "Bash(jj --no-pager help:*)",
       "Bash(git log:*)",
       "Bash(git status:*)",
       "Bash(exa:*)",
@@ -22,12 +25,14 @@
       "Bash(rg:*)",
       "Read(/tmp/**)",
       "Bash(tail:*)",
+      "Bash(cd ~/workspace/llm/research/ && sgrep index)",
+      "Bash(cd ~/workspace/llm/research/ && sgrep search:*)",
       "Bash(bash /Users/towry/.claude/skills/git-jj/scripts/repo_check.sh)",
       "Bash(bash ~/.claude/skills/git-jj/scripts/repo_check.sh)",
       "Bash(bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*)",
       "Bash(~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*)",
       "Write(~/workspace/llm/research/*.md)",
-      "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py:*)",
+      "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py list:*)",
       "Bash(head:*)",
       "Bash(lsof:*)",
       "Bash(ps:*)",
@@ -63,10 +68,9 @@
       "Bash(mkdir:*)",
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
-      "Search(path:*)",
-      "mcp__brightdata__search_engine",
-      "mcp__brightdata__scrape_as_markdown",
-      "mcp__brightdata__search_engine_batch",
+      "mcp__exa__web_search_exa",
+      "mcp__exa__crawling_exa",
+      "mcp__exa__get_code_context_exa",
       "mcp__chromedev__click",
       "mcp__chromedev__drag",
       "mcp__chromedev__fill",
@@ -105,6 +109,8 @@
       "mcp__sequentialthinking__sequentialthinking"
     ],
     "ask": [
+      "Bash(python3 ~/.claude/skills/local-research/scripts/research_ops.py create:*)",
+      "Bash(agpod kiro pr-new:*)",
       "Bash(pnpm turbo:*)",
       "Bash(pnpm run:*)",
       "Bash(turbo:*)",
@@ -135,6 +141,7 @@
       "Read(./.env.*)",
       "Read(.private.*)",
       "Read(./secrets/**)",
+      "Search(**/node_modules/**)",
       "Read(**/private_keys.md)",
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)",
@@ -175,7 +182,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uv run ~/.claude/hooks/session_remind.py"
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_remind.py"
           }
         ]
       },
@@ -226,6 +233,17 @@
           {
             "type": "command",
             "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/prevent_forbidden_bash.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "SlashCommand",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/post_pickup_handler.py"
           }
         ]
       }

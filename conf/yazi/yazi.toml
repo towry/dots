@@ -35,7 +35,8 @@ image_delay = 1
 
 [opener]
 edit = [
-	{ run = '${EDITOR:=vi} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+	{ run = '$EDITOR "$@"', desc = "$EDITOR", block = true, for = "unix" },
+	{ run = '$EDITOR "$@"', desc = "$EDITOR", block = true, for = "macos" },
 	{ run = 'code "%*"', orphan = true, desc = "code", for = "windows" },
 	{ run = 'code -w "%*"', block = true, desc = "code (block)", for = "windows" },
 ]
@@ -62,13 +63,15 @@ play = [
 
 [open]
 rules = [
+	{ mime = "text/*", use = [
+		"edit",
+	] },
+	{ mime = "inode/x-empty", use = [
+		"edit",
+	] },
 	{ name = "*/", use = [
 		"edit",
 		"open",
-		"reveal",
-	] },
-	{ mime = "text/*", use = [
-		"edit",
 		"reveal",
 	] },
 	{ mime = "image/*", use = [
@@ -77,10 +80,6 @@ rules = [
 	] },
 	{ mime = "{audio,video}/*", use = [
 		"play",
-		"reveal",
-	] },
-	{ mime = "inode/x-empty", use = [
-		"edit",
 		"reveal",
 	] },
 	{ mime = "application/*zip", use = [
@@ -100,6 +99,7 @@ rules = [
 		"reveal",
 	] },
 	{ mime = "*", use = [
+		"edit",
 		"open",
 		"reveal",
 	] },

@@ -33,4 +33,4 @@ Use rg and fd bash tool for codebase analysis, then generate a .ignore file in t
 
 # Output 
 
-Proper .ignore file should be generated or updated in the project root, output a diff of the changes made.
+Proper .ignore file should be generated or updated in the project root

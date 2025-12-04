@@ -1,6 +1,7 @@
 # Some models have region restrictions, like anthropic's Claude models.
 # Make sure using http proxy if needed.
 # doc: https://docs.litellm.ai/docs/
+# curl -H "Authorization: Bearer $(cat ~/.config/litellm/github_copilot/access-token)" https://api.githubcopilot.com/models > model.md
 {
   pkgs,
   config,
@@ -30,16 +31,21 @@ let
             model = alias;
             api_key = "os.environ/DEEPSEEK_API_KEY";
             max_tokens = maxOutputTokens;
-            max_output_tokens = maxOutputTokens;
+            # stream = false;
+            # drop_params = false;
+            thinking = {
+              type = "enabled";
+              budget_tokens = 1024;
+            };
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
       )
       [
         "deepseek-chat"
+        "deepseek-reasoner"
       ];
 
   # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2880898
@@ -61,7 +67,6 @@ let
             api_base = "https://dashscope.aliyuncs.com/compatible-mode/v1";
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -102,7 +107,6 @@ let
           };
           model_info = {
             base_model = "gemini/${model}";
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -120,6 +124,7 @@ let
     "gpt-4.1"
     "gpt-5"
     "gpt-5-mini"
+    "gpt-5-codex"
     "gpt-5.1-codex-mini"
     "gpt-5.1"
     "gpt-5.1-codex"
@@ -166,7 +171,6 @@ let
       model_name = "copilot/${model}"; # User calls with just "claude-haiku-4.5"
       model_info = {
         supports_vision = true;
-        max_input_tokens = maxInputTokens;
         max_output_tokens = maxOutputTokens;
       };
       litellm_params = {
@@ -186,7 +190,6 @@ let
         max_tokens = getMaxOutputTokens "github_copilot/gpt-5";
       };
       model_info = {
-        max_input_tokens = getMaxInputTokens "github_copilot/gpt-5";
         max_output_tokens = getMaxOutputTokens "github_copilot/gpt-5";
       };
     }
@@ -211,7 +214,6 @@ let
             max_tokens = maxOutputTokens;
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -248,7 +250,6 @@ let
             max_output_tokens = maxOutputTokens;
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -280,7 +281,6 @@ let
             max_output_tokens = maxOutputTokens;
           };
           model_info = {
-            max_input_tokens = maxInputTokens;
             max_output_tokens = maxOutputTokens;
           };
         }
@@ -300,7 +300,6 @@ let
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
       model_info = {
-        max_input_tokens = getMaxInputTokens "moonshot/kimi-k2-thinking";
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
     }
@@ -314,7 +313,6 @@ let
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
       model_info = {
-        max_input_tokens = getMaxInputTokens "moonshot/kimi-k2-thinking";
         max_output_tokens = getMaxOutputTokens "moonshot/kimi-k2-thinking";
       };
     }
@@ -364,6 +362,7 @@ let
       allowed_fails = 3;
       cooldown_time = 30;
       drop_params = true;
+      json_logs = false;
       # Disable default log file to avoid conflicts with systemd logging
       # All logs will go to stdout/stderr which systemd captures
       turn_off_message_logging = true;
@@ -374,6 +373,7 @@ let
       fallbacks = [
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
+        { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
         { "bender-muffin" = [ "openrouter/anthropic/claude-haiku-4.5" ]; }
       ];
       cache = true;
@@ -453,7 +453,7 @@ let
 
     # Use the Nix-built litellm package
     # $${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
-    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.5' --with 'httpx[socks]' litellm --config ${litellmConfig} "$@"
+    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.7' --with 'httpx[socks]' litellm==1.80.7 --config ${litellmConfig} "$@"
   '';
 
 in
@@ -485,6 +485,7 @@ in
         LITELLM_LOG = "INFO";
         # Provide provider API keys directly to the service
         OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
+        DEEPSEEK_API_KEY = pkgs.nix-priv.keys.deepseek.apiKey;
         HTTP_PROXY = proxyConfig.proxies.http;
         HTTPS_PROXY = proxyConfig.proxies.http;
         NO_PROXY = proxyConfig.noProxyString;

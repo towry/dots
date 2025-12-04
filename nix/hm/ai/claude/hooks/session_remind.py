@@ -22,105 +22,122 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass  # dotenv is optional
+
+# Constants
+LOG_DIR = Path(".claude/logs")
+LOG_FILE = LOG_DIR / "session_start.json"
+DATE_FORMAT = "%Y-%m-%d"
 
 
-def log_session_start(input_data):
-    """Log SessionStart event to `.claude/logs/session_start.json`.
-    """
-    log_dir = Path(".claude/logs")
-    log_dir.mkdir(parents=True, exist_ok=True)
-    log_file = log_dir / 'session_start.json'
-
+def load_log_data(log_file):
+    """Load existing log data or return empty list."""
     if log_file.exists():
         try:
-            with open(log_file, 'r') as f:
-                log_data = json.load(f)
+            with open(log_file, "r") as f:
+                return json.load(f)
         except (json.JSONDecodeError, ValueError):
-            log_data = []
-    else:
-        log_data = []
+            pass
+    return []
 
-    # Add a short metadata object: time, session_id, cwd
-    entry = {
-        'timestamp': datetime.now().isoformat(),
-        'session_id': input_data.get('session_id'),
-        'cwd': input_data.get('cwd'),
-        'hook_event_name': input_data.get('hook_event_name'),
-        'source': input_data.get('source') if 'source' in input_data else None,
-    }
-    log_data.append(entry)
 
-    with open(log_file, 'w') as f:
+def save_log_data(log_file, log_data):
+    """Save log data and set restrictive permissions."""
+    log_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(log_file, "w") as f:
         json.dump(log_data, f, indent=2)
-
-    # Set restrictive permissions for privacy
     try:
         os.chmod(log_file, 0o600)
     except Exception:
         pass  # Best effort
 
 
+def log_session_start(input_data):
+    """Log SessionStart event to log file."""
+    log_data = load_log_data(LOG_FILE)
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "session_id": input_data.get("session_id"),
+        "cwd": input_data.get("cwd"),
+        "hook_event_name": input_data.get("hook_event_name"),
+        "source": input_data.get("source"),
+    }
+    log_data.append(entry)
+    save_log_data(LOG_FILE, log_data)
+
+
+def sanitize_string(value):
+    """Remove newlines and control characters from string."""
+    if not isinstance(value, str):
+        return ""
+    return " ".join(value.strip().split())
+
+
+def build_reminder_message(session_id, project_dir):
+    """Build the session reminder message with datetime."""
+    today = datetime.now().strftime(DATE_FORMAT)
+    msg = "Shell: fish, tools: rg, git, jj, fd, ast-greap, bun, exa \n"
+    msg += f"Session ID: {session_id}\n"
+    msg += f"Today is: {today}\n"
+    if project_dir:
+        msg += f"Current project root: {project_dir}"
+    return msg
+
+
+def read_input_data():
+    """Read and parse JSON from stdin. Returns None if invalid."""
+    try:
+        raw = sys.stdin.read()
+        return json.loads(raw) if raw else None
+    except json.JSONDecodeError:
+        return None
+
+
 def main():
     try:
         parser = argparse.ArgumentParser()
-        parser.add_argument('--verbose', action='store_true', help='Print verbose output')
+        parser.add_argument(
+            "--verbose", action="store_true", help="Print verbose output"
+        )
         args = parser.parse_args()
 
-        # Read JSON input from stdin
-        try:
-            raw = sys.stdin.read()
-            if not raw:
-                # Nothing to do
-                sys.exit(0)
-            input_data = json.loads(raw)
-        except json.JSONDecodeError:
-            # Don't disrupt Claude if input is malformed
+        # Read JSON input
+        input_data = read_input_data()
+        if not input_data:
             sys.exit(0)
 
-        # Extract fields
-        session_id = input_data.get('session_id')
+        # Extract and validate session_id
+        session_id = input_data.get("session_id")
         if not session_id or not isinstance(session_id, str):
-            # No valid session ID to inject
             sys.exit(0)
 
-        # Sanitize session_id to prevent injection (remove newlines and control characters)
-        session_id = ' '.join(session_id.strip().split())        # Prefer the CLAUDE_PROJECT_DIR env var (project-specific hooks set this), fall back to cwd
-        project_dir = os.environ.get('CLAUDE_PROJECT_DIR') or input_data.get('cwd') or ''
-        if project_dir and isinstance(project_dir, str):
-            # Sanitize path - remove any embedded newlines or control characters
-            project_dir = ' '.join(project_dir.strip().split())
+        # Sanitize inputs
+        session_id = sanitize_string(session_id)
+        project_dir = sanitize_string(
+            os.environ.get("CLAUDE_PROJECT_DIR") or input_data.get("cwd") or ""
+        )
 
-        # Log the event for later debugging
+        # Log event (best-effort)
         try:
             log_session_start(input_data)
         except Exception:
-            # Best-effort logging only
             pass
 
-        # Build the reminder message
-        base_msg = f"✅ Session ID: {session_id}"
-        if project_dir:
-            base_msg += f"\n📁 Project directory: {project_dir}"
+        # Build and emit reminder
+        reminder_msg = build_reminder_message(session_id, project_dir)
 
-        # Optionally print debug info to stderr (not stdout) to avoid interfering with JSON output
         if args.verbose:
-            verbose_msg = f"Session reminder injected. {session_id[:8]}... | Project: {project_dir}"
-            print(verbose_msg, file=sys.stderr)
+            print(
+                f"Session reminder injected. {session_id[:8]}... | Project: {project_dir}",
+                file=sys.stderr,
+            )
 
-        # Emit the structured JSON for Claude to ingest
         output_json = {
+            "systemMessage": f"Remind - Project: {project_dir}",
             "hookSpecificOutput": {
                 "hookEventName": "SessionStart",
-                "additionalContext": base_msg,
-            }
+                "additionalContext": reminder_msg,
+            },
         }
-
-        # Emit the structured JSON for Claude to ingest
         print(json.dumps(output_json))
         sys.exit(0)
 
@@ -129,5 +146,5 @@ def main():
         sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

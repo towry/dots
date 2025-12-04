@@ -1,5 +1,5 @@
 {
-  "model": "claude-opus-4-5-20251101",
+  "model": "claude-haiku-4-5-20251001",
   "reasoningEffort": "medium",
   "cloudSessionSync": true,
   "diffMode": "github",
@@ -14,6 +14,7 @@
   "awaitingInputSound": "fx-ack01",
   "soundFocusMode": "always",
   "commandAllowlist": [
+    "mix format",
     "ls",
     "pwd",
     "dir",
@@ -38,7 +39,26 @@
     "jj git-diff",
     "pnpm turbo run build:dev",
     "lsof",
-    "ps"
+    "ps",
+    "cd ~/workspace/llm/research/ && sgrep index",
+    "cd ~/workspace/llm/research/ && sgrep search:*",
+    "bash /Users/towry/.claude/skills/git-jj/scripts/repo_check.sh",
+    "bash ~/.claude/skills/git-jj/scripts/repo_check.sh",
+    "bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*",
+    "~/.claude/skills/fast-repo-context/scripts/sgrep.sh:*",
+    "python3 ~/.claude/skills/local-research/scripts/research_ops.py list:*",
+    "bunx repomix:*",
+    "jj --no-pager:*",
+    "jj diff:*",
+    "jj new:*",
+    "jj log:*",
+    "jj show:*",
+    "jj status:*",
+    "jj file:*",
+    "cargo clippy:*",
+    "cargo test:*",
+    "cargo check:*",
+    "terminal-notifier"
   ],
   "commandDenylist": [
     "rm -rf /",
@@ -73,13 +93,14 @@
     "powershell Remove-Item -Recurse -Force"
   ],
   "enableCustomDroids": true,
-  "enableHooks": false,
+  "enableHooks": true,
   "includeCoAuthoredByDroid": true,
   "enableDroidShield": true,
   "enableReadinessReport": false,
   "todoDisplayMode": "pinned",
   "autonomyLevel": "normal",
   "specSaveEnabled": true,
-  "specModeModel": "gemini-3-pro-preview",
-  "specModeReasoningEffort": "high"
+  "specModeModel": "claude-opus-4-5-20251101",
+  "specModeReasoningEffort": "high",
+  "allowBackgroundProcesses": true
 }

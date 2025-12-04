@@ -4,7 +4,6 @@ description: |
   Not for: Research for how to implement feature, make decisions on how to implement;
   How: can write/edit code and run commands; requires concise input (prefer file paths over long content); handles one small task at a time; Provide clear design spec and implement decisions; first use `todowrite` tool split the coding task, then delegate each single todo with context and implement decisions to @eng;
   When: implementing specific features, quick fixes, generating boilerplate, executing defined coding tasks with clear requirements.
-model: "zhipuai-coding-plan/glm-4.6"
 reasoningSummary: concise
 textVerbosity: low
 reasoningEffort: medium
@@ -19,7 +18,7 @@ tools:
   glob: true
   fs*: true
   lifeguard: false
-  brightdata*: false
+  exa*: false
   github*: false
 permission:
   edit: allow

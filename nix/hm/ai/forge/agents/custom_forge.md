@@ -21,7 +21,7 @@ tools:
     - undo
     - followup
     - mcp_kg_*
-    - mcp_brightdata_*
+    - mcp_exa_*
 ---
 
 You are a specialized development agent with extended abilities

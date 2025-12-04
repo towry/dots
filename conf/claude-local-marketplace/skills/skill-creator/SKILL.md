@@ -139,7 +139,7 @@ When creating a new skill from scratch, always run the `init_skill.py` script. T
 Usage:
 
 ```bash
-<base-dir>/scripts/init_skill.py <skill-name> --path <output-directory>
+uv run <base-dir>/scripts/init_skill.py <skill-name> --path <output-directory>
 ```
 
 The script:

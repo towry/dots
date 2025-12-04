@@ -1,26 +1,35 @@
-# Claude rules
+# Rules that matters
 
-## Core Principles
+<deprecated_subagent>
+- Explore: replaced by `sage` subagent.
+</deprecated_subagent>
 
-- **Proactive calude skill/tools consideration**: Review what subagent, tools, claude skills best for the task before executing.
-- **Critical**: To prevent fatal errors from exceeding the context limit, proactively split task and dispatch to sub-agents.
-- Before you doing codebase search, or run bash tools, think twice about user input, is using trying to load a claude skill? or use a specific subagent?
-- Use Markdown **only where semantically correct** (e.g., `inline code`, ```code fences```, lists, tables, headings starts with `##`, `**bold**`, emoji etc).
-- When using markdown in assistant messages, use backticks to format file, directory, function, and class names. Use \( and \) for inline math, \[ and \] for block math.
-- When user says "please research/analyze ...", you should never make code changes, only research and provide findings with availble tools, skills, subagents.
-- When making decisions, always think step by step and ask oracle subagent to help make better decisions.
-- When user are frustrated, ask help from `sage` or `outbox` subagents.
-- If you attempt the same task a second time, stop and consult the oracle subagent for assistance.
-- Your thinking tool `outbox`: Prompt the outbox subagent for rapid ideation and problem reframing after you proposed an idea, solution.
-- After you made bunch of code changes, ask `lifeguard` subagent to review your changes.
-- Use `fast-repo-context` claude skill when you or user want to do codebase research, codebase Q&A, codebase analysis.
-- When user ask about codebase, like "How does X work?", "Where is Y located?", "Find all Z", always consider using `fast-repo-context` skill first, load `fast-repo-context` with `Skill` tool.
-- bash `find` and `grep` are blocked, please use `fd`, `rg` instead, but consider load `fast-repo-context` skill for codebase research and query.
+<subagent_triggers>Spawn a subagent with `Task` tool when:
+- Keep a clean and concise context timeline for better continuous work.
+- Exploring unfamiliar codebase areas (keeps main context clean)
+- Running parallel investigations (multiple hypotheses)
+- Task can be fully described and verified independently
+- You want code research but only need a summary back
+- Need accurate context quickly
 
-## `Task` tool with `subagent_type` usage rules
+Do it yourself when:
 
+- Context is already fully loaded and explicitly available, like direct file path or code location has been given, and you are sure those context is enough.
+- File edits where you need to see the result immediately
+</subagent_triggers>
+
+<subagent_with_correct_model_usage>Spawn subagents via `Task` tool with `subagent_type`.
 - Use `model: opus` when `subagent_type` is `oracle` (opus for research task).
-- Use `model: haiku` when `subagent_type` is `sage`.
-- Use `model: opusplan` when `subagent_type` is `Plan`.
+- Use `model: haiku` when `subagent_type` is `sage`(code search agent).
+- Use `model: haiku` when `subagent_type` is `eng` (light coding task agent).
+- Use `model: opusplan` when `subagent_type` is `Plan` (plan agent).
+</subagent_with_correct_model_usage>
+
+<webpage_debug>
+- Use `codex_chromedev` mcp tool to debug webpage with page url.
+- **critical**: Always use `profile: chromedev` when using `codex_chromedev` tool.
+- chromedev only support browser interactions, it can not read or search files. So You need give it specific task like "What is the logs that related to X error?" or "Take screenshot of element Y check if it is visible".
+- Call chromedev in multiple iterations if necessary to accomplish the task, don't try to do everything in one call.
+</webpage_debug>
 
 @CONTENT@

@@ -53,7 +53,7 @@ let
 
   claudeScripts = {
     claude-lifeguard = mkClaudeWrapper "claude-lifeguard" ''
-      exec claude --system-prompt ${lifeguardPromptLiteral} --strict-mcp-config "$@"
+      exec claude --model sonnet --system-prompt ${lifeguardPromptLiteral} --allowedTools "Read Grep Glob Skill Bash(git:*) Bash(jj:*) Bash(head:*) Bash(tail:*) Bash(fd:*) Bash(rg:*) Bash(ast-grep:*)" --strict-mcp-config "$@"
     '';
     claude-ai = mkClaudeWrapper "cla" ''
       # Check if --pr flag is present

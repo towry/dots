@@ -1,6 +1,6 @@
 ---
 name: fast-repo-context
-description: "Semantic code search using sgrep. Use when: exploring code, search code snippets, finding implementations by intent, understanding how features work. Triggers(semantic or similiar meaning): [fast context], [search code], [find where], [how does X work], [understand codebase], [research codebase], [find X], [locate X], [code search], [grep code], [where is], [let me search]."
+description: "Semantic code search using sgrep. Use when: exploring code, search code snippets, finding implementations by intent, understanding how features work. Triggers(semantic or similar meaning): [fast context], [search code], [find where], [how does X work], [understand codebase], [research codebase], [find X], [locate X], [code search], [grep code], [where is], [let me search]."
 ---
 
 # Fast Repo Context
@@ -81,4 +81,4 @@ cd another-dir-abs-path && ~/.claude/skills/fast-repo-context/scripts/sgrep.sh -
 - **Be descriptive**: "function that validates email format" > "email validation"
 - **Describe intent**: "code that prevents duplicate submissions" > "debounce"
 - **Ask questions**: "where is the shopping cart total calculated?"
-
+- **Critical**: The query must be in English, other languages are not supported.

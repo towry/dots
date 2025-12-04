@@ -11,14 +11,6 @@ Perform comprehensive codebase research with persistent markdown documentation s
 
 Use absolute file path in research document for easy share across different projects/repos.
 
-### Automation Script
-
-The skill includes an automation script at `~/.claude/skills/local-research/scripts/research_ops.py` that handles:
-- Generating descriptive research names from user queries
-- Creating research directories and markdown files with timestamps
-- Listing and locating existing research files by keywords
-- Providing CLI interface for all research operations
-
 ## When to Use This Skill
 
 Use this skill when:
@@ -29,20 +21,29 @@ Use this skill when:
 
 ## Core Workflow
 
-### Research Generation Process (when user explicitly requests new research)
+### Loading Research Process (when user mention load or want to update a research doc, or provided doc keywords)
+
+**Critical**: If no research file found, just tell user and finish, do not create. Only read one research file, do not read multiple files.
+
+1. **List Research Files**: `ls ~/workspace/llm/research/`
+2. **Pick only one file(no read)**: Match user keywords to research names/content to find the most relevant research file, do not read, ask user to confirm if is this one, and list other possible match files if any.
+3. User choose with file index, then you proceed to read the file.
+
+Alternative way to fast load it:
+
+1. `cd ~/workspace/llm/research/ && sgrep index`
+2. `cd ~/workspace/llm/research/ && sgrep search <keywords-or-user-input...>`
+
+Read the results and load the correct research file.
+
+### When user requests new research to be created explictly
 
 1. **Generate Research Name**: Create descriptive research name based on user input as `<user-query>`, user input may contain typos, improve it.
 2. **Create Research File**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py create "<user-query>"`
-3. **Ask Clarifying Questions**: Ask user for more details about research scope
+3. **Ask Clarifying Questions**: Ask user for more details about research scope, this step is required to ensure accurate research direction.
 4. **Execute Research Workflow**: Use integrated tools to gather information
 5. **Document Findings**: Write results to research markdown file, use absolute file path when writting, do not use `~` path abbreviation.
-
-### Loading Research Process (when user mention load or update doc, or provided doc keywords)
-
-When user requests to "load local research" or similar:
-1. **List Research Files**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py list`
-2. **Identify Target**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py locate <keywords>`
-3. **Load Content**: Read and display the summary of relevant research markdown file
+6. **Iterate the research doc with user**: Present findings to user, ask for feedback or additional areas to explore, update the research doc accordingly.
 
 ## Research Tools and Methods
 
@@ -59,7 +60,7 @@ When user requests to "load local research" or similar:
    - Set `group_id` to organize research by project/topics
 
 3. **External Resources**:
-   - **Brightdata**: Use `mcp__brightdata__search_engine` for web research
+   - **Exa**: Use `mcp__exa__web_search_exa` for web research and `mcp__exa__crawling_exa` for scraping content
    - **GitHub**: Use `mcp__github__search_code` or `mcp__github__search_repositories` for external code reference
 
 ### Research Execution Order
@@ -79,7 +80,7 @@ When user requests to "load local research" or similar:
    - Integrate findings into research documentation
 
 4. **External Research** (if needed):
-   - Use Brightdata for web research on related topics
+   - Use Exa for web research on related topics (search, scraping, code context)
    - Use GitHub tools for external examples and best practices
    - Add external insights to research file
 
@@ -128,22 +129,6 @@ When user wants to load existing research:
 2. **Search Matching**: Match user keywords to research names/content
 3. **Display Findings**: Present the complete research file content
 
-### Script Commands
-
-```bash
-# Create new research file
-python3 ~/.claude/skills/local-research/scripts/research_ops.py create "<user-query>"
-
-# List all research files (sorted by timestamp)
-python3 ~/.claude/skills/local-research/scripts/research_ops.py list
-
-# Locate research file by keywords
-python3 ~/.claude/skills/local-research/scripts/research_ops.py locate <keywords...>
-
-# Read specific research file
-cat ~/workspace/llm/research/<research-name>-<timestamp>.md
-```
-
 ## Integration with Other Skills
 
 ### Fast Context Integration
@@ -182,8 +167,45 @@ please load local research on "authentication system analysis" and update the do
 
 <assistant>
 ```bash
-python3 ~/.claude/skills/local-research/scripts/research_ops.py locate authentication system analysis
+python3 ~/.claude/skills/local-research/scripts/research_ops.py list
 ```
 Good, found the research file at `<file-path>`. Now loading the content and summarizing the key points for you.
+</assistant>
+</example>
+
+<example>
+<user>
+new research, city picker in ve form.
+</user>
+
+<assistant>
+Let me first check if there are existing research files related to "city picker in ve form".
+
+```bash
+python3 ~/.claude/skills/local-research/scripts/research_ops.py list
+```
+
+No existing research found. Do you want me to create research file for "city picker in ve form".
+
+<user>
+No
+</user>
+
+<assistant>
+Ok, let me know if you need anything else.
+</assistant>
+
+<user>
+Ok, create it
+</user>
+
+<assistant>
+Confirm received.
+
+```bash
+python3 ~/.claude/skills/local-research/scripts/research_ops.py create "city picker in ve form"
+```
+
+Great, I've created a new research file for "city picker in ve form". Could you please provide more details about the scope of this research? Are there specific aspects you would like me to focus on? Or some files/keywords let do the codebase search with fast-repo-context skill?
 </assistant>
 </example>

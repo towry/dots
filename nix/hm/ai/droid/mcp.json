@@ -41,13 +41,13 @@
       "command": "bunx",
       "env": {}
     },
-    "brightdata": {
+    "exa": {
       "type": "stdio",
       "command": "bunx",
-      "args": ["@brightdata/mcp@2.6.1"],
+      "args": ["exa-mcp-server", "tools=web_search_exa,get_code_context_exa,crawling_exa"],
       "disabled": false,
       "env": {
-        "API_TOKEN": "@BRIGHTDATA_API_TOKEN@"
+        "EXA_API_KEY": "@EXA_API_KEY@"
       }
     }
   }

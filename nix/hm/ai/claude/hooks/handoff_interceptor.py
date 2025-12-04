@@ -95,7 +95,7 @@ def extract_messages(
                         )
                         if is_tool_result:
                             continue
-                        
+
                         # Extract text from content blocks (assistant messages)
                         text_parts = []
                         tool_count = 0
@@ -104,17 +104,20 @@ def extract_messages(
                                 if block.get("type") == "text":
                                     block_text = block.get("text", "")
                                     # Skip "(no content)" placeholder
-                                    if block_text.strip() and block_text.strip() != "(no content)":
+                                    if (
+                                        block_text.strip()
+                                        and block_text.strip() != "(no content)"
+                                    ):
                                         text_parts.append(block_text)
                                 elif block.get("type") == "tool_use":
                                     tool_count += 1
                             elif isinstance(block, str):
                                 text_parts.append(block)
-                        
+
                         # Skip messages with only tool calls and no meaningful text
                         if not text_parts:
                             continue
-                            
+
                         text = "\n".join(text_parts)
                         # Append tool count summary if tools were used
                         if tool_count > 0:
@@ -277,6 +280,7 @@ Analyze this conversation and create a comprehensive handoff document that inclu
 5. **Todo List**: List ALL todo items below in the "Current Todo List" section - copy them EXACTLY as shown, preserving markers (☑/▶/☐) and text verbatim
 6. **Context for Next Session**: Critical information the next person needs to know
 7. **Files Modified**: Key files that were changed (if mentioned) - use absolute paths relative to `{absolute_project_dir}`
+8. **Claude skills**: List skills that used in this session, those skills might need to be load in next session with the handoff file, include the skills in the next action section, for example: "Load the following skills with Skill tool:"
 
 Be concise but thorough. Format the output in markdown.
 CRITICAL: The "Current Todo List" section below contains the EXACT todo items. You MUST copy them verbatim - do NOT paraphrase or summarize.
@@ -294,7 +298,7 @@ CRITICAL: The "Current Todo List" section below contains the EXACT todo items. Y
             [
                 "claude",
                 "--model",
-                "opencodeai/claude-haiku-4-5",
+                "opencodeai/big-pickle",
                 "--allowedTools",
                 "Write,Read,Bash(mkdir:*),Bash(touch:*),Bash(ls:*)",
                 "-p",
@@ -402,7 +406,7 @@ def main():
 
     # This is a handoff command - intercept it
     # Extract custom message after "/handoff" (e.g., "/handoff custom msg" → "custom msg")
-    user_note = prompt[len("/handoff"):].strip()
+    user_note = prompt[len("/handoff") :].strip()
 
     transcript_path = input_data.get("transcript_path", "")
 
