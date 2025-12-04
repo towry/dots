@@ -10,7 +10,7 @@ Semantic grep (`sgrep script`) for code search with natural language queries. No
 ## Tool
 
 ```bash
-bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "<natural language query>"
+bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "<natural language query>"
 ```
 
 **Safety:** Script checks if current directory is a git repo before running to prevent accidental indexing of large/wrong directories.
@@ -32,7 +32,7 @@ bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "<natural langua
 
 ## Workflow
 
-1. **Use sgrep script** for semantic search
+1. **Use sgrep script** for semantic search, quit using it after tried 2 times without accurate result, use `--limit 3` to limit the results.
 2. **Read specific files** from results for details
 3. **(Optional)** Query `kg` from our knowledge graph for additional context
 
@@ -40,7 +40,7 @@ bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "<natural langua
 
 ### Find authentication logic
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "user login and session management"
+~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "user login and session management"
 ```
 
 ### Find in another project/repo
@@ -48,27 +48,27 @@ bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "<natural langua
 Use bash `exa --tree -D -L 2 ~/workspace` to get all projects in ~/workspace.
 
 ```
-cd another-dir-abs-path && ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "file upload handling that use api foo/bar"
+cd another-dir-abs-path && ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "file upload handling that use api foo/bar"
 ```
 
 ### Find error handling patterns
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "how errors are caught and reported to users"
+~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "how errors are caught and reported to users"
 ```
 
 ### Find API endpoints
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "REST endpoints for user profile operations"
+~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "REST endpoints for user profile operations"
 ```
 
 ### Find database queries
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "queries that fetch user data with pagination"
+~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "queries that fetch user data with pagination"
 ```
 
 ### Find React hooks usage
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "custom hooks for form validation"
+~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "custom hooks for form validation"
 ```
 
 ### With filters
