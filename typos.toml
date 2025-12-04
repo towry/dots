@@ -15,7 +15,8 @@ extend-exclude = [
     "*.theme",
     "*.tigrc",
     "*.yabairc",
-    "vim/colors/*",
+    "conf/vim/colors/*",
+    "conf/ghostty/themes/*",
     "*.png",
     "*.jpg",
     "*.jpeg",
@@ -42,6 +43,10 @@ extend-ignore-identifiers-re = [
     "webfactory",
     # CLI tools
     "ssh-keyscan",
+    # Fish shell alias abbreviations
+    "pn",
+    # macOS system names
+    "Sur",
 ]
 
 # Regex patterns to ignore - hex strings that are cryptographic hashes

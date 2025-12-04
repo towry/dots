@@ -23,7 +23,7 @@ if ! jj diff -r @ --no-pager --git > "$tempfile" 2>/dev/null; then
 fi
 
 # Open a new Ghostty window with nvim editing the diff file
-# Do not contains "/T/", ghostty will ask for permission to execute this Faile
+# Do not contains "/T/", ghostty will ask for permission to execute this file
 # strange
 echo "$tempfile"
 ghostty -e nvim "$tempfile"
