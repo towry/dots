@@ -21,7 +21,7 @@ If user request "remind", you need to remind yourself of the current spec and st
 
 # Discover Available Specs
 
-**When `run_command` tool avaiable:**
+**When `run_command` tool available:**
 
 The command are safe to run.
 
@@ -29,7 +29,7 @@ The command are safe to run.
 2. Present the list to the user with numbers for easy reference.
 3. Ask user to select which spec they want to work with (by number or name).
 
-**When `run_command` tool not avaiable:**
+**When `run_command` tool not available:**
 1. Check for the `llm/kiro` directory in the current project.
 2. List all subdirectories under `llm/kiro` to find available specs.
 3. Present the list of available specs to the user with numbers for easy reference.

@@ -1,10 +1,10 @@
 # Kiro Spec Driven Development (KSDD) workflow (aka Kiro).
 
 <kiro-dir>
-kiro dir will be the root directory for the current Kiro spec files(claude.md, design.md, requirements.md, tasks.md), usally located at the project root.
+kiro dir will be the root directory for the current Kiro spec files(claude.md, design.md, requirements.md, tasks.md), usually located at the project root.
 </kiro-dir>
 
-<kiro-context>Trigger kiro phases whenever user metions kiro, kiro spec, tasks.md, requirements.md, kiro dir, update kiro, kiro status</kiro-context>
+<kiro-context>Trigger kiro phases whenever user mentions kiro, kiro spec, tasks.md, requirements.md, kiro dir, update kiro, kiro status</kiro-context>
 
 ## Phase 1: Loading a Kiro Spec
 

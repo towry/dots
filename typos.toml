@@ -1,0 +1,66 @@
+# Configuration for the typos checker
+# https://github.com/crate-ci/typos
+
+[files]
+# Extend the default exclude patterns with our custom ones
+extend-exclude = [
+    "flake.lock",
+    "result",
+    "result-*",
+    ".direnv",
+    ".devenv",
+    "node_modules",
+    ".git",
+    "*.tmTheme",
+    "*.theme",
+    "*.tigrc",
+    "*.yabairc",
+    "conf/vim/colors/*",
+    "conf/ghostty/themes/*",
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.gif",
+    "*.svg",
+    "*.ico",
+]
+
+[default]
+# Extend the default set of allowed identifiers
+extend-ignore-identifiers-re = [
+    # Nix-related terms that might be flagged
+    "nixpkgs",
+    "home-manager",
+    "flake-utils",
+    "rustPlatform",
+    "stdenv",
+    "mkShell",
+    # SSH and security related terms
+    "ssh-private-key",
+    "known_hosts",
+    # Common technical terms
+    "flakehub",
+    "webfactory",
+    # CLI tools
+    "ssh-keyscan",
+    # Fish shell alias abbreviations
+    "pn",
+    # macOS system names
+    "Sur",
+]
+
+# Regex patterns to ignore - hex strings that are cryptographic hashes
+# This prevents false positives on SHA256, MD5, git hashes, and other checksums
+extend-ignore-re = [
+    # Match hex strings that commonly appear in cryptographic contexts (8+ chars)
+    # This covers git commit hashes (7+ chars), MD5 (32 chars), SHA1 (40), SHA256 (64), etc.
+    "[0-9a-fA-F]{8,}",
+    # Nix base32 hashes (e.g., sha256 in .nix files; typically ~52 chars)
+    "[0-9abcdfghijklmnpqrsvwxyz]{44,}",
+]
+
+[default.extend-words]
+# If there are specific words that are being incorrectly flagged, add them here
+# Example:
+# "ser" = "ser"
+# "DeterminateSystems" = "DeterminateSystems"

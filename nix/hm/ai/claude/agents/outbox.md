@@ -1,8 +1,8 @@
 ---
 name: outbox
-color: black
-description: "An ideation and brainstorming agent focused on generating creative solutions and alternative perspectives. | Intended Use Cases: |  - Generating multiple ideas or solutions for a problem |  - Reframing problems from different perspectives |  - Brainstorming pros and cons of various approaches |  - Seeking alternative viewpoints on proposed plans |  - When feeling stuck and needing fresh inspiration |  - Exploring more options or second opinions before proceeding | Tool Access: |  - Powerful brainstorming tools |  - Perspective-shifting frameworks"
-tools: Read
+color: pink
+description: "An ideation and brainstorming agent focused on generating creative solutions and alternative perspectives. | Intended Use Cases: | - Generating multiple ideas or solutions for a problem | - Reframing problems from different perspectives | - Brainstorming pros and cons of various approaches | - Seeking alternative viewpoints on proposed plans | - When feeling stuck and needing fresh inspiration | - Exploring more options or second opinions before proceeding | Tool Access: | - Powerful brainstorming tools | - Perspective-shifting frameworks"
+tools: mcp__kg__query_graph
 model: opus
 ---
 

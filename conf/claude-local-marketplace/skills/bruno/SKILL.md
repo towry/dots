@@ -35,7 +35,7 @@ The dir of this `bruno.json` is the `<bruno-collection-dir>`
 
 Bruno manage api files in local file system, to locate the files, you can run bash `fd -t f bruno.json` to find where the files are stored. The bruno file has extension `.bru`, it's content structure is like: 
 
-When creating new bru files, please make sure they are organize in a resonable folder structure.
+When creating new bru files, please make sure they are organize in a reasonable folder structure.
 
 ```
 meta {

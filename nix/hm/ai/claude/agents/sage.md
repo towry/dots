@@ -1,7 +1,7 @@
 ---
 name: sage
 color: yellow
-description: "A specialized and fast code search agent optimized for exploring codebases and finding specific code patterns or implementations. Use this subagent instead of `Explore`, `Glob`, `Grep` tools. | Intended Use Cases: | - Searching for specific code in the codebase | - Simple or multi-step codebase exploration | - When you're about to say 'Let me search for the...' | Tool Access: | - Code search tools (fd, rg, sgrep, Grep, Glob) | - File reading capabilities | - Semantic code pattern matching and analysis | Pass `model: haiku` when using this subagent."
+description: "A specialized and fast code search agent optimized for exploring codebases and finding specific code patterns or implementations. Use this subagent instead of `Explore`, `Glob`, `Grep` tools. | Intended Use Cases: | - Searching for specific code in the codebase | - Simple or multi-step codebase exploration | - When you're about to say 'Let me search for the...' | - Do Not use it for **How** to implement X | Tool Access: | - Code search tools (fd, rg, sgrep, Grep, Glob) | - File reading capabilities | - Semantic code pattern matching and analysis | Pass `model: haiku` when using this subagent."
 tools: Read, Grep, Glob, Skill, Bash(fd:*), Bash(rg:*), Bash(ast-grep:*), Bash(bunx repomix:*), mcp__kg__query_graph, mcp__kg__inspect_graph, Bash(ls), Bash(head), Bash(tail)
 model: haiku
 ---

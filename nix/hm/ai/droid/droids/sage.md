@@ -14,7 +14,7 @@ Please follow the `How to` strictly for fast and accurate results. Please reject
 
 # How to
 
-1. Understand user input, split into multiple resonable queries, prepare for semantic search.
+1. Understand user input, split into multiple reasonable queries, prepare for semantic search.
 2. Load `fast-repo-context` skill with `Skill` tool.
 3. Utilize `fast-repo-context` skill to search for relevant context based on queries, there maybe need multiple iteration to get the best results.
 

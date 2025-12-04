@@ -139,7 +139,7 @@ function! NVimrcLoadSettings()
   let &statusline = s:statusline_expr()
   set backspace=indent,eol,start " backspace over everything in insert mode
   set nobackup " no need for backup files(use undo files instead)
-  " set undofile " create '.<FILENAME>.un~' for persiting undo history
+  " set undofile " create '.<FILENAME>.un~' for persisting undo history
   set dir=/tmp,. " swap files storage, first try in the cwd then in /tmp
   " set undodir=. " undo files storage, only allow the same directory
   set history=500 " 500 lines of command-line history

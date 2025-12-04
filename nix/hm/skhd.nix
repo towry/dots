@@ -24,7 +24,7 @@
         # @see key code: https://github.com/koekeishiya/skhd/issues/1
         # see: https://github.com/solomonbroadbent/dotfiles/blob/2f6c660c15e2050785ed1f08aaf89c199ffacc3d/.skhdrc#L1
         # see keyboard codes: https://cloud.githubusercontent.com/assets/6175959/18551554/35137fc6-7b59-11e6-81a0-bef19ed5db5e.png
-        # powerfull mode declaration
+        # powerful mode declaration
         :: default
 
         :: mode_window @

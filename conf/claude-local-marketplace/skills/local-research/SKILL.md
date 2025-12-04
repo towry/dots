@@ -36,13 +36,13 @@ Alternative way to fast load it:
 
 Read the results and load the correct research file.
 
-### When user requests new research to be created explictly
+### When user requests new research to be created explicitly
 
 1. **Generate Research Name**: Create descriptive research name based on user input as `<user-query>`, user input may contain typos, improve it.
 2. **Create Research File**: `python3 ~/.claude/skills/local-research/scripts/research_ops.py create "<user-query>"`
 3. **Ask Clarifying Questions**: Ask user for more details about research scope, this step is required to ensure accurate research direction.
 4. **Execute Research Workflow**: Use integrated tools to gather information
-5. **Document Findings**: Write results to research markdown file, use absolute file path when writting, do not use `~` path abbreviation.
+5. **Document Findings**: Write results to research markdown file, use absolute file path when writing, do not use `~` path abbreviation.
 6. **Iterate the research doc with user**: Present findings to user, ask for feedback or additional areas to explore, update the research doc accordingly.
 
 ## Research Tools and Methods

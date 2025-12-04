@@ -33,7 +33,7 @@ When generating rules, please follow these guidelines:
 - Find project convention for component, name convention etc, convert those to rules.
 - Each rule should have clear and concise name.
 - Each rule should focus on a single aspect of code quality or best practice, no complex single rule, you can create multiple simple rules instead.
-- Each rule name should be consistent with rule description, for example, if the rule description focus on specific language feature, the rule name should also reflect that, insead of name is generic but the description is specific.
+- Each rule name should be consistent with rule description, for example, if the rule description focus on specific language feature, the rule name should also reflect that, instead of name is generic but the description is specific.
 - When you create rules, avoid generate rule that enforce single case or rare case, for example, a function with a specific name should not be a rule, unless that function name is widely used in the codebase and have specific meaning.
 - General rules to prevent bugs.
 - General rules to avoid complex code, hack, work-around code.

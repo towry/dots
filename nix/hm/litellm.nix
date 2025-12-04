@@ -30,16 +30,10 @@ let
           litellm_params = {
             model = alias;
             api_key = "os.environ/DEEPSEEK_API_KEY";
-            max_tokens = maxOutputTokens;
+            stream = true;
+            # max_tokens = maxOutputTokens;
             # stream = false;
             # drop_params = false;
-            thinking = {
-              type = "enabled";
-              budget_tokens = 1024;
-            };
-          };
-          model_info = {
-            max_output_tokens = maxOutputTokens;
           };
         }
       )
@@ -225,6 +219,7 @@ let
         "claude-sonnet-4-5"
         "claude-haiku-4-5"
         "gemini-3-pro"
+        "qwen3-coder"
         "kimi-k2"
         "big-pickle"
         "grok-code"

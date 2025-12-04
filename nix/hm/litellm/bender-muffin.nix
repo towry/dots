@@ -33,23 +33,22 @@
   #     max_output_tokens = 16000;
   #   };
   # }
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openai/minimax-m2";
-  #     api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
-  #     api_base = "https://api.minimaxi.com/v1";
-  #     max_tokens = 128000;
-  #     rpm = 8;
-  #     extra_body = {
-  #       reasoning_split = true;
-  #     };
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 204800;
-  #     max_output_tokens = 128000;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openai/minimax-m2";
+      api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
+      api_base = "https://api.minimaxi.com/v1";
+      max_tokens = 128000;
+      rpm = 8;
+      extra_body = {
+        reasoning_split = true;
+      };
+    };
+    model_info = {
+      max_output_tokens = 128000;
+    };
+  }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -60,25 +59,25 @@
   #     rpm = 1;
   #   };
   # }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openrouter/openai/gpt-5.1-codex-mini";
-      api_key = "os.environ/OPENROUTER_API_KEY";
-      rpm = 1;
-      max_tokens = 16000;
-      # provider = {
-      #   sort = "throughput";
-      # };
-      # reasoning = {
-      #   effort = "medium";
-      # };
-      # verbosity = "medium";
-    };
-    model_info = {
-      max_output_tokens = 16000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openrouter/openai/gpt-5.1-codex-mini";
+  #     api_key = "os.environ/OPENROUTER_API_KEY";
+  #     rpm = 1;
+  #     max_tokens = 16000;
+  #     # provider = {
+  #     #   sort = "throughput";
+  #     # };
+  #     # reasoning = {
+  #     #   effort = "medium";
+  #     # };
+  #     # verbosity = "medium";
+  #   };
+  #   model_info = {
+  #     max_output_tokens = 16000;
+  #   };
+  # }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {

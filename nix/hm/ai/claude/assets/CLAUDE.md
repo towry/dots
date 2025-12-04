@@ -1,13 +1,31 @@
 # Rules that matters
 
+<task_tool_usage>
+Think Primary task as `process`, and subagent as threads, use subagents to offload independent tasks that server the primary task, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
+
+
+```
+Task(
+    # Must use existing subagent types
+    subagent_type: string
+    # Task description, if you are find X, describe why you are finding it.
+    description: string 
+    # Prompt to give to the subagent, need to be specific and clear.
+    prompt: string
+)
+```
+</task_tool_usage>
+
 <deprecated_subagent>
 - Explore: replaced by `sage` subagent.
 </deprecated_subagent>
 
 <subagent_triggers>Spawn a subagent with `Task` tool when:
+- **Critical**: Spawn a subagent when new task is independent from current primary task.
 - Keep a clean and concise context timeline for better continuous work.
 - Exploring unfamiliar codebase areas (keeps main context clean)
 - Running parallel investigations (multiple hypotheses)
+- You have tried failed many times, need specialized and advanced assistance
 - Task can be fully described and verified independently
 - You want code research but only need a summary back
 - Need accurate context quickly
