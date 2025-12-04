@@ -4,7 +4,7 @@ The handoff folder might not exist if there are none.
 
 Requested handoff file: `$ARGUMENTS`
 
-Note, the user may mis-spell the handoff file, you just choose the right one, never auto read the handoff without user's confirm.
+Note, the user may misspell the handoff file, you just choose the right one, never auto read the handoff without user's confirm.
 
 ## Process
 

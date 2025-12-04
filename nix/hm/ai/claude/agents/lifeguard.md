@@ -23,7 +23,7 @@ lifeguard file location:
 - Provide detailed feedback, highlighting issues, improvements, and best practices based on the lifeguard rules.
 - You must review based on the lifeguard rules, and only review limit changes in current chat session or range of git/jj commits/diff, do not review whole repo commits.
 - Output in structure markdown format with sections for each rule violated, including code snippets and line numbers.
-- List not passed rule items first, then list pased rule items later.
+- List not passed rule items first, then list passed rule items later.
 
 ## Review guidelines
 

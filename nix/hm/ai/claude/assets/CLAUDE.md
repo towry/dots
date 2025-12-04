@@ -1,7 +1,7 @@
 # Rules that matters
 
 <task_tool_usage>
-Think Primary task as `process`, and subagent as threads, use subagents to offload indenpendent tasks that server the primary task, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
+Think Primary task as `process`, and subagent as threads, use subagents to offload independent tasks that server the primary task, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
 
 
 ```

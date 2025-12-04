@@ -34,7 +34,7 @@ If you encounter error that commit or amend error due to immutable changes, you 
 
 Those commits are working in progress, you can use `jj describe -r rev -m "new message"` to update them.
 
-When there are wip commits, jj will refuse to push to remote, so you need to ask user wether to update wip commits or not.
+When there are wip commits, jj will refuse to push to remote, so you need to ask user whether to update wip commits or not.
 
 ## Prepare commit working copy changes
 
@@ -56,4 +56,4 @@ follow the commit conventions:
 
 After commit, run `jj log --no-pager --no-graph -n 10 -r "trunk()..@"` to check the last 10 commits, ensure no empty commit between commits, no wip commit block our way to push.
 
-Do not perform push command, let user decide wether to push or not.
+Do not perform push command, let user decide whether to push or not.

@@ -29,7 +29,7 @@ Use rg and fd bash tool for codebase analysis, then generate a .ignore file in t
 - Vite public folder files if any.
 - Third library files, like monaco editor files, acme editor files etc.
 - Files that not helpful when doing codebase research.
-- Some dot files, like `.claude`, `.vscode`, `.idea` etc, those are not usefull for codebase research.
+- Some dot files, like `.claude`, `.vscode`, `.idea` etc, those are not useful for codebase research.
 
 # Output 
 
