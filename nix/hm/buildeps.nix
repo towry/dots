@@ -37,9 +37,13 @@ in
     CPPFLAGS = "-I${path-prefix}/include -I/opt/homebrew/include -I/usr/local/include -I/usr/include";
 
     # Runtime library paths
+    # NOTE: LD_LIBRARY_PATH is for Linux only, not used on macOS
     LD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib:/usr/local/lib:/usr/lib";
-    DYLD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
-    DYLD_FALLBACK_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
+    # NOTE: DYLD_LIBRARY_PATH causes flat namespace collisions on macOS (e.g., libiconv symbol mismatch)
+    # Nix packages already have correct rpath set, so these are not needed and cause issues.
+    # See: https://github.com/NixOS/nixpkgs/issues/166205
+    # DYLD_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
+    # DYLD_FALLBACK_LIBRARY_PATH = "${path-prefix}/lib:/opt/homebrew/lib";
 
     # Linker flags with rpath
     LIBS = "-L${path-prefix}/lib -Wl,-rpath,${path-prefix}/lib -L/opt/homebrew/lib -Wl,-rpath,/opt/homebrew/lib";
