@@ -30,14 +30,16 @@ When user mentions kiro, follow this decision tree:
 
 2. **Does the user want to select/load an existing spec?**
    - Keywords: "load kiro", "check kiro", "select kiro", "which kiro"
-   - Action: List specs and help user select one
+   - Action: If current kiro dir exist in system prompt, continue with that kiro spec. Otherwise, list available specs and prompt user to select one.
 
 3. **Is the user already working on a spec?**
    - Action: Continue with the current workflow phase
 
 ## Phase 1: Loading a Kiro Spec
 
-### Step 1: List Available Specs
+### Step 1: Select the Kiro Spec
+
+Check our system prompt, if our system prompt have existing kiro dir <kiro_dir>, just load it. Otherwise, follow these steps:
 
 Run the following command to get all kiro specs:
 
@@ -58,14 +60,7 @@ agpod kiro --json pr-list
 
 Note, the `path` should be relatieve to the project root or is absolute path if it starts with `/`.
 
-### Step 2: Parse User Selection
-
-If user mentions:
-- **Spec number/index**: Select the corresponding spec from the list
-- **Spec name/keyword**: Match against spec names using fuzzy matching
-- **No specific spec**: Ask user to choose from the list
-
-### Step 3: Read the Control Board
+### Step 2: Read the Control Board
 
 Once spec is selected, read `<spec-path>/claude.md` to understand:
 - Current spec file statuses (empty, draft, ready)

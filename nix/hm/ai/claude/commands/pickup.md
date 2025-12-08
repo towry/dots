@@ -1,4 +1,4 @@
-Resumes work from a previous handoff session which are stored in `.claude/handoffs`.
+Continue work from a previous handoff session which are stored in `.claude/handoffs`, the handoff are last session's conversation and context saved as a file, current session's work might be continued from there or not, you should think it as a reference.
 
 The handoff folder might not exist if there are none.
 
