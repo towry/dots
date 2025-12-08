@@ -94,9 +94,6 @@
       ];
     };
     # package = pkgs.nix;
-    optimise = {
-      automatic = true;
-    };
     extraOptions = ''
       # auto-optimise-store = true
       experimental-features = nix-command flakes

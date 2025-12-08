@@ -3,37 +3,49 @@
 <task_tool_usage>
 Think Primary task as `process`, and subagent as threads, use subagents to offload independent tasks that server the primary task, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
 
+If a task can be divided into multiple stages, like first code search, then code implementation analysis. Delegate each stage to subagents. Execute the stages sequentially if they have dependencies, or run them in parallel if they are independent. For example, first use sage to identify relevant code location, **then** use eng to analyze implementation details.
+
 
 ```
+# Only list required parameters
 Task(
     # Must use existing subagent types
-    subagent_type: string
+    subagent_type
     # Task description, if you are find X, describe why you are finding it.
-    description: string 
+    description
     # Prompt to give to the subagent, need to be specific and clear.
-    prompt: string
+    prompt
 )
 ```
 </task_tool_usage>
 
-<deprecated_subagent>
-- Explore: replaced by `sage` subagent.
-</deprecated_subagent>
+<external_research>
+What: External research refer to research from web, you need context from the web, online doc etc.
+When: You need to debug issues that related to third library, seeking answers to issue from the web like github issues or stackoverflow.
+How: Use `eng` subagent to do the external research for you.
+</external_research>
 
 <subagent_triggers>Spawn a subagent with `Task` tool when:
 - **Critical**: Spawn a subagent when new task is independent from current primary task.
 - Keep a clean and concise context timeline for better continuous work.
 - Exploring unfamiliar codebase areas (keeps main context clean)
 - Running parallel investigations (multiple hypotheses)
-- You have tried failed many times, need specialized and advanced assistance
+- Despite multiple (max 3 times) attempts, you were unable to succeed. Consider seeking assistance from other subagents.
 - Task can be fully described and verified independently
 - You want code research but only need a summary back
 - Need accurate context quickly
 
 Do it yourself when:
 
-- Context is already fully loaded and explicitly available, like direct file path or code location has been given, and you are sure those context is enough.
-- File edits where you need to see the result immediately
+- **Pre-loaded context**: You're responding to a direct question about
+code/files already visible in this conversation, and no additional research is
+  needed
+- **Immediate edits**: Making small, reversible changes that don't require
+research or commit operations (e.g., fixing typos, updating comments, quick
+refactors)
+- **Simple operations**: Tasks that can be completed in under 2 minutes
+without external research or complex coordination
+
 </subagent_triggers>
 
 <subagent_with_correct_model_usage>Spawn subagents via `Task` tool with `subagent_type`.
