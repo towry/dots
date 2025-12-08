@@ -18,5 +18,6 @@ in
 {
   inherit supportedPlatforms;
   currentPlatform =
-    if builtins.hasAttr "system" inputs then supportedPlatforms.${inputs.system} else { };
+    system: 
+    if builtins.hasAttr "system" inputs then supportedPlatforms.${system} else { };
 }

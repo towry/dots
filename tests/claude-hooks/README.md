@@ -10,11 +10,8 @@ Automated tests for Claude session/agent tracking hooks.
   - Includes UUIDs, sessionIds, and leafUuids that should NOT be extracted
 
 - **test_hooks.py**: Python test suite covering:
-  - ✅ Agent ID extraction validation (8 hex chars only)
-  - ✅ False positive prevention (rejects UUIDs, sessionIds, leafUuids)
   - ✅ Input sanitization (newline/injection prevention)
   - ✅ File operations and permissions (0600)
-  - ✅ Transcript search with isolated environment
   - ✅ Bash command prevention (blocks find/grep, allows clean commands)
 
 ## Running Tests
@@ -28,26 +25,13 @@ Expected output:
 ```
 Running Claude hooks test suite...
 
-Testing agent ID extraction:
-✓ extract_agent_id_valid
-✓ extract_agent_id_rejects_uuid
-✓ extract_agent_id_rejects_sessionId
-✓ extract_agent_id_rejects_leafUuid
-✓ extract_agent_id_valid_format
-✓ extract_agent_id_rejects_short
-✓ extract_agent_id_rejects_long
-✓ extract_agent_id_rejects_nonhex
-
-Testing transcript search:
-✓ search_transcript
-
 Testing input sanitization:
 ✓ sanitize_input_removes_newlines
 ✓ sanitize_input_preserves_normal
 
 Testing file operations:
 ✓ file_operations_create
-✓ file_operations_permissions
+✓ file_operations_permissions (note: hooks set 0600 explicitly)
 
 Testing prevent forbidden bash:
 ✓ prevent_bash_blocks_find
@@ -56,7 +40,7 @@ Testing prevent forbidden bash:
 ✓ prevent_bash_allows_other_tools
 
 ============================================================
-Test Results: 17/17 passed
+Test Results: 8/8 passed
 ============================================================
 ```
 
@@ -69,10 +53,13 @@ GitHub Actions workflow (`.github/workflows/test-claude-hooks.yml`) runs automat
 
 ## Security Note
 
-Tests verify that hooks ONLY extract `toolUseResult.agentId` and validate format `^[0-9a-fA-F]{8}$` to prevent false positives from UUIDs, sessionIds, or other identifiers.
+Tests verify that the `prevent_forbidden_bash` hook correctly:
+- Blocks dangerous Bash commands (find, grep, jj git push, git init, etc.)
+- Suggests safer alternatives (fd instead of find, rg instead of grep)
+- Allows legitimate operations and non-Bash tool calls
 
 ## Related Files
 
-- **Hooks**: `nix/hm/ai/claude/hooks/{session_remind,subagent_remind,get_last_agent}.py`
+- **Hooks**: `nix/hm/ai/claude/hooks/{session_remind,prevent_forbidden_bash}.py`
 - **Config**: `.claude/settings.json`
 - **Docs**: `docs/claude-hooks.md`

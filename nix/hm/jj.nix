@@ -143,13 +143,13 @@ in
         ];
         wk = [ "workspace" ];
         df = [ "diff" ];
-        df-names = [
+        diff-names = [
           "diff"
           "--ignore-working-copy"
           "--no-pager"
           "--name-only"
         ];
-        df-names-all = [
+        diff-names-all = [
           "diff"
           "--ignore-working-copy"
           "--no-pager"
@@ -158,7 +158,7 @@ in
           "trunk()"
         ];
         # file changes from trunk()
-        df-file-base = [
+        diff-file-base = [
           "diff"
           "--no-pager"
           "--git"
@@ -166,7 +166,7 @@ in
           "trunk()"
         ];
         # file changes from prev commit
-        df-file-prev = [
+        diff-file-prev = [
           "diff"
           "--no-pager"
           "--git"

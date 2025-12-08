@@ -135,7 +135,7 @@ def main():
     latest = pending[0]
 
     # Create a visible system message that displays immediately
-    system_msg = f"📋 Pending handoff detected: `{latest['name']}` (created: {latest['modified']})\nRun `/pickup {latest['name']}` to continue, or proceed with a new task."
+    system_msg = f"📋 Pending handoff: `{latest['name']}` (created: {latest['modified']})\nRun `/pickup {latest['name']}` when user confirm to pickup"
 
     if len(pending) > 1:
         system_msg += f"\n({len(pending) - 1} older handoff(s) also available)"

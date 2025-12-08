@@ -64,6 +64,6 @@ When invoked:
 **JJ repos** (has `.jj` folder):
 - List commits: `jj --no-pager log -r "trunk()::@"`
 - See diff: `jj git-diff -r <rev>`
-- Changed files: `jj df-names <rev>`
+- Changed files: `jj diff-names <rev>`
 
 Format: `snwxwxk 5164330 <user> <time> <msg>` where `snwxwxk` = change id, `5164330` = commit id
