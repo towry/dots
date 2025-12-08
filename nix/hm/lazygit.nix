@@ -181,9 +181,10 @@ in
         autoFetch = true;
         autoRefresh = true;
         fetchAll = false;
-        paging = {
-          colorArg = "always";
-          pager = "delta --paging=never";
+        pagers = {
+          commit = "delta";
+          log = "delta";
+          show = "delta";
         };
         mainBranches = [
           "master"
