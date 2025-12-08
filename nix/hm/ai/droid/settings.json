@@ -102,5 +102,83 @@
   "specSaveEnabled": true,
   "specModeModel": "claude-opus-4-5-20251101",
   "specModeReasoningEffort": "high",
-  "allowBackgroundProcesses": true
+  "allowBackgroundProcesses": true,
+  "claudeHooksImported": false,
+  "importedClaudeHooks": [
+    "uv run ~/.claude/hooks/pre_compact.py",
+    "terminal-notifier -sound default -message 'Claude Code: Awaiting your input'"
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_remind.py"
+          }
+        ]
+      },
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_start_handoff.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/handoff_interceptor.py"
+          },
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/pickup_hook.py"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Execute",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/prevent_forbidden_bash.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "SlashCommand",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/post_pickup_handler.py"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/session_save.py"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": []
+      }
+    ],
+    "Notification": []
+  }
 }

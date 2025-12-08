@@ -5,6 +5,11 @@ description: "This skill should be used when managing structured spec-driven dev
 
 # Kiro - Structured Spec-Driven Development Workflow
 
+## Output style 
+
+- No extra explanations, only respond with the requested content
+- If workflow decisions is clear, just do it, no additional confirmation, explanations or summary needed, avoid bloating the context before actual work.
+
 ## Overview
 
 Kiro is a workflow management system for structured spec-driven development that uses spec files to track progress through requirements gathering, design, and implementation phases. This skill enables Claude to manage the complete lifecycle of a kiro spec, from initial requirements to final implementation.
@@ -41,7 +46,7 @@ When user mentions kiro, follow this decision tree:
 
 Check our system prompt, if our system prompt have existing kiro dir <kiro_dir>, just load it. Otherwise, follow these steps:
 
-Run the following command to get all kiro specs:
+Ask subagent `eng` to run the following command to get all kiro specs:
 
 ```bash
 agpod kiro --json pr-list
@@ -60,6 +65,8 @@ agpod kiro --json pr-list
 
 Note, the `path` should be relatieve to the project root or is absolute path if it starts with `/`.
 
+Present the list of specs to the user and ask which one to load, or select based on user input.
+
 ### Step 2: Read the Control Board
 
 Once spec is selected, read `<spec-path>/claude.md` to understand:
@@ -68,14 +75,10 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
 - Outstanding questions and risks
 - Recent findings
 
-**Example:**
-```bash
-Read <spec-path>/claude.md
-```
-
 ## Phase 2: Requirements Gathering
 
 **When to enter this phase:**
+
 - `claude.md` shows `requirements.md: empty` or `requirements.md: draft`
 
 ### Workflow

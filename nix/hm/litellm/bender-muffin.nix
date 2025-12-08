@@ -56,25 +56,25 @@
   #     rpm = 1;
   #   };
   # }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openrouter/openai/gpt-5.1-codex-mini";
-      api_key = "os.environ/OPENROUTER_API_KEY";
-      rpm = 5;
-      max_tokens = 16000;
-      # provider = {
-      #   sort = "throughput";
-      # };
-      # reasoning = {
-      #   effort = "medium";
-      # };
-      # verbosity = "medium";
-    };
-    model_info = {
-      max_output_tokens = 16000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openrouter/openai/gpt-5.1-codex-mini";
+  #     api_key = "os.environ/OPENROUTER_API_KEY";
+  #     rpm = 5;
+  #     max_tokens = 16000;
+  #     # provider = {
+  #     #   sort = "throughput";
+  #     # };
+  #     # reasoning = {
+  #     #   effort = "medium";
+  #     # };
+  #     # verbosity = "medium";
+  #   };
+  #   model_info = {
+  #     max_output_tokens = 16000;
+  #   };
+  # }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -119,13 +119,13 @@
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
-  #     model = "openrouter/deepseek/deepseek-v3.2";
+  #     model = "openrouter/qwen/qwen3-coder";
   #     api_key = "os.environ/OPENROUTER_API_KEY";
-  #     max_tokens = 163000;
-  #     rpm = 1;
+  #     max_tokens = 262000;
+  #     rpm = 10;
   #   };
   #   model_info = {
-  #     max_output_tokens = 163000;
+  #     max_output_tokens = 262000;
   #   };
   # }
 

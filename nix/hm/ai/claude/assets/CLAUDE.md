@@ -1,9 +1,11 @@
 # Rules that matters
 
 <task_tool_usage>
-Think Primary task as `process`, and subagent as threads, use subagents to offload independent tasks that server the primary task, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
+- Think current as `process`, and subagent as threads, use subagents to offload independent task that server the `process`, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
+- If a task can be divided into multiple stages, like first code search, then code implementation analysis. Delegate each stage to subagents. Execute the stages sequentially if they have dependencies, or run them in parallel if they are independent. For example, first use sage to identify relevant code location, **then** use eng to analyze implementation details. Always make sure each subagent task focus on one specific goal.
+- **Critical**: Right subagent for right task, check the Task tool schema and use the correct subagent type for your task.
+- subagent like computer threads does not know current or parent context, so do not assume they have any context, always provide necessary context in the prompt, with explicit instructions on what to do and what the expect output is.
 
-If a task can be divided into multiple stages, like first code search, then code implementation analysis. Delegate each stage to subagents. Execute the stages sequentially if they have dependencies, or run them in parallel if they are independent. For example, first use sage to identify relevant code location, **then** use eng to analyze implementation details.
 
 
 ```
