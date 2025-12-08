@@ -369,7 +369,7 @@ let
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
         { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
-        { "bender-muffin" = [ "openrouter/anthropic/claude-haiku-4.5" ]; }
+        { "bender-muffin" = [ "opencodeai/claude-haiku-4-5" ]; }
       ];
       cache = true;
       cache_params = {
@@ -382,8 +382,8 @@ let
         socket_timeout = 20;
         socket_connect_timeout = 20;
       };
-      disable_copilot_system_to_assistant = false;
-      enable_json_schema_validation = false;
+      disable_copilot_system_to_assistant = true;
+      enable_json_schema_validation = true;
     };
     general_settings = {
       health_check_interval = 300;
@@ -448,7 +448,7 @@ let
 
     # Use the Nix-built litellm package
     # $${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
-    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.8' --with 'httpx[socks]' litellm==1.80.8 --config ${litellmConfig} "$@"
+    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.5' --with 'httpx[socks]' litellm==1.80.5 --config ${litellmConfig} "$@"
   '';
 
 in
