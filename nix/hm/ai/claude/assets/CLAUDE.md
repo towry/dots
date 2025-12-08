@@ -20,7 +20,7 @@ Task(
 </task_tool_usage>
 
 <external_research>
-What: External research refer to research from web, you need context from the web, online doc etc.
+What: External research refer to research from web, you need context from the web, online doc, github etc.
 When: You need to debug issues that related to third library, seeking answers to issue from the web like github issues or stackoverflow.
 How: Use `eng` subagent to do the external research for you.
 </external_research>
@@ -34,6 +34,7 @@ How: Use `eng` subagent to do the external research for you.
 - Task can be fully described and verified independently
 - You want code research but only need a summary back
 - Need accurate context quickly
+- You need to do external research from web or github
 
 Do it yourself when:
 

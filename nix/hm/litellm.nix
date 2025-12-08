@@ -448,7 +448,7 @@ let
 
     # Use the Nix-built litellm package
     # $${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
-    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.7' --with 'httpx[socks]' litellm==1.80.7 --config ${litellmConfig} "$@"
+    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.8' --with 'httpx[socks]' litellm==1.80.8 --config ${litellmConfig} "$@"
   '';
 
 in
