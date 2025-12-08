@@ -14,7 +14,7 @@
       model = "github_copilot/claude-haiku-4.5";
       extra_headers = copilotHeaders;
       max_tokens = 16000;
-      rpm = 3;
+      rpm = 10;
     };
     model_info = {
       max_output_tokens = 16000;
@@ -61,7 +61,7 @@
     litellm_params = {
       model = "openrouter/openai/gpt-5.1-codex-mini";
       api_key = "os.environ/OPENROUTER_API_KEY";
-      rpm = 1;
+      rpm = 5;
       max_tokens = 16000;
       # provider = {
       #   sort = "throughput";
@@ -75,20 +75,20 @@
       max_output_tokens = 16000;
     };
   }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openai/glm-4.6";
-      api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
-      api_key = pkgs.nix-priv.keys.zai.apiKey;
-      max_tokens = 131072;
-      rpm = 2;
-    };
-    model_info = {
-      max_input_tokens = 204800;
-      max_output_tokens = 131072;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openai/glm-4.6";
+  #     api_base = "https://open.bigmodel.cn/api/coding/paas/v4";
+  #     api_key = pkgs.nix-priv.keys.zai.apiKey;
+  #     max_tokens = 131072;
+  #     rpm = 2;
+  #   };
+  #   model_info = {
+  #     max_input_tokens = 204800;
+  #     max_output_tokens = 131072;
+  #   };
+  # }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -96,7 +96,7 @@
   #     api_base = "https://opencode.ai/zen/v1";
   #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
   #     max_tokens = 65536;
-  #     rpm = 3;
+  #     rpm = 5;
   #   };
   #   model_info = {
   #     max_output_tokens = 65536;
@@ -129,17 +129,17 @@
   #   };
   # }
 
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openai/grok-code";
-  #     api_base = "https://opencode.ai/zen/v1";
-  #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
-  #     max_tokens = 256000;
-  #     rpm = 10;
-  #   };
-  #   model_info = {
-  #     max_output_tokens = 256000;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openai/claude-haiku-4-5";
+      api_base = "https://opencode.ai/zen/v1";
+      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      max_tokens = 64000;
+      rpm = 2;
+    };
+    model_info = {
+      max_output_tokens = 64000;
+    };
+  }
 ]

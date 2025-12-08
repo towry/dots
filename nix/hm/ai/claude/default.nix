@@ -100,7 +100,7 @@ let
 
         system_prompt="$(printf '%s' "$context_json" | minijinja-cli -f json "$template_file" - 2>&1)"
         minijinja_exit=$?
-        rm -f "$template_file"
+        # rm -f "$template_file"
 
         if [[ $minijinja_exit -ne 0 || -z "$system_prompt" ]]; then
           echo "Error: Failed to render kiro prompt template" >&2
@@ -108,7 +108,7 @@ let
         fi
 
         # Execute claude with kiro system prompt
-        exec claude --allow-dangerously-skip-permissions --system-prompt "$system_prompt" --mcp-config "$HOME/.mcp.json" "''${args[@]}"
+        exec claude --allow-dangerously-skip-permissions --append-system-prompt "$system_prompt" --mcp-config "$HOME/.mcp.json" "''${args[@]}"
       else
         # Normal mode: just run claude with all arguments
         exec claude --allow-dangerously-skip-permissions --mcp-config "$HOME/.mcp.json" "$@"
