@@ -38,6 +38,7 @@ Context is important for any tasks, prepare concise and accurate context fast is
 - **CRITICAL**: Do NOT automatically use knowledge graph storage after research tasks without user consent and review
 
 ## How
+
 - **IMPORTANT**: Always present research findings to user FIRST for review before using knowledge graph
 - When batch query `kg`, always use `limit` and `summary` output to avoid too much irrelevant information.
 - Use `group_id` to organize information by project (e.g., `<repo_name>_TODOS`, `<repo_name>_CHAT`).
@@ -48,11 +49,11 @@ Context is important for any tasks, prepare concise and accurate context fast is
 - Always include `episode_id` in output after new episode created with kg.
 </tool_knowledge_graph_kg>
 
-<tool_code_research_preference>
+<tool_code_search_preference>
 - Prefer fast code search subagent first.
 - When search with bash, use `fd` and `rg`
 - When user says `sgrep XXX`, run `bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "XXX"` to search code semantically and fast.
-</tool_code_research_preference>
+</tool_code_search_preference>
 
 <tool_vcs_preference>
 - VCS: `jj`, read `~/.claude/skills/git-jj/references/jj_workflows.md` for usage.

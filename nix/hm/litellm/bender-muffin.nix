@@ -40,7 +40,7 @@
       api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
       api_base = "https://api.minimaxi.com/v1";
       max_tokens = 128000;
-      rpm = 8;
+      rpm = 2;
     };
     model_info = {
       max_output_tokens = 128000;
@@ -116,18 +116,18 @@
   #     max_output_tokens = 128000;
   #   };
   # }
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openrouter/qwen/qwen3-coder";
-  #     api_key = "os.environ/OPENROUTER_API_KEY";
-  #     max_tokens = 262000;
-  #     rpm = 10;
-  #   };
-  #   model_info = {
-  #     max_output_tokens = 262000;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "openrouter/minimax/minimax-m2";
+      api_key = "os.environ/OPENROUTER_API_KEY";
+      max_tokens = 262000;
+      rpm = 5;
+    };
+    model_info = {
+      max_output_tokens = 262000;
+    };
+  }
 
   {
     model_name = "bender-muffin";

@@ -29,10 +29,13 @@ let
           ;
       };
       modules = [
-        ({ ... }: {
-          # Let Determinate Nix handle Nix configuration
-          nix.enable = false;
-        })
+        (
+          { ... }:
+          {
+            # Let Determinate Nix handle Nix configuration
+            nix.enable = false;
+          }
+        )
         ./configuration.nix
         home-manager.darwinModules.home-manager
         {

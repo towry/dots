@@ -35,7 +35,7 @@ When user mentions kiro, follow this decision tree:
 
 2. **Does the user want to select/load an existing spec?**
    - Keywords: "load kiro", "check kiro", "select kiro", "which kiro"
-   - Action: If current kiro dir exist in system prompt, continue with that kiro spec. Otherwise, list available specs and prompt user to select one.
+   - Action: If current kiro dir exist in system prompt, continue with that kiro spec. Otherwise, ask `eng` subagent to provide existing specs.
 
 3. **Is the user already working on a spec?**
    - Action: Continue with the current workflow phase
@@ -260,11 +260,8 @@ Additional options:
 
 To list templates, run `agpod kiro --json list-templates`
 
-## Session Management Best Practices
 
-1. **Start every kiro session** by reading `claude.md` to understand context
-2. **Review previous decisions** before proposing new solutions
-3. **Update session notebook** in real-time as conversations progress
-4. **Ask questions early** rather than making incorrect assumptions
-5. **Keep user informed** of which phase and file you're currently working on
-6. **Validate completion** of each phase before moving to next
+## Example 
+
+user: "load kiro system spec" / "load kiro system" 
+agent: "Loading kiro skill ... I see user mention 'system', let  me ask `eng` subagent to list existing kiro specs and see if a matching 'system' spec exist ... Ok let me read this spec and check the control board for current status ... I see requirements.md is empty, so we need to gather requirements ..."

@@ -70,7 +70,7 @@ def scan_handoffs_directory(project_dir: str) -> list[dict]:
         # Skip files in handled/ subdirectory
         if "handled" in filepath.parts:
             continue
-            
+
         stat = filepath.stat()
         handoffs.append(
             {
@@ -97,7 +97,11 @@ def format_handoffs_context(handoffs: list[dict]) -> str:
     if not handoffs:
         return "No handoffs found in `.claude/handoffs/`"
 
-    lines = [f"**Available handoffs under `.claude/handoffs/`** ({len(handoffs)} files):", ""]
+    lines = [
+        "Handoff files are manually created by user",
+        f"**Available handoffs under `.claude/handoffs/`** ({len(handoffs)} files):",
+        "",
+    ]
 
     for i, handoff in enumerate(handoffs, 1):
         lines.append(f"{i}. `{handoff['name']}` — {handoff['modified']}")
@@ -119,7 +123,7 @@ def main():
     if not prompt.startswith("/pickup"):
         # Not a pickup command, allow it to proceed normally
         sys.exit(0)
-    
+
     print("Detected /pickup command, processing...", file=sys.stderr)
 
     # Get project directory (prefer CLAUDE_PROJECT_DIR env var)
@@ -128,7 +132,7 @@ def main():
     # Extract handoff filename if provided (e.g., "/pickup my-handoff.md")
     parts = prompt.split(maxsplit=1)
     handoff_arg = parts[1].strip() if len(parts) > 1 else ""
-    
+
     # If a specific handoff file is provided, mark it as handled
     if handoff_arg:
         # Clean up the argument - handle potential paths
@@ -137,25 +141,21 @@ def main():
             if mark_handoff_as_handled(project_dir, handoff_name):
                 print(f"Marked handoff as handled: {handoff_name}", file=sys.stderr)
             else:
-                print(f"Could not mark handoff as handled: {handoff_name}", file=sys.stderr)
+                print(
+                    f"Could not mark handoff as handled: {handoff_name}",
+                    file=sys.stderr,
+                )
 
     # Scan handoffs directory for remaining handoffs
     handoffs = scan_handoffs_directory(project_dir)
 
     if not handoffs and not handoff_arg:
-        # No handoffs found and none specified
-        output = {
-            "hookSpecificOutput": {
-                "hookEventName": "UserPromptSubmit",
-                "additionalContext": "No handoff files found in `.claude/handoffs/`",
-            }
-        }
-        print(json.dumps(output))
+        # just exit
         sys.exit(0)
 
     # Format list of available handoffs
     context = format_handoffs_context(handoffs) if handoffs else ""
-    
+
     # Print to stderr for debugging/logging purposes only
     if context:
         print(context, file=sys.stderr)

@@ -26,7 +26,6 @@ Return code 2 blocks execution; 0 allows.
 """
 from __future__ import annotations
 
-import argparse
 import json
 import re
 import shlex
@@ -165,54 +164,22 @@ def check_forbidden_bash_commands(tool_name: str, tool_input: dict):
     return None
 
 
-def generate_help_message(forbidden_command: dict, original_command: str):
-    """Generate helpful message about the blocked command."""
+def get_decision_and_reason(forbidden_command: dict, original_command: str):
+    """Return decision type and reason based on command type."""
     name = forbidden_command["name"]
     alt = forbidden_command["alternative"]
 
-    message = [
-        f"🚫 Command blocked: 'Bash({name})' detected",
-        "",
-        f"💡 Use '{alt}' instead - a better, faster alternative" if alt in ("fd", "rg") else f"💡 '{name}' requires manual user confirmation (use suggested phrasing)",
-        "",
-        f"❌ You tried: Bash({original_command})" if len(original_command) < 80 else f"❌ You tried: Bash({original_command[:77]}...)",
-        f"✅ Better: {alt} [options] [pattern]" if alt in ("fd", "rg") else "✅ Ask the user to perform this operation manually.",
-        "",
-        f"📚 Examples with {alt}:",
-    ]
-
-    for example in forbidden_command["examples"]:
-        message.append(f"   {example}")
-
-    message.extend([
-        "",
-        f"💡 To continue, replace your top-level Bash({name}) invocation (or ask the user) accordingly.",
-    ])
-
-    if alt in ["fd", "rg"]:
-        message.extend([
-            "",
-            f"📖 Common {alt} options:",
-            "   fd: --hidden, --no-ignore, -e [ext], -d [depth], -i",
-            "   rg: -t[type], --glob, -C [lines], -i, --no-ignore",
-        ])
-
-    return "\n".join(message)
+    if alt in ("fd", "rg"):
+        # Policy enforcement: deny and suggest alternative
+        return "deny", f"Use '{alt}' instead of '{name}'"
+    else:
+        # Manual confirmation required: ask user
+        return "ask", f"Confirm: {name}"
 
 
 def main():
     """Main PreToolUse hook function."""
     try:
-        parser = argparse.ArgumentParser(
-            description="PreToolUse hook to block forbidden Bash commands"
-        )
-        parser.add_argument(
-            "--verbose",
-            action="store_true",
-            help="Print detailed information about why command was blocked",
-        )
-        args = parser.parse_args()
-
         raw_input = sys.stdin.read()
         if not raw_input:
             sys.exit(0)
@@ -229,26 +196,23 @@ def main():
 
         if forbidden:
             command = tool_input.get("command", "")
-            help_message = generate_help_message(forbidden, command)
-
-            print("\n" + "=" * 80, file=sys.stderr)
-            print(help_message, file=sys.stderr)
-            print("=" * 80 + "\n", file=sys.stderr)
-
-            if args.verbose:
-                print(f"[DEBUG] Tool: {tool_name}", file=sys.stderr)
-                print(f"[DEBUG] Command: {command}", file=sys.stderr)
-                print(f"[DEBUG] Matched sequence: {' '.join(forbidden['sequence'])}", file=sys.stderr)
-                print(f"[DEBUG] Suggested alternative: {forbidden['alternative']}\n", file=sys.stderr)
-
-            sys.exit(2)  # Block execution
+            decision, reason = get_decision_and_reason(forbidden, command)
+            
+            # Return standard PreToolUse decision control schema
+            output = {
+                "hookSpecificOutput": {
+                    "hookEventName": "PreToolUse",
+                    "permissionDecision": decision,
+                    "permissionDecisionReason": reason,
+                }
+            }
+            print(json.dumps(output))
+            sys.exit(0)
 
         sys.exit(0)  # Allow execution
 
     except Exception as e:
-        if "args" in locals() and getattr(args, "verbose", False):
-            print(f"Hook error (allowing execution): {e}", file=sys.stderr)
-        sys.exit(0)
+        sys.exit(0)  # Fail open on errors
 
 
 if __name__ == "__main__":

@@ -4,7 +4,6 @@
     "theme": "dark-daltonized",
     "allow": [
       "Skill",
-      "Skill(git-jj)",
       "SlashCommand(/pickup:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
@@ -18,6 +17,7 @@
       "Bash(git rev-parse:*)",
       "Bash(ls:*)",
       "Bash(fd:*)",
+      "Bash(wc:*)",
       "Bash(ast-grep:*)",
       "Bash(curl:*)",
       "Bash(date:*)",

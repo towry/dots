@@ -54,7 +54,7 @@ in
       recursive = true;
     };
 
-    "factory/skills" = {
+    ".factory/skills" = {
       source = ../../../../conf/claude-local-marketplace/skills;
       recursive = true;
     };

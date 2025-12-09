@@ -369,6 +369,7 @@ let
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
         { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
+        { "openai/minimax-m2" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "bender-muffin" = [ "opencodeai/claude-haiku-4-5" ]; }
       ];
       cache = true;
