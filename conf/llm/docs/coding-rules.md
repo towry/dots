@@ -56,6 +56,7 @@ Context is important for any tasks, prepare concise and accurate context fast is
 </tool_code_search_preference>
 
 <tool_vcs_preference>
+- Before run any git write operation like commit and push, always run 'git status'. If git status shows detached head state, it means this repo use jj, load git-jj skill.
 - VCS: `jj`, read `~/.claude/skills/git-jj/references/jj_workflows.md` for usage.
 - Only run git commit commands after user confirm the changes is ok.
 - Before git commit and git add, check current branch, prevent accidental commit to main/staging branch.

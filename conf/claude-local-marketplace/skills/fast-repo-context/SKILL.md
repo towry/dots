@@ -8,6 +8,13 @@ description: "Use when: exploring code, search code snippets, finding implementa
 - Use `rg` to grep file content, use `fd` to find files.
 - Run `bunx repomix ./` will generate `repomix-output.xml` file in repo root contains codebase index, you can use grep to search in it quickly.
 
+## General Workflow
+
+1. Use `bunx repomix ./` to generate the index file.
+2. Use `rg <pattern> repomix-output.xml -m 3` to narrow down search scope.
+3. Use cat and head to check related files and code snippet.
+4. Use `fd` if you want to search files.
+
 ## Examples
 
 **Find files by name:**
@@ -59,8 +66,9 @@ rg "TODO" --glob "nix/**" --glob "!**/*test*"
 ```bash
 bunx repomix ./
 
-rg "search term" repomix-output.xml | head -20
-rg "search term" repomix-output.xml | tail -10
+# use -m 3 to limit match lines in per-file
+rg "search term" repomix-output.xml -m 3 | head -20
+rg "search term" repomix-output.xml -m 3 | tail -10
 ```
 
 Once you get the concrete file paths or code snippets, you can use `rg` or `fd` again to further narrow down or explore related code.
