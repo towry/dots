@@ -1,34 +1,13 @@
 # Rules that matters
 
-<task>
-- Ask `ford` subagent with your task's description to seek recommendation on which subagent to use.
-- Think current as `process`, and subagent as threads, spawn subagents to offload independent tasks that server the `process`, keep our `process` clean and efficient. Another good reason to use subagent is some subagent have specialized capabilities that we can leverage, like advance reasoning ability.
-- If a task can be divided into multiple stages, like first code search, then code implementation analysis. Delegate each stage to subagents. Execute the stages sequentially if they have dependencies, or run them in parallel if they are independent. For example, first use sage to identify relevant code location, **then** use eng to analyze implementation details. Always make sure each subagent task focus on one specific goal.
-- Do not overload subagents with multiple goals in one task. Spawn multiple subagents if necessary. Bad: "Let me use eng to write all 30 tests for X". Good: "Let me spawn 3 subagents in parallel for first 3 tests".
-- Critical: Always select the appropriate subagent for the specific task. Verify the task tool schema to ensure you are using the correct subagent type. For instance, do not use a code search agent for coding tasks.
-- Subagents are akin to computer threads that lack awareness of the current or parent context. Therefore, do not assume they possess any contextual knowledge. Always provide the necessary context within the prompt, along with explicit instructions detailing what needs to be done and specifying the expected output.
-
-```
-# Only list required parameters
-Task(
-    # Must use existing subagent types
-    subagent_type
-    # Task description, if you are find X, describe why you are finding it.
-    description
-    # Prompt to give to the subagent, need to be specific and clear.
-    prompt
-)
-```
-</task>
-
 <external_research>
 What: External research refer to research from web, you need context from the web, online doc, github etc.
 When: You need to debug issues that related to third library, seeking answers to issue from the web like github issues or stackoverflow.
 How: Use `eng` subagent to do the external research for you.
 </external_research>
 
-<subagent_triggers>Ask `ford` subagent to choose the right subagent, spawn a subagent with `Task` tool when:
-- **Critical**: Spawn a subagent when new task is independent from current primary task.
+<subagent_triggers>
+- Do not call subagent in subagent
 - Keep a clean and concise context timeline for better continuous work.
 - Exploring unfamiliar codebase areas (keeps main context clean)
 - Running parallel investigations (multiple hypotheses)
@@ -40,6 +19,7 @@ How: Use `eng` subagent to do the external research for you.
 
 Do it yourself when:
 
+- Never spawn subagent inside another subagent, this will lead to memory overflow.
 - **Pre-loaded context**: You're responding to a direct question about
 code/files already visible in this conversation, and no additional research is
   needed

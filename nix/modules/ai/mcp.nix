@@ -223,7 +223,7 @@ rec {
     amp = mapWithClientMk clientMk.amp (
       pick mcpServers [
         "kg"
-        "debug_webpage"
+        "chromedev"
         "github"
         "exa"
         "sequentialthinking"
