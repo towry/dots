@@ -110,7 +110,7 @@ rec {
       type = "local";
       command = "bunx";
       args = [
-        "mcp-mermaid"
+        "@rtuin/mcp-mermaid-validator@latest"
       ];
     };
 
@@ -157,7 +157,7 @@ rec {
       ];
     };
 
-    codex_chromedev = {
+    debug_webpage = {
       type = "local";
       command = "codex-ai";
       args = [
@@ -193,11 +193,12 @@ rec {
     claude = mapWithClientMk clientMk.claude (
       (pick mcpServers [
         "kg"
+        "mermaid"
         # "chromedev"
         "github"
         "exa"
         "mastergo"
-        "codex_chromedev"
+        "debug_webpage"
       ])
     );
     forge = mapWithClientMk clientMk.forge (
@@ -227,6 +228,7 @@ rec {
         "exa"
         "sequentialthinking"
         "mastergo"
+        "mermaid"
       ]
     );
   };

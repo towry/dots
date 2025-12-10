@@ -17,6 +17,13 @@ import sys
 import subprocess
 from pathlib import Path
 
+# Configuration constants
+MAX_MESSAGES = 30
+MAX_MESSAGE_LEN = 500
+MAX_CONVERSATION_CHARS = 8000
+RECENT_PROTECT_COUNT = 8
+HANDOFF_MODEL = "openrouter/qwen/qwen3-coder"
+
 
 def extract_todos(transcript_path: str) -> list[dict]:
     """Extract current todo list from transcript JSONL file.
@@ -50,8 +57,184 @@ def extract_todos(transcript_path: str) -> list[dict]:
     return latest_todos
 
 
+def is_low_value_chatter(text: str, role: str) -> bool:
+    """Check if message is low-value filler/chatter."""
+    t = text.lower().strip()
+
+    if len(t) < 40:
+        filler_phrases = [
+            "got it",
+            "sounds good",
+            "ok",
+            "okay",
+            "let me",
+            "i'll",
+            "i will",
+            "now i'll",
+            "now i will",
+            "starting with",
+            "i'm going to",
+            "let's start by",
+        ]
+        if any(p in t for p in filler_phrases):
+            return True
+
+    meta_phrases = [
+        "let me check",
+        "let me see",
+        "i'll check",
+        "i will check",
+        "i'll start by",
+        "now let me",
+        "let me load",
+        "loading the",
+        "running the",
+    ]
+    if len(t) < 140 and any(p in t for p in meta_phrases):
+        return True
+
+    return False
+
+
+def looks_like_doc_dump(text: str) -> bool:
+    """Check if message is a generic documentation dump."""
+    t = text.lower()
+    if len(t) > 400:
+        heading_patterns = ("\n## ", "\n### ", "\n- ", "\n* ")
+        heading_count = sum(1 for h in heading_patterns if h in text)
+        if heading_count >= 2:
+            return True
+        if ("this skill" in t or "overview" in t) and "##" in text:
+            return True
+    return False
+
+
+def is_decision_or_summary(text: str) -> bool:
+    """Check if message contains decision, summary, or plan content."""
+    t = text.lower()
+    keywords = [
+        "decision",
+        "we decided",
+        "we chose",
+        "we'll",
+        "summary",
+        "recap",
+        "overview of",
+        "next steps",
+        "todo",
+        "to-do",
+        "pending tasks",
+        "completed",
+        "implemented",
+        "fixed",
+        "resolved",
+        "the plan is",
+        "we will do",
+    ]
+    return any(k in t for k in keywords)
+
+
+def is_user_intent_or_question(text: str, role: str) -> bool:
+    """Check if message is user intent/question."""
+    if role != "user":
+        return False
+    t = text.lower()
+    intent_keywords = [
+        "need to",
+        "i want to",
+        "please",
+        "can you",
+        "how do i",
+        "we are going to",
+        "so we need",
+        "the purpose is",
+    ]
+    return "?" in text or any(k in t for k in intent_keywords)
+
+
+def filter_messages_for_handoff(
+    messages: list[dict],
+    max_total_chars: int = MAX_CONVERSATION_CHARS,
+    recent_protect_count: int = RECENT_PROTECT_COUNT,
+) -> list[dict]:
+    """Filter messages to remove noise and enforce character budget.
+
+    Args:
+        messages: List of message dicts with 'role' and 'content'
+        max_total_chars: Maximum total character budget for conversation
+        recent_protect_count: Number of recent messages to always protect
+
+    Returns:
+        Filtered list of messages
+    """
+    if not messages:
+        return messages
+
+    # Find first user message (session intent)
+    first_user_idx = next(
+        (i for i, m in enumerate(messages) if m["role"] == "user"),
+        None,
+    )
+
+    # First pass: remove obvious low-value messages
+    annotated = []
+    for i, msg in enumerate(messages):
+        text, role = msg["content"], msg["role"]
+
+        # Mark protected messages
+        protected = (
+            (i == first_user_idx and first_user_idx is not None)
+            or is_decision_or_summary(text)
+            or is_user_intent_or_question(text, role)
+        )
+
+        # Mark low-value messages
+        low_value = (not protected) and (
+            is_low_value_chatter(text, role) or looks_like_doc_dump(text)
+        )
+
+        if low_value:
+            continue  # drop this message
+
+        annotated.append({"index": i, "msg": msg, "protected": protected})
+
+    # Second pass: enforce character budget
+    total_chars = sum(len(a["msg"]["content"]) for a in annotated)
+
+    if total_chars <= max_total_chars:
+        # Already under budget, return in original order
+        annotated.sort(key=lambda a: a["index"])
+        return [a["msg"] for a in annotated]
+
+    # Over budget: protect tail and drop oldest non-protected first
+    tail_start_idx = max(0, len(annotated) - recent_protect_count)
+
+    i = 0
+    while total_chars > max_total_chars and i < tail_start_idx:
+        a = annotated[i]
+        if not a["protected"]:
+            total_chars -= len(a["msg"]["content"])
+            annotated.pop(i)
+            tail_start_idx -= 1
+            continue
+        i += 1
+
+    # If still over budget, drop protected messages from head (but not tail)
+    while total_chars > max_total_chars and len(annotated) > recent_protect_count:
+        a = annotated[0]
+        total_chars -= len(a["msg"]["content"])
+        annotated.pop(0)
+        tail_start_idx -= 1
+
+    # Sort back to original order
+    annotated.sort(key=lambda a: a["index"])
+    return [a["msg"] for a in annotated]
+
+
 def extract_messages(
-    transcript_path: str, max_messages: int = 30, max_content_len: int = 500
+    transcript_path: str,
+    max_messages: int = MAX_MESSAGES,
+    max_content_len: int = MAX_MESSAGE_LEN,
 ) -> list[dict]:
     """Extract user and assistant messages from transcript JSONL file.
 
@@ -245,9 +428,14 @@ def generate_handoff_summary(
 
     Returns:
         Generated summary text
+
+    Raises:
+        subprocess.TimeoutExpired: If claude command times out
+        FileNotFoundError: If claude command is not found
+        Exception: If command execution fails
     """
     if not messages:
-        return "No conversation history available for handoff."
+        raise ValueError("No conversation history available for handoff.")
 
     from pathlib import Path
 
@@ -269,59 +457,54 @@ The following is the EXACT todo list from the session. Include ALL items in your
 """
 
     # Create prompt for summarization
-    prompt = f"""You are creating a handoff summary for a coding session in project directory: `{absolute_project_dir}`
+    prompt = f"""You are creating a **handoff document** to transfer context from a completed session to the next session in project directory: `{absolute_project_dir}`
 
-Analyze this conversation and create a comprehensive handoff document that includes:
+This is NOT a summary of what's currently happening - it's documentation of what was COMPLETED and what still needs work.
 
-1. **Session Overview**: What was being worked on?
-2. **Key Decisions**: Important technical decisions made
-3. **Work Completed**: What was successfully implemented
-4. **Pending Tasks**: What remains to be done
-5. **Todo List**: List ALL todo items below in the "Current Todo List" section - copy them EXACTLY as shown, preserving markers (☑/▶/☐) and text verbatim
-6. **Context for Next Session**: Critical information the next person needs to know
+Analyze this conversation and create a comprehensive handoff document with these sections:
+
+1. **Previous Session Overview**: Brief summary of what was worked on and accomplished
+2. **Key Decisions Made**: Important technical decisions that were made and why
+3. **Work Completed**: What was successfully implemented in this session
+4. **Current Blockers/Issues**: Any unresolved problems or blocking issues
+5. **Next Steps (TODO)**: What needs to be done next (also listed verbatim below)
+6. **Context for Next Session**: Critical information the next person MUST know to resume
 7. **Files Modified**: Key files that were changed (if mentioned) - use absolute paths relative to `{absolute_project_dir}`
-8. **Claude skills**: List skills that used in this session, those skills might need to be load in next session with the handoff file, include the skills in the next action section, for example: "Load the following skills with Skill tool:"
+8. **Claude Skills Required**: List skills that were used or are needed for continuing work, include in "How to Resume" section
 
 Be concise but thorough. Format the output in markdown.
-CRITICAL: The "Current Todo List" section below contains the EXACT todo items. You MUST copy them verbatim - do NOT paraphrase or summarize.
+
+CRITICAL: The "Current Todo List" section contains the EXACT todo items from this session. You MUST copy them verbatim with markers (☑/▶/☐) - do NOT paraphrase or summarize.
 {todos_section}
-# Conversation:
+# Previous Session Conversation:
 
 {conversation}
 
-# Handoff Summary:"""
+# Handoff Document:"""
 
-    try:
-        # Call claude in print mode for non-interactive summarization
-        # Set cwd to project directory so Claude has correct context
-        result = subprocess.run(
-            [
-                "claude",
-                "--model",
-                "opencodeai/big-pickle",
-                "--allowedTools",
-                "Write,Read,Bash(mkdir:*),Bash(touch:*),Bash(ls:*)",
-                "-p",
-                prompt,
-            ],
-            cwd=project_dir,
-            capture_output=True,
-            text=True,
-            timeout=60,
-        )
+    # Call claude in print mode for non-interactive summarization
+    # Set cwd to project directory so Claude has correct context
+    result = subprocess.run(
+        [
+            "claude",
+            "--model",
+            HANDOFF_MODEL,
+            "--allowedTools",
+            "Write,Read,Bash(mkdir:*),Bash(touch:*),Bash(ls:*)",
+            "-p",
+            prompt,
+        ],
+        cwd=project_dir,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
 
-        if result.returncode == 0:
-            return result.stdout.strip()
-        else:
-            error_msg = result.stderr.strip() if result.stderr else "Unknown error"
-            return f"Error generating summary: {error_msg}"
-
-    except subprocess.TimeoutExpired:
-        return "Error: Summary generation timed out after 60 seconds"
-    except FileNotFoundError:
-        return "Error: 'claude' command not found. Is Claude CLI installed?"
-    except Exception as e:
-        return f"Error calling claude: {str(e)}"
+    if result.returncode == 0:
+        return result.stdout.strip()
+    else:
+        error_msg = result.stderr.strip() if result.stderr else "Unknown error"
+        raise RuntimeError(f"Claude command failed: {error_msg}")
 
 
 def copy_to_clipboard(text: str) -> bool:
@@ -416,6 +599,8 @@ def main():
 
     # Extract messages and todos from transcript
     messages = extract_messages(transcript_path)
+    # Filter messages to remove noise and enforce character budget
+    messages = filter_messages_for_handoff(messages)
     todos = extract_todos(transcript_path)
 
     if not messages:
@@ -432,7 +617,14 @@ def main():
     project_dir = input_data.get("cwd", ".")
 
     # Generate handoff summary with correct project directory context and todos
-    summary = generate_handoff_summary(messages, project_dir, todos)
+    try:
+        summary = generate_handoff_summary(messages, project_dir, todos)
+    except subprocess.TimeoutExpired:
+        print("Error: Summary generation timed out after 60 seconds", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error generating summary: {str(e)}", file=sys.stderr)
+        sys.exit(1)
 
     # Save handoff to file
     try:

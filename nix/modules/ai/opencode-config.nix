@@ -61,7 +61,7 @@
             "git reflog" = "allow";
             "git status" = "allow";
             "jj git-diff" = "allow";
-            "jj df-names" = "allow";
+            "jj diff-names" = "allow";
             "jj show" = "allow";
             "jj file" = "allow";
             "jj operation log" = "allow";
@@ -356,7 +356,7 @@
         "git log" = "allow";
         "jj log" = "allow";
         "jj git-diff" = "allow";
-        "jj df-names" = "allow";
+        "jj diff-names" = "allow";
         "jj diff" = "allow";
         "jj show" = "allow";
         "jj file" = "allow";

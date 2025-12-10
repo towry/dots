@@ -72,7 +72,7 @@ in
       model_verbosity = "low"
 
       [profiles.chromedev]
-      model = "openai/gpt-5.1-codex-mini"
+      model = "google/gemini-2.5-flash"
       model_provider = "openrouter"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/chromedev.md"

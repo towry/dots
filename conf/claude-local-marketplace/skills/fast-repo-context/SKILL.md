@@ -1,84 +1,74 @@
 ---
 name: fast-repo-context
-description: "Semantic code search using sgrep. Use when: exploring code, search code snippets, finding implementations by intent, understanding how features work. Triggers(semantic or similar meaning): [fast context], [search code], [find where], [how does X work], [understand codebase], [research codebase], [find X], [locate X], [code search], [grep code], [where is], [let me search]."
+description: "Use when: exploring code, search code snippets, finding implementations by intent, understanding how features work. Triggers: [fast context], [search code], [find where], [how does X work], [understand codebase], [research codebase], [find X], [locate X], [code search], [grep code], [where is], [let me search]."
 ---
 
-# Fast Repo Context
+## bash tools
 
-Semantic grep (`sgrep script`) for code search with natural language queries. Note: it only give code snippets/what/where, not how or code explanations, so your query need to be focus on what/where.
+- Use `rg` to grep file content, use `fd` to find files.
+- Run `bunx repomix ./` will generate `repomix-output.xml` file in repo root contains codebase index, you can use grep to search in it quickly.
 
-## Tool
+## General Workflow
 
-```bash
-bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "<natural language query>"
-```
-
-**Safety:** Script checks if current directory is a git repo before running to prevent accidental indexing of large/wrong directories.
-
-**Options:**
-- `--json` - Structured JSON output (recommended for agents)
-- `-n, --limit <N>` - Max results (default: 10)
-- `-c, --context` - Show extra context around matches
-- `--glob <GLOB>` - Restrict to file patterns (repeatable)
-- `--filters <FILTERS>` - Filter by metadata (e.g., `lang=rust`)
-
-## When to Use
-
-- Exploring unfamiliar codebases
-- Finding code by intent/behavior (not just keywords)
-- Understanding how features are implemented
-- Locating related code across files
-- Find something in another project/repo on disk
-
-## Workflow
-
-1. **Use sgrep script** for semantic search, quit using it after tried 2 times without accurate result, use `--limit 3` to limit the results.
-2. **Read specific files** from results for details
-3. **(Optional)** Query `kg` from our knowledge graph for additional context
+1. Use `bunx repomix ./` to generate the index file.
+2. Use `rg <pattern> repomix-output.xml -m 3` to narrow down search scope.
+3. Use cat and head to check related files and code snippet.
+4. Use `fd` if you want to search files.
 
 ## Examples
 
-### Find authentication logic
+**Find files by name:**
+
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "user login and session management"
+# .nix files
+fd -e nix
+# .tsx files
+fd -e tsx
+# Files named "config" in src/
+fd "config" src/
+# .nix files with "config" in name
+fd -e nix "config"
+# .nix files with "config" in name in nix/ directory
+fd -e nix "config" nix/
+# Exclude pattern
+fd -e nix "config" --exclude "node_modules"
+# Exclude multiple patterns
+fd -e nix "config" --exclude "*.test.nix" --exclude "ai"
 ```
 
-### Find in another project/repo
+**Search file content:**
 
-Use bash `exa --tree -D -L 2 ~/workspace` to get all projects in ~/workspace.
-
-```
-cd another-dir-abs-path && ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "file upload handling that use api foo/bar"
-```
-
-### Find error handling patterns
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "how errors are caught and reported to users"
+# Exact phrase
+rg "function handleClick"
+# Regex pattern
+rg "export.*useHook"
+# Show 2 lines after match
+rg -A 2 "TODO"
+# In .nix files with pattern match
+rg -t nix "export"
+# In .tsx files with pattern match
+rg -t tsx "TODO"
+# Fixed string search (literal, not regex)
+rg -F "TODO:"
+# Search with glob pattern
+rg "export" --glob "*.nix"
+# Search in specific directory with glob
+rg "TODO" --glob "conf/**"
+# Exclude pattern with !
+rg "TODO" --glob "!node_modules"
+# Include directory, exclude files matching pattern
+rg "TODO" --glob "nix/**" --glob "!**/*test*"
 ```
 
-### Find API endpoints
+**Search in repomix index:**
+
 ```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "REST endpoints for user profile operations"
+bunx repomix ./
+
+# use -m 3 to limit match lines in per-file
+rg "search term" repomix-output.xml -m 3 | head -20
+rg "search term" repomix-output.xml -m 3 | tail -10
 ```
 
-### Find database queries
-```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "queries that fetch user data with pagination"
-```
-
-### Find React hooks usage
-```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --limit 3 --json "custom hooks for form validation"
-```
-
-### With filters
-```bash
-~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json --glob "*.ts" --limit 5 "error handling middleware"
-```
-
-## Tips
-
-- **Be descriptive**: "function that validates email format" > "email validation"
-- **Describe intent**: "code that prevents duplicate submissions" > "debounce"
-- **Ask questions**: "where is the shopping cart total calculated?"
-- **Critical**: The query must be in English, other languages are not supported.
+Once you get the concrete file paths or code snippets, you can use `rg` or `fd` again to further narrow down or explore related code.

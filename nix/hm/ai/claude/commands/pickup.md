@@ -1,4 +1,7 @@
-Resumes work from a previous handoff session which are stored in `.claude/handoffs`.
+<pickup>
+This is one-time command to pickup from handoff doc.
+
+Continue work from a previous handoff session which are stored in `.claude/handoffs`, the handoff are last session's conversation and context saved as a file, current session's work might be continued from there or not, you should think it as a reference.
 
 The handoff folder might not exist if there are none.
 
@@ -10,9 +13,10 @@ Note, the user may misspell the handoff file, you just choose the right one, nev
 
 ### 1. Check handoff file
 
-The handoff files is located in `<project-dir>/.claude/handoffs/`. If no handoff file was provided, and no list of handoffs in the chat, then list them all use bash. Eg:
+The handoff files is located in `<project-dir>/.claude/handoffs/`. If no handoff files was provided, and no list of handoffs in the system prompt, then list them all use bash. Eg:
 
-```
+```bash
 ls .claude/handoffs
 ```
+</pickup>
 

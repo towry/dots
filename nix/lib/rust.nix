@@ -1,4 +1,4 @@
-{ ... }@inputs:
+{ system, ... }:
 let
   supportedPlatforms = {
     aarch64-darwin = {
@@ -18,5 +18,5 @@ in
 {
   inherit supportedPlatforms;
   currentPlatform =
-    if builtins.hasAttr "system" inputs then supportedPlatforms.${inputs.system} else { };
+    if builtins.hasAttr system supportedPlatforms then supportedPlatforms.${system} else { };
 }

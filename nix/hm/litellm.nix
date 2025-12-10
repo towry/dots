@@ -42,6 +42,29 @@ let
         "deepseek-reasoner"
       ];
 
+  mistralModels =
+    builtins.map
+      (
+        model:
+        let
+          alias = "mistral/${model}";
+          maxInputTokens = getMaxInputTokens "mistral/${model}";
+          maxOutputTokens = getMaxOutputTokens "mistral/${model}";
+        in
+        {
+          model_name = alias;
+          litellm_params = {
+            model = alias;
+            api_key = "os.environ/MISTRAL_API_KEY";
+            max_tokens = maxOutputTokens;
+          };
+        }
+      )
+      [
+        "codestral-2508"
+        "devstral-2512"
+      ];
+
   # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2880898
   # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2840914
   aliCnModels =
@@ -72,6 +95,22 @@ let
       ];
 
   openrouterModels = [
+    {
+      model_name = "openrouter/mistral-large-2512";
+      litellm_params = {
+        model = "openrouter/mistralai/mistral-large-2512";
+        api_key = "os.environ/OPENROUTER_API_KEY";
+        max_tokens = 252000;
+      };
+    }
+    {
+      model_name = "openrouter/devstral-2512";
+      litellm_params = {
+        model = "openrouter/mistralai/devstral-2512:free";
+        api_key = "os.environ/OPENROUTER_API_KEY";
+        max_tokens = 252000;
+      };
+    }
     {
       model_name = "openrouter/*";
       litellm_params = {
@@ -216,11 +255,15 @@ let
         "gpt-5"
         "gpt-5.1"
         "gpt-5.1-codex"
+        "gpt-5.1-codex-max"
+        "gpt-5-nano"
         "claude-sonnet-4-5"
         "claude-haiku-4-5"
+        "claude-3-5-haiku"
         "gemini-3-pro"
         "qwen3-coder"
         "kimi-k2"
+        "kimi-k2-thinking"
         "big-pickle"
         "grok-code"
       ];
@@ -332,6 +375,7 @@ let
 
   modelList =
     deepseekModels
+    ++ mistralModels
     ++ googleModels
     ++ githubModels
     ++ copilotGpt5Model
@@ -369,7 +413,8 @@ let
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
         { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
-        { "bender-muffin" = [ "openrouter/anthropic/claude-haiku-4.5" ]; }
+        { "openai/minimax-m2" = [ "opencodeai/claude-haiku-4-5" ]; }
+        { "bender-muffin" = [ "opencodeai/claude-haiku-4-5" ]; }
       ];
       cache = true;
       cache_params = {
@@ -382,8 +427,8 @@ let
         socket_timeout = 20;
         socket_connect_timeout = 20;
       };
-      disable_copilot_system_to_assistant = false;
-      enable_json_schema_validation = false;
+      disable_copilot_system_to_assistant = true;
+      enable_json_schema_validation = true;
     };
     general_settings = {
       health_check_interval = 300;
@@ -448,7 +493,7 @@ let
 
     # Use the Nix-built litellm package
     # $${pkgs.litellm-proxy}/bin/litellm --config ${config.home.homeDirectory}/.config/litellm/config.yaml "$@"
-    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.7' --with 'httpx[socks]' litellm==1.80.7 --config ${litellmConfig} "$@"
+    ${pkgs.uv}/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.9' --with 'httpx[socks]' litellm==1.80.9 --config ${litellmConfig} "$@"
   '';
 
 in

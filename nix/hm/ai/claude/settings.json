@@ -4,7 +4,6 @@
     "theme": "dark-daltonized",
     "allow": [
       "Skill",
-      "Skill(git-jj)",
       "SlashCommand(/pickup:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
@@ -18,11 +17,20 @@
       "Bash(git rev-parse:*)",
       "Bash(ls:*)",
       "Bash(fd:*)",
+      "Bash(gh pr-review:*)",
+      "Bash(bash ~/.claude/skills/pr-review/scripts/get-owner-repo.sh)",
+      "Bash(wc:*)",
       "Bash(ast-grep:*)",
       "Bash(curl:*)",
+      "Bash(date:*)",
       "Bash(cd:*)",
       "Bash(pwd:*)",
       "Bash(rg:*)",
+      "Bash(xargs rg:*)",
+      "Bash(xargs fd:*)",
+      "Bash(xargs grep:*)",
+      "Bash(xargs head:*)",
+      "Bash(xargs tail:*)",
       "Read(/tmp/**)",
       "Bash(tail:*)",
       "Bash(cd ~/workspace/llm/research/ && sgrep index)",
@@ -47,11 +55,11 @@
       "Bash(jj next:*)",
       "Bash(jj workspace list:*)",
       "Bash(jj workspace root:*)",
-      "Bash(jj df-names:*)",
-      "Bash(jj df-names-all:*)",
-      "Bash(jj df-file-base:*)",
+      "Bash(jj diff-names:*)",
+      "Bash(jj diff-names-all:*)",
+      "Bash(jj diff-file-base:*)",
       "Bash(jj blame:*)",
-      "Bash(jj df-file-prev:*)",
+      "Bash(jj diff-file-prev:*)",
       "Bash(jj operation log:*)",
       "Bash(jj operation show:*)",
       "Bash(jj git-diff:*)",
@@ -68,6 +76,7 @@
       "Bash(mkdir:*)",
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
+      "mcp__mermaid__validateMermaid",
       "mcp__exa__web_search_exa",
       "mcp__exa__crawling_exa",
       "mcp__exa__get_code_context_exa",
@@ -103,7 +112,7 @@
       "mcp__github__enable_toolset",
       "mcp__github__search_code",
       "mcp__codex_smart__codex",
-      "mcp__codex_chromedev__codex",
+      "mcp__debug_webpage__codex",
       "mcp__kg__query_graph",
       "mcp__kg__inspect_graph",
       "mcp__sequentialthinking__sequentialthinking"
@@ -145,7 +154,7 @@
       "Read(**/private_keys.md)",
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)",
-      "mcp__codex_chromedev__codex-reply"
+      "mcp__debug_webpage__codex-reply"
     ],
     "additionalDirectories": [
       "/Users/towry/workspace",
@@ -196,25 +205,10 @@
         ]
       }
     ],
-    "SubagentStop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run ~/.claude/hooks/subagent_remind.py"
-          }
-        ]
-      }
-    ],
     "UserPromptSubmit": [
       {
         "matcher": "",
         "hooks": [
-          {
-            "type": "command",
-            "command": "uv run ~/.claude/hooks/get_last_agent.py"
-          },
           {
             "type": "command",
             "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/handoff_interceptor.py"

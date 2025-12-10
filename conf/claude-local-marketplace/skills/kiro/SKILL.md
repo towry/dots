@@ -5,6 +5,11 @@ description: "This skill should be used when managing structured spec-driven dev
 
 # Kiro - Structured Spec-Driven Development Workflow
 
+## Output style 
+
+- No extra explanations, only respond with the requested content
+- If workflow decisions is clear, just do it, no additional confirmation, explanations or summary needed, avoid bloating the context before actual work.
+
 ## Overview
 
 Kiro is a workflow management system for structured spec-driven development that uses spec files to track progress through requirements gathering, design, and implementation phases. This skill enables Claude to manage the complete lifecycle of a kiro spec, from initial requirements to final implementation.
@@ -30,16 +35,18 @@ When user mentions kiro, follow this decision tree:
 
 2. **Does the user want to select/load an existing spec?**
    - Keywords: "load kiro", "check kiro", "select kiro", "which kiro"
-   - Action: List specs and help user select one
+   - Action: If current kiro dir exist in system prompt, continue with that kiro spec. Otherwise, ask `eng` subagent to provide existing specs.
 
 3. **Is the user already working on a spec?**
    - Action: Continue with the current workflow phase
 
 ## Phase 1: Loading a Kiro Spec
 
-### Step 1: List Available Specs
+### Step 1: Select the Kiro Spec
 
-Run the following command to get all kiro specs:
+Check our system prompt, if our system prompt have existing kiro dir <kiro_dir>, just load it. Otherwise, follow these steps:
+
+Ask subagent `eng` to run the following command to get all kiro specs:
 
 ```bash
 agpod kiro --json pr-list
@@ -58,14 +65,9 @@ agpod kiro --json pr-list
 
 Note, the `path` should be relatieve to the project root or is absolute path if it starts with `/`.
 
-### Step 2: Parse User Selection
+Present the list of specs to the user and ask which one to load, or select based on user input.
 
-If user mentions:
-- **Spec number/index**: Select the corresponding spec from the list
-- **Spec name/keyword**: Match against spec names using fuzzy matching
-- **No specific spec**: Ask user to choose from the list
-
-### Step 3: Read the Control Board
+### Step 2: Read the Control Board
 
 Once spec is selected, read `<spec-path>/claude.md` to understand:
 - Current spec file statuses (empty, draft, ready)
@@ -73,14 +75,10 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
 - Outstanding questions and risks
 - Recent findings
 
-**Example:**
-```bash
-Read <spec-path>/claude.md
-```
-
 ## Phase 2: Requirements Gathering
 
 **When to enter this phase:**
+
 - `claude.md` shows `requirements.md: empty` or `requirements.md: draft`
 
 ### Workflow
@@ -262,11 +260,8 @@ Additional options:
 
 To list templates, run `agpod kiro --json list-templates`
 
-## Session Management Best Practices
 
-1. **Start every kiro session** by reading `claude.md` to understand context
-2. **Review previous decisions** before proposing new solutions
-3. **Update session notebook** in real-time as conversations progress
-4. **Ask questions early** rather than making incorrect assumptions
-5. **Keep user informed** of which phase and file you're currently working on
-6. **Validate completion** of each phase before moving to next
+## Example 
+
+user: "load kiro system spec" / "load kiro system" 
+agent: "Loading kiro skill ... I see user mention 'system', let  me ask `eng` subagent to list existing kiro specs and see if a matching 'system' spec exist ... Ok let me read this spec and check the control board for current status ... I see requirements.md is empty, so we need to gather requirements ..."

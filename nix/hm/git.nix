@@ -245,7 +245,7 @@ in
         autoSetupRemote = true;
       };
       sequence = {
-        editor = "interactive-rebase-tool";
+        # editor = "interactive-rebase-tool";
       };
       merge = {
         autostash = false;

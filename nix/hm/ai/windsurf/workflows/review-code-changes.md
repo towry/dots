@@ -36,7 +36,7 @@ auto_execution_mode: 1
 
 ## Review changes step:
 
-1. 使用命令 `jj df-file-base <file-path>` 查看文件的变更内容。
+1. 使用命令 `jj diff-file-base <file-path>` 查看文件的变更内容。
 2. 搜集相关的上下文，比如如果修改了类似 api 的模块，那么就查找项目的关于 api 的文档，规范文档等，或者类似的已有代码等，查看相关注释，判断修改的质量和正确性，给出 review 的意见。
 
 # Review result report

@@ -33,8 +33,6 @@ jobs:
                   echo "Checking hook files..."
                   ls -la nix/hm/ai/claude/hooks/
                   test -f nix/hm/ai/claude/hooks/session_remind.py
-                  test -f nix/hm/ai/claude/hooks/subagent_remind.py
-                  test -f nix/hm/ai/claude/hooks/get_last_agent.py
 
             - name: Run hook tests
               run: |

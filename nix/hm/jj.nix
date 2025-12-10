@@ -42,12 +42,17 @@ in
       };
       git = {
         write-change-id-header = true;
-        auto-local-bookmark = false;
+        # auto-local-bookmark is deprecated in v0.36, use remotes.<name>.auto-track-bookmarks instead
+        # auto-local-bookmark = false;
         fetch = [
           "origin"
         ];
         push = "origin";
         private-commits = "description(glob:'wip:*') | description(glob:'private:*') | description(glob:'WIP:*')";
+      };
+      # Use new remotes configuration from v0.35+ for better bookmark tracking
+      remotes.origin = {
+        auto-track-bookmarks = "none"; # equivalent to auto-local-bookmark = false
       };
       merge-tools = {
         nvim3way = {
@@ -138,13 +143,13 @@ in
         ];
         wk = [ "workspace" ];
         df = [ "diff" ];
-        df-names = [
+        diff-names = [
           "diff"
           "--ignore-working-copy"
           "--no-pager"
           "--name-only"
         ];
-        df-names-all = [
+        diff-names-all = [
           "diff"
           "--ignore-working-copy"
           "--no-pager"
@@ -153,7 +158,7 @@ in
           "trunk()"
         ];
         # file changes from trunk()
-        df-file-base = [
+        diff-file-base = [
           "diff"
           "--no-pager"
           "--git"
@@ -161,7 +166,7 @@ in
           "trunk()"
         ];
         # file changes from prev commit
-        df-file-prev = [
+        diff-file-prev = [
           "diff"
           "--no-pager"
           "--git"
@@ -466,6 +471,7 @@ in
         gp-new = [
           "git"
           "push"
+          # Note: --allow-new is deprecated in v0.36, use remotes.auto-track-bookmarks instead
           "--allow-new"
         ];
         # first bookmark matters, it should be current bookmark.
@@ -642,7 +648,8 @@ in
               echo "''${cmd[*]}"
               "''${cmd[@]}"
             elif [[ ''${#bookmarks[@]} -eq 1 ]]; then
-              cmd+=("--allow-new" "-b" "''${bookmarks[0]}")
+              # Note: --allow-new is deprecated in v0.36, bookmark tracking handles this automatically
+              cmd+=("-b" "''${bookmarks[0]}")
               echo "''${cmd[*]}"
               "''${cmd[@]}"
             else
