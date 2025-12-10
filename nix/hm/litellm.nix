@@ -444,7 +444,7 @@ let
       # "failed to count tokens ... Invalid content type: <class 'dict'>"
       # Disable pre-call token counting to avoid hard failures; rely on provider
       # context-window errors + configured context_window_fallbacks instead.
-      enable_pre_call_checks = true;
+      enable_pre_call_checks = false;
       retry_policy = {
         TimeoutErrorAllowedFails = 1;
       };

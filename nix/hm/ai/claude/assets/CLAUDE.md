@@ -34,9 +34,9 @@ without external research or complex coordination
 <subagent_with_correct_model_usage>Spawn subagents via `Task` tool with `subagent_type`.
 - Use `model: opus` when `subagent_type` is `oracle` (opus for research task).
 - Use `model: opus` when `subagent_type` is `outbox` (opus for research task).
-- Use `model: haiku` when `subagent_type` is `sage`(code search agent).
+- Use `model: sonnet` when `subagent_type` is `sage`(code search agent).
 - Use `model: sonnet` when `subagent_type` is `eng` (light coding task agent).
-- Use `model: haiku` when `subagent_type` is `ford` (helper on tool and subagent use).
+- Use `model: sonnet` when `subagent_type` is `ford` (helper on tool and subagent use).
 - Use `model: opusplan` when `subagent_type` is `Plan` (plan agent).
 </subagent_with_correct_model_usage>
 
