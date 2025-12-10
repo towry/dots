@@ -48,14 +48,14 @@ let
         model:
         let
           alias = "mistral/${model}";
-          maxInputTokens = getMaxInputTokens "mistral/${model}";
+          # maxInputTokens = getMaxInputTokens "mistral/${model}";
           maxOutputTokens = getMaxOutputTokens "mistral/${model}";
         in
         {
           model_name = alias;
           litellm_params = {
             model = alias;
-            api_key = "os.environ/MISTRAL_API_KEY";
+            api_key = pkgs.nix-priv.keys.mistra.apiKey;
             max_tokens = maxOutputTokens;
           };
         }
