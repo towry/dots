@@ -13,7 +13,7 @@ Note, the user may misspell the handoff file, you just choose the right one, nev
 
 ### 1. Check handoff file
 
-The handoff files is located in `<project-dir>/.claude/handoffs/`. If no handoff file was provided, and no list of handoffs in the chat, then list them all use bash. Eg:
+The handoff files is located in `<project-dir>/.claude/handoffs/`. If no handoff files was provided, and no list of handoffs in the system prompt, then list them all use bash. Eg:
 
 ```bash
 ls .claude/handoffs

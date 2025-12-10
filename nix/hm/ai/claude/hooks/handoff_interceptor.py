@@ -22,6 +22,7 @@ MAX_MESSAGES = 30
 MAX_MESSAGE_LEN = 500
 MAX_CONVERSATION_CHARS = 8000
 RECENT_PROTECT_COUNT = 8
+HANDOFF_MODEL = "openrouter/qwen/qwen3-coder"
 
 
 def extract_todos(transcript_path: str) -> list[dict]:
@@ -59,24 +60,39 @@ def extract_todos(transcript_path: str) -> list[dict]:
 def is_low_value_chatter(text: str, role: str) -> bool:
     """Check if message is low-value filler/chatter."""
     t = text.lower().strip()
-    
+
     if len(t) < 40:
         filler_phrases = [
-            "got it", "sounds good", "ok", "okay",
-            "let me", "i'll", "i will", "now i'll", "now i will",
-            "starting with", "i'm going to", "let's start by",
+            "got it",
+            "sounds good",
+            "ok",
+            "okay",
+            "let me",
+            "i'll",
+            "i will",
+            "now i'll",
+            "now i will",
+            "starting with",
+            "i'm going to",
+            "let's start by",
         ]
         if any(p in t for p in filler_phrases):
             return True
-    
+
     meta_phrases = [
-        "let me check", "let me see", "i'll check",
-        "i will check", "i'll start by", "now let me",
-        "let me load", "loading the", "running the",
+        "let me check",
+        "let me see",
+        "i'll check",
+        "i will check",
+        "i'll start by",
+        "now let me",
+        "let me load",
+        "loading the",
+        "running the",
     ]
     if len(t) < 140 and any(p in t for p in meta_phrases):
         return True
-    
+
     return False
 
 
@@ -97,10 +113,23 @@ def is_decision_or_summary(text: str) -> bool:
     """Check if message contains decision, summary, or plan content."""
     t = text.lower()
     keywords = [
-        "decision", "we decided", "we chose", "we'll",
-        "summary", "recap", "overview of", "next steps",
-        "todo", "to-do", "pending tasks", "completed", "implemented",
-        "fixed", "resolved", "the plan is", "we will do",
+        "decision",
+        "we decided",
+        "we chose",
+        "we'll",
+        "summary",
+        "recap",
+        "overview of",
+        "next steps",
+        "todo",
+        "to-do",
+        "pending tasks",
+        "completed",
+        "implemented",
+        "fixed",
+        "resolved",
+        "the plan is",
+        "we will do",
     ]
     return any(k in t for k in keywords)
 
@@ -111,8 +140,14 @@ def is_user_intent_or_question(text: str, role: str) -> bool:
         return False
     t = text.lower()
     intent_keywords = [
-        "need to", "i want to", "please", "can you",
-        "how do i", "we are going to", "so we need", "the purpose is",
+        "need to",
+        "i want to",
+        "please",
+        "can you",
+        "how do i",
+        "we are going to",
+        "so we need",
+        "the purpose is",
     ]
     return "?" in text or any(k in t for k in intent_keywords)
 
@@ -123,59 +158,57 @@ def filter_messages_for_handoff(
     recent_protect_count: int = RECENT_PROTECT_COUNT,
 ) -> list[dict]:
     """Filter messages to remove noise and enforce character budget.
-    
+
     Args:
         messages: List of message dicts with 'role' and 'content'
         max_total_chars: Maximum total character budget for conversation
         recent_protect_count: Number of recent messages to always protect
-    
+
     Returns:
         Filtered list of messages
     """
     if not messages:
         return messages
-    
+
     # Find first user message (session intent)
     first_user_idx = next(
         (i for i, m in enumerate(messages) if m["role"] == "user"),
         None,
     )
-    
+
     # First pass: remove obvious low-value messages
     annotated = []
     for i, msg in enumerate(messages):
         text, role = msg["content"], msg["role"]
-        
+
         # Mark protected messages
         protected = (
             (i == first_user_idx and first_user_idx is not None)
             or is_decision_or_summary(text)
             or is_user_intent_or_question(text, role)
         )
-        
+
         # Mark low-value messages
         low_value = (not protected) and (
             is_low_value_chatter(text, role) or looks_like_doc_dump(text)
         )
-        
+
         if low_value:
             continue  # drop this message
-        
-        annotated.append(
-            {"index": i, "msg": msg, "protected": protected}
-        )
-    
+
+        annotated.append({"index": i, "msg": msg, "protected": protected})
+
     # Second pass: enforce character budget
     total_chars = sum(len(a["msg"]["content"]) for a in annotated)
-    
+
     if total_chars <= max_total_chars:
         # Already under budget, return in original order
         annotated.sort(key=lambda a: a["index"])
         return [a["msg"] for a in annotated]
-    
+
     # Over budget: protect tail and drop oldest non-protected first
     tail_start_idx = max(0, len(annotated) - recent_protect_count)
-    
+
     i = 0
     while total_chars > max_total_chars and i < tail_start_idx:
         a = annotated[i]
@@ -185,21 +218,23 @@ def filter_messages_for_handoff(
             tail_start_idx -= 1
             continue
         i += 1
-    
+
     # If still over budget, drop protected messages from head (but not tail)
     while total_chars > max_total_chars and len(annotated) > recent_protect_count:
         a = annotated[0]
         total_chars -= len(a["msg"]["content"])
         annotated.pop(0)
         tail_start_idx -= 1
-    
+
     # Sort back to original order
     annotated.sort(key=lambda a: a["index"])
     return [a["msg"] for a in annotated]
 
 
 def extract_messages(
-    transcript_path: str, max_messages: int = MAX_MESSAGES, max_content_len: int = MAX_MESSAGE_LEN
+    transcript_path: str,
+    max_messages: int = MAX_MESSAGES,
+    max_content_len: int = MAX_MESSAGE_LEN,
 ) -> list[dict]:
     """Extract user and assistant messages from transcript JSONL file.
 
@@ -453,7 +488,7 @@ CRITICAL: The "Current Todo List" section contains the EXACT todo items from thi
         [
             "claude",
             "--model",
-            "opencodeai/big-pickle",
+            HANDOFF_MODEL,
             "--allowedTools",
             "Write,Read,Bash(mkdir:*),Bash(touch:*),Bash(ls:*)",
             "-p",
@@ -584,8 +619,8 @@ def main():
     # Generate handoff summary with correct project directory context and todos
     try:
         summary = generate_handoff_summary(messages, project_dir, todos)
-    except subprocess.TimeoutExpired as e:
-        print(f"Error: Summary generation timed out after 60 seconds", file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        print("Error: Summary generation timed out after 60 seconds", file=sys.stderr)
         sys.exit(1)
     except Exception as e:
         print(f"Error generating summary: {str(e)}", file=sys.stderr)

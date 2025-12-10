@@ -176,6 +176,17 @@ let
       };
     };
 
+    mistral = {
+      "devstral-2512" = {
+        input = 256000;
+        output = 256000;
+      };
+      "codestral-2508" = {
+        input = 256000;
+        output = 256000;
+      };
+    };
+
     # Zhipu AI / ZAI Coding Plan provider
     zhipuai = {
       "glm-4.6" = {

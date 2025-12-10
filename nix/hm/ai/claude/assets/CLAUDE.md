@@ -61,8 +61,8 @@ without external research or complex coordination
 </subagent_with_correct_model_usage>
 
 <webpage_debug>
-- Use `codex_chromedev` mcp tool to debug webpage in browser.
-- **critical**: Always use `profile: chromedev` when using `codex_chromedev` tool.
+- Use `debug_webpage` mcp tool to debug webpage in browser.
+- **critical**: Always use `profile: chromedev` when using `debug_webpage` tool.
 - chromedev only support browser interactions, it can not read, search files, or edit files. So You need give it specific task like "What is the logs that related to X error?" or "Take screenshot of element Y check if it is visible".
 - Call chromedev in multiple iterations if necessary to accomplish the task, don't try to do everything in one call.
 </webpage_debug>

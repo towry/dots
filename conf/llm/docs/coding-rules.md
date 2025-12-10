@@ -20,6 +20,7 @@ Context is important for any tasks, prepare concise and accurate context fast is
 - **Follow Precedent**: Model new features on existing ones unless instructed otherwise.
 - **Structured Plan**: Each implementation step must specify the target file and the exact changes.
 - **Clear Boundaries**: Keep business logic out of UI components. Isolate mock or demo code to the highest application layer. Never change working implementation code just for debug logs.
+- **Abstraction Boundary**: Code in a layer must use only the abstractions and contracts explicitly exposed by its immediate downstream layer. Never reach across that boundary to use lower-level implementation details, such as internal fields, private APIs, or hidden conventions.
 - **Fail Fast**: Do not hide bugs with `try-catch` or optional chaining (`?.`). Let errors surface immediately to prevent harder-to-debug deferred failures.
 - **Document Intent in code comment**: Use `FIXME`, `TODO`, and `NOTE` to flag areas needing attention; Document non-obvious logic, change intention, code changes, and any trade-offs made.
 - When you want to create plan doc, either use Plan tool or write it down in markdown file, choose the simple way.

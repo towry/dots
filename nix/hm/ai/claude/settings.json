@@ -76,6 +76,7 @@
       "Bash(mkdir:*)",
       "Read(/Users/towry/workspace/**)",
       "Read(~/.claude/**)",
+      "mcp__mermaid__validateMermaid",
       "mcp__exa__web_search_exa",
       "mcp__exa__crawling_exa",
       "mcp__exa__get_code_context_exa",
@@ -111,7 +112,7 @@
       "mcp__github__enable_toolset",
       "mcp__github__search_code",
       "mcp__codex_smart__codex",
-      "mcp__codex_chromedev__codex",
+      "mcp__debug_webpage__codex",
       "mcp__kg__query_graph",
       "mcp__kg__inspect_graph",
       "mcp__sequentialthinking__sequentialthinking"
@@ -153,7 +154,7 @@
       "Read(**/private_keys.md)",
       "Read(**/.ssh/**)",
       "Read(**/.gnupg/**)",
-      "mcp__codex_chromedev__codex-reply"
+      "mcp__debug_webpage__codex-reply"
     ],
     "additionalDirectories": [
       "/Users/towry/workspace",

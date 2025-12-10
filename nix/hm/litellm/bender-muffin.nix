@@ -122,7 +122,7 @@
       model = "openrouter/minimax/minimax-m2";
       api_key = "os.environ/OPENROUTER_API_KEY";
       max_tokens = 262000;
-      rpm = 5;
+      rpm = 3;
     };
     model_info = {
       max_output_tokens = 262000;
@@ -132,11 +132,10 @@
   {
     model_name = "bender-muffin";
     litellm_params = {
-      model = "openai/claude-haiku-4-5";
-      api_base = "https://opencode.ai/zen/v1";
-      api_key = pkgs.nix-priv.keys.opencode.apiKey;
+      model = "openrouter/anthropic/claude-haiku-4.5";
+      api_key = "os.environ/OPENROUTER_API_KEY";
       max_tokens = 64000;
-      rpm = 2;
+      rpm = 5;
     };
     model_info = {
       max_output_tokens = 64000;
