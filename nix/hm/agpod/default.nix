@@ -49,7 +49,7 @@ in
       # Template-specific configurations for Kiro
       [kiro.templates.default]
       description = "Standard PR draft template with design and task documents"
-      files = ["design.md.j2", "tasks.md.j2", "claude.md.j2", "requirements.md.j2"]
+      files = ["design.md.j2", "tasks.md.j2", "claude.md.j2", "requirements.md.j2", "review-spec.md.j2"]
       missing_policy = "error"
 
       [kiro.templates.vue]

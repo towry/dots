@@ -5,7 +5,7 @@ description: "This skill should be used when managing structured spec-driven dev
 
 # Kiro - Structured Spec-Driven Development Workflow
 
-## Output style 
+## Output style
 
 - No extra explanations, only respond with the requested content
 - If workflow decisions is clear, just do it, no additional confirmation, explanations or summary needed, avoid bloating the context before actual work.
@@ -24,6 +24,7 @@ Every kiro spec contains four key spec files, which need to be updated and track
 2. **`requirements.md`** - User stories and acceptance criteria
 3. **`design.md`** - Architecture, data models, and implementation details
 4. **`tasks.md`** - Implementation tasks with status tracking
+5. **`review-spec.md`** - Document as a bridge for user and the spec owner, help to review this spec before implement.
 
 ## Workflow Decision Tree
 
@@ -261,7 +262,7 @@ Additional options:
 To list templates, run `agpod kiro --json list-templates`
 
 
-## Example 
+## Example
 
-user: "load kiro system spec" / "load kiro system" 
+user: "load kiro system spec" / "load kiro system"
 agent: "Loading kiro skill ... I see user mention 'system', let  me ask `eng` subagent to list existing kiro specs and see if a matching 'system' spec exist ... Ok let me read this spec and check the control board for current status ... I see requirements.md is empty, so we need to gather requirements ..."
