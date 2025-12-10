@@ -84,21 +84,21 @@ def format_handoff_prompt(handoffs: list[dict]) -> str:
 
     latest = handoffs[0]
 
-    # Build concise context message with clear action trigger
+    # Build concise context message
     lines = [
-        "## AUTO-PICKUP TRIGGER",
+        "## Pending Handoff",
         "",
-        "When user sends single dot '.' or 'start' or 'go', you MUST immediately execute:",
+        f"Handoff: `{latest['name']}`",
+        f"Created: {latest['modified']}",
+        "",
+        "If user explicitly want to pick up, run:",
         "```",
         f"/pickup {latest['name']}",
         "```",
-        "Do NOT ask questions. Do NOT explain. Just run the SlashCommand tool with that command.",
-        "",
-        f"Pending handoff: `{latest['name']}`",
     ]
 
     if len(handoffs) > 1:
-        lines.append(f"({len(handoffs) - 1} older handoff(s) also available)")
+        lines.append(f"\n({len(handoffs) - 1} older handoff(s) also available)")
 
     return "\n".join(lines)
 
