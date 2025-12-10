@@ -213,7 +213,7 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
    - Reference the design document
    - Verify requirements are met
 
-4. **Update task status**
+4. **Update tasks.md file status**
    - Mark task as 🟡 In Progress when starting
    - Update checkbox `[x]` when complete
    - Change status to ✅ Completed
@@ -222,11 +222,11 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
 5. **Update claude.md after each task**
    - Add any new decisions to Session Notebook → Decisions
    - Note any risks encountered
-   - Keep spec file status current
+   - Keep spec file status up-to-date, including tasks.md task status
 
 ## Critical Rules (Always Enforce)
 
-1. **Status Tracking**: Keep the "Spec files status" section in `claude.md` current at all times
+1. **Status Tracking**: Keep the "Spec files status" section in `claude.md` current at all times, update `tasks.md` status after each task.
 2. **Never Skip Approval**: Never proceed to next phase without explicit user approval
 3. **Always Ask Questions**: When requirements are unclear, ask rather than assume
 4. **Present Options**: Offer choices for user to decide rather than making assumptions
