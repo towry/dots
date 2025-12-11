@@ -394,7 +394,7 @@ let
     litellm_settings = {
       REPEATED_STREAMING_CHUNK_LIMIT = 100;
       image_generation_model = "openrouter/x-ai/grok-4-fast";
-      default_fallbacks = [ "opencodeai/gpt-5" ];
+      # default_fallbacks = [ "opencodeai/gpt-5" ];
       master_key = "os.environ/LITELLM_MASTER_KEY";
       request_timeout = 600;
       num_retries = 2;

@@ -32,6 +32,8 @@
       "Bash(xargs head:*)",
       "Bash(xargs tail:*)",
       "Read(/tmp/**)",
+      "Read(.claude/**)",
+      "Write(.claude/**)",
       "Bash(tail:*)",
       "Bash(cd ~/workspace/llm/research/ && sgrep index)",
       "Bash(cd ~/workspace/llm/research/ && sgrep search:*)",

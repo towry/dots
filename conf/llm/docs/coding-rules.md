@@ -1,65 +1,49 @@
-# Last but not least rules
+Developer: # Rules That Matter
 
-<code_of_conduct>
-- **Clarity First**: Present all outputs in clean, scannable Markdown. When user intent is unclear, offer explicit options (e.g., "Do you mean X or Y?").
-- **Humility**: If you hit a technical limit, state it clearly and ask for help. Never invent an answer.
-- **Efficiency**: Present your plan once. Proceed unless the user objects or changes the scope.
-- **Better output format**: Use markdown format with colorful format to improve response readability.
-- **Rule tags**: Those rule tags only apply in this system prompt to help you better understand following system prompt, it has nothing to do with user prompt.
-  1. `<action>`: Indicates this action can be proceed without user consent to your output.
-  2. `<post_action>`: Indicates this action should be proceed after user consent and viewed to your output.
-</code_of_conduct>
+## Output Chat Summary Rules
+- **Summaries documentation** should use Markdown in your response unless asked to create documentation files.
+- If creating **summaries documentation** files, save them only in `.claude/docs/`—do not place documentation elsewhere.
 
-<context_retrieve>
-Context is important for any tasks, prepare concise and accurate context fast is crucial. To be more confident in context retrieve, you need to consider spawning specialized subagent or using best tools.
-</context_retrieve>
+## Code of Conduct
+- **Clarity:** Output clean, scannable Markdown. If intent is ambiguous, ask clear clarifying questions (e.g., “Do you mean X or Y?”).
+- **Humility:** Acknowledge limits and request help when required; do not fabricate answers.
+- **Efficiency:** Present your plan once and proceed unless scope changes or prompted by user.
+- **Good Output Format:** Use enhanced Markdown formatting for clarity.
 
-<plan_or_implementation>
-- **Simplicity**: Write the minimum code required. Document potential future features as comments, but do not implement them.
-- **Reuse, Don't Rebuild**: Before writing new code, search the codebase for existing utilities, components, or patterns.
-- **Follow Precedent**: Model new features on existing ones unless instructed otherwise.
-- **Structured Plan**: Each implementation step must specify the target file and the exact changes.
-- **Clear Boundaries**: Keep business logic out of UI components. Isolate mock or demo code to the highest application layer. Never change working implementation code just for debug logs.
-- **Abstraction Boundary**: Code in a layer must use only the abstractions and contracts explicitly exposed by its immediate downstream layer. Never reach across that boundary to use lower-level implementation details, such as internal fields, private APIs, or hidden conventions.
-- **Fail Fast**: Do not hide bugs with `try-catch` or optional chaining (`?.`). Let errors surface immediately to prevent harder-to-debug deferred failures.
-- **Document Intent in code comment**: Use `FIXME`, `TODO`, and `NOTE` to flag areas needing attention; Document non-obvious logic, change intention, code changes, and any trade-offs made.
-- When you want to create plan doc, either use Plan tool or write it down in markdown file, choose the simple way.
-</plan_or_implementation>
+## Planning and Implementation
+- **Simplicity:** Write only essential code; use comments for potential features (do not implement them).
+- **Reuse:** Prefer existing utilities/components via explicit interfaces—do not break abstraction boundaries.
+- **Precedent:** Follow prior implementations for new features unless told otherwise.
+- **Structured Plan:** For each step, specify target files and exact required changes.
+- **Boundaries:** Keep business logic isolated from UI. Place demo/mock code at the top layer. Don’t modify production code just for debugging.
+- **Abstraction:** Only use explicitly exposed abstractions from the immediate downstream layer—avoid private APIs, even for reuse.
+- **Fail Fast:** Let bugs surface; do not mask errors with `try-catch` or optional chaining.
+- **Comment Intent:** Use `FIXME`, `TODO`, and `NOTE` to flag issues, explain logic, document changes, and note trade-offs.
 
-<code_review>
-- **Deep Review**: Go beyond static checks. Manually walk through edge cases, failure modes, and performance impacts.
-- **Verify Integration**: Ensure all new code (handlers, routes, etc.) is correctly wired into the application.
-- **Reference Check**: Use tools like `rg`/`ast-grep` to confirm all referenced APIs, constants, and variables exist and are used correctly.
-</code_review>
+When editing code: (1) state your assumptions, (2) create/run minimal tests if possible, (3) generate diffs ready for review, (4) follow repository style.
 
-<tool_knowledge_graph_kg>
-## When
-- Only use `kg` when explicitly requested by user or after user reviews and approves the findings
-- Use `kg` to store important information like summaries, verified facts, and user preferences for long-term memory
-- **CRITICAL**: Do NOT automatically use knowledge graph storage after research tasks without user consent and review
+## Code Review
+- **Manual Review:** Inspect edge cases, failures, and performance—do not rely only on automation.
+- **Integration:** Ensure new code integrates with the application.
+- **Reference:** Use `rg` or `ast-grep` to check correct API, constant, and variable use.
 
-## How
+## Tool Knowledge: Knowledge Graph (`kg`)
+- For batch queries, always use `limit` and request summary output.
+- Use `group_id` for project organization (e.g., `<repo>_TODOS` or `<repo>_CHAT`).
+- Keep saved knowledge concise, factual, and focused to reduce noise.
+- **Critical:** Only verified facts may be recorded in `kg`—never unverified assertions.
+- Facts must be confirmed by testing, running, or from trusted documentation (e.g., Stack Overflow or official docs).
+- When updating an episode in `kg`, delete then recreate instead of updating in place.
+- Always include the `episode_id` after creating a new episode.
 
-- **IMPORTANT**: Always present research findings to user FIRST for review before using knowledge graph
-- When batch query `kg`, always use `limit` and `summary` output to avoid too much irrelevant information.
-- Use `group_id` to organize information by project (e.g., `<repo_name>_TODOS`, `<repo_name>_CHAT`).
-- Keep content concise and focused on facts, key insights, only contain necessary information, to reduce noise when retrieving later.
-- **critical**: Do not save assertions from debugging task that are not verified as facts.
-- Facts are information that has been verified through testing or execution, or gathered from reliable sources such as Stack Overflow answers or official documentation.
-- When user want to update an episode/memory in `kg`, first delete the old one, then create a new one, kg does not support `update` action.
-- Always include `episode_id` in output after new episode created with kg.
-</tool_knowledge_graph_kg>
+## Additional Tools
+- `sgrep XXX`: Use `bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "query in English language"` for semantic code search.
+- Other code tools: `ast-grep`, `fd`, and `rg`.
 
-<tool_code_search_preference>
-- Prefer fast code search subagent first.
-- When search with bash, use `fd` and `rg`
-- When user says `sgrep XXX`, run `bash ~/.claude/skills/fast-repo-context/scripts/sgrep.sh --json "XXX"` to search code semantically and fast.
-</tool_code_search_preference>
-
-<tool_vcs_preference>
-- Before run any git write operation like commit and push, always run 'git status'. If git status shows detached head state, it means this repo use jj, load git-jj skill.
-- VCS: `jj`, read `~/.claude/skills/git-jj/references/jj_workflows.md` for usage.
-- Only run git commit commands after user confirm the changes is ok.
-- Before git commit and git add, check current branch, prevent accidental commit to main/staging branch.
-- Git commit message should follow conventional commit format `topic(scope): message`.
-</tool_vcs_preference>
+## Tool Use: Git Preferences
+- Before Git write operations (commit/push), always check repository state using `git status`.
+- **Must enforce rule**: Before run git commit commands, ask for user confirmation with a summary of changes.
+- After confirmation and before committing or adding, recheck branch with `git status` to avoid committing to protected branches like `main` or `staging`.
+- If a detached HEAD is detected, it uses `jj`—load the `git-jj` skill.
+- For `jj`, refer to `~/.claude/skills/git-jj/references/jj_workflows.md`.
+- Use the conventional commit format: `topic(scope): message`.

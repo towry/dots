@@ -88,27 +88,11 @@ let
           exit 1
         fi
 
-        # Build kiro system prompt
-        kiro_prompt_template=${kiroPromptLiteral}
+        # Set KIRO_DIR for the session_remind.py hook to pick up
+        export KIRO_DIR="$pr_dir"
 
-        # Create JSON context with pr_dir
-        context_json="$(printf '{"pr_dir":"%s"}' "$pr_dir")"
-
-        # Render template with minijinja
-        template_file="$(mktemp)"
-        printf '%s' "$kiro_prompt_template" > "$template_file"
-
-        system_prompt="$(printf '%s' "$context_json" | minijinja-cli -f json "$template_file" - 2>&1)"
-        minijinja_exit=$?
-        # rm -f "$template_file"
-
-        if [[ $minijinja_exit -ne 0 || -z "$system_prompt" ]]; then
-          echo "Error: Failed to render kiro prompt template" >&2
-          exit 1
-        fi
-
-        # Execute claude with kiro system prompt
-        exec claude --allow-dangerously-skip-permissions --append-system-prompt "$system_prompt" --mcp-config "$HOME/.mcp.json" "''${args[@]}"
+        # Execute claude - the hook will inject kiro context via additionalContext
+        exec claude --allow-dangerously-skip-permissions --mcp-config "$HOME/.mcp.json" "''${args[@]}"
       else
         # Normal mode: just run claude with all arguments
         exec claude --allow-dangerously-skip-permissions --mcp-config "$HOME/.mcp.json" "$@"

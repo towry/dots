@@ -80,6 +80,10 @@ def build_reminder_message(session_id, project_dir):
     msg += f"Today is: {today}\n"
     if project_dir:
         msg += f"Current project root: {project_dir}"
+    # Add kiro directory if present
+    kiro_dir = os.environ.get("KIRO_DIR", "").strip()
+    if kiro_dir:
+        msg += f"\nKiro spec dir: {kiro_dir}"
     return msg
 
 
@@ -131,8 +135,15 @@ def main():
                 file=sys.stderr,
             )
 
+        # Get kiro dir name (basename only) for system message
+        kiro_dir = os.environ.get("KIRO_DIR", "").strip()
+        kiro_name = Path(kiro_dir).name if kiro_dir else ""
+        system_msg = f"Remind - Project: {project_dir}"
+        if kiro_name:
+            system_msg += f", Kiro: {kiro_name}"
+
         output_json = {
-            "systemMessage": f"Remind - Project: {project_dir}",
+            "systemMessage": system_msg,
             "hookSpecificOutput": {
                 "hookEventName": "SessionStart",
                 "additionalContext": reminder_msg,
