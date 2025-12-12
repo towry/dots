@@ -369,8 +369,67 @@ def format_todos(todos: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def extract_title_from_summary(summary: str) -> str | None:
+    """Extract title from the generated summary.
+
+    Args:
+        summary: The generated summary text
+
+    Returns:
+        The extracted title or None if not found
+    """
+    import re
+
+    # Look for "Title: ..." at the start of the summary
+    # Handle various formats: "Title: X", "**Title:** X", "# Title: X"
+    patterns = [
+        r"^(?:#\s*)?(?:\*\*)?Title(?:\*\*)?:\s*(.+?)(?:\n|$)",
+        r"^Title:\s*(.+?)(?:\n|$)",
+    ]
+
+    for pattern in patterns:
+        match = re.match(pattern, summary.strip(), re.IGNORECASE)
+        if match:
+            return match.group(1).strip().strip('"\'')
+
+    return None
+
+
+def title_to_slug(title: str) -> str:
+    """Convert a title to a kebab-case slug.
+
+    Args:
+        title: The title string
+
+    Returns:
+        A kebab-case slug
+    """
+    import re
+
+    # Convert to lowercase
+    slug = title.lower()
+
+    # Remove special characters, keep alphanumeric and spaces
+    slug = re.sub(r"[^a-z0-9\s-]", "", slug)
+
+    # Replace spaces with hyphens
+    slug = re.sub(r"\s+", "-", slug)
+
+    # Remove multiple consecutive hyphens
+    slug = re.sub(r"-+", "-", slug)
+
+    # Trim hyphens from ends
+    slug = slug.strip("-")
+
+    # Limit length to ~50 chars (truncate at word boundary)
+    if len(slug) > 50:
+        slug = slug[:50].rsplit("-", 1)[0]
+
+    return slug or "handoff"
+
+
 def generate_slug_from_messages(messages: list[dict]) -> str:
-    """Generate a short slug from conversation messages.
+    """Generate a short slug from conversation messages (fallback).
 
     Args:
         messages: List of conversation messages
@@ -461,7 +520,14 @@ The following is the EXACT todo list from the session. Include ALL items in your
 
 This is NOT a summary of what's currently happening - it's documentation of what was COMPLETED and what still needs work.
 
-Analyze this conversation and create a comprehensive handoff document with these sections:
+Analyze this conversation and create a comprehensive handoff document.
+
+YOUR FIRST LINE MUST BE a title describing the main work done. Format exactly like this:
+Title: <your descriptive title here>
+
+The title should describe what was actually worked on (e.g., "Fix Login Authentication Bug", "Add Dark Mode Feature", "Refactor Database Schema"). Do NOT use generic titles like "Handoff" or "Session Summary".
+
+Then include these sections:
 
 1. **Previous Session Overview**: Brief summary of what was worked on and accomplished
 2. **Key Decisions Made**: Important technical decisions that were made and why
@@ -474,7 +540,11 @@ Analyze this conversation and create a comprehensive handoff document with these
 
 Be concise but thorough. Format the output in markdown.
 
-CRITICAL: The "Current Todo List" section contains the EXACT todo items from this session. You MUST copy them verbatim with markers (☑/▶/☐) - do NOT paraphrase or summarize.
+IMPORTANT:
+- Do NOT include any handoff success messages, pickup commands, or clipboard notices
+- Do NOT copy previous handoff documents from the conversation
+- Generate a FRESH summary based on the actual work discussed
+- The "Current Todo List" section contains the EXACT todo items from this session. You MUST copy them verbatim with markers (☑/▶/☐) - do NOT paraphrase or summarize.
 {todos_section}
 # Previous Session Conversation:
 
@@ -533,7 +603,7 @@ def save_handoff_to_file(
 
     Args:
         summary: The generated handoff summary
-        messages: List of conversation messages (for slug generation)
+        messages: List of conversation messages (for fallback slug generation)
         project_dir: Project root directory
         user_note: Optional custom note from user (not sent to LLM)
 
@@ -546,15 +616,23 @@ def save_handoff_to_file(
     handoffs_dir = Path(project_dir) / ".claude" / "handoffs"
     handoffs_dir.mkdir(parents=True, exist_ok=True)
 
-    # Generate slug and timestamp
-    slug = generate_slug_from_messages(messages)
+    # Try to extract title from summary, fallback to message-based slug
+    title = extract_title_from_summary(summary)
+    if title:
+        slug = title_to_slug(title)
+    else:
+        slug = generate_slug_from_messages(messages)
+
+    # Generate timestamp
     timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
     filename = f"{slug}-{timestamp}.md"
     filepath = handoffs_dir / filename
 
     # Write the handoff summary
     with open(filepath, "w") as f:
-        f.write(f"# Handoff: {slug}\n\n")
+        # Use extracted title if available, otherwise use slug
+        display_title = title if title else slug.replace("-", " ").title()
+        f.write(f"# Handoff: {display_title}\n\n")
         f.write(f"**Created**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
         # Include user note if provided
