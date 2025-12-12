@@ -112,7 +112,7 @@ in
     OPENROUTER_API_KEY = pkgs.nix-priv.keys.openrouter.apiKey;
 
     # Point Claude Code to LiteLLM proxy
-    ANTHROPIC_BASE_URL = "http://0.0.0.0:4000";
+    # ANTHROPIC_BASE_URL = "http://0.0.0.0:4000";
     ANTHROPIC_AUTH_TOKEN = pkgs.nix-priv.keys.litellm.apiKey;
 
     # Claude Code model selection - configure which models to use for different tiers
