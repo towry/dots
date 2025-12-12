@@ -375,7 +375,7 @@ in
         { "openai/minimax-m2" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "bender-muffin" = [ "opencodeai/claude-haiku-4-5" ]; }
       ];
-      cache = true;
+      cache = false;
       cache_params = {
         namespace = "litellm.caching.caching";
         type = "redis";
