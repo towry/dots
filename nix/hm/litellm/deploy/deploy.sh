@@ -78,16 +78,18 @@ fi
 echo "✓ /usr/local/bin/uvx is ready"
 
 # Create system-wide uv config with mirrors
-echo "Creating system-wide uv config..."
-mkdir -p /etc/uv
-cat > /etc/uv/uv.toml << 'EOF'
-python-install-mirror = "https://gh-proxy.com/github.com/astral-sh/python-build-standalone/releases/download"
-
-[[index]]
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
-default = true
-EOF
-echo "✓ Created /etc/uv/uv.toml with mirror settings"
+# Commented out for Korea server - no need for China mirrors
+# echo "Creating system-wide uv config..."
+# mkdir -p /etc/uv
+# cat > /etc/uv/uv.toml << 'EOF'
+# python-install-mirror = "https://gh-proxy.com/github.com/astral-sh/python-build-standalone/releases/download"
+#
+# [[index]]
+# url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+# default = true
+# EOF
+# echo "✓ Created /etc/uv/uv.toml with mirror settings"
+echo "✓ Skipped uv mirror config (not needed for Korea server)"
 
 # Create litellm user if it doesn't exist
 if ! id -u litellm &> /dev/null; then
