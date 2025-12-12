@@ -5,19 +5,18 @@ on:
     branches:
       - next
     paths:
-      - 'nix/hm/litellm/**'
-      - 'nix/lib/proxy.nix'
-      - '.github/workflows/deploy-litellm.yml'
+      - "nix/hm/litellm/config-generator.nix"
+      - ".github/workflows/deploy-litellm.yml"
   workflow_dispatch:
     inputs:
       force_deploy:
-        description: 'Force deploy even without config changes'
+        description: "Force deploy even without config changes"
         required: false
-        default: 'false'
+        default: "false"
         type: boolean
 
 env:
-  NIX_VERSION: '2.18.1'
+  NIX_VERSION: "2.18.1"
 
 jobs:
   build-and-deploy:

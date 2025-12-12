@@ -29,8 +29,8 @@ let
   claudeScriptPrelude = ''
     set -euo pipefail
 
-    export HTTP_PROXY="${proxyConfig.proxies.http}"
-    export HTTPS_PROXY="${proxyConfig.proxies.https}"
+    # export HTTP_PROXY="${proxyConfig.proxies.http}"
+    # export HTTPS_PROXY="${proxyConfig.proxies.https}"
     export NO_PROXY="${proxyConfig.noProxyString}"
     export DISABLE_AUTOUPDATER=1
     export DISABLE_BUG_COMMAND=1

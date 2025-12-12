@@ -76,7 +76,7 @@ in
   # service
   #######
   launchd.agents.litellm = {
-    enable = true;
+    enable = false;
     config = {
       ProgramArguments = [
         "${startLiteLLMScript}/bin/litellm-start"
