@@ -93,7 +93,7 @@ let
       model_name = "openrouter/mistral-large-2512";
       litellm_params = {
         model = "openrouter/mistralai/mistral-large-2512";
-        api_key = "os.environ/OPENROUTER_API_KEY";
+        api_key = pkgs.nix-priv.keys.openrouter.apiKey;
         max_tokens = 252000;
       };
     }
@@ -101,7 +101,7 @@ let
       model_name = "openrouter/devstral-2512";
       litellm_params = {
         model = "openrouter/mistralai/devstral-2512:free";
-        api_key = "os.environ/OPENROUTER_API_KEY";
+        api_key = pkgs.nix-priv.keys.openrouter.apiKey;
         max_tokens = 252000;
       };
     }
@@ -109,7 +109,7 @@ let
       model_name = "openrouter/*";
       litellm_params = {
         model = "openrouter/*";
-        api_key = "os.environ/OPENROUTER_API_KEY";
+        api_key = pkgs.nix-priv.keys.openrouter.apiKey;
       };
     }
   ];
