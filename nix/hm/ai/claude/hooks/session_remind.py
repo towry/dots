@@ -18,6 +18,7 @@ The script mirrors the style and error handling of `pre_compact.py`.
 import argparse
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime
@@ -72,6 +73,38 @@ def sanitize_string(value):
     return " ".join(value.strip().split())
 
 
+def detect_repo_type(project_dir):
+    """Detect repository type (jj, git, or no-repo) using repo_check.sh.
+
+    Returns tuple of (repo_type, reminder_msg or None).
+    """
+    if not project_dir:
+        return None, None
+
+    script_path = Path.home() / ".claude/skills/git-jj/scripts/repo_check.sh"
+    if not script_path.exists():
+        return None, None
+
+    try:
+        result = subprocess.run(
+            ["bash", str(script_path)],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            cwd=project_dir,
+        )
+        repo_type = result.stdout.strip()
+
+        if repo_type == "jj":
+            return "jj", "Load git-jj skill when using git/vcs commands."
+        elif repo_type == "git":
+            return "git", None
+        else:
+            return None, None
+    except Exception:
+        return None, None
+
+
 def build_reminder_message(session_id, project_dir):
     """Build the session reminder message with datetime."""
     today = datetime.now().strftime(DATE_FORMAT)
@@ -80,6 +113,18 @@ def build_reminder_message(session_id, project_dir):
     msg += f"Today is: {today}\n"
     if project_dir:
         msg += f"Current project root: {project_dir}"
+
+    # Add repository type info
+    repo_type, repo_reminder = detect_repo_type(project_dir)
+    if repo_type:
+        msg += f"\nRepo type: {repo_type}"
+        if repo_reminder:
+            msg += f"\nNote: {repo_reminder}"
+
+    # Add kiro directory if present
+    kiro_dir = os.environ.get("KIRO_DIR", "").strip()
+    if kiro_dir:
+        msg += f"\nKiro spec dir: {kiro_dir}"
     return msg
 
 
@@ -131,8 +176,15 @@ def main():
                 file=sys.stderr,
             )
 
+        # Get kiro dir name (basename only) for system message
+        kiro_dir = os.environ.get("KIRO_DIR", "").strip()
+        kiro_name = Path(kiro_dir).name if kiro_dir else ""
+        system_msg = f"Remind - Project: {project_dir}"
+        if kiro_name:
+            system_msg += f", Kiro: {kiro_name}"
+
         output_json = {
-            "systemMessage": f"Remind - Project: {project_dir}",
+            "systemMessage": system_msg,
             "hookSpecificOutput": {
                 "hookEventName": "SessionStart",
                 "additionalContext": reminder_msg,

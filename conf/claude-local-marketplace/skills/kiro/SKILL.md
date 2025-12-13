@@ -5,7 +5,7 @@ description: "This skill should be used when managing structured spec-driven dev
 
 # Kiro - Structured Spec-Driven Development Workflow
 
-## Output style 
+## Output style
 
 - No extra explanations, only respond with the requested content
 - If workflow decisions is clear, just do it, no additional confirmation, explanations or summary needed, avoid bloating the context before actual work.
@@ -24,6 +24,7 @@ Every kiro spec contains four key spec files, which need to be updated and track
 2. **`requirements.md`** - User stories and acceptance criteria
 3. **`design.md`** - Architecture, data models, and implementation details
 4. **`tasks.md`** - Implementation tasks with status tracking
+5. **`review-spec.md`** - Document as a bridge for user and the spec owner, help to review this spec before implement.
 
 ## Workflow Decision Tree
 
@@ -212,7 +213,7 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
    - Reference the design document
    - Verify requirements are met
 
-4. **Update task status**
+4. **Update tasks.md file status**
    - Mark task as 🟡 In Progress when starting
    - Update checkbox `[x]` when complete
    - Change status to ✅ Completed
@@ -221,11 +222,11 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
 5. **Update claude.md after each task**
    - Add any new decisions to Session Notebook → Decisions
    - Note any risks encountered
-   - Keep spec file status current
+   - Keep spec file status up-to-date, including tasks.md task status
 
 ## Critical Rules (Always Enforce)
 
-1. **Status Tracking**: Keep the "Spec files status" section in `claude.md` current at all times
+1. **Status Tracking**: Keep the "Spec files status" section in `claude.md` current at all times, update `tasks.md` status after each task.
 2. **Never Skip Approval**: Never proceed to next phase without explicit user approval
 3. **Always Ask Questions**: When requirements are unclear, ask rather than assume
 4. **Present Options**: Offer choices for user to decide rather than making assumptions
@@ -261,7 +262,7 @@ Additional options:
 To list templates, run `agpod kiro --json list-templates`
 
 
-## Example 
+## Example
 
-user: "load kiro system spec" / "load kiro system" 
+user: "load kiro system spec" / "load kiro system"
 agent: "Loading kiro skill ... I see user mention 'system', let  me ask `eng` subagent to list existing kiro specs and see if a matching 'system' spec exist ... Ok let me read this spec and check the control board for current status ... I see requirements.md is empty, so we need to gather requirements ..."

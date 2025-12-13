@@ -194,11 +194,11 @@ rec {
       (pick mcpServers [
         "kg"
         "mermaid"
-        # "chromedev"
+        "chromedev"
         "github"
         "exa"
         "mastergo"
-        "debug_webpage"
+        # "debug_webpage"
       ])
     );
     forge = mapWithClientMk clientMk.forge (

@@ -74,6 +74,8 @@
       forAllSystems = nixpkgs.lib.genAttrs [
         "x86_64-darwin"
         "aarch64-darwin"
+        "x86_64-linux"
+        "aarch64-linux"
       ];
       overlay = import ./nix/overlay.nix {
         inherit inputs;
@@ -159,6 +161,29 @@
             ;
         }
       );
+
+      # Standalone packages for CI/CD
+      packages = forAllSystems (
+        system:
+        let
+          inherit (mkSystemConfig system) pkgs;
+        in
+        {
+          # LiteLLM config for deployment (with embedded secrets from nix-priv)
+          litellm-config =
+            let
+              configFile = import ./nix/hm/litellm/standalone-config.nix {
+                inherit pkgs;
+                inherit (pkgs) lib;
+              };
+            in
+            pkgs.runCommand "litellm-config" { } ''
+              mkdir -p $out
+              cp ${configFile} $out/config.yaml
+            '';
+        }
+      );
+
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
     };
 

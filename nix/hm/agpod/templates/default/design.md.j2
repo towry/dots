@@ -104,6 +104,42 @@
 - [Adjustments needed based on PoC results]
 - [Risks mitigated or still outstanding]
 
+### Design for Testability
+
+[Include this section to ensure components are designed for effective testing from the start]
+
+#### Testability Principles Applied
+
+1. **Dependency Injection**
+   - [Which components use DI and why]
+   - [How dependencies are injected (constructor, setter, factory)]
+
+2. **Controllability & Observability**
+   - [How system state can be set for testing]
+   - [What internal states/outputs are observable]
+   - [Seams created for behavior modification in tests]
+
+3. **Isolation Strategy**
+   - [Which components can be tested independently]
+   - [Interface abstractions enabling mock/stub usage]
+   - [External dependencies that require test doubles]
+
+4. **Pure Functions & State Management**
+   - [Which functions are side-effect free]
+   - [How global/shared state is minimized or avoided]
+   - [Deterministic behavior guarantees]
+
+#### Test Doubles & Mocking Strategy
+
+- **[Component/Interface Name]**: [Mock/Stub/Fake strategy and rationale]
+- **[External Service]**: [How it will be isolated in tests]
+
+#### Testability Trade-offs
+
+- [Any design compromises made for testability]
+- [Performance or complexity impacts]
+- [Boundaries where testability is deprioritized and why]
+
 ### Key Algorithms
 
 [Optional: Include this section when the feature requires non-trivial algorithms or complex logic]
