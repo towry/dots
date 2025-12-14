@@ -1,0 +1,156 @@
+name: Deploy LiteLLM to Remote Server
+
+on:
+  push:
+    branches:
+      - next
+    paths:
+      - "nix/hm/litellm/config-generator.nix"
+      - "nix/hm/litellm/frontier-muffin.nix"
+      - "nix/hm/litellm/bender-muffin.nix"
+      - ".github/workflows/deploy-litellm.yml"
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: "Force deploy even without config changes"
+        required: false
+        default: "false"
+        type: boolean
+
+env:
+  NIX_VERSION: "2.18.1"
+
+jobs:
+  build-and-deploy:
+    name: Build Config and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            experimental-features = nix-command flakes
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Configure SSH for nix-priv access
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add GitHub to known hosts
+        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Build LiteLLM config with Nix
+        run: |
+          echo "Building LiteLLM config..."
+
+          # Build the standalone litellm-config package
+          nix build .#litellm-config --out-link litellm-config
+
+          # Copy the config to a known location
+          cp litellm-config/config.yaml config.yaml
+
+          echo "Config built successfully:"
+          ls -lh config.yaml
+
+      - name: Prepare deployment files
+        run: |
+          mkdir -p deploy-package
+          cp config.yaml deploy-package/
+          cp nix/hm/litellm/deploy/litellm.service deploy-package/
+          cp nix/hm/litellm/deploy/deploy.sh deploy-package/
+          chmod +x deploy-package/deploy.sh
+
+          echo "Deployment package contents:"
+          ls -lh deploy-package/
+
+      - name: Setup SSH for remote deployment
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || 22 }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${DEPLOY_SSH_KEY}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # Trim whitespace from host and port
+          HOST_CLEAN=$(echo "${DEPLOY_HOST}" | tr -d '[:space:]')
+          PORT_CLEAN=$(echo "${DEPLOY_PORT}" | tr -d '[:space:]')
+          ssh-keyscan -p "${PORT_CLEAN}" "${HOST_CLEAN}" >> ~/.ssh/known_hosts || true
+
+      - name: Transfer files to remote server
+        env:
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || 22 }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USERNAME }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          # Trim whitespace/newlines from secrets
+          DEPLOY_HOST_CLEAN=$(echo "${DEPLOY_HOST}" | tr -d '[:space:]')
+          DEPLOY_USER_CLEAN=$(echo "${DEPLOY_USER}" | tr -d '[:space:]')
+          DEPLOY_PORT_CLEAN=$(echo "${DEPLOY_PORT}" | tr -d '[:space:]')
+
+          echo "Transferring deployment package to remote server..."
+          echo "Target: ${DEPLOY_USER_CLEAN}@${DEPLOY_HOST_CLEAN}:${DEPLOY_PORT_CLEAN}"
+          rsync -avz --progress -e "ssh -i ~/.ssh/deploy_key -p ${DEPLOY_PORT_CLEAN} -o StrictHostKeyChecking=no" deploy-package/ "${DEPLOY_USER_CLEAN}@${DEPLOY_HOST_CLEAN}:/tmp/litellm-deploy/"
+          echo "Transfer completed"
+
+      - name: Deploy on remote server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || '22' }}
+          script: |
+            echo "=== Starting LiteLLM deployment ==="
+
+            # Show deploy.sh content for debugging
+            echo "--- deploy.sh version check ---"
+            head -40 /tmp/litellm-deploy/deploy.sh | grep -A5 "usr/local/bin" || echo "No copy command found"
+
+            # Run the deployment script
+            sudo /tmp/litellm-deploy/deploy.sh /tmp/litellm-deploy/config.yaml
+
+            echo ""
+            echo "=== Post-deployment checks ==="
+            echo "uvx location and permissions:"
+            ls -la /usr/local/bin/uv* 2>/dev/null || echo "No uv binaries in /usr/local/bin"
+
+            echo ""
+            echo "Testing uvx execution:"
+            sudo -u litellm /usr/local/bin/uvx --version 2>&1 || echo "uvx execution failed"
+
+            echo ""
+            echo "=== Deployment completed ==="
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || '22' }}
+          script: |
+            echo "Checking service status..."
+            sudo systemctl status litellm --no-pager || true
+
+            echo ""
+            echo "Recent logs:"
+            sudo journalctl -u litellm -n 20 --no-pager
+
+            echo ""
+            echo "Testing health endpoint..."
+            sleep 5
+            curl -f http://localhost:4000/health || echo "Health check failed - service may still be starting"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f ~/.ssh/deploy_key

@@ -6,7 +6,7 @@
 
 """Hook: SessionEnd - Save session chat messages to project directory.
 
-Saves conversation messages to `.claude/sessions/session-<description>-<timestamp>.txt`
+Saves conversation messages to `.claude/sessions/<timestamp>-session-<description>.txt`
 in the format:
     <user>...</user>
     <agent>...</agent>
@@ -160,7 +160,7 @@ def save_session(cwd: str, messages: list, session_id: str):
     # Generate filename
     description = extract_description_from_messages(messages)
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    filename = f"session-{description}-{timestamp}.txt"
+    filename = f"{timestamp}-session-{description}.txt"
     filepath = sessions_dir / filename
 
     # Format and write output

@@ -14,7 +14,7 @@
       model = "github_copilot/claude-haiku-4.5";
       extra_headers = copilotHeaders;
       max_tokens = 16000;
-      rpm = 10;
+      rpm = 4;
     };
     model_info = {
       max_output_tokens = 16000;
@@ -33,19 +33,19 @@
   #     max_output_tokens = 16000;
   #   };
   # }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openai/minimax-m2";
-      api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
-      api_base = "https://api.minimaxi.com/v1";
-      max_tokens = 128000;
-      rpm = 2;
-    };
-    model_info = {
-      max_output_tokens = 128000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "openai/minimax-m2";
+  #     api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
+  #     api_base = "https://api.minimaxi.com/v1";
+  #     max_tokens = 128000;
+  #     rpm = 2;
+  #   };
+  #   model_info = {
+  #     max_output_tokens = 128000;
+  #   };
+  # }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -116,26 +116,15 @@
   #     max_output_tokens = 128000;
   #   };
   # }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "openrouter/minimax/minimax-m2";
-      api_key = "os.environ/OPENROUTER_API_KEY";
-      max_tokens = 262000;
-      rpm = 3;
-    };
-    model_info = {
-      max_output_tokens = 262000;
-    };
-  }
 
   {
     model_name = "bender-muffin";
     litellm_params = {
-      model = "openrouter/anthropic/claude-haiku-4.5";
-      api_key = "os.environ/OPENROUTER_API_KEY";
+      model = "anthropic/claude-haiku-4-5-20251001";
+      use_in_pass_through = true;
+      api_base = "https://www.packyapi.com";
+      api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
       max_tokens = 64000;
-      rpm = 5;
     };
     model_info = {
       max_output_tokens = 64000;
