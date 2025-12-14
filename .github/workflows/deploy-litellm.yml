@@ -6,6 +6,8 @@ on:
       - next
     paths:
       - "nix/hm/litellm/config-generator.nix"
+      - "nix/hm/litellm/frontier-muffin.nix"
+      - "nix/hm/litellm/bender-muffin.nix"
       - ".github/workflows/deploy-litellm.yml"
   workflow_dispatch:
     inputs:

@@ -14,7 +14,7 @@
       model = "github_copilot/claude-haiku-4.5";
       extra_headers = copilotHeaders;
       max_tokens = 16000;
-      rpm = 5;
+      rpm = 4;
     };
     model_info = {
       max_output_tokens = 16000;
