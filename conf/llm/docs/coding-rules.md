@@ -10,6 +10,10 @@ Developer: # Rules That Matter
 - **Efficiency:** Present your plan once and proceed unless scope changes or prompted by user.
 - **Good Output Format:** Use enhanced Markdown formatting for clarity.
 - **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging, fixing code.
+- **Facts check on Plan/Suspicious context:** Facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification.
+- **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial.
+- **Be smart lazy with tools:** Check what available tools can help before doing manual work. For example, instead of replace string file by file, use rg/sed or ast-grep to do batch update. Or use subagent to do bunch of web search and summarize. In general, avoid manual repetitive work, and be efficient with your time.
+- When debugging issue, always use `exa` to search on web for solutions, key information.
 
 ## Planning and Implementation
 - **Simplicity:** Write only essential code; use comments for potential features (do not implement them).
@@ -22,6 +26,9 @@ Developer: # Rules That Matter
 - **Comment Intent:** Use `FIXME`, `TODO`, and `NOTE` to flag issues, explain logic, document changes, and note trade-offs.
 - **Comment as documentation:** Document any implement intent, decisions, critical findings in the code comment. Especially after a fix, document the reason behind the change.
 - **Design for Testability:** Apply DfT principles from the start—use dependency injection, prefer pure functions, avoid global state, and design for controllability and observability. Create seams for testing; isolate components to enable independent verification.
+- **Avoid introduce implement complexity:** No backward compatibility layers, feature flags, or toggles unless explicitly requested.
+- **No external data based design:** Avoid designs relying on external data, for example, use external api data to determine program logic or control flow, it will broke when external data changes.
+- **Avoid outdated dependency:** Use the latest stable version of dependencies unless there is a specific reason to use an older version. This is important to avoid big refactor later.
 
 When editing code: (1) state your assumptions, (2) create/run minimal tests if possible, (3) generate diffs ready for review, (4) follow repository style.
 

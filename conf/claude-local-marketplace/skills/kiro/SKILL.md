@@ -152,7 +152,9 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
    - Document design decisions in Session Notebook → Decisions
    - Note any identified risks in Session Notebook → Risks
 
-**Critical Rule:** Never proceed to implementation without user approval of design.
+**Critical Rule:** 
+- Never proceed to implementation without user approval of design.
+- Make sure two specs design (old and current) align cohesively with the core system architecture. Run `agpod kiro --json pr-list` to find the latest old specs.
 
 ## Phase 4: Task Planning
 

@@ -1,5 +1,5 @@
 ---
-model: moonshot:kimi-k2-turbo
+model: openrouter:kimi-k2-non-reasoning
 temperature: 0.0
 top_p: 0.2
 stream: false
