@@ -14,6 +14,7 @@ Developer: # Rules That Matter
 - **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial.
 - **Be smart lazy with tools:** Check what available tools can help before doing manual work. For example, instead of replace string file by file, use rg/sed or ast-grep to do batch update. Or use subagent to do bunch of web search and summarize. In general, avoid manual repetitive work, and be efficient with your time.
 - When debugging issue, always use `exa` to search on web for solutions, key information.
+- Use subagents when you have a high-level checklist on what to do.
 
 ## Planning and Implementation
 - **Simplicity:** Write only essential code; use comments for potential features (do not implement them).

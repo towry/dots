@@ -8,6 +8,8 @@ on:
       - "nix/hm/litellm/config-generator.nix"
       - "nix/hm/litellm/frontier-muffin.nix"
       - "nix/hm/litellm/bender-muffin.nix"
+      - "nix/hm/litellm/deploy/litellm.service"
+      - "nix/hm/litellm/deploy/deploy-config.nix"
       - ".github/workflows/deploy-litellm.yml"
   workflow_dispatch:
     inputs:
