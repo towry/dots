@@ -9,7 +9,7 @@
   ];
   home.file = {
     ".tool-versions".text = ''
-      elixir 1.18.4-otp-27
+      elixir 1.19.4-otp-28
       erlang system
     '';
 

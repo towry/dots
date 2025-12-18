@@ -5,9 +5,9 @@
   ...
 }:
 let
-  beamPackages = pkgs.beam.packages.erlang_27;
+  beamPackages = pkgs.beam.packages.erlang_28;
   erlang = beamPackages.erlang;
-  elixir = beamPackages.elixir_1_18;
+  elixir = beamPackages.elixir_1_19;
   hex = beamPackages.hex;
   # use rebar from nix instead of fetch externally
   rebar3 = beamPackages.rebar3;

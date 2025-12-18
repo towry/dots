@@ -5,7 +5,7 @@
     "$schema" = "https://opencode.ai/config.json";
     small_model = "github-copilot/grok-code-fast-1";
     autoupdate = false;
-    username = "TOWRY 😜";
+    username = "TOWRY";
     lsp = false;
     formatter = false;
     disabled_providers = [
@@ -254,7 +254,7 @@
         name = "LiteLLM";
         options = {
           apiKey = "{env:LITELLM_MASTER_KEY}";
-          baseURL = "http://127.0.0.1:4000";
+          baseURL = "{env:LITELLM_API_URL}";
         };
         models = {
           free-muffin = {

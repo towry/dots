@@ -180,6 +180,49 @@ let
     }
   ) githubModelNames;
 
+  zenmuxModels =
+    builtins.map
+      (
+        model:
+        let
+          alias = "zenmux/${model}";
+          maxOutputTokens = getMaxOutputTokens "zenmux/${model}";
+        in
+        {
+          model_name = alias;
+          litellm_params = {
+            model = "anthropic/${model}";
+            api_base = "https://zenmux.ai/api/anthropic";
+            api_key = pkgs.nix-priv.keys.zenmux.apiKey;
+            max_tokens = maxOutputTokens;
+          };
+          model_info = {
+            max_output_tokens = maxOutputTokens;
+          };
+        }
+      )
+      [
+        "zenmux/auto"
+        "deepseek/deepseek-reasoner"
+        "anthropic/claude-opus-4.5"
+        "anthropic/claude-haiku-4.5"
+        "anthropic/claude-sonnet-4.5"
+        "anthropic/claude-3.5-haiku"
+        "z-ai/glm-4.6"
+        "z-ai/glm-4.6v-flash"
+        "x-ai/grok-4.1-fast"
+        "x-ai/grok-code-fast-1"
+        "google/gemini-3-pro-preview"
+        "google/gemini-3-flash-preview"
+        "openai/gpt-5.1"
+        "openai/gpt-5.2"
+        "openai/gpt-5.1-codex"
+        "openai/gpt-5.1-codex-mini"
+        "moonshotai/kimi-k2-thinking"
+        "minimax/minimax-m2"
+        "moonshotai/kimi-k2-thinking-turbo"
+      ];
+
   copilotGpt5Model = [
     {
       model_name = "gpt-5";
@@ -225,6 +268,7 @@ let
         "claude-haiku-4-5"
         "claude-3-5-haiku"
         "gemini-3-pro"
+        "gemini-3-flash"
         "qwen3-coder"
         "kimi-k2"
         "kimi-k2-thinking"
@@ -347,6 +391,7 @@ let
     ++ freeMuffinModels
     ++ frontierMuffinModels
     ++ opencodeModels
+    ++ zenmuxModels
     ++ aliCnModels;
 
 in
@@ -373,7 +418,8 @@ in
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
         { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
         { "openai/minimax-m2" = [ "opencodeai/claude-haiku-4-5" ]; }
-        { "bender-muffin" = [ "opencodeai/claude-haiku-4-5" ]; }
+        { "bender-muffin" = [ "zenmux/google/gemini-3-flash-preview" ]; }
+        { "frontier-muffin" = [ "zenmux/anthropic/claude-sonnet-4.5" ]; }
       ];
       cache = false;
       cache_params = {

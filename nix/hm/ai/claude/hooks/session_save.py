@@ -11,16 +11,22 @@ in the format:
     <user>...</user>
     <agent>...</agent>
     <tool_call>...</tool_call>  (for important tool calls)
+
+Also generates a summary for the next session to pick up.
 """
 
 import json
 import os
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 
 
 IMPORTANT_TOOLS = {"Bash", "Execute", "Write", "Edit", "Create", "Task"}
+# Use aichat with session-summary role to avoid interfering with Claude sessions
+SUMMARY_ROLE = "session-summary"  # aichat role name
+MAX_SUMMARY_MESSAGES = 8
 
 
 def extract_description_from_messages(messages: list) -> str:
@@ -148,6 +154,84 @@ def parse_transcript(transcript_path: str) -> list:
     return messages
 
 
+def generate_summary(messages: list, cwd: str) -> str:
+    """Generate a brief summary using aichat with session-summary role.
+
+    Args:
+        messages: List of (msg_type, content) tuples
+        cwd: Project directory context
+
+    Returns:
+        Generated summary text (1-2 sentences)
+    """
+    if not messages:
+        return ""
+
+    # Filter to user/agent messages first, then take last N
+    relevant = [(t, c) for t, c in messages if t in ("user", "agent")]
+    recent = []
+    for msg_type, content in relevant[-MAX_SUMMARY_MESSAGES:]:
+        # Truncate long messages
+        text = content[:300] + "..." if len(content) > 300 else content
+        role = "USER" if msg_type == "user" else "ASSISTANT"
+        recent.append(f"{role}: {text}")
+
+    if not recent:
+        return ""
+
+    conversation = "\n\n".join(recent)
+
+    prompt = f"""Project: {cwd}
+
+Conversation:
+{conversation}"""
+
+    try:
+        # Use aichat with session-summary role via stdin
+        result = subprocess.run(
+            ["aichat", "-r", SUMMARY_ROLE],
+            input=prompt,
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+
+        if result.returncode == 0:
+            summary = result.stdout.strip()
+            # Remove any markdown formatting
+            summary = summary.replace("**", "").replace("*", "")
+            return summary
+        else:
+            return ""
+
+    except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
+        return ""
+
+
+def save_summary(cwd: str, summary: str, timestamp: str):
+    """Save summary to sessions directory with timestamp.
+
+    Args:
+        cwd: Project directory
+        summary: Summary text
+        timestamp: Timestamp string (YYYYMMDD-HHMMSS)
+    """
+    if not summary:
+        return
+
+    sessions_dir = Path(cwd) / ".claude" / "sessions"
+    summary_file = sessions_dir / f"{timestamp}-summary.txt"
+
+    try:
+        sessions_dir.mkdir(parents=True, exist_ok=True)
+        with open(summary_file, "w") as f:
+            f.write(summary)
+        os.chmod(summary_file, 0o600)
+    except Exception:
+        pass
+
+
 def save_session(cwd: str, messages: list, session_id: str):
     """Save formatted messages to session file."""
     if not messages:
@@ -180,6 +264,10 @@ def save_session(cwd: str, messages: list, session_id: str):
         os.chmod(filepath, 0o600)
     except Exception as e:
         print(f"Error saving session: {e}", file=sys.stderr)
+
+    # Generate and save summary for next session
+    summary = generate_summary(messages, cwd)
+    save_summary(cwd, summary, timestamp)
 
 
 def main():

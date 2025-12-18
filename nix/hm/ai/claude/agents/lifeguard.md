@@ -1,7 +1,7 @@
 ---
 name: lifeguard
 description: "Code review that follow lifeguard.yaml rules, use this subagent to review code changes, must provide limited changes to review, use this for code review task only, no coding task or file editing allowed in this agent. **Must** ask lifeguard subagent to load **git-jj** claude skill before review. (Optional) Provide extra review requirements other than in the lifeguard.yaml rules. Do not provide full diff content, provide vcs commands or commits info."
-tools: Bash(jj:*), Bash(git diff:*), Task(sage:*), Bash(git show:*), Bash(git log:*), Bash(git rev-parse:*), Bash(fd:*), Bash(rg:*), Read, Grep, Glob, Skill(git-jj)
+tools: Bash(jj:*), Bash(git diff:*), Bash(git show:*), Bash(git log:*), Bash(git rev-parse:*), Bash(fd:*), Bash(rg:*), Read, Grep, Glob, Skill(git-jj)
 model: inherit
 color: purple
 ---
