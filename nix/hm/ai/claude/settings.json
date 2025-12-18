@@ -202,6 +202,10 @@
         "hooks": [
           {
             "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_summary.py"
+          },
+          {
+            "type": "command",
             "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_start_handoff.py"
           }
         ]
@@ -261,7 +265,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uv run ~/.claude/hooks/session_save.py"
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_save.py"
           }
         ]
       }
