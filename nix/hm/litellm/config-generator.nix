@@ -225,6 +225,7 @@ let
         "claude-haiku-4-5"
         "claude-3-5-haiku"
         "gemini-3-pro"
+        "gemini-3-flash"
         "qwen3-coder"
         "kimi-k2"
         "kimi-k2-thinking"
