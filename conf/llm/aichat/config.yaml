@@ -40,6 +40,8 @@ clients:
     api_base: https://openrouter.ai/api/v1
     api_key: @OPENROUTER_API_KEY@
     models:
+      - name: qwen3-coder
+        real_name: qwen/qwen3-coder
       - name: kimi-k2-non-reasoning
         real_name: moonshotai/kimi-k2-0905
         patch:
@@ -58,7 +60,6 @@ clients:
           body:
             reasoning:
               enabled: false
-
       - name: glm-4.5-air-non-reasoning
         real_name: z-ai/glm-4.5-air
         patch:

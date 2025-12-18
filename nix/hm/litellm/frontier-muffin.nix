@@ -67,6 +67,7 @@
       model = "anthropic/anthropic/claude-sonnet-4.5";
       api_base = "https://zenmux.ai/api/anthropic";
       api_key = pkgs.nix-priv.keys.zenmux.apiKey;
+      use_in_pass_through = true;
       max_tokens = 64000;
       rpm = 5;
     };

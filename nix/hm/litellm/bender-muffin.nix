@@ -26,6 +26,7 @@
       model = "anthropic/anthropic/claude-haiku-4.5";
       api_base = "https://zenmux.ai/api/anthropic";
       api_key = pkgs.nix-priv.keys.zenmux.apiKey;
+      use_in_pass_through = true;
       max_tokens = 64000;
       rpm = 3;
     };
@@ -40,38 +41,26 @@
       api_base = "https://zenmux.ai/api/anthropic";
       api_key = pkgs.nix-priv.keys.zenmux.apiKey;
       max_tokens = 64000;
+      use_in_pass_through = true;
       rpm = 2;
     };
     model_info = {
       max_output_tokens = 64000;
     };
   }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "anthropic/minimax/minimax-m2";
-      api_base = "https://zenmux.ai/api/anthropic";
-      api_key = pkgs.nix-priv.keys.zenmux.apiKey;
-      max_tokens = 128000;
-      rpm = 2;
-    };
-    model_info = {
-      max_output_tokens = 128000;
-    };
-  }
-  {
-    model_name = "bender-muffin";
-    litellm_params = {
-      model = "anthropic/moonshotai/kimi-k2-thinking";
-      api_base = "https://zenmux.ai/api/anthropic";
-      api_key = pkgs.nix-priv.keys.zenmux.apiKey;
-      max_tokens = 262000;
-      rpm = 1;
-    };
-    model_info = {
-      max_output_tokens = 262000;
-    };
-  }
+  # {
+  #   model_name = "bender-muffin";
+  #   litellm_params = {
+  #     model = "anthropic/minimax/minimax-m2";
+  #     api_base = "https://zenmux.ai/api/anthropic";
+  #     api_key = pkgs.nix-priv.keys.zenmux.apiKey;
+  #     max_tokens = 128000;
+  #     rpm = 2;
+  #   };
+  #   model_info = {
+  #     max_output_tokens = 128000;
+  #   };
+  # }
 
   # {
   #   model_name = "bender-muffin";

@@ -24,9 +24,8 @@ from pathlib import Path
 
 
 IMPORTANT_TOOLS = {"Bash", "Execute", "Write", "Edit", "Create", "Task"}
-# Use aichat with a fast model to avoid interfering with Claude sessions
-# Using OpenRouter's GLM model (fast, non-reasoning) for reliable summaries
-SUMMARY_MODEL = "openrouter:glm-4.5-air-non-reasoning"
+# Use aichat with session-summary role to avoid interfering with Claude sessions
+SUMMARY_ROLE = "session-summary"  # aichat role name
 MAX_SUMMARY_MESSAGES = 8
 
 
@@ -156,7 +155,7 @@ def parse_transcript(transcript_path: str) -> list:
 
 
 def generate_summary(messages: list, cwd: str) -> str:
-    """Generate a brief summary using aichat (to avoid creating new Claude sessions).
+    """Generate a brief summary using aichat with session-summary role.
 
     Args:
         messages: List of (msg_type, content) tuples
@@ -168,41 +167,30 @@ def generate_summary(messages: list, cwd: str) -> str:
     if not messages:
         return ""
 
-    # Take last N messages for summary, focusing on user/agent content
+    # Filter to user/agent messages first, then take last N
+    relevant = [(t, c) for t, c in messages if t in ("user", "agent")]
     recent = []
-    for msg_type, content in messages[-MAX_SUMMARY_MESSAGES:]:
-        if msg_type in ("user", "agent"):
-            # Truncate long messages
-            text = content[:300] + "..." if len(content) > 300 else content
-            role = "USER" if msg_type == "user" else "ASSISTANT"
-            recent.append(f"{role}: {text}")
+    for msg_type, content in relevant[-MAX_SUMMARY_MESSAGES:]:
+        # Truncate long messages
+        text = content[:300] + "..." if len(content) > 300 else content
+        role = "USER" if msg_type == "user" else "ASSISTANT"
+        recent.append(f"{role}: {text}")
 
     if not recent:
         return ""
 
     conversation = "\n\n".join(recent)
 
-    prompt = f"""Summarize the recent conversation in 1-2 concise sentences. Focus on:
-- What task or question was being worked on
-- Key decisions or outcomes (if any)
-
-Project: {cwd}
+    prompt = f"""Project: {cwd}
 
 Conversation:
-{conversation}
-
-Summary (1-2 sentences):"""
+{conversation}"""
 
     try:
-        # Use aichat instead of claude to avoid creating a new Claude session
+        # Use aichat with session-summary role via stdin
         result = subprocess.run(
-            [
-                "aichat",
-                "--model",
-                SUMMARY_MODEL,
-                "--no-stream",
-                prompt,
-            ],
+            ["aichat", "-r", SUMMARY_ROLE],
+            input=prompt,
             cwd=cwd,
             capture_output=True,
             text=True,

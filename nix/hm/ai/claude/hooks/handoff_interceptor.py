@@ -8,7 +8,7 @@
 This hook:
 1. Detects when user types "/handoff"
 2. Reads the session transcript to extract all messages
-3. Calls `claude -p` to generate a handoff summary
+3. Calls `aichat -r handoff-summary` to generate a handoff summary
 4. Returns the summary as additional context to be shown to the user
 """
 
@@ -22,7 +22,7 @@ MAX_MESSAGES = 30
 MAX_MESSAGE_LEN = 500
 MAX_CONVERSATION_CHARS = 8000
 RECENT_PROTECT_COUNT = 8
-HANDOFF_MODEL = "openrouter/qwen/qwen3-coder"
+HANDOFF_ROLE = "handoff-summary"  # aichat role name
 
 
 def extract_todos(transcript_path: str) -> list[dict]:
@@ -478,19 +478,19 @@ def generate_slug_from_messages(messages: list[dict]) -> str:
 def generate_handoff_summary(
     messages: list[dict], project_dir: str = ".", todos: list[dict] = None
 ) -> str:
-    """Generate handoff summary using claude -p.
+    """Generate handoff summary using aichat with handoff-summary role.
 
     Args:
         messages: List of conversation messages
-        project_dir: Project directory to run Claude in
+        project_dir: Project directory for context
         todos: List of todo items from transcript (optional)
 
     Returns:
         Generated summary text
 
     Raises:
-        subprocess.TimeoutExpired: If claude command times out
-        FileNotFoundError: If claude command is not found
+        subprocess.TimeoutExpired: If aichat command times out
+        FileNotFoundError: If aichat command is not found
         Exception: If command execution fails
     """
     if not messages:
@@ -516,54 +516,20 @@ The following is the EXACT todo list from the session. Include ALL items in your
 """
 
     # Create prompt for summarization
-    prompt = f"""You are creating a **handoff document** to transfer context from a completed session to the next session in project directory: `{absolute_project_dir}`
+    prompt = f"""Project directory: `{absolute_project_dir}`
 
-This is NOT a summary of what's currently happening - it's documentation of what was COMPLETED and what still needs work.
-
-Analyze this conversation and create a comprehensive handoff document.
-
-YOUR FIRST LINE MUST BE a title describing the main work done. Format exactly like this:
-Title: <your descriptive title here>
-
-The title should describe what was actually worked on (e.g., "Fix Login Authentication Bug", "Add Dark Mode Feature", "Refactor Database Schema"). Do NOT use generic titles like "Handoff" or "Session Summary".
-
-Then include these sections:
-
-1. **Previous Session Overview**: Brief summary of what was worked on and accomplished
-2. **Key Decisions Made**: Important technical decisions that were made and why
-3. **Work Completed**: What was successfully implemented in this session
-4. **Current Blockers/Issues**: Any unresolved problems or blocking issues
-5. **Next Steps (TODO)**: What needs to be done next (also listed verbatim below)
-6. **Context for Next Session**: Critical information the next person MUST know to resume
-7. **Files Modified**: Key files that were changed (if mentioned) - use absolute paths relative to `{absolute_project_dir}`
-8. **Claude Skills Required**: List skills that were used or are needed for continuing work, include in "How to Resume" section
-
-Be concise but thorough. Format the output in markdown.
-
-IMPORTANT:
-- Do NOT include any handoff success messages, pickup commands, or clipboard notices
-- Do NOT copy previous handoff documents from the conversation
-- Generate a FRESH summary based on the actual work discussed
-- The "Current Todo List" section contains the EXACT todo items from this session. You MUST copy them verbatim with markers (☑/▶/☐) - do NOT paraphrase or summarize.
-{todos_section}
-# Previous Session Conversation:
+{todos_section}# Previous Session Conversation:
 
 {conversation}
 
-# Handoff Document:"""
+# Instructions:
+Analyze this conversation and create a comprehensive handoff document following the role's format."""
 
-    # Call claude in print mode for non-interactive summarization
-    # Set cwd to project directory so Claude has correct context
+    # Call aichat with handoff-summary role
+    # Feed prompt via stdin to avoid session file creation
     result = subprocess.run(
-        [
-            "claude",
-            "--model",
-            HANDOFF_MODEL,
-            "--allowedTools",
-            "Write,Read,Bash(mkdir:*),Bash(touch:*),Bash(ls:*)",
-            "-p",
-            prompt,
-        ],
+        ["aichat", "-r", HANDOFF_ROLE],
+        input=prompt,
         cwd=project_dir,
         capture_output=True,
         text=True,
@@ -574,7 +540,7 @@ IMPORTANT:
         return result.stdout.strip()
     else:
         error_msg = result.stderr.strip() if result.stderr else "Unknown error"
-        raise RuntimeError(f"Claude command failed: {error_msg}")
+        raise RuntimeError(f"aichat command failed: {error_msg}")
 
 
 def copy_to_clipboard(text: str) -> bool:
