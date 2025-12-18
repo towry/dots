@@ -41,7 +41,7 @@
       api_base = "https://www.packyapi.com";
       api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
       max_tokens = 64000;
-      rpm = 2;
+      rpm = 5;
     };
     model_info = {
       max_output_tokens = 64000;
@@ -61,22 +61,17 @@
   #     max_output_tokens = 128000;
   #   };
   # }
-  # {
-  #   model_name = "frontier-muffin";
-  #   litellm_params = {
-  #     model = "openrouter/anthropic/claude-opus-4.5";
-  #     max_tokens = 32000;
-  #     rpm = 1;
-  #     provider = {
-  #       sort = "price";
-  #     };
-  #     reasoning = {
-  #       effort = "high";
-  #     };
-  #   };
-  #   model_info = {
-  #     max_input_tokens = 200000;
-  #     max_output_tokens = 32000;
-  #   };
-  # }
+  {
+    model_name = "frontier-muffin";
+    litellm_params = {
+      model = "anthropic/anthropic/claude-sonnet-4.5";
+      api_base = "https://zenmux.ai/api/anthropic";
+      api_key = pkgs.nix-priv.keys.zenmux.apiKey;
+      max_tokens = 64000;
+      rpm = 5;
+    };
+    model_info = {
+      max_output_tokens = 64000;
+    };
+  }
 ]
