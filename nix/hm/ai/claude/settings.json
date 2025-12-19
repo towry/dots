@@ -7,6 +7,7 @@
       "SlashCommand(/pickup:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
+      "Bash(sed -n:*)",
       "Bash(jj help:*)",
       "Bash(jj --no-pager help:*)",
       "Bash(git log:*)",
