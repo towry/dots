@@ -69,7 +69,7 @@
       api_key = pkgs.nix-priv.keys.zenmux.apiKey;
       use_in_pass_through = true;
       max_tokens = 64000;
-      rpm = 2;
+      rpm = 1;
     };
     model_info = {
       max_output_tokens = 64000;
