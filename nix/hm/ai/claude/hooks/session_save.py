@@ -6,13 +6,15 @@
 
 """Hook: SessionEnd - Save session chat messages to project directory.
 
-Saves conversation messages to `.claude/sessions/<timestamp>-session-<description>.txt`
+Saves conversation messages to `.claude/sessions/<timestamp>-session-<title>-ID_<session_id>.md`
 in the format:
     <user>...</user>
     <agent>...</agent>
     <tool_call>...</tool_call>  (for important tool calls)
 
-Also generates a summary for the next session to pick up.
+If a file with the same session_id exists, appends to it instead of creating a new file.
+Also generates a summary (`.claude/sessions/<timestamp>-summary-ID_<session_id>.md`) for the
+next session to pick up. Summary files are overwritten (updated) if they already exist.
 """
 
 import json
@@ -209,22 +211,32 @@ Conversation:
         return ""
 
 
-def save_summary(cwd: str, summary: str, timestamp: str):
-    """Save summary to sessions directory with timestamp.
+def save_summary(cwd: str, summary: str, timestamp: str, session_id: str):
+    """Save summary to sessions directory with session ID.
 
     Args:
         cwd: Project directory
         summary: Summary text
         timestamp: Timestamp string (YYYYMMDD-HHMMSS)
+        session_id: Session ID
     """
-    if not summary:
+    if not summary or not session_id:
         return
 
     sessions_dir = Path(cwd) / ".claude" / "sessions"
-    summary_file = sessions_dir / f"{timestamp}-summary.txt"
+    sessions_dir.mkdir(parents=True, exist_ok=True)
+
+    # Look for existing summary file with this session_id
+    existing_file = None
+    for file in sessions_dir.glob(f"*-summary-ID_{session_id}.md"):
+        existing_file = file
+        break
+
+    # Use existing file or create new one with timestamp
+    summary_file = existing_file or sessions_dir / f"{timestamp}-summary-ID_{session_id}.md"
 
     try:
-        sessions_dir.mkdir(parents=True, exist_ok=True)
+        # Always overwrite summary (update, don't append)
         with open(summary_file, "w") as f:
             f.write(summary)
         os.chmod(summary_file, 0o600)
@@ -232,22 +244,38 @@ def save_summary(cwd: str, summary: str, timestamp: str):
         pass
 
 
-def save_session(cwd: str, messages: list, session_id: str):
-    """Save formatted messages to session file."""
-    if not messages:
+def save_session(cwd: str, messages: list, session_id: str, reason: str = ""):
+    """Save formatted messages to session file.
+
+    If a session file with the same session_id exists, append to it.
+    Otherwise, create a new file with the session_id in the name.
+    """
+    if not messages or not session_id:
         return
 
     # Create sessions directory
     sessions_dir = Path(cwd) / ".claude" / "sessions"
     sessions_dir.mkdir(parents=True, exist_ok=True)
 
-    # Generate filename
+    # Look for existing session file with this session_id
+    existing_file = None
+    for file in sessions_dir.glob(f"*-session-*-ID_{session_id}.md"):
+        existing_file = file
+        break
+
+    # Generate filename for new file
     description = extract_description_from_messages(messages)
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    filename = f"{timestamp}-session-{description}.txt"
-    filepath = sessions_dir / filename
 
-    # Format and write output
+    if existing_file:
+        filepath = existing_file
+        mode = "a"  # Append mode
+    else:
+        filename = f"{timestamp}-session-{description}-ID_{session_id}.md"
+        filepath = sessions_dir / filename
+        mode = "w"  # Write mode for new file
+
+    # Format output
     output_lines = []
     for msg_type, content in messages:
         if msg_type == "user":
@@ -258,16 +286,20 @@ def save_session(cwd: str, messages: list, session_id: str):
             output_lines.append(f"<tool_call>\n{content}\n</tool_call>\n")
 
     try:
-        with open(filepath, "w") as f:
+        with open(filepath, mode) as f:
+            if mode == "a":
+                # Add separator for appended content
+                f.write("\n---\n\n")
             f.write("\n".join(output_lines))
         # Set restrictive permissions
         os.chmod(filepath, 0o600)
     except Exception as e:
         print(f"Error saving session: {e}", file=sys.stderr)
 
-    # Generate and save summary for next session
-    summary = generate_summary(messages, cwd)
-    save_summary(cwd, summary, timestamp)
+    # Generate and save summary for next session (only on "clear" reason)
+    if reason == "clear":
+        summary = generate_summary(messages, cwd)
+        save_summary(cwd, summary, timestamp, session_id)
 
 
 def main():
@@ -286,6 +318,7 @@ def main():
     transcript_path = input_data.get("transcript_path", "")
     cwd = os.environ.get("CLAUDE_PROJECT_DIR") or input_data.get("cwd", "")
     session_id = input_data.get("session_id", "")
+    reason = input_data.get("reason", "")
 
     if not transcript_path or not os.path.exists(transcript_path):
         sys.exit(0)
@@ -294,7 +327,7 @@ def main():
         sys.exit(0)
 
     messages = parse_transcript(transcript_path)
-    save_session(cwd, messages, session_id)
+    save_session(cwd, messages, session_id, reason)
 
     sys.exit(0)
 

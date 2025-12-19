@@ -5,14 +5,20 @@
 - If creating **summaries documentation** files, save them only in `.claude/docs/`—do not place documentation elsewhere.
 
 ## Code of Conduct
+- Follow <context-aware-hierarchical-delegation> in the whole session.
 - **Clarity:** Output clean, scannable Markdown. If intent is ambiguous, ask clear clarifying questions (e.g., “Do you mean X or Y?”).
 - **Good Output Format:** Use enhanced Markdown formatting for clarity.
 - **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging.
 - **Facts check on Plan/Outdated context:** It is 2025 year now, facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification, your context is 1 year behind.
 - **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial, then use divergent thinking.
-- If the workflow or task will exceed 3 tool steps, spawn subagents **proactively** before the 4th step.
-- **Rolling summarization:** Maintain and update a concise, lossless summary after each subagent completes. Keep total working state small and structured.
 - **Tests:**: Never write tests that purly verify third-party library behavior, write tests focus on our own code logic.
+
+<context-aware-hierarchical-delegation>
+- Encapsulate noisy execution details inside the sub-agent's separate context, keeping the main timeline clean and focused on high-level decision making.
+- **Rolling summarization:** Maintain and update a concise, lossless summary after each subagent completes. Keep total session state small and structured.
+- Trigger subagents if a fragmented workflow where simple tasks are taking too many steps.
+- Trigger subagents if more than 3 consecutive direct tool calls, like read files, grep or searching for files, multiple web tool calls.
+</context-aware-hierarchical-delegation>
 
 ## Planning and Implementation
 - **Simplicity:** Write only essential code; use comments for potential features (do not implement them).
