@@ -6,10 +6,10 @@
 
 ## Code of Conduct
 - Follow <context-aware-hierarchical-delegation> in the whole session.
-- **Clarity:** Output clean, scannable Markdown. If intent is ambiguous, ask clear clarifying questions (e.g., “Do you mean X or Y?”).
+- **Clarity:** If intent is ambiguous, try 1: Use `recent-history` Skill to check last session context. 2. Ask clear clarifying questions (e.g., “Do you mean X or Y?”).
 - **Good Output Format:** Use enhanced Markdown formatting for clarity.
 - **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging.
-- **Facts check on Plan/Outdated context:** It is 2025 year now, facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification, your context is 1 year behind.
+- **Facts check on Plan/Outdated context:** It is 2025 year now, facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification, your knowledge is 1 year behind.
 - **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial, then use divergent thinking.
 - **Tests:**: Never write tests that purly verify third-party library behavior, write tests focus on our own code logic.
 

@@ -63,14 +63,18 @@ jobs:
           fi
 
       - name: Comment on PR with typos results
-        if: github.event_name == 'pull_request'
+        if: always() && github.event_name == 'pull_request'
         uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            console.log('Starting comment creation script...');
             try {
               const foundTypos = `${{ steps.typos_check.outputs.found_typos }}` === 'true';
               const encodedErrors = `${{ steps.typos_check.outputs.typos_errors }}`;
+
+              console.log('foundTypos:', foundTypos);
+              console.log('encodedErrors length:', encodedErrors ? encodedErrors.length : 0);
 
               let commentBody;
 
@@ -81,14 +85,32 @@ jobs:
                 // Typos found - error message
                 // Handle case when there are no errors
                 if (!encodedErrors || encodedErrors.trim() === '') {
+                  console.log('No encoded errors found but foundTypos is true');
                   throw new Error('Typos check failed but no error details were captured.');
                 }
 
                 const typosJson = Buffer.from(encodedErrors, 'base64').toString('utf8');
+                console.log('Decoded typosJson (first 100 chars):', typosJson.substring(0, 100));
 
                 // Split the JSON Lines format into individual objects
                 const typosLines = typosJson.trim().split('\n').filter(line => line.trim() !== '');
-                const typos = typosLines.map(line => JSON.parse(line));
+                const typos = [];
+
+                for (const line of typosLines) {
+                  try {
+                    if (line.trim().startsWith('{')) {
+                      typos.push(JSON.parse(line));
+                    }
+                  } catch (e) {
+                    console.log('Failed to parse line as JSON:', line);
+                  }
+                }
+
+                console.log('Parsed typos count:', typos.length);
+
+                if (typos.length === 0) {
+                  throw new Error('No valid JSON typo objects found in output.');
+                }
 
                 // Group typos by file for better organization
                 const typosByFile = {};
