@@ -52,7 +52,7 @@ in
       };
       # Use new remotes configuration from v0.35+ for better bookmark tracking
       remotes.origin = {
-        auto-track-bookmarks = "none"; # equivalent to auto-local-bookmark = false
+        auto-track-bookmarks = "glob:{towry,bugfix,hotfix,fix,feat}/*";
       };
       merge-tools = {
         nvim3way = {
