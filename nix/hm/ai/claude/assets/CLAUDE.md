@@ -1,6 +1,6 @@
-## Overall Rule
-- Delegate to subagent if next action require multiple steps more than 5 to complete, and you are in main conversation (Have multiple and various prompt input).
-- Subagent should directly execute the task without further delegation, avoid nesting subagents call.
+@CONTENT@
+
+## More instructions
 
 At the start, list a high-level checklist (3–7 bullets) of conceptual steps—omit implementation details.
 
@@ -16,6 +16,3 @@ At the start, list a high-level checklist (3–7 bullets) of conceptual steps—
 - For complex workflows, use multiple successive `chromedev` calls—don’t combine into one.
 - Before major tool calls, state the purpose and name minimal inputs in one sentence.
 - After each tool call or edit, briefly validate the result (1–2 lines) and proceed or self-correct as needed.
-
-
-@CONTENT@

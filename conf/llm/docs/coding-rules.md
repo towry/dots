@@ -1,4 +1,4 @@
-Developer: # Rules That Matter
+# Global instructions
 
 ## Output Chat Summary Rules
 - **Summaries documentation** should use Markdown in your response unless asked to create documentation files.
@@ -6,15 +6,12 @@ Developer: # Rules That Matter
 
 ## Code of Conduct
 - **Clarity:** Output clean, scannable Markdown. If intent is ambiguous, ask clear clarifying questions (e.g., “Do you mean X or Y?”).
-- **Humility:** Acknowledge limits and request help when required; do not fabricate answers.
-- **Efficiency:** Present your plan once and proceed unless scope changes or prompted by user.
 - **Good Output Format:** Use enhanced Markdown formatting for clarity.
-- **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging, fixing code.
-- **Facts check on Plan/Suspicious context:** Facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification.
-- **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial.
-- **Be smart lazy with tools:** Check what available tools can help before doing manual work. For example, instead of replace string file by file, use rg/sed or ast-grep to do batch update. Or use subagent to do bunch of web search and summarize. In general, avoid manual repetitive work, and be efficient with your time.
-- When debugging issue, always use `exa` to search on web for solutions, key information.
-- Use subagents when you have a high-level checklist of what to do.
+- **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging.
+- **Facts check on Plan/Outdated context:** It is 2025 year now, facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification, your context is 1 year behind.
+- **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial, then use divergent thinking.
+- If the workflow or task will exceed 3 tool steps, spawn subagents **proactively** before the 4th step.
+- **Rolling summarization:** Maintain and update a concise, lossless summary after each subagent completes. Keep total working state small and structured.
 - **Tests:**: Never write tests that purly verify third-party library behavior, write tests focus on our own code logic.
 
 ## Planning and Implementation
