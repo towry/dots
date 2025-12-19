@@ -41,7 +41,7 @@
       api_base = "https://www.packyapi.com";
       api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
       max_tokens = 64000;
-      rpm = 5;
+      rpm = 1;
     };
     model_info = {
       max_output_tokens = 64000;
@@ -69,7 +69,7 @@
       api_key = pkgs.nix-priv.keys.zenmux.apiKey;
       use_in_pass_through = true;
       max_tokens = 64000;
-      rpm = 5;
+      rpm = 2;
     };
     model_info = {
       max_output_tokens = 64000;
