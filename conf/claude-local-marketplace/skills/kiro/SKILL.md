@@ -36,7 +36,7 @@ When user mentions kiro, follow this decision tree:
 
 2. **Does the user want to select/load an existing spec?**
    - Keywords: "load kiro", "check kiro", "select kiro", "which kiro"
-   - Action: If current kiro dir exist in system prompt, continue with that kiro spec. Otherwise, ask `eng` subagent to provide existing specs.
+   - Action: If current kiro dir exist in system prompt, continue with that kiro spec. Otherwise, ask general subagent to provide existing specs.
 
 3. **Is the user already working on a spec?**
    - Action: Continue with the current workflow phase
@@ -47,7 +47,7 @@ When user mentions kiro, follow this decision tree:
 
 Check our system prompt, if our system prompt have existing kiro dir <kiro_dir>, just load it. Otherwise, follow these steps:
 
-Ask subagent `eng` to run the following command to get all kiro specs:
+Ask general subagent to run the following command to get all kiro specs:
 
 ```bash
 agpod kiro --json pr-list
@@ -267,4 +267,4 @@ To list templates, run `agpod kiro --json list-templates`
 ## Example
 
 user: "load kiro system spec" / "load kiro system"
-agent: "Loading kiro skill ... I see user mention 'system', let  me ask `eng` subagent to list existing kiro specs and see if a matching 'system' spec exist ... Ok let me read this spec and check the control board for current status ... I see requirements.md is empty, so we need to gather requirements ..."
+agent: "Loading kiro skill ... I see user mention 'system', let  me ask general subagent to list existing kiro specs and see if a matching 'system' spec exist ... Ok let me read this spec and check the control board for current status ... I see requirements.md is empty, so we need to gather requirements ..."

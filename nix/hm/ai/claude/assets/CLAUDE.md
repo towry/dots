@@ -11,6 +11,7 @@
 - Use `model: opus` for `subagent_type: oracle` or `outbox` (recommended for research).
 - Use `model: opusplan` for `subagent_type: Plan`.
 - Always supply a detailed prompt and specify the needed output format for subagents.
+- When use `Explore` subagent, ask it to use `fast-repo-context` Skill.
 
 ## Webpage Debugging
 - Use the `chromedev` MCP tool for browser debugging.
