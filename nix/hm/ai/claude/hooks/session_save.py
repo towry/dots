@@ -203,11 +203,25 @@ Conversation:
             summary = result.stdout.strip()
             # Remove any markdown formatting
             summary = summary.replace("**", "").replace("*", "")
-            return summary
+            if summary:
+                print(f"✓ Session summary generated ({len(summary)} chars)", file=sys.stderr)
+                return summary
+            else:
+                print("⚠ aichat returned empty summary", file=sys.stderr)
+                return ""
         else:
+            error_msg = result.stderr.strip() if result.stderr else "unknown error"
+            print(f"✗ aichat failed (exit {result.returncode}): {error_msg}", file=sys.stderr)
             return ""
 
-    except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
+    except subprocess.TimeoutExpired:
+        print("✗ aichat timed out after 30s", file=sys.stderr)
+        return ""
+    except FileNotFoundError:
+        print("✗ aichat command not found", file=sys.stderr)
+        return ""
+    except Exception as e:
+        print(f"✗ aichat error: {e}", file=sys.stderr)
         return ""
 
 
@@ -240,8 +254,9 @@ def save_summary(cwd: str, summary: str, timestamp: str, session_id: str):
         with open(summary_file, "w") as f:
             f.write(summary)
         os.chmod(summary_file, 0o600)
-    except Exception:
-        pass
+        print(f"✓ Summary saved to {summary_file.name}", file=sys.stderr)
+    except Exception as e:
+        print(f"✗ Failed to save summary: {e}", file=sys.stderr)
 
 
 def save_session(cwd: str, messages: list, session_id: str, reason: str = ""):
@@ -300,6 +315,8 @@ def save_session(cwd: str, messages: list, session_id: str, reason: str = ""):
     if reason == "clear":
         summary = generate_summary(messages, cwd)
         save_summary(cwd, summary, timestamp, session_id)
+    elif reason:
+        print(f"⊘ Summary skipped (reason='{reason}', need 'clear')", file=sys.stderr)
 
 
 def main():
