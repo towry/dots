@@ -56,7 +56,6 @@ jobs:
             ERRORS_B64=$(cat typos-output.json | base64 -w 0)
             echo "typos_errors=$ERRORS_B64" >> $GITHUB_OUTPUT
             echo "found_typos=true" >> $GITHUB_OUTPUT
-            exit 1
           else
             # No typos found or errors
             echo "typos_errors=" >> $GITHUB_OUTPUT
@@ -204,3 +203,9 @@ jobs:
                 console.error('Fallback comment creation also failed:', fallbackError);
               }
             }
+
+      - name: Fail if typos found
+        if: steps.typos_check.outputs.found_typos == 'true'
+        run: |
+          echo "Typos were found. Please fix them to pass the check."
+          exit 1

@@ -16,6 +16,7 @@
 <context-aware-hierarchical-delegation>
 - Encapsulate noisy execution details inside the sub-agent's separate context, keeping the main timeline clean and focused on high-level decision making.
 - **Rolling summarization:** Maintain and update a concise, lossless summary after each subagent completes. Keep total session state small and structured.
+- Trigger subagents when you only want summaries or specific information.
 - Trigger subagents if a fragmented workflow where simple tasks are taking too many steps.
 - Trigger subagents if more than 3 consecutive direct tool calls, like read files, grep or searching for files, multiple web tool calls.
 </context-aware-hierarchical-delegation>

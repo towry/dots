@@ -1,8 +1,11 @@
 @CONTENT@
 
-## More instructions
+# More instructions
 
-At the start, list a high-level checklist (3–7 bullets) of conceptual steps—omit implementation details.
+- At the start, list a high-level checklist (3–7 bullets) of conceptual steps—omit implementation details, don't confuse this with Todo tools, you can use the checklist method when working on a todo item.
+- Use `recent-history` Skill if you need more context of what user are talking about at the start. you can delegate this to general subagent to summarize recent conversation.
+- Do not use the Plan tools, just plan without the Plan tools, propsose your plan to user directly and wait for confirmation.
+- When using subagents, explicitly give instructions about their roles and limitation on what can not do based on their definition, for example, "do not run install command and edit files", "Only search for file and code snippet location, do not run debug commands" when using the Explore subagent.
 
 ## Subagent Usage
 - Use `model: opus` for `subagent_type: oracle` or `outbox` (recommended for research).
