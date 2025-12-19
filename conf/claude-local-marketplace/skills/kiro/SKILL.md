@@ -50,7 +50,7 @@ Check our system prompt, if our system prompt have existing kiro dir <kiro_dir>,
 Ask general subagent to run the following command to get all kiro specs:
 
 ```bash
-agpod kiro --json pr-list
+agpod kiro --json pr-list -n 2
 ```
 
 **Expected JSON output format:**
@@ -152,9 +152,9 @@ Once spec is selected, read `<spec-path>/claude.md` to understand:
    - Document design decisions in Session Notebook → Decisions
    - Note any identified risks in Session Notebook → Risks
 
-**Critical Rule:** 
+**Critical Rule:**
 - Never proceed to implementation without user approval of design.
-- Make sure two specs design (old and current) align cohesively with the core system architecture. Run `agpod kiro --json pr-list` to find the latest old specs.
+- Make sure two specs design (old and current) align cohesively with the core system architecture. Run `agpod kiro --json pr-list -n 2` to find the latest old specs.
 
 ## Phase 4: Task Planning
 
@@ -249,6 +249,7 @@ Spec files can have three statuses:
 ### List all kiro specs
 ```bash
 agpod kiro --json pr-list
+# To limit latest n, use `-n <n>` option.
 ```
 
 ### Create new kiro spec
