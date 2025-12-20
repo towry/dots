@@ -9,42 +9,11 @@ description: Systematically trace bugs backward through call stack to find the o
 - Bugs are vague and not easy to spot
 - User says debug this or debug it something like that
 
-# Tools, subagents, skills that might be helpful
-
-- **Critical**: `fast-repo-context` claude skill for fast codebase search and analysis, this is highly recommended to use, load it with `Skill` tool; Can use it to search on current project or other projects.
-- `kg` knowledge graph search
-- load `git-jj` claude skill for vcs operations (logs, blame, diff etc), use `bash ~/.claude/skills/git-jj/scripts/repo_check.sh` to check repo is jj or git managed.
-  - **Debugging-specific commands:**
-    - `git blame <file>` / `jj file annotate <file>` - find who changed a line and when
-    - `git log -p <file>` / `jj log -p <file>` - see all changes to a specific file
-    - `git bisect` - binary search for the commit that introduced a bug
-    - `git diff <a>..<b>` / `jj diff -r <a>..<b>` - compare specific revisions
-    - `jj log -r "file('path')"` - find commits that touched a file
-- `outbox` subagent for high level debugging ideas, strategies, and issue qualitative analysis; Invoke the `Task` tool with `outbox`.
-- `oracle` subagent for advanced reasoning about complex issues, decision making; Invoke the `Task` tool with `oracle`.
-- `exa` mcp tool: use it to search on the web for similar issues, error messages, stack traces, and solutions.
-- `github` mcp tool: use it to search library related issues in github issues.
-- Other command tools that you already know
-- As a last resort, run `claude --model openrouter/anthropic/claude-opus-4.5 -p "<detailed prompt about the issue>" --tools "Read,Grep,Glob"` for help from the most advanced SWE LLM. This is expensive, so use it wisely and compose the prompt carefully.
-
-## When to use git history for debugging
-
-Use git history when:
-- **Regression bugs**: User says "it worked before" or "it broke after update"
-- **Unknown code changes**: You find suspicious code but don't understand why it was written that way
-- **Recent breakage**: Bug appeared recently and might correlate with recent commits
-- **Blame investigation**: Need to find the original author/context of problematic code
-
-Skip git history when:
-- Bug is clearly a logic error in current code
-- Issue is configuration or environment related
-- User confirms this is new code, not a regression
-
 # Debugging process 
 
 1. **Understand** the issue/bug 
-2. **Fetch context with fast-repo-context skill** of the codebases. Use `kg` to search the knowledge graph in case we solved this before. Use `fast-repo-context` skill(recommended) or `rg` bash tool to search the codebases with possible keywords, and read comments or documents. Attach current project root path when applicable, this is needed for other tools to work properly, include the `outbox` agent.
-3. **Review available tools** and subagents (fd, rg, kg, git, etc.)
+2. **Fetch context**  Use `kg` to search the knowledge graph in case we solved this before. Use `fast-repo-context` skill(recommended) or `rg` bash tool to search the codebases with possible keywords, and read comments or documents. Get a sense of recent changes that might relate to the issue/bug. Identify relevant files and code areas. You can ask general subagent to do this for you.
+3. **Review available tools** Review what tools do you have that might help you debug issues.
 4. **Start debugging iterations** - Each iteration MUST be explicitly labeled (e.g., "**Iteration 1**", "**Iteration 2**")
    - 4.1 Get debugging ideas/strategy or issue qualitative analysis from `outbox` subagent with context from steps 2 and 3. Include the tools and subagents you have and what they do, so `outbox` can give advice based on your available tools.
    - 4.2 **Check git history** (if applicable): Use `git-jj` skill to investigate version history when the bug might be a regression. Run blame on suspicious lines, check recent file changes, or use bisect to find the breaking commit. See "When to use git history" section above.
@@ -62,7 +31,7 @@ Skip git history when:
 
 ## Outbox prompt template
 
-**Note**: `outbox` is a readonly/thinking agent. It cannot use tools (no Read, Write, Execute). It can only reason and advise. You must provide all relevant context in the prompt.
+**Note**: `outbox` is a readonly/thinking agent. It cannot use tools (no Read, no Write, no Execute). It can only reason and advise. You must provide all relevant context in the prompt.
 
 ### First iteration:
 ```
@@ -103,6 +72,37 @@ Skip git history when:
 
 **Ask**: Based on findings, what should I try next? At the end of your advice, include a "feedback request" like: "If this doesn't work, tell me [specific info] for next iteration."
 ```
+
+# Tools, subagents, skills that might be helpful
+
+- **Critical**: `fast-repo-context` claude skill for fast codebase search and analysis, this is highly recommended to use, load it with `Skill` tool; Can use it to search on current project or other projects.
+- `kg` knowledge graph search, use it to find whether we have solved similar issues before.
+- load `git-jj` claude skill for vcs operations (logs, blame, diff etc), use `bash ~/.claude/skills/git-jj/scripts/repo_check.sh` to check repo is jj or git managed.
+  - **Debugging-specific commands:**
+    - `git blame <file>` / `jj file annotate <file>` - find who changed a line and when
+    - `git log -p <file>` / `jj log -p <file>` - see all changes to a specific file
+    - `git bisect` - binary search for the commit that introduced a bug
+    - `git diff <a>..<b>` / `jj diff -r <a>..<b>` - compare specific revisions
+    - `jj log -r "file('path')"` - find commits that touched a file
+- `outbox` subagent for high level debugging ideas, strategies, and issue qualitative analysis; Invoke the `Task` tool with `outbox`.
+- `oracle` subagent for advanced reasoning about complex issues, decision making; Invoke the `Task` tool with `oracle`.
+- `exa` mcp tool: use it to search on the web for similar issues, error messages, stack traces, and solutions.
+- `github` mcp tool: use it to search library related issues in github issues.
+- Other command tools that you already know
+
+## When to use git history for debugging
+
+Use git history when:
+
+- **Regression bugs**: User says "it worked before", "it broke after update", recent we have a refactor or dependency upgrade etc.
+- **Unknown code changes**: You find suspicious code but don't understand why it was written that way
+- **Recent breakage**: Bug appeared recently and might correlate with recent commits
+- **Blame investigation**: Need to find the original author/context of problematic code
+
+Skip git history when:
+- Bug is clearly a logic error in current code
+- Issue is configuration or environment related
+- User confirms this is new code, not a regression
 
 ## Notes
 

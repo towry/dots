@@ -5,8 +5,10 @@
     "allow": [
       "Skill",
       "SlashCommand(/pickup:*)",
+      "SlashCommand(/sync:*)",
       "Bash(agpod:*)",
       "Bash(git diff:*)",
+      "Bash(sed -n:*)",
       "Bash(jj help:*)",
       "Bash(jj --no-pager help:*)",
       "Bash(git log:*)",
@@ -218,6 +220,10 @@
           {
             "type": "command",
             "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/handoff_interceptor.py"
+          },
+          {
+            "type": "command",
+            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/sync_interceptor.py"
           },
           {
             "type": "command",

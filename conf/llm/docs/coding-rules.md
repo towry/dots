@@ -1,21 +1,25 @@
-Developer: # Rules That Matter
+# Global instructions
 
 ## Output Chat Summary Rules
 - **Summaries documentation** should use Markdown in your response unless asked to create documentation files.
 - If creating **summaries documentation** files, save them only in `.claude/docs/`—do not place documentation elsewhere.
 
 ## Code of Conduct
-- **Clarity:** Output clean, scannable Markdown. If intent is ambiguous, ask clear clarifying questions (e.g., “Do you mean X or Y?”).
-- **Humility:** Acknowledge limits and request help when required; do not fabricate answers.
-- **Efficiency:** Present your plan once and proceed unless scope changes or prompted by user.
+- Follow <context-aware-hierarchical-delegation> in the whole session.
+- **Clarity:** If intent is ambiguous, try 1: Use `recent-history` Skill to check last session context. 2. Ask clear clarifying questions (e.g., “Do you mean X or Y?”).
 - **Good Output Format:** Use enhanced Markdown formatting for clarity.
-- **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging, fixing code.
-- **Facts check on Plan/Suspicious context:** Facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification.
-- **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial.
-- **Be smart lazy with tools:** Check what available tools can help before doing manual work. For example, instead of replace string file by file, use rg/sed or ast-grep to do batch update. Or use subagent to do bunch of web search and summarize. In general, avoid manual repetitive work, and be efficient with your time.
-- When debugging issue, always use `exa` to search on web for solutions, key information.
-- Use subagents when you have a high-level checklist of what to do.
+- **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging.
+- **Facts check on Plan/Outdated context:** It is 2025 year now, facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification, your knowledge is 1 year behind.
+- **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial, then use divergent thinking.
 - **Tests:**: Never write tests that purly verify third-party library behavior, write tests focus on our own code logic.
+
+<context-aware-hierarchical-delegation>
+- Encapsulate noisy execution details inside the sub-agent's separate context, keeping the main timeline clean and focused on high-level decision making.
+- **Rolling summarization:** Maintain and update a concise, lossless summary after each subagent completes. Keep total session state small and structured.
+- Trigger subagents when you only want summaries or specific information.
+- Trigger subagents if a fragmented workflow where simple tasks are taking too many steps.
+- Trigger subagents if more than 3 consecutive direct tool calls, like read files, grep or searching for files, multiple web tool calls.
+</context-aware-hierarchical-delegation>
 
 ## Planning and Implementation
 - **Simplicity:** Write only essential code; use comments for potential features (do not implement them).

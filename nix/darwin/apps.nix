@@ -16,6 +16,7 @@
     ];
     brews = [
       "asdf"
+      "questdb"
       # "rift"
       # "html2markdown"
     ];
