@@ -12,7 +12,7 @@ description: Systematically trace bugs backward through call stack to find the o
 # Debugging process 
 
 1. **Understand** the issue/bug 
-2. **Fetch context**  Use `kg` to search the knowledge graph in case we solved this before. Use `fast-repo-context` skill(recommended) or `rg` bash tool to search the codebases with possible keywords, and read comments or documents. Get a sence of recent changes that might relate to the issue/bug. Identify relevant files and code areas. You can ask general subagent to do this for you.
+2. **Fetch context**  Use `kg` to search the knowledge graph in case we solved this before. Use `fast-repo-context` skill(recommended) or `rg` bash tool to search the codebases with possible keywords, and read comments or documents. Get a sense of recent changes that might relate to the issue/bug. Identify relevant files and code areas. You can ask general subagent to do this for you.
 3. **Review available tools** Review what tools do you have that might help you debug issues.
 4. **Start debugging iterations** - Each iteration MUST be explicitly labeled (e.g., "**Iteration 1**", "**Iteration 2**")
    - 4.1 Get debugging ideas/strategy or issue qualitative analysis from `outbox` subagent with context from steps 2 and 3. Include the tools and subagents you have and what they do, so `outbox` can give advice based on your available tools.

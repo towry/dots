@@ -16,7 +16,15 @@ from pathlib import Path
 
 
 def read_previous_summary(cwd: str) -> str:
-    """Read the most recent summary from the sessions directory.
+    """Read the most recent summary from the session-summary directory.
+
+    NOTE: This function is paired with `session_save.py` which writes these files
+    on SessionEnd. If you change the directory path or glob pattern here,
+    you MUST update `save_summary()` in session_save.py to match.
+
+    Current contract:
+        - Directory: .claude/session-summary/
+        - Pattern: {timestamp}-summary-ID_{session_id}.md
 
     Args:
         cwd: Project directory
@@ -24,14 +32,14 @@ def read_previous_summary(cwd: str) -> str:
     Returns:
         Summary text, or empty string if not found
     """
-    sessions_dir = Path(cwd) / ".claude" / "sessions"
+    summary_dir = Path(cwd) / ".claude" / "session-summary"
 
-    if not sessions_dir.exists():
+    if not summary_dir.exists():
         return ""
 
     # Find all summary files, sorted by name (timestamp) descending
     summary_files = sorted(
-        sessions_dir.glob("*-summary.txt"),
+        summary_dir.glob("*-summary-ID_*.md"),
         key=lambda p: p.name,
         reverse=True,
     )

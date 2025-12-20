@@ -226,7 +226,15 @@ Conversation:
 
 
 def save_summary(cwd: str, summary: str, timestamp: str, session_id: str):
-    """Save summary to sessions directory with session ID.
+    """Save summary to session-summary directory with session ID.
+
+    NOTE: This function is paired with `session_summary.py` which reads these files
+    on SessionStart. If you change the directory path or filename pattern here,
+    you MUST update `read_previous_summary()` in session_summary.py to match.
+
+    Current contract:
+        - Directory: .claude/session-summary/
+        - Pattern: {timestamp}-summary-ID_{session_id}.md
 
     Args:
         cwd: Project directory
@@ -237,17 +245,17 @@ def save_summary(cwd: str, summary: str, timestamp: str, session_id: str):
     if not summary or not session_id:
         return
 
-    sessions_dir = Path(cwd) / ".claude" / "sessions"
-    sessions_dir.mkdir(parents=True, exist_ok=True)
+    summary_dir = Path(cwd) / ".claude" / "session-summary"
+    summary_dir.mkdir(parents=True, exist_ok=True)
 
     # Look for existing summary file with this session_id
     existing_file = None
-    for file in sessions_dir.glob(f"*-summary-ID_{session_id}.md"):
+    for file in summary_dir.glob(f"*-summary-ID_{session_id}.md"):
         existing_file = file
         break
 
     # Use existing file or create new one with timestamp
-    summary_file = existing_file or sessions_dir / f"{timestamp}-summary-ID_{session_id}.md"
+    summary_file = existing_file or summary_dir / f"{timestamp}-summary-ID_{session_id}.md"
 
     try:
         # Always overwrite summary (update, don't append)
