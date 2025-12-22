@@ -181,6 +181,16 @@ rec {
   };
 
   clients = {
+    codex = mapWithClientMk clientMk.codex (
+      pick mcpServers [
+        "chromedev"
+        "context7"
+        "mermaid"
+        "github"
+        "exa"
+        "mastergo"
+      ]
+    );
     opencode = mapWithClientMk clientMk.opencode (
       pick mcpServers [
         "kg"

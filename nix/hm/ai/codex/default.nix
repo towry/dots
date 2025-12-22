@@ -6,7 +6,11 @@
 }:
 let
   proxyConfig = import ../../../lib/proxy.nix { inherit lib pkgs; };
+  mcp = import ../../../modules/ai/mcp.nix { inherit pkgs lib config; };
   codex_home = "${config.xdg.configHome}/codex";
+  codexMcpToml = builtins.readFile (
+    (pkgs.formats.toml { }).generate "codex-mcp.toml" { mcp_servers = mcp.clients.codex; }
+  );
   # codex_config_file = "${codex_home}/config.toml";
   # like commands in other agents
   # prompts_dir = "${codex_home}/prompts";
@@ -30,15 +34,34 @@ in
       source = ./instructions;
       recursive = true;
     };
+    "codex/skills" = {
+      source = ../../../../conf/claude-local-marketplace/skills;
+      recursive = true;
+    };
     # toml
-    "codex/config.toml".text = ''
-      model = "gpt-5"
-      model_provider = "litellm"
+    "codex/config-generated.toml".text = ''
+      model = "gpt-5.2-medium"
+      model_provider = "packy"
       approval_policy = "untrusted"
-      model_reasoning_effort = "low"
+      model_reasoning_effort = "medium"
       # the AGENTS.md contains instructions for using codex mcp, do not use it
       # experimental_instructions_file = "${config.xdg.configHome}/AGENTS.md"
-      sandbox_mode = "read-only"
+      project_doc_fallback_filenames = ["CLAUDE.md"]
+      sandbox_mode = "workspace-write"
+
+      [features]
+      tui2 = true
+      skills = true
+      unified_exec = true
+      apply_patch_freeform = true
+      view_image_tool = false
+      ghost_commit = false
+
+      [model_providers.packy]
+      name = "packy"
+      wire_api = "responses"
+      base_url = "https://www.packyapi.com/v1"
+      env_key = "PACKYCODE_CODEX_API_KEY"
 
       [model_providers.litellm]
       name = "litellm"
@@ -104,31 +127,17 @@ in
       hide_agent_reasoning = true
       model_verbosity = "low"
 
-      [profiles.sage_slow]
-      model = "glm-4.6"
-      model_provider = "zhipuai-coding-plan"
-      sandbox_mode = "read-only"
-      experimental_instructions_file = "${codex_home}/instructions/sage-role.md"
-      approval_policy = "never"
-      model_reasoning_effort = "medium"
-      model_reasoning_summary = "concise"
-      hide_agent_reasoning = true
-      model_verbosity = "low"
-
-      [profiles.sage]
-      model = "kimi-k2-turbo-preview"
-      model_provider = "moonshot"
-      sandbox_mode = "read-only"
-      experimental_instructions_file = "${codex_home}/instructions/sage-role.md"
-      approval_policy = "never"
-      model_reasoning_effort = "low"
-      model_reasoning_summary = "concise"
-      hide_agent_reasoning = true
-      model_verbosity = "medium"
-
       [tui]
       # notifications = [ "agent-turn-complete", "approval-requested" ]
       notifications = true
+      animations = false
+      scroll_events_per_tick = 3
+      scroll_wheel_lines = 3
+      scroll_mode = "auto"
+
+      [sandbox_workspace_write]
+      network_access = true
+      writable_roots = ["${config.home.homeDirectory}/workspace/work"]
 
       [shell_environment_policy]
       inherit = "core"
@@ -140,26 +149,18 @@ in
       set = { HTTP_PROXY = "${proxyConfig.proxies.http}", HTTPS_PROXY = "${proxyConfig.proxies.https}" }
 
       ## MCP
-      [mcp_servers.chromedev]
-      command = "bunx"
-      args = ["chrome-devtools-mcp@latest", "--browser-url=http://127.0.0.1:9222"]
+      ${codexMcpToml}
+    '';
+  };
 
-      # [mcp_servers.context7]
-      # command = "bunx"
-      # args = ["@upstash/context7-mcp"]
+  home.activation = {
+    setupCodexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      CODEX_HOME="${codex_home}"
 
-      # [mcp_servers.mermaid]
-      # command = "bunx"
-      # args = ["@devstefancho/mermaid-mcp"]
+      cp -f ${codex_home}/config-generated.toml "${codex_home}/config.toml"
+      chmod u+w "${codex_home}/config.toml"
 
-      # [mcp_servers.sequentialthinking]
-      # command = "bunx"
-      # args = ["@modelcontextprotocol/server-sequential-thinking"]
-
-      # [mcp_servers.github]
-      # command = "github-mcp-server"
-      # args = ["stdio", "--dynamic-toolsets"]
-      # env = { GITHUB_PERSONAL_ACCESS_TOKEN = "${pkgs.nix-priv.keys.github.accessToken}" }
+      cat ${../../../../conf/llm/docs/coding-rules.md} > ${codex_home}/AGENTS.md
     '';
   };
 }

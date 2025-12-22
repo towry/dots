@@ -79,9 +79,9 @@ def main():
         sys.exit(0)
 
     # Return as additional context for new session
-    context = f"""<history-summary>
+    context = f"""<last-session>
 
-{summary}</history-summary>"""
+{summary}</last-session>"""
 
     # Create a visible system message
     system_msg = f"History context loaded"

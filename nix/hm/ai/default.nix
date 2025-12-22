@@ -10,7 +10,7 @@
     ./legacy.nix
     ./claude
     ./codex
-    ./forge
+    # ./forge
     # ./windsurf
     # ./cline
     ./droid

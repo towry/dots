@@ -7,7 +7,8 @@ description: "This skill should be used when retrieving recent chat history, in 
 
 ## Step 1: Prepare the history file
 
-This command should run in current project root dir.
+If there is <last-session> in your system prompt, just use it, then go to Step 2.
+Otherwise, run this command which should run in current project root dir.
 
 ```bash
 bunx repomix --header-text "file path parent dir: .claude/sessions/" --quiet --no-dot-ignore --no-gitignore --no-git-sort-by-changes --no-file-summary --no-directory-structure .claude/sessions/ -o .claude/sessions/history.xml >/dev/null 2>&1 && echo "history exist" || echo "no history file"
@@ -16,6 +17,8 @@ bunx repomix --header-text "file path parent dir: .claude/sessions/" --quiet --n
 If the command output is "no history file", just quit, because there are no session history to look up. Otherwise, please go to step 2.
 
 ## Step 2: Query history (sessions are ordered old→new in the file)
+
+If user intended meant for last session and our <last-session> context is sufficient, just focus on <last-session>
 
 ### Quick Overview: List all sessions with line numbers
 
