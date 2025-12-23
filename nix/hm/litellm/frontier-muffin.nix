@@ -23,11 +23,9 @@
   {
     model_name = "frontier-muffin";
     litellm_params = {
-      model = "anthropic/claude-sonnet-4-5-20250929";
-      use_in_pass_through = true;
-      api_base = "https://www.packyapi.com";
+      model = "openai/claude-sonnet-4-5-20250929";
+      api_base = "https://www.packyapi.com/api";
       api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
-      max_tokens = 64000;
     };
     model_info = {
       max_output_tokens = 64000;
@@ -36,11 +34,9 @@
   {
     model_name = "frontier-muffin";
     litellm_params = {
-      model = "anthropic/claude-opus-4-5-20251101";
-      use_in_pass_through = true;
-      api_base = "https://www.packyapi.com";
+      model = "openai/claude-opus-4-5-20251101";
+      api_base = "https://www.packyapi.com/api";
       api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
-      max_tokens = 64000;
       rpm = 3;
     };
     model_info = {
