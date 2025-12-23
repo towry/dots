@@ -324,6 +324,7 @@ in
       ".opencode/"
       ".roo/"
       ".expert/"
+      ".ck/"
       "__pycache__/"
       "settings.local.json"
       "repomix-output.xml"

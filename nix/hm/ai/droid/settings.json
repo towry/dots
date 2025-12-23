@@ -1,6 +1,6 @@
 {
-  "model": "gpt-5.1-codex-max",
-  "reasoningEffort": "high",
+  "model": "gpt-5.2",
+  "reasoningEffort": "medium",
   "cloudSessionSync": true,
   "diffMode": "github",
   "ideExtensionPromptedAt": {
