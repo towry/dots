@@ -261,6 +261,7 @@ let
       [
         "gpt-5"
         "gpt-5.1"
+        "gpt-5.2"
         "gpt-5.1-codex"
         "gpt-5.1-codex-max"
         "gpt-5-nano"
@@ -274,6 +275,7 @@ let
         "kimi-k2-thinking"
         "big-pickle"
         "grok-code"
+        "glm-4.7-free"
       ];
 
   zhipuaiModels =
@@ -417,9 +419,8 @@ in
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
         { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
-        { "openai/minimax-m2" = [ "opencodeai/claude-haiku-4-5" ]; }
+        { "anthropic/minimax-m2" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "bender-muffin" = [ "zenmux/google/gemini-3-flash-preview" ]; }
-        { "frontier-muffin" = [ "zenmux/anthropic/claude-sonnet-4.5" ]; }
       ];
       cache = false;
       cache_params = {

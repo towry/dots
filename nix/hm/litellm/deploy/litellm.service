@@ -35,8 +35,8 @@ Environment="UV_PYTHON_INSTALL_MIRROR=https://gh-proxy.com/github.com/astral-sh/
 
 # Run LiteLLM using uvx (automatically manages Python environment)
 # uvx is copied to /usr/local/bin by deploy.sh
-ExecStart=/usr/local/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.10' --with 'httpx[socks]' \
-    litellm==1.80.10 --config /etc/litellm/config.yaml --host 0.0.0.0 --port 4000
+ExecStart=/usr/local/bin/uvx --python 3.11 --with 'litellm[proxy]==1.80.11' --with 'httpx[socks]' \
+    litellm==1.80.11 --config /etc/litellm/config.yaml --host 0.0.0.0 --port 4000
 
 # Security hardening
 NoNewPrivileges=true

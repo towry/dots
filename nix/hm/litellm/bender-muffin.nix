@@ -28,7 +28,7 @@
       api_key = pkgs.nix-priv.keys.zenmux.apiKey;
       use_in_pass_through = true;
       max_tokens = 64000;
-      rpm = 3;
+      rpm = 1;
     };
     model_info = {
       max_output_tokens = 64000;
@@ -42,7 +42,7 @@
       api_key = pkgs.nix-priv.keys.zenmux.apiKey;
       max_tokens = 64000;
       use_in_pass_through = true;
-      rpm = 2;
+      rpm = 1;
     };
     model_info = {
       max_output_tokens = 64000;
@@ -74,19 +74,19 @@
   #     max_output_tokens = 16000;
   #   };
   # }
-  # {
-  #   model_name = "bender-muffin";
-  #   litellm_params = {
-  #     model = "openai/minimax-m2";
-  #     api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
-  #     api_base = "https://api.minimaxi.com/v1";
-  #     max_tokens = 128000;
-  #     rpm = 2;
-  #   };
-  #   model_info = {
-  #     max_output_tokens = 128000;
-  #   };
-  # }
+  {
+    model_name = "bender-muffin";
+    litellm_params = {
+      model = "anthropic/MiniMax-M2.1";
+      api_key = pkgs.nix-priv.keys.minimax.codingPlanApiKey;
+      api_base = "https://api.minimaxi.com/anthropic";
+      max_tokens = 1000;
+      rpm = 5;
+    };
+    model_info = {
+      max_output_tokens = 128000;
+    };
+  }
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
@@ -133,11 +133,11 @@
   # {
   #   model_name = "bender-muffin";
   #   litellm_params = {
-  #     model = "openai/qwen3-coder";
+  #     model = "openai/glm-4.7-free";
   #     api_base = "https://opencode.ai/zen/v1";
   #     api_key = pkgs.nix-priv.keys.opencode.apiKey;
   #     max_tokens = 65536;
-  #     rpm = 5;
+  #     rpm = 3;
   #   };
   #   model_info = {
   #     max_output_tokens = 65536;
