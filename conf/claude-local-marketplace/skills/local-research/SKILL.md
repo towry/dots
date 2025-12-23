@@ -29,12 +29,9 @@ Use this skill when:
 2. **Pick only one file(no read)**: Match user keywords to research names/content to find the most relevant research file, do not read, ask user to confirm if is this one, and list other possible match files if any.
 3. User choose with file index, then you proceed to read the file.
 
-Alternative way to fast load it:
-
-1. `cd ~/workspace/llm/research/ && sgrep index`
-2. `cd ~/workspace/llm/research/ && sgrep search <keywords-or-user-input...>`
-
 Read the results and load the correct research file.
+
+You can use `rg` to grep in the folder with multiple possible keywords to locate the file.
 
 ### When user requests new research to be created explicitly
 
