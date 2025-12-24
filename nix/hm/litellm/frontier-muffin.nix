@@ -23,7 +23,7 @@
   {
     model_name = "frontier-muffin";
     litellm_params = {
-      model = "openai/claude-sonnet-4-5-20250929";
+      model = "anthropic/claude-sonnet-4-5-20250929";
       api_base = "https://www.packyapi.com";
       api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
     };
@@ -34,7 +34,7 @@
   {
     model_name = "frontier-muffin";
     litellm_params = {
-      model = "openai/claude-opus-4-5-20251101";
+      model = "anthropic/claude-opus-4-5-20251101";
       api_base = "https://www.packyapi.com";
       api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
       rpm = 3;
