@@ -87,7 +87,7 @@ in
     };
   };
 
-  # Packy gemini provider
+  # not gemini
   packyGemini = mkProvider {
     litellm_params = {
       api_base = "https://www.packyapi.com";

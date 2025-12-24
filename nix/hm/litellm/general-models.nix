@@ -315,9 +315,20 @@ let
       })
     ];
 
+  packySolidFrontierModels = [
+    (providers.packyCc.model {
+      model_name = "packy/claude-sonnet-4-5";
+      litellm_params = {
+        model = "anthropic/claude-sonnet-4-5-20250929";
+        rpm = 2;
+      };
+    })
+  ];
+
 in
 deepseekModels
 ++ mistralModels
+++ packySolidFrontierModels
 ++ googleModels
 ++ githubModels
 ++ copilotGpt5Model
