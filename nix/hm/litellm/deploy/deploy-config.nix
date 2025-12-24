@@ -3,7 +3,9 @@
 #
 # Build with: nix-build -A litellm-deploy-config deploy-config.nix
 # Or reference from main config: nix eval --raw .#homeConfigurations.<host>.config.home.file.\".config/litellm/config.yaml\".source
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 let
   # Import the main litellm config

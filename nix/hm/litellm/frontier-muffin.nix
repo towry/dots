@@ -1,74 +1,42 @@
 {
   pkgs,
-  copilotHeaders,
-  getMaxInputTokens,
-  getMaxOutputTokens,
-  getMaxTokens,
   ...
 }:
 
+let
+  providers = import ./transportProviders.nix { inherit pkgs; };
+  modelName = "frontier-muffin";
+in
 [
-  # {
-  #   model_name = "frontier-muffin";
-  #   litellm_params = {
-  #     model = "github_copilot/claude-sonnet-4.5";
-  #     extra_headers = copilotHeaders;
-  #     max_tokens = getMaxOutputTokens "github_copilot/claude-sonnet-4.5";
-  #     rpm = 10;
-  #   };
-  #   model_info = {
-  #     max_output_tokens = getMaxOutputTokens "github_copilot/claude-sonnet-4.5";
-  #   };
-  # }
-  {
-    model_name = "frontier-muffin";
+  (providers.packyCc.model {
+    model_name = modelName;
     litellm_params = {
       model = "anthropic/claude-sonnet-4-5-20250929";
-      api_base = "https://www.packyapi.com";
-      api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
-    };
-    model_info = {
-      max_output_tokens = 64000;
-    };
-  }
-  {
-    model_name = "frontier-muffin";
-    litellm_params = {
-      model = "anthropic/claude-opus-4-5-20251101";
-      api_base = "https://www.packyapi.com";
-      api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
       rpm = 3;
     };
     model_info = {
       max_output_tokens = 64000;
     };
-  }
-  # {
-  #   model_name = "frontier-muffin";
-  #   litellm_params = {
-  #     model = "anthropic/gpt-5-codex-high";
-  #     use_in_pass_through = false;
-  #     api_base = "https://www.packyapi.com";
-  #     api_key = pkgs.nix-priv.keys.customProviders.packyOpenaiKey;
-  #     max_tokens = 128000;
-  #     rpm = 10;
-  #   };
-  #   model_info = {
-  #     max_output_tokens = 128000;
-  #   };
-  # }
-  # {
-  #   model_name = "frontier-muffin";
-  #   litellm_params = {
-  #     model = "anthropic/anthropic/claude-sonnet-4.5";
-  #     api_base = "https://zenmux.ai/api/anthropic";
-  #     api_key = pkgs.nix-priv.keys.zenmux.apiKey;
-  #     use_in_pass_through = true;
-  #     max_tokens = 64000;
-  #     rpm = 1;
-  #   };
-  #   model_info = {
-  #     max_output_tokens = 64000;
-  #   };
-  # }
+  })
+  (providers.packyCc.model {
+    model_name = modelName;
+    litellm_params = {
+      model = "anthropic/claude-opus-4-5-20251101";
+      rpm = 1;
+    };
+    model_info = {
+      max_output_tokens = 64000;
+    };
+  })
+  # gemeini 3
+  (providers.packyGemini.model {
+    model_name = modelName;
+    litellm_params = {
+      model = "gemini/gemini-3-pro-preview";
+      max_tokens = 64000;
+    };
+    model_info = {
+      max_output_tokens = 64000;
+    };
+  })
 ]
