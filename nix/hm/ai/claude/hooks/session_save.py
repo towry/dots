@@ -225,7 +225,7 @@ Conversation:
         return ""
 
 
-def save_summary(cwd: str, summary: str, timestamp: str, session_id: str):
+def save_summary(cwd: str, summary: str, timestamp: str, session_id: str, session_file: str = ""):
     """Save summary to session-summary directory with session ID.
 
     NOTE: This function is paired with `session_summary.py` which reads these files
@@ -241,6 +241,7 @@ def save_summary(cwd: str, summary: str, timestamp: str, session_id: str):
         summary: Summary text
         timestamp: Timestamp string (YYYYMMDD-HHMMSS)
         session_id: Session ID
+        session_file: Path to the full session file (relative to cwd)
     """
     if not summary or not session_id:
         return
@@ -257,10 +258,15 @@ def save_summary(cwd: str, summary: str, timestamp: str, session_id: str):
     # Use existing file or create new one with timestamp
     summary_file = existing_file or summary_dir / f"{timestamp}-summary-ID_{session_id}.md"
 
+    # Append session file reference if available
+    content = summary
+    if session_file:
+        content = f"{summary}\n\nFull session: {session_file}"
+
     try:
         # Always overwrite summary (update, don't append)
         with open(summary_file, "w") as f:
-            f.write(summary)
+            f.write(content)
         os.chmod(summary_file, 0o600)
         print(f"✓ Summary saved to {summary_file.name}", file=sys.stderr)
     except Exception as e:
@@ -322,7 +328,9 @@ def save_session(cwd: str, messages: list, session_id: str, reason: str = ""):
     # Generate and save summary for next session (only on "clear" reason)
     if reason == "clear":
         summary = generate_summary(messages, cwd)
-        save_summary(cwd, summary, timestamp, session_id)
+        # Pass relative session file path
+        session_file_rel = str(filepath.relative_to(cwd)) if filepath else ""
+        save_summary(cwd, summary, timestamp, session_id, session_file_rel)
     elif reason:
         print(f"⊘ Summary skipped (reason='{reason}', need 'clear')", file=sys.stderr)
 

@@ -27,6 +27,8 @@
 - **Precedent:** Follow prior implementations for new features unless told otherwise.
 - **Structured Plan:** For each step, specify target files and exact required changes.
 - **Boundaries:** Keep business logic isolated from UI. Place demo/mock code at the top layer. Don't modify production code just for debugging.
+- **Separation of concerns:** Bad: Use other layer's implement details in current layer that current layer should not know or care about. Good: current layer use it's own knowledge based implement details, dependant layers can depends on that to derive implement details.
+- **Flexible consistency enforcement:**: Only enforce consistency if it not violate separate of concerns.
 - **Abstraction:** Only use explicitly exposed abstractions from the immediate downstream layer—avoid private APIs, even for reuse.
 - **Fail Fast:** Let bugs surface; do not mask errors with `try-catch` or optional chaining.
 - **Comment Intent:** Use `FIXME`, `TODO`, and `NOTE` to flag issues, explain logic, document changes, and note trade-offs.
@@ -35,6 +37,7 @@
 - **Avoid introduce implement complexity:** No backward compatibility layers, feature flags, or toggles unless explicitly requested.
 - **No external data based design:** Avoid designs relying on external data, for example, use external api data to determine program logic or control flow, it will broke when external data changes.
 - **Avoid outdated dependency:** Use the latest stable version of dependencies unless there is a specific reason to use an older version. This is important to avoid big refactor later.
+- **No Weak Test:**: Disallow tests that are meaningless to implemented code, or that do not effectively validate the intended functionality. Bad: Test to verify "id should not start with number", the test simply construct a string without number and assert with that, does not involve any implemented code.
 
 When editing code: (1) state your assumptions, (2) create/run minimal tests if possible, (3) generate diffs ready for review, (4) follow repository style.
 

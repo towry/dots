@@ -151,6 +151,7 @@
       "WebFetch",
       "WebSearch",
       "Read(./.env)",
+      "Read(/dev/**)",
       "Read(./.env.*)",
       "Read(.private.*)",
       "Read(./secrets/**)",
@@ -205,10 +206,6 @@
           {
             "type": "command",
             "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_summary.py"
-          },
-          {
-            "type": "command",
-            "command": "uv run ~/.dotfiles/nix/hm/ai/claude/hooks/session_start_handoff.py"
           }
         ]
       }
