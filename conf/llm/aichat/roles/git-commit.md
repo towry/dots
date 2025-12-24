@@ -37,7 +37,7 @@ commit messages with optional review feedback based on git diff and context.
 
    - Ignore dependency lock file changes, like `package-lock.json` or
      `yarn.lock`.
-   - Identify primary change type, code change or documentation change, bugfix or feature?
+   - Identify primary change type, code change or documentation change, bugfix or feature? If the changes does not form a clear intent, it is bugfix.
    - Focus on most important modification, if there are code fix and a lot of documentation changes, choose code fix
    - Add scope for multi-file changes if helpful
 
