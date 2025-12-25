@@ -10,10 +10,12 @@ description: "Use when: exploring code, search code snippets, finding implementa
 
 ## General Workflow
 
-1. Use `bunx repomix ./` to generate the index file.
+1. Run `bunx repomix ./` only once to generate the index file, the index file contains all the file paths and code snippets of the codebase.
 2. Use `rg <pattern> repomix-output.xml -m 3` to narrow down search scope.
 3. Use cat and head to check related files and code snippet.
 4. Use `fd` if you want to search files.
+
+It is faster to first narrow down search scope with `repomix-output.xml` THAN do a global search and grep all the time.
 
 ## Examples
 
