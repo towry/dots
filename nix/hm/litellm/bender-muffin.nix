@@ -9,10 +9,10 @@ let
 in
 [
   (providers.packyGemini.model {
-    model_name = "packy/gemini-3-flash";
+    model_name = modelName;
     litellm_params = {
       model = "anthropic/gemini-3-flash-preview";
-      rpm = 1;
+      rpm = 3;
     };
   })
   (providers.packyCc.model {
@@ -27,7 +27,7 @@ in
     litellm_params = {
       model = "anthropic/MiniMax-M2.1";
       max_tokens = 64000;
-      rpm = 5;
+      rpm = 2;
     };
   })
   (providers.zenmuxAnthropic.model {
