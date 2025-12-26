@@ -12,6 +12,54 @@ let
     user-agent = "GithubCopilot/${pkgs.vscode-extensions.github.copilot.version}";
   };
 
+  # Claude CLI-ish headers
+  # TODO: Keep these in sync with the Claude CLI version you use.
+  claudeHeaders = {
+    accept = "application/json";
+    user-agent = "claude-cli/2.0.76 (external, cli)";
+    x-app = "cli";
+    anthropic-version = "2023-06-01";
+    anthropic-beta = "claude-code-20250219,interleaved-thinking-2025-05-14";
+    anthropic-dangerous-direct-browser-access = "true";
+    accept-language = "*";
+    sec-fetch-mode = "cors";
+    accept-encoding = "gzip, deflate";
+    x-stainless-lang = "js";
+    x-stainless-runtime = "node";
+    x-stainless-runtime-version = "v22.21.1";
+    x-stainless-os = "MacOS";
+    x-stainless-arch = "arm64";
+    x-stainless-package-version = "0.70.0";
+    x-stainless-timeout = "600";
+    x-stainless-retry-count = "0";
+  };
+
+  # Codex CLI-ish headers
+  #
+  # NOTE: Codex CLI (openai/codex) sets an `originator` header (default: "codex_cli_rs")
+  # TODO: If you want exact parity, capture real Codex CLI headers and update these values.
+  codexHeaders = {
+    # Codex CLI uses SSE for streaming responses.
+    accept = "text/event-stream";
+    originator = "codex_cli_rs";
+    user-agent = "codex_cli_rs/0.77.0 (Mac OS 26.1.0; arm64) ghostty/1.3.0-main_2a9a57daf";
+
+    # Optional Codex feature flags (sent by Codex CLI when enabled).
+    # NOTE: Per-request headers like `conversation_id` / `session_id` are intentionally not set here.
+    x-codex-beta-features = "unified_exec";
+  };
+
+  # Gemini CLI-ish headers
+  #
+  # NOTE: gemini-cli (google-gemini/gemini-cli) sets a `User-Agent` like:
+  #   GeminiCLI/<version>/<model> (<platform>; <architecture>)
+  # and may include `x-gemini-api-privileged-user-id` when usage stats are enabled.
+  # TODO: If you want exact parity, capture real gemini-cli headers and update these values.
+  geminiHeaders = {
+    accept = "application/json";
+    user-agent = "GeminiCLI/0.0.0/gemini (darwin; arm64)";
+  };
+
   # mkProvider - creates a provider with two helpers:
   #   - models: simple list of model names -> full entries
   #   - model: full control with exact litellm shape
@@ -76,6 +124,7 @@ in
     litellm_params = {
       api_base = "https://www.packyapi.com";
       api_key = pkgs.nix-priv.keys.customProviders.packyCcKey;
+      extra_headers = claudeHeaders;
     };
   };
 
@@ -84,6 +133,7 @@ in
     litellm_params = {
       api_base = "https://www.packyapi.com";
       api_key = pkgs.nix-priv.keys.customProviders.packyOpenaiKey;
+      extra_headers = codexHeaders;
     };
   };
 
@@ -92,6 +142,7 @@ in
     litellm_params = {
       api_base = "https://www.packyapi.com";
       api_key = pkgs.nix-priv.keys.customProviders.packyGemini;
+      extra_headers = geminiHeaders;
     };
   };
 

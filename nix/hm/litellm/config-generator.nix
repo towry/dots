@@ -54,9 +54,6 @@ in
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
         { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
-        { "anthropic/minimax-m2" = [ "opencodeai/claude-haiku-4-5" ]; }
-        { "bender-muffin" = [ "zenmux/google/gemini-3-flash-preview" ]; }
-        { "frontier-muffin" = [ "packy/claude-sonnet-4-5" ]; }
       ];
       cache = false;
       cache_params = {

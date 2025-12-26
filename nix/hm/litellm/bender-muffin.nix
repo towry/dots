@@ -8,11 +8,26 @@ let
   modelName = "bender-muffin";
 in
 [
+  (providers.packyGemini.model {
+    model_name = "packy/gemini-3-flash";
+    litellm_params = {
+      model = "anthropic/gemini-3-flash-preview";
+      rpm = 1;
+    };
+  })
+  (providers.packyCc.model {
+    model_name = modelName;
+    litellm_params = {
+      model = "anthropic/claude-haiku-4-5-20251001";
+      max_tokens = 64000;
+    };
+  })
   (providers.minimaxClaude.model {
     model_name = modelName;
     litellm_params = {
       model = "anthropic/MiniMax-M2.1";
       max_tokens = 64000;
+      rpm = 5;
     };
   })
   (providers.zenmuxAnthropic.model {
@@ -20,7 +35,7 @@ in
     litellm_params = {
       model = "anthropic/anthropic/claude-haiku-4.5";
       max_tokens = 64000;
-      rpm = 2;
+      rpm = 1;
     };
   })
   # (providers.zenmuxAnthropic.model {

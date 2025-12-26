@@ -315,12 +315,80 @@ let
       })
     ];
 
-  packySolidFrontierModels = [
+  packyCcModels = [
     (providers.packyCc.model {
       model_name = "packy/claude-sonnet-4-5";
       litellm_params = {
         model = "anthropic/claude-sonnet-4-5-20250929";
-        rpm = 2;
+      };
+    })
+    (providers.packyCc.model {
+      model_name = "packy/claude-opus-4-5-20251101";
+      litellm_params = {
+        model = "anthropic/claude-opus-4-5-20251101";
+      };
+    })
+    (providers.packyCc.model {
+      model_name = "packy/claude-haiku-4-5-20251001";
+      litellm_params = {
+        model = "anthropic/claude-haiku-4-5-20251001";
+      };
+    })
+  ];
+
+  packyCodexModels = [
+    (providers.packyOpenai.model {
+      model_name = "packy/gpt-5.2-high";
+      litellm_params = {
+        model = "anthropic/gpt-5.2-high";
+      };
+    })
+    # gpt-5.2-medium
+    (providers.packyOpenai.model {
+      model_name = "packy/gpt-5.2-medium";
+      litellm_params = {
+        model = "anthropic/gpt-5.2-medium";
+      };
+    })
+    # gpt-5.2-low
+    (providers.packyOpenai.model {
+      model_name = "packy/gpt-5.2-low";
+      litellm_params = {
+        model = "anthropic/gpt-5.2-low";
+      };
+    })
+    (providers.packyOpenai.model {
+      model_name = "packy/gpt-5.2-codex-medium";
+      litellm_params = {
+        model = "anthropic/gpt-5.2-codex-medium";
+      };
+    })
+    (providers.packyOpenai.model {
+      model_name = "packy/gpt-5.2-codex-high";
+      litellm_params = {
+        model = "anthropic/gpt-5.2-codex-high";
+      };
+    })
+    # gpt-5.2-codex-low
+    (providers.packyOpenai.model {
+      model_name = "packy/gpt-5.2-codex-low";
+      litellm_params = {
+        model = "anthropic/gpt-5.2-codex-low";
+      };
+    })
+  ];
+  packyGeminiModels = [
+    (providers.packyGemini.model {
+      model_name = "packy/gemini-3-flash";
+      litellm_params = {
+        model = "anthropic/gemini-3-flash-preview";
+      };
+    })
+    # gemini-3-pro-preview
+    (providers.packyGemini.model {
+      model_name = "packy/gemini-3-pro";
+      litellm_params = {
+        model = "anthropic/gemini-3-pro-preview";
       };
     })
   ];
@@ -328,7 +396,9 @@ let
 in
 deepseekModels
 ++ mistralModels
-++ packySolidFrontierModels
+++ packyCcModels
+++ packyGeminiModels
+++ packyCodexModels
 ++ googleModels
 ++ githubModels
 ++ copilotGpt5Model

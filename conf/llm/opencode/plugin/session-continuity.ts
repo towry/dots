@@ -12,9 +12,10 @@ export const SessionContinuity: Plugin = async ({ client }) => {
         .sort()
         .reverse();
 
-      if (summaryFiles.length === 0) return null;
+      const latest = summaryFiles.at(0);
+      if (!latest) return null;
 
-      const content = await readFile(join(summaryDir, summaryFiles[0]), "utf-8");
+      const content = await readFile(join(summaryDir, latest), "utf-8");
       return content.trim();
     } catch (e) {
       return null;
@@ -30,7 +31,9 @@ export const SessionContinuity: Plugin = async ({ client }) => {
 
         const summary = await getPreviousSummary(cwd);
         if (summary) {
-          console.log(`[Continuity] Loading previous session summary for ${sessionID}`);
+          console.log(
+            `[Continuity] Loading previous session summary for ${sessionID}`,
+          );
 
           await client.session.prompt({
             path: { id: sessionID },
