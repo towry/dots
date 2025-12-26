@@ -65,6 +65,7 @@ in
 
       [model_providers.litellm]
       name = "litellm"
+      wire_api = "responses"
       base_url = "http://127.0.0.1:4000"
       env_key = "LITELLM_MASTER_KEY"
 
@@ -84,7 +85,7 @@ in
       env_key = "MOONSHOT_API_KEY"
 
       [profiles.gpt]
-      model = "copilot/gpt-5"
+      model = "zenmux/openai/gpt-5.1-codex-mini"
       model_provider = "litellm"
       sandbox_mode = "read-only"
       experimental_instructions_file = "${codex_home}/instructions/oracle-role.md"

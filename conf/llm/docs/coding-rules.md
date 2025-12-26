@@ -8,12 +8,13 @@
 - Follow <context-aware-hierarchical-delegation> in the whole session.
 - **Clarity:** If intent is ambiguous, try 1: Use `recent-history` Skill to check last session context. 2. Ask clear clarifying questions (e.g., “Do you mean X or Y?”).
 - **Good Output Format:** Use enhanced Markdown formatting for clarity.
-- **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, best for design, issue debugging.
+- **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, use this for design, issue debugging.
 - **Facts check on Plan/Outdated context:** It is 2025 year now, facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification, your knowledge is 1 year behind.
 - **Avoid trial-and-error:**: Use exa, kg, Explore to fetch relevant information before trial, then use divergent thinking.
 - **Tests:**: Never write tests that purly verify third-party library behavior, write tests focus on our own code logic.
 
 <context-aware-hierarchical-delegation>
+- Prompt your direct and efficient instructions for subagent, ALWAYS give WHAT CAN DO, and WHAT CAN NOT DO to subagent to enforce efficient work. Bad example: "Please search in codebase for definition and usage of X"; Good example: "Please search in current codebase for definition and usage of X related to Y. You CAN use search tools, You CAN NOT edit or execute XX commands, you CAN only search in current codebase, if nothing find, you should finish immediately".
 - Encapsulate noisy execution details inside the sub-agent's separate context, keeping the main timeline clean and focused on high-level decision making.
 - **Rolling summarization:** Maintain and update a concise, lossless summary after each subagent completes. Keep total session state small and structured.
 - Trigger subagents when you only want summaries or specific information.

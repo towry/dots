@@ -44,6 +44,15 @@ rec {
       };
     };
 
+    shadcn = {
+      type = "local";
+      command = "bunx";
+      args = [
+        "shadcn@latest"
+        "mcp"
+      ];
+    };
+
     fs = {
       type = "local";
       command = "rust-mcp-filesystem";
@@ -178,6 +187,11 @@ rec {
         EXA_API_KEY = pkgs.nix-priv.keys.exa.apiKey;
       };
     };
+
+    deepwiki = {
+      type = "http";
+      url = "https://mcp.deepwiki.com/mcp";
+    };
   };
 
   clients = {
@@ -189,6 +203,8 @@ rec {
         "github"
         "exa"
         "mastergo"
+        "shadcn"
+        "deepwiki"
       ]
     );
     opencode = mapWithClientMk clientMk.opencode (
@@ -208,6 +224,7 @@ rec {
         "github"
         "exa"
         "mastergo"
+        "shadcn"
         # "debug_webpage"
       ])
     );
@@ -239,6 +256,7 @@ rec {
         "sequentialthinking"
         "mastergo"
         "mermaid"
+        "shadcn"
       ]
     );
   };
