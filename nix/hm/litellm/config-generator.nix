@@ -72,7 +72,8 @@ in
       enable_json_schema_validation = true;
     };
     general_settings = {
-      health_check_interval = 300;
+      background_health_checks = false;
+      health_check_interval = 300000;
     };
     router_settings = {
       num_retries = 2;

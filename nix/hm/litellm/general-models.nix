@@ -75,6 +75,9 @@ let
       litellm_params = {
         model = "openrouter/*";
       };
+      model_info = {
+        disable_background_health_check = true;
+      };
     })
   ];
 
