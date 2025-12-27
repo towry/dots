@@ -7,7 +7,7 @@
 let
   proxyConfig = import ../../../lib/proxy.nix { inherit lib pkgs; };
   mcp = import ../../../modules/ai/mcp.nix { inherit pkgs lib config; };
-  codex_home = "${config.xdg.configHome}/codex";
+  codex_home = "${config.home.homeDirectory}/.codex";
   codexMcpToml = builtins.readFile (
     (pkgs.formats.toml { }).generate "codex-mcp.toml" { mcp_servers = mcp.clients.codex; }
   );
@@ -29,20 +29,20 @@ in
     codex-with-proxy
   ];
 
-  xdg.configFile = {
-    "codex/instructions" = {
+  home.file = {
+    ".codex/instructions" = {
       source = ./instructions;
       recursive = true;
     };
-    "codex/skills" = {
+    ".codex/skills" = {
       source = ../../../../conf/claude-local-marketplace/skills;
       recursive = true;
     };
     # toml
-    "codex/config-generated.toml".text = ''
+    ".codex/config-generated.toml".text = ''
       model = "gpt-5.2-medium"
       model_provider = "packy"
-      approval_policy = "untrusted"
+      approval_policy = "on-failure"
       model_reasoning_effort = "medium"
       # the AGENTS.md contains instructions for using codex mcp, do not use it
       # experimental_instructions_file = "${config.xdg.configHome}/AGENTS.md"
@@ -61,7 +61,7 @@ in
       name = "packy"
       wire_api = "responses"
       base_url = "https://www.packyapi.com/v1"
-      env_key = "PACKYCODE_CODEX_API_KEY"
+      http_headers = { "Authorization" = "Bearer ${pkgs.nix-priv.keys.customProviders.packyOpenaiKey}" }
 
       [model_providers.litellm]
       name = "litellm"

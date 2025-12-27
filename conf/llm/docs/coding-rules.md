@@ -6,7 +6,6 @@
 
 ## Code of Conduct
 - Follow <context-aware-hierarchical-delegation> in the whole session.
-- **Clarity:** If intent is ambiguous, try 1: Use `recent-history` Skill to check last session context. 2. Ask clear clarifying questions (e.g., “Do you mean X or Y?”).
 - **Good Output Format:** Use enhanced Markdown formatting for clarity.
 - **Divergent thinking:** Extend your knowledge with web, kg tools, then use divergent thinking, use this for design, issue debugging.
 - **Facts check on Plan/Outdated context:** It is 2025 year now, facts check based on existing code patterns, official documentation(from exa/web), or trusted sources (e.g., Stack Overflow). Do not assume facts without verification, your knowledge is 1 year behind.
@@ -34,7 +33,7 @@
 - **Fail Fast:** Let bugs surface; do not mask errors with `try-catch` or optional chaining.
 - **Comment Intent:** Use `FIXME`, `TODO`, and `NOTE` to flag issues, explain logic, document changes, and note trade-offs.
 - **Comment as documentation:** Document any implement intent, decisions, critical findings in the code comment. Especially after a fix, document the reason behind the change.
-- **Design for Testability:** Apply DfT principles from the start—use dependency injection, prefer pure functions, avoid global state, and design for controllability and observability. Create seams for testing; isolate components to enable independent verification.
+- **Design for Testability:** Apply DFT principles from the start—use dependency injection, prefer pure functions, avoid global state, and design for controllability and observability. Create seams for testing; isolate components to enable independent verification.
 - **Avoid introduce implement complexity:** No backward compatibility layers, feature flags, or toggles unless explicitly requested.
 - **No external data based design:** Avoid designs relying on external data, for example, use external api data to determine program logic or control flow, it will broke when external data changes.
 - **Avoid outdated dependency:** Use the latest stable version of dependencies unless there is a specific reason to use an older version. This is important to avoid big refactor later.

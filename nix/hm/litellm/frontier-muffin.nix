@@ -9,16 +9,10 @@ let
 in
 [
   (providers.packyGemini.model {
-    model_name = "packy/gemini-3-pro";
-    litellm_params = {
-      model = "anthropic/gemini-3-pro-preview";
-      rpm = 5;
-    };
-  })
-  (providers.packyOpenai.model {
     model_name = modelName;
     litellm_params = {
-      model = "anthropic/gpt-5.2-high";
+      model = "anthropic/gemini-3-pro-preview";
+      rpm = 4;
     };
   })
   (providers.packyCc.model {

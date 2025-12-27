@@ -75,6 +75,9 @@ let
       litellm_params = {
         model = "openrouter/*";
       };
+      model_info = {
+        disable_background_health_check = true;
+      };
     })
   ];
 
@@ -323,13 +326,13 @@ let
       };
     })
     (providers.packyCc.model {
-      model_name = "packy/claude-opus-4-5-20251101";
+      model_name = "packy/claude-opus-4-5";
       litellm_params = {
         model = "anthropic/claude-opus-4-5-20251101";
       };
     })
     (providers.packyCc.model {
-      model_name = "packy/claude-haiku-4-5-20251001";
+      model_name = "packy/claude-haiku-4-5";
       litellm_params = {
         model = "anthropic/claude-haiku-4-5-20251001";
       };

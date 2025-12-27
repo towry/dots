@@ -54,6 +54,8 @@ in
         { "copilot/claude-haiku-4.5" = [ "opencodeai/claude-haiku-4-5" ]; }
         { "copilot/claude-sonnet-4.5" = [ "opencodeai/claude-sonnet-4.5" ]; }
         { "copilot/gpt-5-mini" = [ "openrouter/minimax/minimax-m2" ]; }
+        { "frontier-muffin" = [ "packy/claude-sonnet-4-5" ]; }
+        { "bender-muffin" = [ "packy/claude-haiku-4-5" ]; }
       ];
       cache = false;
       cache_params = {
@@ -70,7 +72,8 @@ in
       enable_json_schema_validation = true;
     };
     general_settings = {
-      health_check_interval = 300;
+      background_health_checks = false;
+      health_check_interval = 300000;
     };
     router_settings = {
       num_retries = 2;
