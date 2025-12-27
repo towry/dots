@@ -42,7 +42,7 @@ in
     "codex/config-generated.toml".text = ''
       model = "gpt-5.2-medium"
       model_provider = "packy"
-      approval_policy = "untrusted"
+      approval_policy = "on-failure"
       model_reasoning_effort = "medium"
       # the AGENTS.md contains instructions for using codex mcp, do not use it
       # experimental_instructions_file = "${config.xdg.configHome}/AGENTS.md"
